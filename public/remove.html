@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remove Pages - PDFToolsPro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+
+  
+
+  
+
+</header>
+
+<!-- TOOL PAGE -->
+<section class="tool-page">
+
+  <div class="tool-box">
+
+    <h1>🗑 Remove Pages</h1>
+    <p>Delete unwanted pages from your PDF quickly and securely.</p>
+
+    <form id="uploadForm">
+
+      <div class="drop-zone" id="dropZone">
+        <p>Click or Drag PDF Here</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf"
+          hidden
+        >
+      </div>
+
+      <div id="fileList"></div>
+
+      <label for="pagesInput" style="margin-top:20px; display:block;">
+        Enter page numbers to remove (example: 2,4,6)
+      </label>
+
+      <input
+        type="text"
+        id="pagesInput"
+        name="pages"
+        placeholder="2,4,6"
+        style="
+          margin-top: 12px;
+          padding: 14px;
+          width: 300px;
+          max-width: 90%;
+          border-radius: 12px;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.04);
+          color: white;
+          text-align: center;
+        "
+      >
+
+      <button type="submit">Remove Pages</button>
+
+    </form>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2026 PDFToolsPro — Professional PDF Solutions</p>
+</footer>
+
+<script src="js/remove.js"></script>
+<script src="js/header.js"></script>
+</body>
+</html></body>
+</html>

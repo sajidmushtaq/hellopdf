@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>HTML to PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <div class="tool-page">
+    <div class="tool-box">
+
+      <div class="tool-icon">
+        <i class="fa-solid fa-code" style="color:#8b5cf6;"></i>
+      </div>
+
+      <h1>HTML to PDF</h1>
+      <p>Convert HTML code into a PDF document.</p>
+
+      <form id="htmlToPdfForm">
+
+        <textarea
+          id="htmlCode"
+          class="tool-textarea"
+          placeholder="Paste your HTML code here"
+        ></textarea>
+
+        <button type="submit" class="main-btn">
+          Convert to PDF
+        </button>
+
+      </form>
+
+      <p id="statusText"></p>
+
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("htmlToPdfForm");
+    const htmlCode = document.getElementById("htmlCode");
+    const statusText = document.getElementById("statusText");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!htmlCode.value.trim()) {
+        statusText.textContent = "Please paste HTML code first.";
+        return;
+      }
+
+      const formData = new URLSearchParams();
+      formData.append("htmlCode", htmlCode.value.trim());
+
+      statusText.textContent = "Converting HTML to PDF...";
+
+      try {
+        const response = await fetch("/html-to-pdf", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || "HTML to PDF failed");
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "html-to-pdf.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+        statusText.textContent = "PDF downloaded successfully.";
+      } catch (error) {
+        console.error(error);
+        statusText.textContent = error.message || "Something went wrong.";
+      }
+    });
+  </script>
+<script src="js/header.js"></script>
+</body>
+</html>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PDF to Image - HelloPDF</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="container">
+      <div class="logo">HelloPDF</div>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#convert-tools">Tools</a>
+      </nav>
+
+      <div class="auth-buttons">
+        <button class="login-btn">Login</button>
+        <button class="signup-btn">Sign Up</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="tool-page">
+    <div class="tool-box">
+
+      <div class="tool-icon">
+        <i class="fa-solid fa-file-image" style="color:#f97316;"></i>
+      </div>
+
+      <h1>PDF to Image</h1>
+      <p>Convert each PDF page into images.</p>
+
+      <form id="pdfToImageForm">
+
+        <label class="upload-area" for="pdfFile">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span id="fileName">Select PDF file</span>
+          <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" hidden />
+        </label>
+
+        <button type="submit" class="main-btn">
+          Convert to Images
+        </button>
+
+      </form>
+
+      <p id="statusText"></p>
+
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("pdfToImageForm");
+    const fileInput = document.getElementById("pdfFile");
+    const fileName = document.getElementById("fileName");
+    const statusText = document.getElementById("statusText");
+
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length > 0) {
+        fileName.textContent = fileInput.files[0].name;
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!fileInput.files.length) {
+        statusText.textContent = "Please select a PDF file first.";
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("pdf", fileInput.files[0]);
+
+      statusText.textContent = "Converting PDF to images...";
+
+      try {
+        const response = await fetch("/pdf-to-image", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || "PDF to Image failed");
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "pdf-images.zip";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+        statusText.textContent = "Images downloaded successfully.";
+      } catch (error) {
+        console.error(error);
+        statusText.textContent = error.message || "Something went wrong.";
+      }
+    });
+  </script>
+<script src="js/header.js"></script>
+</body>
+</html>
+</body>
+</html>

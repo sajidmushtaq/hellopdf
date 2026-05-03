@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to PDF - PDFToolsPro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+
+  <div class="logo">
+    <a href="index.html" style="text-decoration:none; color:white;">
+      📄 PDFToolsPro
+    </a>
+  </div>
+
+  <nav class="nav">
+    <a href="merge.html">Merge</a>
+    <a href="compress.html">Compress</a>
+    <a href="convert.html">Image→PDF</a>
+    <a href="pdf-to-image.html">PDF→Image</a>
+    <a href="split.html">Split</a>
+    <a href="remove.html">Remove</a>
+    <a href="rotate.html">Rotate</a>
+    <a href="watermark.html">Watermark</a>
+  </nav>
+
+  <div class="auth">
+    <button class="btn login-btn">Login</button>
+    <button class="btn signup-btn">Sign Up</button>
+  </div>
+
+</header>
+
+<!-- TOOL PAGE -->
+<section class="tool-page">
+
+  <div class="tool-box">
+
+    <h1>🖼 Image to PDF</h1>
+    <p>Convert JPG and PNG images into a professional PDF document.</p>
+
+    <form id="uploadForm">
+
+      <div class="drop-zone" id="dropZone">
+        <p>Click or Drag Images Here</p>
+        <input
+          type="file"
+          id="fileInput"
+          multiple
+          accept="image/*"
+          hidden
+        >
+      </div>
+
+      <div id="fileList"></div>
+
+      <button type="submit">Convert to PDF</button>
+
+    </form>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2026 PDFToolsPro — Professional PDF Solutions</p>
+</footer>
+
+<script src="js/convert.js"></script>
+<script src="js/header.js"></script>
+</body>
+</html>
+
+</body>
+</html>
