@@ -2523,3 +2523,9 @@ body > button.signup-btn {
     display: none !important;
   }
 }
+
+@media (max-width: 768px) {
+  .desktop-header {
+    display: none !important;
+  }
+}
