@@ -2370,3 +2370,156 @@ body > button.signup-btn {
   }
 
 }
+
+/* MOBILE HEADER DRAWERS */
+
+.mobile-header {
+  display: none;
+}
+
+.drawer-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .mobile-header {
+    display: flex !important;
+    height: 64px;
+    padding: 0 18px;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .mobile-menu-btn,
+  .mobile-grid-btn {
+    border: none;
+    background: transparent;
+    font-size: 34px;
+    font-weight: 700;
+    color: #1f2937;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .mobile-grid-btn {
+    font-size: 28px;
+    letter-spacing: 2px;
+    transform: rotate(90deg);
+  }
+
+  .mobile-logo {
+    font-size: 26px;
+    font-weight: 800;
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .tools-drawer,
+  .main-drawer {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 86%;
+    max-width: 360px;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 2000;
+    padding: 26px 24px;
+    transition: 0.3s ease;
+    box-shadow: 8px 0 30px rgba(0,0,0,0.12);
+    overflow-y: auto;
+  }
+
+  .main-drawer {
+    left: auto;
+    right: -100%;
+  }
+
+  .tools-drawer.active {
+    left: 0;
+  }
+
+  .main-drawer.active {
+    right: 0;
+  }
+
+  .drawer-close {
+    border: none;
+    background: transparent;
+    font-size: 42px;
+    float: right;
+    cursor: pointer;
+    color: #1f2937;
+  }
+
+  .tools-drawer h3 {
+    margin-top: 60px;
+    margin-bottom: 22px;
+    font-size: 26px;
+    color: #111827;
+  }
+
+  .tools-drawer a,
+  .main-drawer a {
+    display: block;
+    padding: 16px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    text-decoration: none;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .drawer-section {
+    margin-top: 80px;
+    margin-bottom: 28px;
+  }
+
+  .drawer-section h4 {
+    font-size: 20px;
+    color: #6b7280;
+    margin: 22px 0;
+  }
+
+  .drawer-bottom {
+    margin-top: 80px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 25px;
+  }
+
+  .drawer-login,
+  .drawer-signup {
+    text-align: center;
+    border-radius: 12px;
+    margin-top: 14px;
+    padding: 16px !important;
+    border: 2px solid #ef4444 !important;
+    color: #ef4444 !important;
+  }
+
+  .drawer-signup {
+    background: #ef4444;
+    color: #ffffff !important;
+  }
+
+  .drawer-overlay.active {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1500;
+  }
+
+  /* old desktop header hide on mobile */
+  .top-nav,
+  .navbar,
+  nav {
+    display: none !important;
+  }
+}
