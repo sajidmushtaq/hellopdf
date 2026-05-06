@@ -82,6 +82,32 @@
 </footer>
 
 <script src="/js/main.js"></script>
+<script>
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
 
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+
+  toolsBtn.addEventListener("click", () => {
+    toolsDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  mainBtn.addEventListener("click", () => {
+    mainDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
+  document.getElementById("mainClose").addEventListener("click", closeDrawers);
+  overlay.addEventListener("click", closeDrawers);
+</script>
 </body>
 </html>
