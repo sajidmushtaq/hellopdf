@@ -6,94 +6,162 @@
 
   <title>HTML to PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="/css/style.css?v=210" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
-  <div class="tool-page">
-    <div class="tool-box">
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
 
-      <div class="tool-icon">
-        <i class="fa-solid fa-code" style="color:#8b5cf6;"></i>
-      </div>
+<div class="tools-drawer" id="toolsDrawer">
+  <button class="drawer-close" id="toolsClose" type="button">×</button>
 
-      <h1>HTML to PDF</h1>
-      <p>Convert HTML code into a PDF document.</p>
+  <h3>PDF Tools</h3>
 
-      <form id="htmlToPdfForm">
+  <a href="/merge.html">Merge PDF</a>
+  <a href="/compress.html">Compress PDF</a>
+  <a href="/image-to-pdf.html">Image to PDF</a>
+  <a href="/pdf-to-image.html">PDF to Image</a>
+  <a href="/split.html">Split PDF</a>
+  <a href="/remove.html">Remove Pages</a>
+  <a href="/rotate.html">Rotate PDF</a>
+  <a href="/watermark.html">Watermark</a>
+</div>
 
-        <textarea
-          id="htmlCode"
-          class="tool-textarea"
-          placeholder="Paste your HTML code here"
-        ></textarea>
+<div class="main-drawer" id="mainDrawer">
+  <button class="drawer-close" id="mainClose" type="button">×</button>
 
-        <button type="submit" class="main-btn">
-          Convert to PDF
-        </button>
-
-      </form>
-
-      <p id="statusText"></p>
-
-    </div>
+  <div class="drawer-section">
+    <h4>OTHER PRODUCTS</h4>
+    <h4>SOLUTIONS</h4>
+    <h4>APPLICATIONS</h4>
   </div>
 
-  <script>
-    const form = document.getElementById("htmlToPdfForm");
-    const htmlCode = document.getElementById("htmlCode");
-    const statusText = document.getElementById("statusText");
+  <a href="#">💳 Pricing</a>
+  <a href="#">🔒 Security</a>
+  <a href="#">⚙️ Features</a>
+  <a href="#">💎 About us</a>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  <div class="drawer-bottom">
+    <a href="#">Help ›</a>
+    <a href="#">Language ›</a>
+    <a href="/login.html" class="drawer-login">Login</a>
+    <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+</div>
 
-      if (!htmlCode.value.trim()) {
-        statusText.textContent = "Please paste HTML code first.";
-        return;
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<div class="tool-page">
+  <div class="tool-box">
+
+    <div class="tool-icon">
+      <i class="fa-solid fa-code" style="color:#8b5cf6;"></i>
+    </div>
+
+    <h1>HTML to PDF</h1>
+    <p>Convert HTML code into a PDF document.</p>
+
+    <form id="htmlToPdfForm">
+
+      <textarea
+        id="htmlCode"
+        class="tool-textarea"
+        placeholder="Paste your HTML code here"
+      ></textarea>
+
+      <button type="submit" class="main-btn">
+        Convert to PDF
+      </button>
+
+    </form>
+
+    <p id="statusText"></p>
+
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("htmlToPdfForm");
+  const htmlCode = document.getElementById("htmlCode");
+  const statusText = document.getElementById("statusText");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!htmlCode.value.trim()) {
+      statusText.textContent = "Please paste HTML code first.";
+      return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append("htmlCode", htmlCode.value.trim());
+
+    statusText.textContent = "Converting HTML to PDF...";
+
+    try {
+      const response = await fetch("/html-to-pdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "HTML to PDF failed");
       }
 
-      const formData = new URLSearchParams();
-      formData.append("htmlCode", htmlCode.value.trim());
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
 
-      statusText.textContent = "Converting HTML to PDF...";
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "html-to-pdf.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
 
-      try {
-        const response = await fetch("/html-to-pdf", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: formData
-        });
+      window.URL.revokeObjectURL(url);
 
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || "HTML to PDF failed");
-        }
+      statusText.textContent = "PDF downloaded successfully.";
+    } catch (error) {
+      console.error(error);
+      statusText.textContent = error.message || "Something went wrong.";
+    }
+  });
 
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "html-to-pdf.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
 
-        window.URL.revokeObjectURL(url);
+  toolsBtn.addEventListener("click", () => {
+    toolsDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
 
-        statusText.textContent = "PDF downloaded successfully.";
-      } catch (error) {
-        console.error(error);
-        statusText.textContent = error.message || "Something went wrong.";
-      }
-    });
-  </script>
-<script src="js/header.js"></script>
-</body>
-</html>
+  mainBtn.addEventListener("click", () => {
+    mainDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
+  document.getElementById("mainClose").addEventListener("click", closeDrawers);
+  overlay.addEventListener("click", closeDrawers);
+</script>
 
 </body>
 </html>
