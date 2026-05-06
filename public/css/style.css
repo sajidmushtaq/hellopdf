@@ -2642,3 +2642,10 @@ body > button.signup-btn {
     font-size: 26px;
   }
 }
+
+/* FINAL FIX: hide desktop header on mobile */
+@media (max-width: 768px) {
+  .desktop-header {
+    display: none !important;
+  }
+}
