@@ -3,45 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=101" />
+  <link rel="stylesheet" href="/css/style.css?v=800" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body>
 
-  <!-- MOBILE HEADER -->
-  <header class="mobile-header">
-    <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
-    <a href="/index.html" class="mobile-logo">HelloPDF</a>
-    <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
-  </header>
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
 
-  <!-- DESKTOP HEADER -->
-  <header class="desktop-header">
-    <a href="/index.html" class="logo">HelloPDF</a>
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-    <nav>
-      <a href="/index.html">Home</a>
-      <a href="#convert-tools">Tools</a>
-    </nav>
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="#convert-tools">Tools</a>
+  </nav>
 
-    <div class="auth-buttons">
-      <a href="/login.html" class="login-btn">Login</a>
-      <a href="/signup.html" class="signup-btn">Sign Up</a>
-    </div>
-  </header>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
 
-  <!-- LEFT TOOLS DRAWER -->
-  <div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
-...
-</div>
-    <button class="drawer-close" id="toolsClose" type="button">×</button>
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
+  <button class="drawer-close" id="toolsClose" type="button">×</button>
 
   <div class="drawer-category">
     <h4>ORGANIZE PDF</h4>
-
     <a href="/merge.html">🔀 Merge PDF</a>
     <a href="/split.html">✂️ Split PDF</a>
     <a href="/remove.html">❌ Remove Pages</a>
@@ -52,13 +47,11 @@
 
   <div class="drawer-category">
     <h4>OPTIMIZE PDF</h4>
-
     <a href="/compress.html">🗜️ Compress PDF</a>
   </div>
 
   <div class="drawer-category">
     <h4>CONVERT TO PDF</h4>
-
     <a href="/jpg-to-pdf.html">🖼️ JPG to PDF</a>
     <a href="/image-to-pdf.html">🖼️ Image to PDF</a>
     <a href="/word-to-pdf.html">📄 Word to PDF</a>
@@ -69,7 +62,6 @@
 
   <div class="drawer-category">
     <h4>CONVERT FROM PDF</h4>
-
     <a href="/pdf-to-word.html">📄 PDF to Word</a>
     <a href="/pdf-to-excel.html">📗 PDF to Excel</a>
     <a href="/pdf-to-powerpoint.html">📊 PDF to PowerPoint</a>
@@ -81,286 +73,250 @@
 
   <div class="drawer-category">
     <h4>PDF SECURITY</h4>
-
     <a href="/protect.html">🔒 Protect PDF</a>
     <a href="/unlock.html">🔓 Unlock PDF</a>
     <a href="/watermark.html">💧 Watermark PDF</a>
   </div>
+</div>
 
+<div class="main-drawer" id="mainDrawer">
+  <button class="drawer-close" id="mainClose" type="button">×</button>
 
-  <!-- RIGHT MAIN DRAWER -->
-  <div class="main-drawer" id="mainDrawer">
-    <button class="drawer-close" id="mainClose" type="button">×</button>
-
-    <div class="drawer-section">
-      <h4>OTHER PRODUCTS</h4>
-      <h4>SOLUTIONS</h4>
-      <h4>APPLICATIONS</h4>
-    </div>
-
-    <a href="#">💳 Pricing</a>
-    <a href="#">🔒 Security</a>
-    <a href="#">⚙️ Features</a>
-    <a href="#">💎 About us</a>
-
-    <div class="drawer-bottom">
-      <a href="#">Help ›</a>
-      <a href="#">Language ›</a>
-      <a href="/login.html" class="drawer-login">Login</a>
-      <a href="/signup.html" class="drawer-signup">Sign up</a>
-    </div>
+  <div class="drawer-section">
+    <h4>OTHER PRODUCTS</h4>
+    <h4>SOLUTIONS</h4>
+    <h4>APPLICATIONS</h4>
   </div>
 
-  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <a href="#">💳 Pricing</a>
+  <a href="#">🔒 Security</a>
+  <a href="#">⚙️ Features</a>
+  <a href="#">💎 About us</a>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>Every tool you need to work with PDFs in one place</h1>
-    <p>
-      Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
-      Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
-    </p>
-  </section>
+  <div class="drawer-bottom">
+    <a href="#">Help ›</a>
+    <a href="#">Language ›</a>
+    <a href="/login.html" class="drawer-login">Login</a>
+    <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+</div>
 
-  <!-- CATEGORY BUTTONS -->
-  <section class="category-nav">
-    <a href="#convert-tools"><i class="fa-solid fa-repeat"></i> Convert PDF</a>
-    <a href="#organize-tools"><i class="fa-solid fa-layer-group"></i> Organize PDF</a>
-    <a href="#edit-tools"><i class="fa-solid fa-pen-to-square"></i> Edit PDF</a>
-    <a href="#security-tools"><i class="fa-solid fa-shield-halved"></i> Security</a>
-  </section>
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
-  <!-- CONVERT TOOLS -->
-  <section id="convert-tools" class="tools-section">
-    <h2>Convert PDF Tools</h2>
-    <p class="section-subtitle">Convert PDFs to other formats and back.</p>
+<section class="hero">
+  <h1>Every tool you need to work with PDFs in one place</h1>
+  <p>
+    Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
+    Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
+  </p>
+</section>
 
-    <div class="tools-grid">
-      <a class="tool-card" href="/image-to-pdf.html">
-        <div class="icon-file green"><i class="fa-solid fa-images"></i></div>
-        <h3>Image to PDF</h3>
-        <p>Convert images to PDF</p>
-      </a>
+<section class="category-nav">
+  <a href="#convert-tools"><i class="fa-solid fa-repeat"></i> Convert PDF</a>
+  <a href="#organize-tools"><i class="fa-solid fa-layer-group"></i> Organize PDF</a>
+  <a href="#edit-tools"><i class="fa-solid fa-pen-to-square"></i> Edit PDF</a>
+  <a href="#security-tools"><i class="fa-solid fa-shield-halved"></i> Security</a>
+</section>
 
-      <a class="tool-card" href="/pdf-to-image.html">
-        <div class="icon-file orange"><i class="fa-solid fa-file-image"></i></div>
-        <h3>PDF to Image</h3>
-        <p>Convert PDF pages to images</p>
-      </a>
+<section id="convert-tools" class="tools-section">
+  <h2>Convert PDF Tools</h2>
+  <p class="section-subtitle">Convert PDFs to other formats and back.</p>
 
-      <a class="tool-card" href="/pdf-to-word.html">
-        <div class="icon-file blue"><i class="fa-solid fa-file-word"></i></div>
-        <h3>PDF to Word</h3>
-        <p>Convert PDF to editable Word</p>
-      </a>
+  <div class="tools-grid">
+    <a class="tool-card" href="/image-to-pdf.html">
+      <div class="icon-file green"><i class="fa-solid fa-images"></i></div>
+      <h3>Image to PDF</h3>
+      <p>Convert images to PDF</p>
+    </a>
 
-      <a class="tool-card" href="/word-to-pdf.html">
-        <div class="icon-file blue"><i class="fa-solid fa-file-word"></i></div>
-        <h3>Word to PDF</h3>
-        <p>Convert Word to PDF</p>
-      </a>
+    <a class="tool-card" href="/pdf-to-image.html">
+      <div class="icon-file orange"><i class="fa-solid fa-file-image"></i></div>
+      <h3>PDF to Image</h3>
+      <p>Convert PDF pages to images</p>
+    </a>
 
-      <a class="tool-card" href="/pdf-to-excel.html">
-        <div class="icon-file green"><i class="fa-solid fa-file-excel"></i></div>
-        <h3>PDF to Excel</h3>
-        <p>Convert PDF to Excel</p>
-      </a>
+    <a class="tool-card" href="/pdf-to-word.html">
+      <div class="icon-file blue"><i class="fa-solid fa-file-word"></i></div>
+      <h3>PDF to Word</h3>
+      <p>Convert PDF to editable Word</p>
+    </a>
 
-      <a class="tool-card" href="/excel-to-pdf.html">
-        <div class="icon-file green"><i class="fa-solid fa-file-excel"></i></div>
-        <h3>Excel to PDF</h3>
-        <p>Convert Excel to PDF</p>
-      </a>
+    <a class="tool-card" href="/word-to-pdf.html">
+      <div class="icon-file blue"><i class="fa-solid fa-file-word"></i></div>
+      <h3>Word to PDF</h3>
+      <p>Convert Word to PDF</p>
+    </a>
 
-      <a class="tool-card" href="/pdf-to-powerpoint.html">
-        <div class="icon-file orange"><i class="fa-solid fa-file-powerpoint"></i></div>
-        <h3>PDF to PowerPoint</h3>
-        <p>Convert PDF to PowerPoint</p>
-      </a>
+    <a class="tool-card" href="/pdf-to-excel.html">
+      <div class="icon-file green"><i class="fa-solid fa-file-excel"></i></div>
+      <h3>PDF to Excel</h3>
+      <p>Convert PDF to Excel</p>
+    </a>
 
-      <a class="tool-card" href="/powerpoint-to-pdf.html">
-        <div class="icon-file orange"><i class="fa-solid fa-file-powerpoint"></i></div>
-        <h3>PowerPoint to PDF</h3>
-        <p>Convert PPT to PDF</p>
-      </a>
+    <a class="tool-card" href="/excel-to-pdf.html">
+      <div class="icon-file green"><i class="fa-solid fa-file-excel"></i></div>
+      <h3>Excel to PDF</h3>
+      <p>Convert Excel to PDF</p>
+    </a>
 
-      <a class="tool-card" href="/pdf-to-jpg.html">
-        <div class="icon-file orange"><i class="fa-solid fa-file-image"></i></div>
-        <h3>PDF to JPG</h3>
-        <p>Convert PDF pages to JPG</p>
-      </a>
+    <a class="tool-card" href="/pdf-to-powerpoint.html">
+      <div class="icon-file orange"><i class="fa-solid fa-file-powerpoint"></i></div>
+      <h3>PDF to PowerPoint</h3>
+      <p>Convert PDF to PowerPoint</p>
+    </a>
 
-      <a class="tool-card" href="/jpg-to-pdf.html">
-        <div class="icon-file green"><i class="fa-solid fa-images"></i></div>
-        <h3>JPG to PDF</h3>
-        <p>Convert JPG images to PDF</p>
-      </a>
+    <a class="tool-card" href="/powerpoint-to-pdf.html">
+      <div class="icon-file orange"><i class="fa-solid fa-file-powerpoint"></i></div>
+      <h3>PowerPoint to PDF</h3>
+      <p>Convert PPT to PDF</p>
+    </a>
 
-      <a class="tool-card" href="/pdf-to-png.html">
-        <div class="icon-file sky"><i class="fa-solid fa-file-image"></i></div>
-        <h3>PDF to PNG</h3>
-        <p>Convert PDF pages to PNG</p>
-      </a>
+    <a class="tool-card" href="/pdf-to-jpg.html">
+      <div class="icon-file orange"><i class="fa-solid fa-file-image"></i></div>
+      <h3>PDF to JPG</h3>
+      <p>Convert PDF pages to JPG</p>
+    </a>
 
-      <a class="tool-card" href="/html-to-pdf.html">
-        <div class="icon-file purple"><i class="fa-solid fa-code"></i></div>
-        <h3>HTML to PDF</h3>
-        <p>Convert HTML code to PDF</p>
-      </a>
+    <a class="tool-card" href="/jpg-to-pdf.html">
+      <div class="icon-file green"><i class="fa-solid fa-images"></i></div>
+      <h3>JPG to PDF</h3>
+      <p>Convert JPG images to PDF</p>
+    </a>
 
-      <a class="tool-card" href="/pdf-to-text.html">
-        <div class="icon-file sky"><i class="fa-solid fa-file-lines"></i></div>
-        <h3>PDF to Text</h3>
-        <p>Extract text from PDF</p>
-      </a>
-    </div>
-  </section>
+    <a class="tool-card" href="/pdf-to-png.html">
+      <div class="icon-file sky"><i class="fa-solid fa-file-image"></i></div>
+      <h3>PDF to PNG</h3>
+      <p>Convert PDF pages to PNG</p>
+    </a>
 
-  <!-- ORGANIZE TOOLS -->
-  <section id="organize-tools" class="tools-section">
-    <h2>Organize PDF Tools</h2>
-    <p class="section-subtitle">Arrange, split, merge, and manage PDF pages.</p>
+    <a class="tool-card" href="/html-to-pdf.html">
+      <div class="icon-file purple"><i class="fa-solid fa-code"></i></div>
+      <h3>HTML to PDF</h3>
+      <p>Convert HTML code to PDF</p>
+    </a>
 
-    <div class="tools-grid">
-      <a class="tool-card" href="/merge.html">
-        <div class="icon-file red"><i class="fa-solid fa-object-group"></i></div>
-        <h3>Merge PDF</h3>
-        <p>Combine PDFs into one</p>
-      </a>
+    <a class="tool-card" href="/pdf-to-text.html">
+      <div class="icon-file sky"><i class="fa-solid fa-file-lines"></i></div>
+      <h3>PDF to Text</h3>
+      <p>Extract text from PDF</p>
+    </a>
+  </div>
+</section>
 
-      <a class="tool-card" href="/split.html">
-        <div class="icon-file orange"><i class="fa-solid fa-scissors"></i></div>
-        <h3>Split PDF</h3>
-        <p>Split PDF into parts</p>
-      </a>
+<section id="organize-tools" class="tools-section">
+  <h2>Organize PDF Tools</h2>
+  <p class="section-subtitle">Arrange, split, merge, and manage PDF pages.</p>
 
-      <a class="tool-card" href="/compress.html">
-        <div class="icon-file green"><i class="fa-solid fa-compress"></i></div>
-        <h3>Compress PDF</h3>
-        <p>Reduce PDF file size</p>
-      </a>
+  <div class="tools-grid">
+    <a class="tool-card" href="/merge.html">
+      <div class="icon-file red"><i class="fa-solid fa-object-group"></i></div>
+      <h3>Merge PDF</h3>
+      <p>Combine PDFs into one</p>
+    </a>
 
-      <a class="tool-card" href="/remove.html">
-        <div class="icon-file red"><i class="fa-solid fa-trash"></i></div>
-        <h3>Remove Pages</h3>
-        <p>Delete pages from PDF</p>
-      </a>
+    <a class="tool-card" href="/split.html">
+      <div class="icon-file orange"><i class="fa-solid fa-scissors"></i></div>
+      <h3>Split PDF</h3>
+      <p>Split PDF into parts</p>
+    </a>
 
-      <a class="tool-card" href="/extract.html">
-        <div class="icon-file orange"><i class="fa-solid fa-copy"></i></div>
-        <h3>Extract Pages</h3>
-        <p>Extract specific pages</p>
-      </a>
+    <a class="tool-card" href="/compress.html">
+      <div class="icon-file green"><i class="fa-solid fa-compress"></i></div>
+      <h3>Compress PDF</h3>
+      <p>Reduce PDF file size</p>
+    </a>
 
-      <a class="tool-card" href="/reorder.html">
-        <div class="icon-file purple"><i class="fa-solid fa-arrows-up-down"></i></div>
-        <h3>Reorder Pages</h3>
-        <p>Change page order</p>
-      </a>
+    <a class="tool-card" href="/remove.html">
+      <div class="icon-file red"><i class="fa-solid fa-trash"></i></div>
+      <h3>Remove Pages</h3>
+      <p>Delete pages from PDF</p>
+    </a>
 
-      <a class="tool-card" href="/rotate.html">
-        <div class="icon-file sky"><i class="fa-solid fa-rotate-right"></i></div>
-        <h3>Rotate PDF</h3>
-        <p>Rotate PDF pages</p>
-      </a>
+    <a class="tool-card" href="/extract.html">
+      <div class="icon-file orange"><i class="fa-solid fa-copy"></i></div>
+      <h3>Extract Pages</h3>
+      <p>Extract specific pages</p>
+    </a>
 
-      <a class="tool-card" href="/page-numbers.html">
-        <div class="icon-file sky"><i class="fa-solid fa-hashtag"></i></div>
-        <h3>Page Numbers</h3>
-        <p>Add numbers to PDF</p>
-      </a>
-    </div>
-  </section>
+    <a class="tool-card" href="/reorder.html">
+      <div class="icon-file purple"><i class="fa-solid fa-arrows-up-down"></i></div>
+      <h3>Reorder Pages</h3>
+      <p>Change page order</p>
+    </a>
 
-  <!-- EDIT TOOLS -->
-  <section id="edit-tools" class="tools-section">
-    <h2>Edit PDF Tools</h2>
-    <p class="section-subtitle">Edit and customize your PDF files.</p>
+    <a class="tool-card" href="/rotate.html">
+      <div class="icon-file sky"><i class="fa-solid fa-rotate-right"></i></div>
+      <h3>Rotate PDF</h3>
+      <p>Rotate PDF pages</p>
+    </a>
 
-    <div class="tools-grid">
-      <a class="tool-card" href="/watermark.html">
-        <div class="icon-file purple"><i class="fa-solid fa-stamp"></i></div>
-        <h3>Watermark PDF</h3>
-        <p>Add watermark to PDF</p>
-      </a>
-    </div>
-  </section>
+    <a class="tool-card" href="/page-numbers.html">
+      <div class="icon-file sky"><i class="fa-solid fa-hashtag"></i></div>
+      <h3>Page Numbers</h3>
+      <p>Add numbers to PDF</p>
+    </a>
+  </div>
+</section>
 
-  <!-- SECURITY TOOLS -->
-  <section id="security-tools" class="tools-section">
-    <h2>PDF Security Tools</h2>
-    <p class="section-subtitle">Protect and unlock PDF files.</p>
+<section id="edit-tools" class="tools-section">
+  <h2>Edit PDF Tools</h2>
+  <p class="section-subtitle">Edit and customize your PDF files.</p>
 
-    <div class="tools-grid">
-      <a class="tool-card" href="/protect.html">
-        <div class="icon-file teal"><i class="fa-solid fa-lock"></i></div>
-        <h3>Protect PDF</h3>
-        <p>Secure PDF with password</p>
-      </a>
+  <div class="tools-grid">
+    <a class="tool-card" href="/watermark.html">
+      <div class="icon-file purple"><i class="fa-solid fa-stamp"></i></div>
+      <h3>Watermark PDF</h3>
+      <p>Add watermark to PDF</p>
+    </a>
+  </div>
+</section>
 
-      <a class="tool-card" href="/unlock.html">
-        <div class="icon-file pink"><i class="fa-solid fa-unlock"></i></div>
-        <h3>Unlock PDF</h3>
-        <p>Remove PDF password</p>
-      </a>
-    </div>
-  </section>
+<section id="security-tools" class="tools-section">
+  <h2>PDF Security Tools</h2>
+  <p class="section-subtitle">Protect and unlock PDF files.</p>
 
-  <script>
-    const toolsBtn = document.getElementById("toolsMenuBtn");
-    const mainBtn = document.getElementById("mainMenuBtn");
-    const toolsDrawer = document.getElementById("toolsDrawer");
-    const mainDrawer = document.getElementById("mainDrawer");
-    const overlay = document.getElementById("drawerOverlay");
-    const toolsClose = document.getElementById("toolsClose");
-    const mainClose = document.getElementById("mainClose");
+  <div class="tools-grid">
+    <a class="tool-card" href="/protect.html">
+      <div class="icon-file teal"><i class="fa-solid fa-lock"></i></div>
+      <h3>Protect PDF</h3>
+      <p>Secure PDF with password</p>
+    </a>
 
-    function closeDrawers() {
-      toolsDrawer.classList.remove("active");
-      mainDrawer.classList.remove("active");
-      overlay.classList.remove("active");
-    }
+    <a class="tool-card" href="/unlock.html">
+      <div class="icon-file pink"><i class="fa-solid fa-unlock"></i></div>
+      <h3>Unlock PDF</h3>
+      <p>Remove PDF password</p>
+    </a>
+  </div>
+</section>
 
-    toolsBtn.addEventListener("click", () => {
-      toolsDrawer.classList.add("active");
-      overlay.classList.add("active");
-    });
-
-    mainBtn.addEventListener("click", () => {
-      mainDrawer.classList.add("active");
-      overlay.classList.add("active");
-    });
-
-    toolsClose.addEventListener("click", closeDrawers);
-    mainClose.addEventListener("click", closeDrawers);
-    overlay.addEventListener("click", closeDrawers);
-  </script>
 <script>
-const toolsBtn = document.getElementById("toolsMenuBtn");
-const mainBtn = document.getElementById("mainMenuBtn");
-const toolsDrawer = document.getElementById("toolsDrawer");
-const mainDrawer = document.getElementById("mainDrawer");
-const overlay = document.getElementById("drawerOverlay");
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
 
-function closeDrawers() {
-  toolsDrawer.classList.remove("active");
-  mainDrawer.classList.remove("active");
-  overlay.classList.remove("active");
-}
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
 
-toolsBtn.addEventListener("click", () => {
-  toolsDrawer.classList.add("active");
-  overlay.classList.add("active");
-});
+  toolsBtn.addEventListener("click", () => {
+    toolsDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
 
-mainBtn.addEventListener("click", () => {
-  mainDrawer.classList.add("active");
-  overlay.classList.add("active");
-});
+  mainBtn.addEventListener("click", () => {
+    mainDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
 
-document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-document.getElementById("mainClose").addEventListener("click", closeDrawers);
-overlay.addEventListener("click", closeDrawers);
+  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
+  document.getElementById("mainClose").addEventListener("click", closeDrawers);
+  overlay.addEventListener("click", closeDrawers);
 </script>
+
 </body>
 </html>
