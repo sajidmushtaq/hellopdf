@@ -2692,3 +2692,57 @@ body > button.signup-btn {
 }
 
 /* HELLOPDF NEW DRAWER FINAL */
+
+/* HELLOPDF DRAWER UI FINAL */
+
+.tools-catalog-drawer {
+  position: fixed !important;
+  top: 0 !important;
+  left: -100% !important;
+  width: 92% !important;
+  max-width: 430px !important;
+  height: 100vh !important;
+  background: #fff !important;
+  z-index: 99999 !important;
+  overflow-y: auto !important;
+  transition: 0.3s ease !important;
+  padding: 26px 24px !important;
+}
+
+.tools-catalog-drawer.active {
+  left: 0 !important;
+}
+
+.tools-catalog-drawer .drawer-close {
+  background: none !important;
+  border: none !important;
+  font-size: 44px !important;
+  float: right !important;
+  cursor: pointer !important;
+  color: #111827 !important;
+}
+
+.drawer-category {
+  clear: both !important;
+  margin-bottom: 30px !important;
+}
+
+.drawer-category h4 {
+  font-size: 17px !important;
+  color: #6b7280 !important;
+  font-weight: 900 !important;
+  margin: 28px 0 12px !important;
+  letter-spacing: 0.4px !important;
+}
+
+.drawer-category a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 13px !important;
+  text-decoration: none !important;
+  color: #111827 !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  padding: 12px 0 !important;
+  border-bottom: none !important;
+}
