@@ -2649,3 +2649,44 @@ body > button.signup-btn {
     display: none !important;
   }
 }
+
+/* CATEGORY STYLE LEFT DRAWER */
+
+@media (max-width: 768px) {
+  .tools-catalog-drawer {
+    width: 92% !important;
+    max-width: 420px !important;
+    padding: 28px 26px !important;
+  }
+
+  .tools-catalog-drawer .drawer-close {
+    float: right;
+    font-size: 44px;
+    margin-bottom: 20px;
+  }
+
+  .drawer-category {
+    clear: both;
+    margin-bottom: 34px;
+  }
+
+  .drawer-category h4 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #6b7280;
+    margin: 26px 0 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .drawer-category a {
+    display: flex !important;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 0 !important;
+    font-size: 21px !important;
+    font-weight: 800 !important;
+    color: #111827 !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
+  }
+}
