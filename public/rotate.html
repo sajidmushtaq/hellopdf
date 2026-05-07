@@ -1,51 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Rotate PDF</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rotate PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=350">
 </head>
 <body>
 
-<header class="header">
-  
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
+
+<div class="tools-drawer" id="toolsDrawer">
+  <button class="drawer-close" id="toolsClose" type="button">×</button>
+
+  <h3>PDF Tools</h3>
+
+  <a href="/merge.html">Merge PDF</a>
+  <a href="/compress.html">Compress PDF</a>
+  <a href="/image-to-pdf.html">Image to PDF</a>
+  <a href="/pdf-to-image.html">PDF to Image</a>
+  <a href="/split.html">Split PDF</a>
+  <a href="/remove.html">Remove Pages</a>
+  <a href="/rotate.html">Rotate PDF</a>
+  <a href="/watermark.html">Watermark</a>
+</div>
+
+<div class="main-drawer" id="mainDrawer">
+  <button class="drawer-close" id="mainClose" type="button">×</button>
+
+  <div class="drawer-section">
+    <h4>OTHER PRODUCTS</h4>
+    <h4>SOLUTIONS</h4>
+    <h4>APPLICATIONS</h4>
+  </div>
+
+  <a href="#">💳 Pricing</a>
+  <a href="#">🔒 Security</a>
+  <a href="#">⚙️ Features</a>
+  <a href="#">💎 About us</a>
+
+  <div class="drawer-bottom">
+    <a href="#">Help ›</a>
+    <a href="#">Language ›</a>
+    <a href="/login.html" class="drawer-login">Login</a>
+    <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
 <section class="tools-section">
 
+  <form id="uploadForm">
 
+    <div class="drop-zone" id="dropZone">
+      <p>Click or Drag & Drop PDF</p>
+      <input type="file" id="fileInput" accept="application/pdf" hidden>
+    </div>
 
-<form id="uploadForm">
+    <div id="fileList"></div>
 
-  <div class="drop-zone" id="dropZone">
-    <p>Click or Drag & Drop PDF</p>
-    <input type="file" id="fileInput" accept="application/pdf" hidden>
+    <select id="angle">
+      <option value="90">Rotate 90°</option>
+      <option value="180">Rotate 180°</option>
+      <option value="270">Rotate 270°</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Rotate PDF</button>
+
+  </form>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar">0%</div>
   </div>
-
-  <div id="fileList"></div>
-
-  <!-- ROTATE OPTION -->
-  <select id="angle">
-    <option value="90">Rotate 90°</option>
-    <option value="180">Rotate 180°</option>
-    <option value="270">Rotate 270°</option>
-  </select>
-
-  <br><br>
-
-  <button type="submit">Rotate PDF</button>
-
-</form>
-
-<!-- PROGRESS -->
-<div class="progress-container">
-  <div class="progress-bar" id="progressBar">0%</div>
-</div>
 
 </section>
 
-<script src="js/rotate.js"></script>
-<script src="js/header.js"></script>
-</body>
-</html>
+<script src="/js/rotate.js"></script>
+
+<script>
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
+
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+
+  toolsBtn.addEventListener("click", () => {
+    toolsDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  mainBtn.addEventListener("click", () => {
+    mainDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
+  document.getElementById("mainClose").addEventListener("click", closeDrawers);
+  overlay.addEventListener("click", closeDrawers);
+</script>
+
 </body>
 </html>
