@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/merge");
+    xhr.open("POST", "https://hellopdf-backend.onrender.com/merge");
     xhr.responseType = "blob";
 
     // progress
