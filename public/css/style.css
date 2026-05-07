@@ -2746,3 +2746,45 @@ body > button.signup-btn {
   padding: 12px 0 !important;
   border-bottom: none !important;
 }
+
+/* RIGHT DRAWER FINAL FIX */
+
+@media (max-width: 768px) {
+  .main-drawer {
+    width: 86% !important;
+    max-width: 420px !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    padding-bottom: 140px !important;
+  }
+
+  .main-drawer .drawer-bottom {
+    margin-top: 70px !important;
+    padding-bottom: 70px !important;
+  }
+
+  .main-drawer .drawer-login,
+  .main-drawer .drawer-signup {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    border-radius: 14px !important;
+    padding: 18px !important;
+    margin-top: 16px !important;
+    text-decoration: none !important;
+  }
+
+  .main-drawer .drawer-login {
+    border: 3px solid #ef4444 !important;
+    color: #ef4444 !important;
+    background: #fff !important;
+  }
+
+  .main-drawer .drawer-signup {
+    border: 3px solid #ef4444 !important;
+    color: #fff !important;
+    background: #ef4444 !important;
+  }
+}
