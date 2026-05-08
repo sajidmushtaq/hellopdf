@@ -2982,3 +2982,25 @@ body > button.signup-btn {
   font-weight:700;
   color:#334155;
 }
+
+/* FINAL FORCE FIX */
+
+.drop-zone{
+  position:relative !important;
+  z-index:999999 !important;
+  overflow:hidden;
+  min-height:220px;
+}
+
+.tool-page,
+.tool-box,
+#uploadForm{
+  overflow:visible !important;
+}
+
+.mobile-header,
+.tools-drawer,
+.main-drawer,
+.drawer-overlay{
+  z-index:auto !important;
+}

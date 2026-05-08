@@ -22,19 +22,28 @@
     <p>Convert your PDF into editable Word document.</p>
 
     <form id="uploadForm">
-      <label class="drop-zone" id="dropZone">
+      <div class="drop-zone" id="dropZone">
 
   <input 
-    type="file" 
-    id="fileInput" 
-    accept="application/pdf"
-  >
+  type="file"
+  id="fileInput"
+  accept="application/pdf"
+  style="
+    position:absolute;
+    width:100%;
+    height:100%;
+    inset:0;
+    opacity:0;
+    z-index:99999;
+    cursor:pointer;
+  "
+>
 
   <div class="drop-content">
     <p>📄 Click or Drag PDF Here</p>
   </div>
 
-</label>
+</div>
 
       <div id="fileList"></div>
 
