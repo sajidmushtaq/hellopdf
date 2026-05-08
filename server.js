@@ -15,7 +15,6 @@ const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
-
 const upload = multer({
   dest: uploadDir
 });
