@@ -3,18 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>PDF to Word - HelloPDF</title>
-
-  <link rel="stylesheet" href="/css/style.css?v=321" />
+  <link rel="stylesheet" href="/css/style.css?v=999" />
 </head>
 <body>
-
-<header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
-  <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
-</header>
 
 <section class="tool-page">
   <div class="tool-box">
@@ -22,28 +14,12 @@
     <p>Convert your PDF into editable Word document.</p>
 
     <form id="uploadForm">
-      <div class="drop-zone" id="dropZone">
-
-  <input 
-  type="file"
-  id="fileInput"
-  accept="application/pdf"
-  style="
-    position:absolute;
-    width:100%;
-    height:100%;
-    inset:0;
-    opacity:0;
-    z-index:99999;
-    cursor:pointer;
-  "
->
-
-  <div class="drop-content">
-    <p>📄 Click or Drag PDF Here</p>
-  </div>
-
-</div>
+      <input
+        type="file"
+        id="fileInput"
+        accept="application/pdf"
+        style="display:block; margin:20px auto; padding:14px; border:2px solid #94a3b8; border-radius:12px; background:white;"
+      />
 
       <div id="fileList"></div>
 
@@ -58,7 +34,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("fileInput");
   const form = document.getElementById("uploadForm");
   const fileList = document.getElementById("fileList");
@@ -66,41 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedFile = null;
 
-  dropZone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZone.classList.add("dragging");
-  });
-
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragging");
-  });
-
-  dropZone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZone.classList.remove("dragging");
-
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      handleFile(file);
-    }
-  });
-
   fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (file) {
-      handleFile(file);
+    selectedFile = fileInput.files[0];
+
+    if (selectedFile) {
+      fileList.innerHTML = "📄 " + selectedFile.name;
     }
   });
-
-  function handleFile(file) {
-    if (file.type !== "application/pdf") {
-      alert("Please select PDF file only");
-      return;
-    }
-
-    selectedFile = file;
-    fileList.innerHTML = `<div>📄 ${file.name}</div>`;
-  }
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -127,16 +74,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.onload = () => {
       if (xhr.status === 200) {
-        const blob = xhr.response;
-        const url = window.URL.createObjectURL(blob);
-
+        const url = window.URL.createObjectURL(xhr.response);
         const a = document.createElement("a");
         a.href = url;
         a.download = "converted.docx";
         document.body.appendChild(a);
         a.click();
         a.remove();
-
         window.URL.revokeObjectURL(url);
       } else {
         alert("Conversion failed");
