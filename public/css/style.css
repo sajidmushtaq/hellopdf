@@ -2876,3 +2876,31 @@ body > button.signup-btn {
     display:block;
   }
 }
+
+/* PDF TO WORD CLICK / DRAG FIX */
+
+.tool-page,
+.tool-box,
+#uploadForm {
+  position: relative;
+  z-index: 1;
+}
+
+.drop-zone {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.drop-zone input[type="file"] {
+  pointer-events: auto !important;
+}
+
+.drawer-overlay {
+  pointer-events: none;
+}
+
+.drawer-overlay.active {
+  pointer-events: auto;
+}
