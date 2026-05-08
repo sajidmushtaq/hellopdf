@@ -2871,10 +2871,50 @@ body > button.signup-btn {
     display:flex !important;
   }
 
+  /* ===== DRAWER FIX ===== */
+
+.tools-drawer,
+.main-drawer {
+  display: none;
+}
+
+.drawer-overlay {
+  display: none;
+  pointer-events: none;
+}
+
+@media(max-width:768px){
+
+  .desktop-header{
+    display:none !important;
+  }
+
+  .mobile-header{
+    display:flex !important;
+  }
+
   .tools-drawer,
   .main-drawer{
     display:block;
   }
+
+  .drawer-overlay.active{
+    display:block;
+    pointer-events:auto;
+  }
+}
+
+/* ===== PDF TOOL FIX ===== */
+
+.drop-zone{
+  position:relative;
+  z-index:999;
+  pointer-events:auto !important;
+  cursor:pointer !important;
+}
+
+.drop-zone *{
+  pointer-events:none;
 }
 
 /* PDF TO WORD CLICK / DRAG FIX */
