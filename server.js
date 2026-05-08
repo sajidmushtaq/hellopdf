@@ -10,6 +10,15 @@ const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
+const uploadDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+const upload = multer({
+  dest: uploadDir
+});
 
 
 const pdfParseModule = require("pdf-parse");
@@ -39,9 +48,14 @@ app.get('/', (req, res) => {
 app.post('/merge', upload.array('pdfs'), async (req, res) => {
   try {
 
+    if (!req.files || req.files.length < 2) {
+      return res.status(400).send("Please upload at least 2 PDF files");
+    }
+
     const mergedPdf = await PDFDocument.create();
 
     for (const file of req.files) {
+
       const fileBytes = fs.readFileSync(file.path);
 
       const pdf = await PDFDocument.load(fileBytes);
@@ -54,54 +68,26 @@ app.post('/merge', upload.array('pdfs'), async (req, res) => {
       copiedPages.forEach(page => {
         mergedPdf.addPage(page);
       });
+
+      fs.unlinkSync(file.path);
     }
 
     const pdfBytes = await mergedPdf.save();
 
     res.setHeader("Content-Type", "application/pdf");
+
     res.setHeader(
       "Content-Disposition",
       "attachment; filename=merged.pdf"
     );
 
-    res.end(Buffer.from(pdfBytes));
+    return res.end(Buffer.from(pdfBytes));
 
   } catch (err) {
+
     console.error("MERGE ERROR:", err);
-    res.status(500).send("Merge failed");
-  }
-});
 
-
-
-// ✅ IMAGE → PDF
-app.post('/convert-image', upload.array('images'), async (req, res) => {
-  try {
-    const pdfDoc = await PDFDocument.create();
-
-    for (let file of req.files) {
-      const imgBytes = fs.readFileSync(file.path);
-
-      let img;
-      if (file.mimetype === "image/png") {
-        img = await pdfDoc.embedPng(imgBytes);
-      } else {
-        img = await pdfDoc.embedJpg(imgBytes);
-      }
-
-      const page = pdfDoc.addPage([img.width, img.height]);
-      page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
-    }
-
-    const pdfBytes = await pdfDoc.save();
-
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=images.pdf');
-    res.end(Buffer.from(pdfBytes));
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Convert failed");
+    return res.status(500).send("Merge failed");
   }
 });
 
