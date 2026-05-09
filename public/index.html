@@ -152,10 +152,15 @@
     </button>
 
     <div class="profile-menu" id="profileMenu">
-      <strong id="profileMenuName">User</strong>
-      <p id="profileMenuEmail">user@email.com</p>
-      <button class="logout-btn" id="logoutBtn" type="button">Logout</button>
-    </div>
+  <strong id="profileMenuName">User</strong>
+  <p id="profileMenuEmail">user@email.com</p>
+
+  <a href="/account.html" class="profile-menu-link">👤 My Profile</a>
+  <a href="/settings.html" class="profile-menu-link">⚙️ Account Settings</a>
+  <a href="/pricing.html" class="profile-menu-link upgrade-link">🚀 Upgrade</a>
+
+  <button class="logout-btn" id="logoutBtn" type="button">Logout</button>
+</div>
   </div>
 </header>
 
@@ -471,8 +476,12 @@
   const mobileProfileName = document.getElementById("mobileProfileName");
   const mobileProfileEmail = document.getElementById("mobileProfileEmail");
   const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
+  const heroTitle = document.getElementById("heroTitle");
 
   function setProfileUI(user) {
+  mobileProfileEmail.textContent = email;
+
+heroTitle.textContent = "Hi " + fullName + ", let's get started";
     const email = user.email || "";
     const fullName =
       user.user_metadata?.full_name ||
@@ -497,6 +506,9 @@
   }
 
   function setLoggedOutUI() {
+mobileProfileBox.style.display = "none";
+
+heroTitle.textContent = "Every tool you need to work with PDFs in one place";
     desktopAuthButtons.style.display = "flex";
     desktopProfileBox.style.display = "none";
 

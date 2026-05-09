@@ -3004,3 +3004,21 @@ body > button.signup-btn {
 .drawer-overlay{
   z-index:auto !important;
 }
+
+.profile-menu-link {
+  display: block;
+  padding: 10px 8px;
+  color: #111827;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.profile-menu-link:hover {
+  background: #f1f5f9;
+}
+
+.upgrade-link {
+  color: #ef4444;
+}
