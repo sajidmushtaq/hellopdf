@@ -6,12 +6,12 @@
 
   <title>Sign Up - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=500" />
+  <link rel="stylesheet" href="/css/style.css?v=501" />
 </head>
 <body>
 
   <div class="auth-page">
-    <div class="auth-card">
+    <div class="auth-card" id="signupCard">
       <a href="/index.html" class="auth-logo">HelloPDF</a>
 
       <h1>Create account</h1>
@@ -32,6 +32,42 @@
         <a href="/login.html">Login</a>
       </p>
     </div>
+
+    <div class="auth-card" id="successCard" style="display:none;">
+      <a href="/index.html" class="auth-logo">HelloPDF</a>
+
+      <div style="
+        width:110px;
+        height:110px;
+        border:6px solid #22c55e;
+        border-radius:50%;
+        margin:20px auto 28px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#22c55e;
+        font-size:58px;
+        font-weight:700;
+      ">
+        ✓
+      </div>
+
+      <h1>You have been successfully registered</h1>
+      <p id="welcomeText">Welcome to HelloPDF!</p>
+
+      <a href="/index.html" style="
+        display:inline-block;
+        margin-top:22px;
+        background:#ef4444;
+        color:white;
+        padding:14px 24px;
+        border-radius:9px;
+        text-decoration:none;
+        font-weight:800;
+      ">
+        Start using HelloPDF
+      </a>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -45,6 +81,9 @@
     const signupForm = document.getElementById("signupForm");
     const authMessage = document.getElementById("authMessage");
     const signupBtn = document.getElementById("signupBtn");
+    const signupCard = document.getElementById("signupCard");
+    const successCard = document.getElementById("successCard");
+    const welcomeText = document.getElementById("welcomeText");
 
     signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -77,11 +116,9 @@
         return;
       }
 
-      authMessage.style.color = "#16a34a";
-      authMessage.textContent =
-        "Account created successfully. Please check your email.";
-
-      signupForm.reset();
+      welcomeText.textContent = "Welcome to HelloPDF, " + fullName + "!";
+      signupCard.style.display = "none";
+      successCard.style.display = "block";
     });
   </script>
 
