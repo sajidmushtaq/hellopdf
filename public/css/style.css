@@ -3226,3 +3226,96 @@ body > button.signup-btn {
     z-index: 1 !important;
   }
 }
+
+/* ===== FIX PROFILE MENU POSITION ===== */
+
+.profile-box {
+  position: relative !important;
+}
+
+.hp-profile-menu {
+  display: none !important;
+  position: absolute !important;
+  top: 58px !important;
+  right: 0 !important;
+  width: 330px !important;
+  background: #ffffff !important;
+  border-radius: 18px !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.18) !important;
+  padding: 22px !important;
+  z-index: 999999 !important;
+}
+
+.hp-profile-menu.active {
+  display: block !important;
+}
+
+.hp-profile-head {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-bottom: 18px !important;
+}
+
+.hp-profile-big-avatar {
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px !important;
+  border-radius: 50% !important;
+  background: #eef2ff !important;
+  color: #2563eb !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.hp-profile-user-info strong {
+  display: block !important;
+  font-size: 17px !important;
+  color: #111827 !important;
+}
+
+.hp-profile-user-info p {
+  margin: 0 !important;
+  color: #64748b !important;
+  font-size: 13px !important;
+  max-width: 210px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.hp-menu-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  padding: 12px 8px !important;
+  color: #475569 !important;
+  text-decoration: none !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-align: left !important;
+}
+
+.hp-menu-item:hover {
+  background: #f8fafc !important;
+  color: #111827 !important;
+}
+
+.hp-premium {
+  color: #2563eb !important;
+}
+
+.hp-logout-btn {
+  margin-top: 12px !important;
+  border-top: 1px solid #eef2f7 !important;
+  padding-top: 16px !important;
+}

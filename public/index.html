@@ -6,7 +6,7 @@
 
   <title>HelloPDF</title>
 
-  <<link rel="stylesheet" href="/css/style.css?v=907" />
+  <link rel="stylesheet" href="/css/style.css?v=908" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -145,49 +145,57 @@
   </div>
 
   <div class="profile-box" id="desktopProfileBox">
-    <button class="profile-btn" id="profileBtn" type="button">
-      <span class="profile-avatar" id="profileAvatar">U</span>
-      <span id="profileName">User</span>
-      <i class="fa-solid fa-chevron-down"></i>
+
+  <button class="profile-btn" id="profileBtn" type="button">
+    <span class="profile-avatar" id="profileAvatar">U</span>
+    <span id="profileName">User</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+
+  <div class="hp-profile-menu" id="profileMenu">
+
+    <div class="hp-profile-head">
+      <div class="hp-profile-big-avatar" id="profileMenuAvatar">S</div>
+
+      <div class="hp-profile-user-info">
+        <strong id="profileMenuName">User</strong>
+        <p id="profileMenuEmail">user@email.com</p>
+      </div>
+    </div>
+
+    <a href="/account.html" class="hp-menu-item">
+      <span class="hp-menu-icon">⚙️</span>
+      <span>Account settings</span>
+    </a>
+
+    <a href="#" class="hp-menu-item">
+      <span class="hp-menu-icon">👥</span>
+      <span>Team</span>
+    </a>
+
+    <a href="#" class="hp-menu-item">
+      <span class="hp-menu-icon">✍️</span>
+      <span>Signatures</span>
+    </a>
+
+    <a href="#" class="hp-menu-item">
+      <span class="hp-menu-icon">🔗</span>
+      <span>Workflows</span>
+    </a>
+
+    <a href="/pricing.html" class="hp-menu-item hp-premium">
+      <span class="hp-menu-icon">👑</span>
+      <span>Upgrade to Premium</span>
+    </a>
+
+    <button class="hp-menu-item hp-logout-btn" id="logoutBtn" type="button">
+      <span class="hp-menu-icon">↪</span>
+      <span>Log out</span>
     </button>
 
-    <div class="hp-profile-menu" id="profileMenu">
-
-  <div class="hp-profile-head">
-    <div class="hp-profile-big-avatar" id="profileMenuAvatar">
-      S
-    </div>
-
-    <div>
-      <strong id="profileMenuName">User</strong>
-      <p id="profileMenuEmail">user@email.com</p>
-    </div>
   </div>
 
-  <a href="/account.html" class="hp-menu-item">
-    <span class="hp-menu-icon">⚙️</span>
-    <span>Account settings</span>
-  </a>
-
-  <a href="#" class="hp-menu-item">
-    <span class="hp-menu-icon">👥</span>
-    <span>Team</span>
-  </a>
-
-  <a href="#" class="hp-menu-item">
-    <span class="hp-menu-icon">✍️</span>
-    <span>Signatures</span>
-  </a>
-
-  <a href="#" class="hp-menu-item">
-    <span class="hp-menu-icon">🔗</span>
-    <span>Workflows</span>
-  </a>
-
-  <a href="/pricing.html" class="hp-menu-item hp-premium">
-    <span class="hp-menu-icon">👑</span>
-    <span>Upgrade to Premium</span>
-  </a>
+</div>
 
   <button class="hp-menu-item hp-logout-btn" id="logoutBtn" type="button">
     <span class="hp-menu-icon">↪</span>
