@@ -2873,166 +2873,55 @@ body > button.signup-btn {
 
   /* ===== DRAWER FIX ===== */
 
-.tools-drawer,
-.main-drawer {
-  display: none;
-}
+/* DRAWERS HIDE ON DESKTOP */
 
+.tools-drawer,
+.main-drawer,
 .drawer-overlay {
   display: none;
-  pointer-events: none;
 }
 
-@media(max-width:768px){
+.mobile-header {
+  display: none;
+}
 
-  .desktop-header{
-    display:none !important;
+/* MOBILE DRAWERS */
+
+@media (max-width: 768px) {
+  .desktop-header {
+    display: none !important;
   }
 
-  .mobile-header{
-    display:flex !important;
+  .mobile-header {
+    display: flex !important;
   }
 
   .tools-drawer,
-  .main-drawer{
-    display:block;
+  .main-drawer {
+    display: block;
   }
 
-  .drawer-overlay.active{
-    display:block;
-    pointer-events:auto;
+  .drawer-overlay.active {
+    display: block;
+    pointer-events: auto;
   }
-}
-
-/* ===== PDF TOOL FIX ===== */
-
-.drop-zone{
-  position:relative;
-  z-index:999;
-  pointer-events:auto !important;
-  cursor:pointer !important;
-}
-
-.drop-zone *{
-  pointer-events:none;
-}
-
-/* PDF TO WORD CLICK / DRAG FIX */
-
-.tool-page,
-.tool-box,
-#uploadForm {
-  position: relative;
-  z-index: 1;
-}
-
-.drop-zone {
-  position: relative;
-  z-index: 10;
-  pointer-events: auto !important;
-  cursor: pointer !important;
-}
-
-.drop-zone input[type="file"] {
-  pointer-events: auto !important;
-}
-
-.drawer-overlay {
-  pointer-events: none;
-}
-
-.drawer-overlay.active {
-  pointer-events: auto;
-}
-
-/* ===== FINAL PDF UPLOAD FIX ===== */
-
-.drop-zone{
-  width:100%;
-  max-width:620px;
-  min-height:220px;
-  border:2px dashed #94a3b8;
-  border-radius:18px;
-  position:relative;
-  overflow:hidden;
-  cursor:pointer;
-  background:#ffffff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.drop-zone input[type="file"]{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  opacity:0;
-  cursor:pointer;
-  z-index:9999;
-}
-
-.drop-content{
-  pointer-events:none;
-  text-align:center;
-}
-
-.drop-content p{
-  font-size:18px;
-  font-weight:700;
-  color:#334155;
-}
-
-/* FINAL FORCE FIX */
-
-.drop-zone{
-  position:relative !important;
-  z-index:999999 !important;
-  overflow:hidden;
-  min-height:220px;
-}
-
-.tool-page,
-.tool-box,
-#uploadForm{
-  overflow:visible !important;
-}
-
-.mobile-header,
-.tools-drawer,
-.main-drawer,
-.drawer-overlay{
-  z-index:auto !important;
-}
-
-.profile-menu-link {
-  display: block;
-  padding: 10px 8px;
-  color: #111827;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 8px;
-}
-
-.profile-menu-link:hover {
-  background: #f1f5f9;
-}
-
-.upgrade-link {
-  color: #ef4444;
 }
 
 /* ===== PROFESSIONAL PROFILE DROPDOWN ===== */
 
 .profile-menu {
-  width: 270px !important;
+  width: 280px !important;
   padding: 16px !important;
   border-radius: 18px !important;
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.16) !important;
 }
 
 .profile-menu strong {
+  display: block !important;
   font-size: 16px !important;
+  color: #111827 !important;
   margin-bottom: 4px !important;
 }
 
@@ -3040,12 +2929,14 @@ body > button.signup-btn {
   font-size: 13px !important;
   margin-bottom: 14px !important;
   color: #64748b !important;
+  word-break: break-word !important;
 }
 
 .profile-menu-link {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
+  width: 100% !important;
   padding: 11px 12px !important;
   color: #111827 !important;
   text-decoration: none !important;
@@ -3053,6 +2944,7 @@ body > button.signup-btn {
   font-weight: 700 !important;
   border-radius: 10px !important;
   margin: 4px 0 !important;
+  line-height: 1.2 !important;
 }
 
 .profile-menu-link:hover {
@@ -3073,4 +2965,40 @@ body > button.signup-btn {
   color: #ffffff !important;
   font-weight: 800 !important;
   cursor: pointer !important;
+}
+
+/* MOBILE PROFILE */
+
+.mobile-profile-box {
+  display: none;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.mobile-profile-box strong {
+  display: block;
+  color: #111827;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.mobile-profile-box p {
+  color: #64748b;
+  font-size: 14px;
+  word-break: break-word;
+  margin-bottom: 12px;
+}
+
+.mobile-logout-btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
 }
