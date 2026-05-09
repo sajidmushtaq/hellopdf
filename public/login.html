@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Login - HelloPDF</title>
-  <link rel="stylesheet" href="/css/style.css?v=120" />
+
+  <link rel="stylesheet" href="/css/style.css?v=500" />
 </head>
 <body>
 
@@ -15,17 +17,14 @@
       <h1>Welcome back</h1>
       <p>Login to continue using your PDF tools.</p>
 
-      <form class="auth-form">
-        <input type="email" placeholder="Email address" required />
-        <input type="password" placeholder="Password" required />
+      <form class="auth-form" id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email address" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
 
-        <button type="submit">Login</button>
+        <button type="submit" id="loginBtn">Login</button>
       </form>
 
-      <div class="social-login">
-        <button type="button">Continue with Google</button>
-        <button type="button">Continue with Facebook</button>
-      </div>
+      <p id="authMessage" style="margin-top:14px;font-size:14px;"></p>
 
       <p class="auth-switch">
         Don’t have an account?
@@ -33,6 +32,52 @@
       </p>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const loginForm = document.getElementById("loginForm");
+    const authMessage = document.getElementById("authMessage");
+    const loginBtn = document.getElementById("loginBtn");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      authMessage.style.color = "#64748b";
+      authMessage.textContent = "Logging in...";
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Please wait...";
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Login";
+
+      if (error) {
+        authMessage.style.color = "#ef4444";
+        authMessage.textContent = error.message;
+        return;
+      }
+
+      authMessage.style.color = "#16a34a";
+      authMessage.textContent = "Login successful. Redirecting...";
+
+      setTimeout(() => {
+        window.location.href = "/index.html";
+      }, 1000);
+    });
+  </script>
 
 </body>
 </html>
