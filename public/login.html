@@ -6,12 +6,13 @@
 
   <title>Login - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=500" />
+  <link rel="stylesheet" href="/css/style.css?v=501" />
 </head>
 <body>
 
   <div class="auth-page">
-    <div class="auth-card">
+
+    <div class="auth-card" id="loginCard">
       <a href="/index.html" class="auth-logo">HelloPDF</a>
 
       <h1>Welcome back</h1>
@@ -31,6 +32,43 @@
         <a href="/signup.html">Sign up</a>
       </p>
     </div>
+
+    <div class="auth-card" id="successCard" style="display:none;">
+      <a href="/index.html" class="auth-logo">HelloPDF</a>
+
+      <div style="
+        width:110px;
+        height:110px;
+        border:6px solid #22c55e;
+        border-radius:50%;
+        margin:20px auto 28px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#22c55e;
+        font-size:58px;
+        font-weight:700;
+      ">
+        ✓
+      </div>
+
+      <h1>You have been successfully logged in</h1>
+      <p id="welcomeText">Welcome back to HelloPDF!</p>
+
+      <a href="/index.html" style="
+        display:inline-block;
+        margin-top:22px;
+        background:#ef4444;
+        color:white;
+        padding:14px 24px;
+        border-radius:9px;
+        text-decoration:none;
+        font-weight:800;
+      ">
+        Start using HelloPDF
+      </a>
+    </div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -44,6 +82,9 @@
     const loginForm = document.getElementById("loginForm");
     const authMessage = document.getElementById("authMessage");
     const loginBtn = document.getElementById("loginBtn");
+    const loginCard = document.getElementById("loginCard");
+    const successCard = document.getElementById("successCard");
+    const welcomeText = document.getElementById("welcomeText");
 
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -70,12 +111,23 @@
         return;
       }
 
-      authMessage.style.color = "#16a34a";
-      authMessage.textContent = "Login successful. Redirecting...";
+      const user = data.user;
+      const fullName =
+        user.user_metadata?.full_name ||
+        user.email ||
+        "User";
+
+      localStorage.setItem("hellopdf_user_email", user.email || "");
+      localStorage.setItem("hellopdf_user_name", fullName);
+
+      welcomeText.textContent = "Welcome back to HelloPDF, " + fullName + "!";
+
+      loginCard.style.display = "none";
+      successCard.style.display = "block";
 
       setTimeout(() => {
         window.location.href = "/index.html";
-      }, 1000);
+      }, 1800);
     });
   </script>
 

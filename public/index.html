@@ -6,8 +6,121 @@
 
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=800" />
+  <link rel="stylesheet" href="/css/style.css?v=801" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .profile-box {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      color: #111827;
+      padding: 8px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .profile-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 240px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+      padding: 14px;
+      z-index: 99999;
+    }
+
+    .profile-menu.active {
+      display: block;
+    }
+
+    .profile-menu p {
+      margin: 0 0 8px;
+      color: #64748b;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .profile-menu strong {
+      display: block;
+      color: #111827;
+      font-size: 15px;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .logout-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #ef4444;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .mobile-profile-box {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #f8fafc;
+    }
+
+    .mobile-profile-box strong {
+      display: block;
+      color: #111827;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .mobile-profile-box p {
+      color: #64748b;
+      font-size: 14px;
+      word-break: break-word;
+      margin-bottom: 12px;
+    }
+
+    .mobile-logout-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: #ef4444;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -26,9 +139,23 @@
     <a href="#convert-tools">Tools</a>
   </nav>
 
-  <div class="auth-buttons">
+  <div class="auth-buttons" id="desktopAuthButtons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+
+  <div class="profile-box" id="desktopProfileBox">
+    <button class="profile-btn" id="profileBtn" type="button">
+      <span class="profile-avatar" id="profileAvatar">U</span>
+      <span id="profileName">User</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    <div class="profile-menu" id="profileMenu">
+      <strong id="profileMenuName">User</strong>
+      <p id="profileMenuEmail">user@email.com</p>
+      <button class="logout-btn" id="logoutBtn" type="button">Logout</button>
+    </div>
   </div>
 </header>
 
@@ -93,11 +220,17 @@
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
 
-  <div class="drawer-bottom">
+  <div class="drawer-bottom" id="mobileAuthBox">
     <a href="#">Help ›</a>
     <a href="#">Language ›</a>
     <a href="/login.html" class="drawer-login">Login</a>
     <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+
+  <div class="mobile-profile-box" id="mobileProfileBox">
+    <strong id="mobileProfileName">User</strong>
+    <p id="mobileProfileEmail">user@email.com</p>
+    <button class="mobile-logout-btn" id="mobileLogoutBtn" type="button">Logout</button>
   </div>
 </div>
 
@@ -290,7 +423,13 @@
   </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+  const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   const toolsBtn = document.getElementById("toolsMenuBtn");
   const mainBtn = document.getElementById("mainMenuBtn");
   const toolsDrawer = document.getElementById("toolsDrawer");
@@ -316,6 +455,89 @@
   document.getElementById("toolsClose").addEventListener("click", closeDrawers);
   document.getElementById("mainClose").addEventListener("click", closeDrawers);
   overlay.addEventListener("click", closeDrawers);
+
+  const desktopAuthButtons = document.getElementById("desktopAuthButtons");
+  const desktopProfileBox = document.getElementById("desktopProfileBox");
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+  const profileAvatar = document.getElementById("profileAvatar");
+  const profileName = document.getElementById("profileName");
+  const profileMenuName = document.getElementById("profileMenuName");
+  const profileMenuEmail = document.getElementById("profileMenuEmail");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const mobileAuthBox = document.getElementById("mobileAuthBox");
+  const mobileProfileBox = document.getElementById("mobileProfileBox");
+  const mobileProfileName = document.getElementById("mobileProfileName");
+  const mobileProfileEmail = document.getElementById("mobileProfileEmail");
+  const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
+
+  function setProfileUI(user) {
+    const email = user.email || "";
+    const fullName =
+      user.user_metadata?.full_name ||
+      localStorage.getItem("hellopdf_user_name") ||
+      email.split("@")[0] ||
+      "User";
+
+    const firstLetter = fullName.charAt(0).toUpperCase();
+
+    desktopAuthButtons.style.display = "none";
+    desktopProfileBox.style.display = "flex";
+
+    profileAvatar.textContent = firstLetter;
+    profileName.textContent = fullName;
+    profileMenuName.textContent = fullName;
+    profileMenuEmail.textContent = email;
+
+    mobileAuthBox.style.display = "none";
+    mobileProfileBox.style.display = "block";
+    mobileProfileName.textContent = fullName;
+    mobileProfileEmail.textContent = email;
+  }
+
+  function setLoggedOutUI() {
+    desktopAuthButtons.style.display = "flex";
+    desktopProfileBox.style.display = "none";
+
+    mobileAuthBox.style.display = "block";
+    mobileProfileBox.style.display = "none";
+  }
+
+  async function checkUserSession() {
+    const { data } = await supabaseClient.auth.getUser();
+
+    if (data && data.user) {
+      setProfileUI(data.user);
+    } else {
+      setLoggedOutUI();
+    }
+  }
+
+  profileBtn.addEventListener("click", () => {
+    profileMenu.classList.toggle("active");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!desktopProfileBox.contains(e.target)) {
+      profileMenu.classList.remove("active");
+    }
+  });
+
+  async function logoutUser() {
+    await supabaseClient.auth.signOut();
+
+    localStorage.removeItem("hellopdf_user_email");
+    localStorage.removeItem("hellopdf_user_name");
+
+    setLoggedOutUI();
+    window.location.href = "/index.html";
+  }
+
+  logoutBtn.addEventListener("click", logoutUser);
+  mobileLogoutBtn.addEventListener("click", logoutUser);
+
+  checkUserSession();
 </script>
 
 </body>
