@@ -3178,3 +3178,51 @@ body > button.signup-btn {
 .hp-logout-btn:hover {
   color: #ef4444 !important;
 }
+
+/* ===== MOBILE DRAWER Z-INDEX FINAL FIX ===== */
+
+@media (max-width: 768px) {
+
+  .mobile-header {
+    z-index: 100000 !important;
+  }
+
+  .drawer-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0,0,0,0.45) !important;
+    z-index: 100001 !important;
+    display: none;
+  }
+
+  .drawer-overlay.active {
+    display: block !important;
+  }
+
+  .tools-drawer,
+  .main-drawer {
+    position: fixed !important;
+    top: 0 !important;
+    height: 100vh !important;
+    background: #ffffff !important;
+    z-index: 100002 !important;
+    overflow-y: auto !important;
+  }
+
+  .tools-drawer.active {
+    left: 0 !important;
+  }
+
+  .main-drawer.active {
+    right: 0 !important;
+  }
+
+  .tools-grid,
+  .tool-card,
+  .tools-section,
+  .category-nav,
+  .hero {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+}
