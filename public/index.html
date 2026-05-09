@@ -6,7 +6,7 @@
 
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=905" />
+  <link rel="stylesheet" href="/css/style.css?v=906" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -151,23 +151,50 @@
       <i class="fa-solid fa-chevron-down"></i>
     </button>
 
-    <div class="profile-menu" id="profileMenu">
+    <div class="hp-profile-menu" id="profileMenu">
 
-  <div class="profile-user-top">
-    <div class="profile-user-avatar" id="profileMenuAvatar">S</div>
+  <div class="hp-profile-head">
+    <div class="hp-profile-big-avatar" id="profileMenuAvatar">
+      S
+    </div>
+
     <div>
       <strong id="profileMenuName">User</strong>
       <p id="profileMenuEmail">user@email.com</p>
     </div>
   </div>
 
-  <div class="profile-menu-list">
-    <a href="/account.html">⚙️ Account settings</a>
-    <a href="#">👥 Team</a>
-    <a href="#">✍️ Signatures</a>
-    <a href="#">🔗 Workflows</a>
-    <a href="/pricing.html" class="premium-link">👑 Upgrade to Premium</a>
-  </div>
+  <a href="/account.html" class="hp-menu-item">
+    <span class="hp-menu-icon">⚙️</span>
+    <span>Account settings</span>
+  </a>
+
+  <a href="#" class="hp-menu-item">
+    <span class="hp-menu-icon">👥</span>
+    <span>Team</span>
+  </a>
+
+  <a href="#" class="hp-menu-item">
+    <span class="hp-menu-icon">✍️</span>
+    <span>Signatures</span>
+  </a>
+
+  <a href="#" class="hp-menu-item">
+    <span class="hp-menu-icon">🔗</span>
+    <span>Workflows</span>
+  </a>
+
+  <a href="/pricing.html" class="hp-menu-item hp-premium">
+    <span class="hp-menu-icon">👑</span>
+    <span>Upgrade to Premium</span>
+  </a>
+
+  <button class="hp-menu-item hp-logout-btn" id="logoutBtn" type="button">
+    <span class="hp-menu-icon">↪</span>
+    <span>Log out</span>
+  </button>
+
+</div>
 
   <button class="logout-btn" id="logoutBtn" type="button">
     ↪ Log out
