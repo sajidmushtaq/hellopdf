@@ -20,3 +20,7 @@
     "tesseract.js": "^7.0.0"
   }
 }
+"scripts": {
+  "start": "node server.js",
+  "build": "npm install && npx puppeteer browsers install chrome"
+}
