@@ -6,46 +6,8 @@
 
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=909" />
+  <link rel="stylesheet" href="/css/style.css?v=910" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <style>
-    
-
-    .mobile-profile-box {
-      display: none;
-      margin-top: 18px;
-      padding: 16px;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      background: #f8fafc;
-    }
-
-    .mobile-profile-box strong {
-      display: block;
-      color: #111827;
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .mobile-profile-box p {
-      color: #64748b;
-      font-size: 14px;
-      word-break: break-word;
-      margin-bottom: 12px;
-    }
-
-    .mobile-logout-btn {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      background: #ef4444;
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 <body>
@@ -64,72 +26,9 @@
     <a href="#convert-tools">Tools</a>
   </nav>
 
-  <div class="auth-buttons" id="desktopAuthButtons">
+  <div class="auth-buttons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
-  </div>
-
-
-    <i class="fa-solid fa-chevron-down"></i>
-  </button>
-
-  <div class="hp-profile-menu" id="profileMenu">
-
-    <div class="hp-profile-head">
-      <div class="hp-profile-big-avatar" id="profileMenuAvatar">S</div>
-
-      <div class="hp-profile-user-info">
-        <strong id="profileMenuName">User</strong>
-        <p id="profileMenuEmail">user@email.com</p>
-      </div>
-    </div>
-
-    <a href="/account.html" class="hp-menu-item">
-      <span class="hp-menu-icon">⚙️</span>
-      <span>Account settings</span>
-    </a>
-
-    <a href="#" class="hp-menu-item">
-      <span class="hp-menu-icon">👥</span>
-      <span>Team</span>
-    </a>
-
-    <a href="#" class="hp-menu-item">
-      <span class="hp-menu-icon">✍️</span>
-      <span>Signatures</span>
-    </a>
-
-    <a href="#" class="hp-menu-item">
-      <span class="hp-menu-icon">🔗</span>
-      <span>Workflows</span>
-    </a>
-
-    <a href="/pricing.html" class="hp-menu-item hp-premium">
-      <span class="hp-menu-icon">👑</span>
-      <span>Upgrade to Premium</span>
-    </a>
-
-    <button class="hp-menu-item hp-logout-btn" id="logoutBtn" type="button">
-      <span class="hp-menu-icon">↪</span>
-      <span>Log out</span>
-    </button>
-
-  </div>
-
-</div>
-
-  <button class="hp-menu-item hp-logout-btn" id="logoutBtn" type="button">
-    <span class="hp-menu-icon">↪</span>
-    <span>Log out</span>
-  </button>
-
-</div>
-
-  <button class="logout-btn" id="logoutBtn" type="button">
-    ↪ Log out
-  </button>
-
-</div>
   </div>
 </header>
 
@@ -194,24 +93,18 @@
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
 
-  <div class="drawer-bottom" id="mobileAuthBox">
+  <div class="drawer-bottom">
     <a href="#">Help ›</a>
     <a href="#">Language ›</a>
     <a href="/login.html" class="drawer-login">Login</a>
     <a href="/signup.html" class="drawer-signup">Sign up</a>
-  </div>
-
-  <div class="mobile-profile-box" id="mobileProfileBox">
-    <strong id="mobileProfileName">User</strong>
-    <p id="mobileProfileEmail">user@email.com</p>
-    <button class="mobile-logout-btn" id="mobileLogoutBtn" type="button">Logout</button>
   </div>
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <section class="hero">
-  <h1 id="heroTitle">Every tool you need to work with PDFs in one place</h1>
+  <h1>Every tool you need to work with PDFs in one place</h1>
   <p>
     Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
     Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
@@ -397,13 +290,7 @@
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-  const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
   const toolsBtn = document.getElementById("toolsMenuBtn");
   const mainBtn = document.getElementById("mainMenuBtn");
   const toolsDrawer = document.getElementById("toolsDrawer");
@@ -429,74 +316,6 @@
   document.getElementById("toolsClose").addEventListener("click", closeDrawers);
   document.getElementById("mainClose").addEventListener("click", closeDrawers);
   overlay.addEventListener("click", closeDrawers);
-
-  const desktopAuthButtons = document.getElementById("desktopAuthButtons");
-  const desktopProfileBox = document.getElementById("desktopProfileBox");
-  
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  const mobileAuthBox = document.getElementById("mobileAuthBox");
-  const mobileProfileBox = document.getElementById("mobileProfileBox");
-  const mobileProfileName = document.getElementById("mobileProfileName");
-  const mobileProfileEmail = document.getElementById("mobileProfileEmail");
-  const profileMenuAvatar = document.getElementById("profileMenuAvatar");
-  const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
-  const heroTitle = document.getElementById("heroTitle");
-
-  function setProfileUI(user) {
-    const email = user.email || "";
-    const fullName =
-      user.user_metadata?.full_name ||
-      localStorage.getItem("hellopdf_user_name") ||
-      email.split("@")[0] ||
-      "User";
-
-    const firstLetter = fullName.charAt(0).toUpperCase();
-
-    desktopAuthButtons.style.display = "none";
-    desktopProfileBox.style.display = "flex";
-
-    mobileAuthBox.style.display = "none";
-    mobileProfileBox.style.display = "block";
-    mobileProfileName.textContent = fullName;
-    mobileProfileEmail.textContent = email;
-
-    heroTitle.textContent = "Hi " + fullName + ", let's get started";
-  }
-
-  function setLoggedOutUI() {
-    desktopAuthButtons.style.display = "flex";
-    desktopProfileBox.style.display = "none";
-
-    mobileAuthBox.style.display = "block";
-    mobileProfileBox.style.display = "none";
-
-    heroTitle.textContent = "Every tool you need to work with PDFs in one place";
-  }
-
-  async function checkUserSession() {
-    const { data } = await supabaseClient.auth.getUser();
-
-    if (data && data.user) {
-      setProfileUI(data.user);
-    } else {
-      setLoggedOutUI();
-    }
-  }
-
-  async function logoutUser() {
-    await supabaseClient.auth.signOut();
-
-    localStorage.removeItem("hellopdf_user_email");
-    localStorage.removeItem("hellopdf_user_name");
-
-    setLoggedOutUI();
-    window.location.href = "/index.html";
-  }
-
-  mobileLogoutBtn.addEventListener("click", logoutUser);
-
-  checkUserSession();
 </script>
 
 </body>
