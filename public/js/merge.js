@@ -1,96 +1,104 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  console.log("merge.js loaded ✅");
-
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("fileInput");
   const fileList = document.getElementById("fileList");
   const form = document.getElementById("uploadForm");
+  const progressBar = document.getElementById("progressBar");
 
   let filesArray = [];
 
-  // CLICK
-  if (dropZone && fileInput) {
-    dropZone.addEventListener("click", () => {
-      fileInput.click();
-    });
-  }
+  dropZone.addEventListener("click", () => {
+    fileInput.click();
+  });
 
-  // FILE SELECT
-  if (fileInput) {
-    fileInput.addEventListener("change", () => {
-      filesArray = [...fileInput.files];
-      showFiles();
-    });
-  }
+  fileInput.addEventListener("change", () => {
+    filesArray = Array.from(fileInput.files);
+    showFiles();
+  });
 
-  // DRAG
-  if (dropZone) {
-    dropZone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropZone.style.borderColor = "blue";
-    });
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = "#2563eb";
+  });
 
-    dropZone.addEventListener("dragleave", () => {
-      dropZone.style.borderColor = "#aaa";
-    });
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.style.borderColor = "#94a3b8";
+  });
 
-    dropZone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dropZone.style.borderColor = "#aaa";
-
-      filesArray = [...e.dataTransfer.files];
-      showFiles();
-    });
-  }
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = "#94a3b8";
+    filesArray = Array.from(e.dataTransfer.files);
+    showFiles();
+  });
 
   function showFiles() {
-    if (!fileList) return;
-
     fileList.innerHTML = "";
 
-    filesArray.forEach(file => {
-      fileList.innerHTML += `<div>📄 ${file.name}</div>`;
+    filesArray.forEach((file) => {
+      const div = document.createElement("div");
+      div.textContent = "📄 " + file.name;
+      fileList.appendChild(div);
     });
   }
 
-  // 🔥 MERGE BUTTON FIX
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      console.log("Merge clicked 🚀");
+    if (filesArray.length < 2) {
+      alert("Please select at least 2 PDF files");
+      return;
+    }
 
-      if (filesArray.length === 0) {
-        alert("Select PDF first");
+    const formData = new FormData();
+
+    filesArray.forEach((file) => {
+      formData.append("pdfs", file);
+    });
+
+    if (progressBar) {
+      progressBar.style.width = "20%";
+      progressBar.textContent = "20%";
+    }
+
+    try {
+      const response = await fetch("/merge", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert(errorText || "Merge failed");
         return;
       }
 
-      const formData = new FormData();
+      const blob = await response.blob();
 
-      filesArray.forEach(file => {
-        formData.append("pdfs", file);
-      });
+      if (!blob || blob.size < 1000 || blob.type !== "application/pdf") {
+        alert("Merge failed. Please try different PDF files.");
+        return;
+      }
 
-      fetch("/merge", {
-        method: "POST",
-        body: formData
-      })
-      .then(res => res.blob())
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
+      if (progressBar) {
+        progressBar.style.width = "100%";
+        progressBar.textContent = "100%";
+      }
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "merged.pdf";
-        a.click();
+      const url = window.URL.createObjectURL(blob);
 
-        window.URL.revokeObjectURL(url);
-      })
-      .catch(() => {
-        alert("Merge failed");
-      });
-    });
-  }
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "merged.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
 
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error("MERGE FRONTEND ERROR:", error);
+      alert("Merge failed. Please try again.");
+    }
+  });
 });
