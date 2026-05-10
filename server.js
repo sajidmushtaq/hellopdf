@@ -1304,14 +1304,22 @@ app.post("/html-to-pdf", async (req, res) => {
     }
 
     browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+      headless: "new",
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--no-zygote",
+        "--single-process"
+      ]
     });
 
     const page = await browser.newPage();
 
     await page.setContent(htmlCode, {
-      waitUntil: "networkidle0"
+      waitUntil: "domcontentloaded",
+      timeout: 30000
     });
 
     const pdfBuffer = await page.pdf({
@@ -1331,14 +1339,20 @@ app.post("/html-to-pdf", async (req, res) => {
     res.setHeader("Content-Disposition", "attachment; filename=html-to-pdf.pdf");
 
     return res.end(pdfBuffer);
+
   } catch (err) {
-    console.error("HTML TO PDF ERROR:", err);
+    console.error("HTML TO PDF ERROR MESSAGE:", err.message);
+    console.error("HTML TO PDF FULL ERROR:", err);
 
     if (browser) {
-      await browser.close();
+      try {
+        await browser.close();
+      } catch (closeErr) {
+        console.error("BROWSER CLOSE ERROR:", closeErr);
+      }
     }
 
-    return res.status(500).send("HTML to PDF failed");
+    return res.status(500).send(err.message || "HTML to PDF failed");
   }
 });
 
