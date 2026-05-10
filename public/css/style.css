@@ -2873,166 +2873,55 @@ body > button.signup-btn {
 
   /* ===== DRAWER FIX ===== */
 
-.tools-drawer,
-.main-drawer {
-  display: none;
-}
+/* DRAWERS HIDE ON DESKTOP */
 
+.tools-drawer,
+.main-drawer,
 .drawer-overlay {
   display: none;
-  pointer-events: none;
 }
 
-@media(max-width:768px){
+.mobile-header {
+  display: none;
+}
 
-  .desktop-header{
-    display:none !important;
+/* MOBILE DRAWERS */
+
+@media (max-width: 768px) {
+  .desktop-header {
+    display: none !important;
   }
 
-  .mobile-header{
-    display:flex !important;
+  .mobile-header {
+    display: flex !important;
   }
 
   .tools-drawer,
-  .main-drawer{
-    display:block;
+  .main-drawer {
+    display: block;
   }
 
-  .drawer-overlay.active{
-    display:block;
-    pointer-events:auto;
+  .drawer-overlay.active {
+    display: block;
+    pointer-events: auto;
   }
-}
-
-/* ===== PDF TOOL FIX ===== */
-
-.drop-zone{
-  position:relative;
-  z-index:999;
-  pointer-events:auto !important;
-  cursor:pointer !important;
-}
-
-.drop-zone *{
-  pointer-events:none;
-}
-
-/* PDF TO WORD CLICK / DRAG FIX */
-
-.tool-page,
-.tool-box,
-#uploadForm {
-  position: relative;
-  z-index: 1;
-}
-
-.drop-zone {
-  position: relative;
-  z-index: 10;
-  pointer-events: auto !important;
-  cursor: pointer !important;
-}
-
-.drop-zone input[type="file"] {
-  pointer-events: auto !important;
-}
-
-.drawer-overlay {
-  pointer-events: none;
-}
-
-.drawer-overlay.active {
-  pointer-events: auto;
-}
-
-/* ===== FINAL PDF UPLOAD FIX ===== */
-
-.drop-zone{
-  width:100%;
-  max-width:620px;
-  min-height:220px;
-  border:2px dashed #94a3b8;
-  border-radius:18px;
-  position:relative;
-  overflow:hidden;
-  cursor:pointer;
-  background:#ffffff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.drop-zone input[type="file"]{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  opacity:0;
-  cursor:pointer;
-  z-index:9999;
-}
-
-.drop-content{
-  pointer-events:none;
-  text-align:center;
-}
-
-.drop-content p{
-  font-size:18px;
-  font-weight:700;
-  color:#334155;
-}
-
-/* FINAL FORCE FIX */
-
-.drop-zone{
-  position:relative !important;
-  z-index:999999 !important;
-  overflow:hidden;
-  min-height:220px;
-}
-
-.tool-page,
-.tool-box,
-#uploadForm{
-  overflow:visible !important;
-}
-
-.mobile-header,
-.tools-drawer,
-.main-drawer,
-.drawer-overlay{
-  z-index:auto !important;
-}
-
-.profile-menu-link {
-  display: block;
-  padding: 10px 8px;
-  color: #111827;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 8px;
-}
-
-.profile-menu-link:hover {
-  background: #f1f5f9;
-}
-
-.upgrade-link {
-  color: #ef4444;
 }
 
 /* ===== PROFESSIONAL PROFILE DROPDOWN ===== */
 
 .profile-menu {
-  width: 270px !important;
+  width: 280px !important;
   padding: 16px !important;
   border-radius: 18px !important;
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.16) !important;
 }
 
 .profile-menu strong {
+  display: block !important;
   font-size: 16px !important;
+  color: #111827 !important;
   margin-bottom: 4px !important;
 }
 
@@ -3040,12 +2929,14 @@ body > button.signup-btn {
   font-size: 13px !important;
   margin-bottom: 14px !important;
   color: #64748b !important;
+  word-break: break-word !important;
 }
 
 .profile-menu-link {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
+  width: 100% !important;
   padding: 11px 12px !important;
   color: #111827 !important;
   text-decoration: none !important;
@@ -3053,6 +2944,7 @@ body > button.signup-btn {
   font-weight: 700 !important;
   border-radius: 10px !important;
   margin: 4px 0 !important;
+  line-height: 1.2 !important;
 }
 
 .profile-menu-link:hover {
@@ -3075,193 +2967,64 @@ body > button.signup-btn {
   cursor: pointer !important;
 }
 
-/* ===== ILOVEPDF LIKE PROFILE DROPDOWN FINAL ===== */
+/* MOBILE PROFILE */
 
-.hp-profile-menu {
+.mobile-profile-box {
   display: none;
-  position: absolute;
-  top: 58px;
-  right: 0;
-  width: 340px;
-  background: #ffffff;
-  border-radius: 18px;
+  margin-top: 18px;
+  padding: 16px;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.18);
-  padding: 22px;
-  z-index: 999999;
+  border-radius: 14px;
+  background: #f8fafc;
 }
 
-.hp-profile-menu.active {
-  display: block !important;
-}
-
-.hp-profile-head {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.hp-profile-big-avatar {
-  width: 64px;
-  height: 64px;
-  min-width: 64px;
-  border-radius: 50%;
-  background: #eef2ff;
-  color: #2563eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  font-weight: 900;
-}
-
-.hp-profile-head strong {
+.mobile-profile-box strong {
   display: block;
-  font-size: 18px;
   color: #111827;
-  font-weight: 800;
+  font-size: 18px;
   margin-bottom: 4px;
 }
 
-.hp-profile-head p {
-  margin: 0;
+.mobile-profile-box p {
   color: #64748b;
   font-size: 14px;
-  max-width: 210px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
+  margin-bottom: 12px;
 }
 
-.hp-menu-item {
+.mobile-logout-btn {
   width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ===== ILOVEPDF STYLE PROFILE MENU ===== */
+
+.profile-menu {
+  width: 310px !important;
+  padding: 22px !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.14) !important;
+}
+
+.profile-user-top {
   display: flex !important;
   align-items: center !important;
   gap: 14px !important;
-  padding: 13px 8px !important;
-  color: #475569 !important;
-  text-decoration: none !important;
-  font-size: 17px !important;
-  font-weight: 700 !important;
-  border-radius: 12px !important;
-  background: transparent !important;
-  border: none !important;
-  cursor: pointer !important;
-  text-align: left !important;
-  line-height: 1.2 !important;
+  padding-bottom: 18px !important;
+  border-bottom: 1px solid #eef2f7 !important;
 }
 
-.hp-menu-item:hover {
-  background: #f8fafc !important;
-  color: #111827 !important;
-}
-
-.hp-menu-icon {
-  width: 28px;
-  min-width: 28px;
-  text-align: center;
-  font-size: 20px;
-}
-
-.hp-premium {
-  color: #2563eb !important;
-}
-
-.hp-logout-btn {
-  margin-top: 18px !important;
-  padding-top: 18px !important;
-  border-top: 1px solid #eef2f7 !important;
-  color: #94a3b8 !important;
-}
-
-.hp-logout-btn:hover {
-  color: #ef4444 !important;
-}
-
-/* ===== MOBILE DRAWER Z-INDEX FINAL FIX ===== */
-
-@media (max-width: 768px) {
-
-  .mobile-header {
-    z-index: 100000 !important;
-  }
-
-  .drawer-overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    background: rgba(0,0,0,0.45) !important;
-    z-index: 100001 !important;
-    display: none;
-  }
-
-  .drawer-overlay.active {
-    display: block !important;
-  }
-
-  .tools-drawer,
-  .main-drawer {
-    position: fixed !important;
-    top: 0 !important;
-    height: 100vh !important;
-    background: #ffffff !important;
-    z-index: 100002 !important;
-    overflow-y: auto !important;
-  }
-
-  .tools-drawer.active {
-    left: 0 !important;
-  }
-
-  .main-drawer.active {
-    right: 0 !important;
-  }
-
-  .tools-grid,
-  .tool-card,
-  .tools-section,
-  .category-nav,
-  .hero {
-    position: relative !important;
-    z-index: 1 !important;
-  }
-}
-
-/* ===== FIX PROFILE MENU POSITION ===== */
-
-.profile-box {
-  position: relative !important;
-}
-
-.hp-profile-menu {
-  display: none !important;
-  position: absolute !important;
-  top: 58px !important;
-  right: 0 !important;
-  width: 330px !important;
-  background: #ffffff !important;
-  border-radius: 18px !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.18) !important;
-  padding: 22px !important;
-  z-index: 999999 !important;
-}
-
-.hp-profile-menu.active {
-  display: block !important;
-}
-
-.hp-profile-head {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
-  margin-bottom: 18px !important;
-}
-
-.hp-profile-big-avatar {
+.profile-user-avatar {
   width: 58px !important;
   height: 58px !important;
-  min-width: 58px !important;
   border-radius: 50% !important;
   background: #eef2ff !important;
   color: #2563eb !important;
@@ -3272,50 +3035,164 @@ body > button.signup-btn {
   font-weight: 900 !important;
 }
 
-.hp-profile-user-info strong {
-  display: block !important;
+.profile-menu strong {
   font-size: 17px !important;
   color: #111827 !important;
+  margin: 0 !important;
 }
 
-.hp-profile-user-info p {
-  margin: 0 !important;
-  color: #64748b !important;
+.profile-menu p {
   font-size: 13px !important;
-  max-width: 210px !important;
+  color: #64748b !important;
+  margin: 4px 0 0 !important;
+  max-width: 190px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
-.hp-menu-item {
+.profile-menu-list {
+  padding: 16px 0 !important;
+}
+
+.profile-menu-list a {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  width: 100% !important;
   padding: 12px 8px !important;
-  color: #475569 !important;
+  color: #334155 !important;
   text-decoration: none !important;
   font-size: 15px !important;
   font-weight: 700 !important;
   border-radius: 10px !important;
-  background: transparent !important;
-  border: none !important;
-  cursor: pointer !important;
-  text-align: left !important;
 }
 
-.hp-menu-item:hover {
+.profile-menu-list a:hover {
   background: #f8fafc !important;
   color: #111827 !important;
 }
 
-.hp-premium {
+.profile-menu-list .premium-link {
   color: #2563eb !important;
 }
 
-.hp-logout-btn {
-  margin-top: 12px !important;
+.logout-btn {
+  width: 100% !important;
+  background: transparent !important;
+  color: #64748b !important;
+  border: none !important;
   border-top: 1px solid #eef2f7 !important;
-  padding-top: 16px !important;
+  border-radius: 0 !important;
+  padding: 16px 8px 4px !important;
+  text-align: left !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+.logout-btn:hover {
+  color: #ef4444 !important;
+}
+
+/* ===== FINAL PROFILE DROPDOWN FIX ===== */
+
+.hp-profile-menu{
+  position:absolute;
+  top:65px;
+  right:0;
+  width:320px;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.15);
+  padding:20px;
+  z-index:999999;
+}
+
+.hp-profile-head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding-bottom:18px;
+  border-bottom:1px solid #eef2f7;
+}
+
+.hp-profile-big-avatar{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#eff6ff;
+  color:#2563eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  font-weight:800;
+}
+
+.hp-profile-user-info{
+  flex:1;
+}
+
+.hp-profile-user-info strong{
+  display:block;
+  font-size:17px;
+  color:#111827;
+  margin-bottom:4px;
+}
+
+.hp-profile-user-info p{
+  margin:0;
+  color:#64748b;
+  font-size:13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.hp-profile-list{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:16px 0;
+}
+
+.hp-profile-list a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  padding:12px 10px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#334155;
+  font-size:15px;
+  font-weight:700;
+  transition:0.2s;
+}
+
+.hp-profile-list a:hover{
+  background:#f8fafc;
+  color:#111827;
+}
+
+.hp-premium{
+  color:#2563eb !important;
+}
+
+.hp-logout-btn{
+  width:100%;
+  border:none;
+  background:transparent;
+  border-top:1px solid #eef2f7;
+  padding:16px 10px 4px;
+  text-align:left;
+  font-size:15px;
+  font-weight:700;
+  color:#64748b;
+  cursor:pointer;
+}
+
+.hp-logout-btn:hover{
+  color:#ef4444;
 }

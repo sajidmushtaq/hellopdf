@@ -6,7 +6,7 @@
 
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=908" />
+  <link rel="stylesheet" href="/css/style.css?v=909" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -144,11 +144,7 @@
     <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
 
-  <div class="profile-box" id="desktopProfileBox">
 
-  <button class="profile-btn" id="profileBtn" type="button">
-    <span class="profile-avatar" id="profileAvatar">U</span>
-    <span id="profileName">User</span>
     <i class="fa-solid fa-chevron-down"></i>
   </button>
 
@@ -511,12 +507,7 @@
 
   const desktopAuthButtons = document.getElementById("desktopAuthButtons");
   const desktopProfileBox = document.getElementById("desktopProfileBox");
-  const profileBtn = document.getElementById("profileBtn");
-  const profileMenu = document.getElementById("profileMenu");
-  const profileAvatar = document.getElementById("profileAvatar");
-  const profileName = document.getElementById("profileName");
-  const profileMenuName = document.getElementById("profileMenuName");
-  const profileMenuEmail = document.getElementById("profileMenuEmail");
+  
   const logoutBtn = document.getElementById("logoutBtn");
 
   const mobileAuthBox = document.getElementById("mobileAuthBox");
@@ -539,12 +530,6 @@
 
     desktopAuthButtons.style.display = "none";
     desktopProfileBox.style.display = "flex";
-
-    profileAvatar.textContent = firstLetter;
-    profileMenuAvatar.textContent = firstLetter;
-    profileName.textContent = fullName;
-    profileMenuName.textContent = fullName;
-    profileMenuEmail.textContent = email;
 
     mobileAuthBox.style.display = "none";
     mobileProfileBox.style.display = "block";
@@ -574,16 +559,6 @@
     }
   }
 
-  profileBtn.addEventListener("click", () => {
-    profileMenu.classList.toggle("active");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!desktopProfileBox.contains(e.target)) {
-      profileMenu.classList.remove("active");
-    }
-  });
-
   async function logoutUser() {
     await supabaseClient.auth.signOut();
 
@@ -594,7 +569,6 @@
     window.location.href = "/index.html";
   }
 
-  logoutBtn.addEventListener("click", logoutUser);
   mobileLogoutBtn.addEventListener("click", logoutUser);
 
   checkUserSession();
