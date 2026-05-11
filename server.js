@@ -266,24 +266,49 @@ app.post("/watermark", upload.single("pdf"), async (req, res) => {
 
 const gsPath = `"C:\\Program Files\\gs\\gs10.07.0\\bin\\gswin64c.exe"`;
 
-app.post("/compress", upload.single("pdf"), (req, res) => {
+app.post("/compress", upload.single("pdf"), async (req, res) => {
   try {
-    const input = req.file.path;
-    const output = path.join(outputsDir, `compressed_${Date.now()}.pdf`);
+    if (!req.file) {
+      return res.status(400).send("Please upload a PDF file");
+    }
 
-    const cmd = `${gsPath} -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${output}" "${input}"`;
+    const inputPath = req.file.path;
+    const outputPath = path.join(outputsDir, `compressed_${Date.now()}.pdf`);
 
-    exec(cmd, (err) => {
-      if (err) {
-        console.error("COMPRESS ERROR:", err);
-        return res.status(500).send("Compress failed");
+    const gsCommand = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${outputPath}" "${inputPath}"`;
+
+    exec(gsCommand, async (gsErr) => {
+      if (!gsErr && fs.existsSync(outputPath)) {
+        return res.download(outputPath, "compressed.pdf");
       }
 
-      res.download(output);
+      console.log("Ghostscript not available, using fallback compression...");
+
+      try {
+        const pdfBytes = fs.readFileSync(inputPath);
+        const pdfDoc = await PDFDocument.load(pdfBytes, {
+          ignoreEncryption: true
+        });
+
+        const compressedBytes = await pdfDoc.save({
+          useObjectStreams: true,
+          addDefaultPage: false
+        });
+
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", "attachment; filename=compressed.pdf");
+
+        return res.end(Buffer.from(compressedBytes));
+
+      } catch (fallbackErr) {
+        console.error("COMPRESS FALLBACK ERROR:", fallbackErr);
+        return res.status(500).send("Compress failed");
+      }
     });
+
   } catch (err) {
     console.error("COMPRESS FULL ERROR:", err);
-    res.status(500).send("Compress failed");
+    return res.status(500).send("Compress failed");
   }
 });
 
