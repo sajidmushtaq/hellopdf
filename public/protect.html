@@ -6,7 +6,7 @@
 
   <title>Protect PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=400" />
+  <link rel="stylesheet" href="/css/style.css?v=910" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -25,65 +25,35 @@
     </div>
 
     <h1>Protect PDF</h1>
+    <p class="tool-description">Add password protection and secure your PDF document.</p>
 
-    <p class="tool-description">
-      Add password protection and secure your PDF documents.
-    </p>
+    <form id="uploadForm">
+      <div class="drop-zone" id="dropZone">
+        <p>Click or Drag & Drop PDF Here</p>
+        <input type="file" id="fileInput" accept="application/pdf" hidden>
+      </div>
 
-    <div style="margin-top:35px;">
-      <span style="
-        background:#f59e0b;
-        color:white;
-        padding:10px 20px;
-        border-radius:999px;
-        font-weight:700;
-        font-size:15px;
-      ">
-        🚀 Coming Soon
-      </span>
+      <div id="fileList"></div>
+
+      <input
+        type="password"
+        id="passwordInput"
+        placeholder="Enter password"
+        required
+        style="margin-top:15px;padding:14px;width:100%;max-width:360px;border:1px solid #cbd5e1;border-radius:12px;"
+      >
+
+      <button type="submit">Protect PDF</button>
+    </form>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar">0%</div>
     </div>
-
-    <p style="
-      margin-top:25px;
-      color:#64748b;
-      line-height:1.8;
-      font-size:15px;
-      max-width:550px;
-      margin-left:auto;
-      margin-right:auto;
-    ">
-      This tool requires advanced PDF encryption processing and is currently being optimized for cloud deployment.
-      It will be available soon with secure password protection support.
-    </p>
 
   </div>
 </section>
 
-<script>
-  const toolsBtn = document.getElementById("toolsMenuBtn");
-  const mainBtn = document.getElementById("mainMenuBtn");
-  const toolsDrawer = document.getElementById("toolsDrawer");
-  const mainDrawer = document.getElementById("mainDrawer");
-  const overlay = document.getElementById("drawerOverlay");
-
-  if (toolsBtn && mainBtn && toolsDrawer && mainDrawer && overlay) {
-    function closeDrawers() {
-      toolsDrawer.classList.remove("active");
-      mainDrawer.classList.remove("active");
-      overlay.classList.remove("active");
-    }
-
-    toolsBtn.addEventListener("click", () => {
-      toolsDrawer.classList.add("active");
-      overlay.classList.add("active");
-    });
-
-    mainBtn.addEventListener("click", () => {
-      mainDrawer.classList.add("active");
-      overlay.classList.add("active");
-    });
-  }
-</script>
+<script src="/js/protect.js?v=1"></script>
 
 </body>
 </html>
