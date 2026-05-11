@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Account Settings - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=911" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body {
+      background: #f6f8fb;
+    }
+
+    .account-page {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .account-header {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 22px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+      margin-bottom: 24px;
+    }
+
+    .account-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .account-header h1 {
+      color: #111827;
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    .account-header p {
+      color: #64748b;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .account-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    .account-sidebar,
+    .account-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.05);
+    }
+
+    .account-sidebar {
+      padding: 18px;
+      height: fit-content;
+    }
+
+    .account-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 13px 14px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: #334155;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
+    .account-tab.active,
+    .account-tab:hover {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+
+    .account-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .account-card {
+      padding: 26px;
+    }
+
+    .account-card h2 {
+      color: #111827;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .account-card .muted {
+      color: #64748b;
+      margin-bottom: 22px;
+      font-size: 15px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      padding: 14px 0;
+      border-bottom: 1px solid #eef2f7;
+      gap: 14px;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #64748b;
+      font-weight: 700;
+    }
+
+    .info-value {
+      color: #111827;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .plan-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 20px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .plan-badge {
+      display: inline-block;
+      padding: 7px 14px;
+      background: #e0f2fe;
+      color: #0369a1;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .upgrade-btn,
+    .danger-btn,
+    .secondary-btn-account {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 900;
+      border: none;
+      cursor: pointer;
+    }
+
+    .upgrade-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    .secondary-btn-account {
+      background: #2563eb;
+      color: white;
+    }
+
+    .danger-btn {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .password-form {
+      display: grid;
+      gap: 14px;
+      max-width: 480px;
+    }
+
+    .password-form input {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .password-form input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+    }
+
+    #accountMessage {
+      margin-top: 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .not-logged-card {
+      max-width: 520px;
+      margin: 70px auto;
+      background: #ffffff;
+      padding: 34px;
+      border-radius: 22px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 14px 40px rgba(15,23,42,0.06);
+    }
+
+    .not-logged-card h1 {
+      color: #111827;
+      margin-bottom: 10px;
+    }
+
+    .not-logged-card p {
+      color: #64748b;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 760px) {
+      .account-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .account-header {
+        align-items: flex-start;
+      }
+
+      .info-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/index.html#convert-tools">Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/pricing.html" class="signup-btn">Upgrade</a>
+  </div>
+</header>
+
+<div id="accountArea"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const accountArea = document.getElementById("accountArea");
+
+  function getUserName(user) {
+    const email = user.email || "";
+    return (
+      user.user_metadata?.full_name ||
+      localStorage.getItem("hellopdf_user_name") ||
+      email.split("@")[0] ||
+      "User"
+    );
+  }
+
+  function renderNotLoggedIn() {
+    accountArea.innerHTML = `
+      <div class="not-logged-card">
+        <h1>Please login first</h1>
+        <p>You need to login to view your account settings.</p>
+        <a href="/login.html" class="secondary-btn-account">Login Now</a>
+      </div>
+    `;
+  }
+
+  function renderAccount(user) {
+    const fullName = getUserName(user);
+    const email = user.email || "";
+    const firstLetter = fullName.charAt(0).toUpperCase();
+    const createdAt = user.created_at
+      ? new Date(user.created_at).toLocaleDateString()
+      : "N/A";
+
+    accountArea.innerHTML = `
+      <main class="account-page">
+        <section class="account-header">
+          <div class="account-avatar">${firstLetter}</div>
+          <div>
+            <h1>Account Settings</h1>
+            <p>Manage your HelloPDF profile, plan, and security.</p>
+          </div>
+        </section>
+
+        <section class="account-grid">
+          <aside class="account-sidebar">
+            <button class="account-tab active">👤 Profile</button>
+            <button class="account-tab">💎 Plan</button>
+            <button class="account-tab">🔒 Security</button>
+            <button class="account-tab">⚙️ Preferences</button>
+          </aside>
+
+          <div class="account-content">
+            <div class="account-card">
+              <h2>Profile Information</h2>
+              <p class="muted">Your basic account details.</p>
+
+              <div class="info-row">
+                <div class="info-label">Full Name</div>
+                <div class="info-value">${fullName}</div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-label">Email</div>
+                <div class="info-value">${email}</div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-label">Account Created</div>
+                <div class="info-value">${createdAt}</div>
+              </div>
+            </div>
+
+            <div class="account-card">
+              <h2>Current Plan</h2>
+              <p class="muted">You are currently using the free HelloPDF plan.</p>
+
+              <div class="plan-box">
+                <div>
+                  <span class="plan-badge">FREE PLAN</span>
+                  <h3>Basic PDF tools access</h3>
+                  <p class="muted" style="margin-bottom:0;">Upgrade later for more limits, batch tools, OCR, and premium features.</p>
+                </div>
+
+                <a href="/pricing.html" class="upgrade-btn">Upgrade</a>
+              </div>
+            </div>
+
+            <div class="account-card">
+              <h2>Security</h2>
+              <p class="muted">Reset your password through Supabase email reset.</p>
+
+              <form class="password-form" id="resetPasswordForm">
+                <input type="email" id="resetEmail" value="${email}" readonly />
+                <button type="submit" class="secondary-btn-account">Send password reset email</button>
+              </form>
+
+              <p id="accountMessage"></p>
+            </div>
+
+            <div class="account-card">
+              <h2>Session</h2>
+              <p class="muted">Logout from this device.</p>
+
+              <button class="danger-btn" id="logoutBtn">Logout</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    `;
+
+    document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+
+    document.getElementById("resetPasswordForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const msg = document.getElementById("accountMessage");
+      msg.style.color = "#64748b";
+      msg.textContent = "Sending reset email...";
+
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://hellopdf.onrender.com/login.html"
+      });
+
+      if (error) {
+        msg.style.color = "#ef4444";
+        msg.textContent = error.message;
+        return;
+      }
+
+      msg.style.color = "#16a34a";
+      msg.textContent = "Password reset email sent.";
+    });
+  }
+
+  async function logoutUser() {
+    await supabaseClient.auth.signOut();
+    localStorage.removeItem("hellopdf_user_email");
+    localStorage.removeItem("hellopdf_user_name");
+    window.location.href = "/index.html";
+  }
+
+  async function initAccount() {
+    const { data } = await supabaseClient.auth.getUser();
+
+    if (!data || !data.user) {
+      renderNotLoggedIn();
+      return;
+    }
+
+    renderAccount(data.user);
+  }
+
+  initAccount();
+</script>
+
+</body>
+</html>
