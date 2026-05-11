@@ -1036,61 +1036,56 @@ app.post("/powerpoint-to-pdf", upload.single("pptFile"), async (req, res) => {
     fixedInputPath = path.join(uploadDir, `powerpoint-${Date.now()}${ext}`);
     fs.renameSync(inputPath, fixedInputPath);
 
-    const sofficePath = `"C:\\Program Files\\LibreOffice\\program\\soffice.exe"`;
+    const commands = [
+      `soffice --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`,
+      `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`,
+      `"C:\\Program Files\\LibreOffice\\program\\soffice.exe" --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`
+    ];
 
-    const command = `${sofficePath} --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`;
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error("PPT TO PDF ERROR:", error);
-        console.error("STDERR:", stderr);
-
-        if (fixedInputPath && fs.existsSync(fixedInputPath)) {
-          fs.unlinkSync(fixedInputPath);
+    const runCommand = (index = 0) => {
+      return new Promise((resolve, reject) => {
+        if (index >= commands.length) {
+          return reject(new Error("LibreOffice not found on server"));
         }
 
-        return res.status(500).send("Conversion failed. LibreOffice path issue.");
-      }
+        exec(commands[index], (error, stdout, stderr) => {
+          if (error) {
+            console.error("PPT COMMAND FAILED:", commands[index]);
+            console.error("STDERR:", stderr);
+            return runCommand(index + 1).then(resolve).catch(reject);
+          }
 
-      const outputFileName = path.basename(fixedInputPath, ext) + ".pdf";
-      finalPath = path.join(outputsDir, outputFileName);
-
-      if (!fs.existsSync(finalPath)) {
-        console.error("PDF NOT FOUND:", finalPath);
-        console.error("STDOUT:", stdout);
-        console.error("STDERR:", stderr);
-
-        if (fixedInputPath && fs.existsSync(fixedInputPath)) {
-          fs.unlinkSync(fixedInputPath);
-        }
-
-        return res.status(500).send("PDF not created");
-      }
-
-      res.download(finalPath, "converted.pdf", (err) => {
-        if (fixedInputPath && fs.existsSync(fixedInputPath)) {
-          fs.unlinkSync(fixedInputPath);
-        }
-
-        if (finalPath && fs.existsSync(finalPath)) {
-          fs.unlinkSync(finalPath);
-        }
-
-        if (err) {
-          console.error("PPT DOWNLOAD ERROR:", err);
-        }
+          resolve({ stdout, stderr });
+        });
       });
+    };
+
+    await runCommand();
+
+    const outputFileName = path.basename(fixedInputPath, ext) + ".pdf";
+    finalPath = path.join(outputsDir, outputFileName);
+
+    if (!fs.existsSync(finalPath)) {
+      throw new Error("PDF was not created by LibreOffice");
+    }
+
+    res.download(finalPath, "converted.pdf", (err) => {
+      if (fixedInputPath && fs.existsSync(fixedInputPath)) fs.unlinkSync(fixedInputPath);
+      if (finalPath && fs.existsSync(finalPath)) fs.unlinkSync(finalPath);
+
+      if (err) {
+        console.error("PPT DOWNLOAD ERROR:", err);
+      }
     });
+
   } catch (err) {
-    console.error("PPT TO PDF FULL ERROR:", err);
+    console.error("PPT TO PDF ERROR:", err);
 
     if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-    if (fixedInputPath && fs.existsSync(fixedInputPath)) {
-      fs.unlinkSync(fixedInputPath);
-    }
+    if (fixedInputPath && fs.existsSync(fixedInputPath)) fs.unlinkSync(fixedInputPath);
     if (finalPath && fs.existsSync(finalPath)) fs.unlinkSync(finalPath);
 
-    return res.status(500).send("PowerPoint to PDF failed");
+    return res.status(500).send(err.message || "PowerPoint to PDF failed");
   }
 });
 
