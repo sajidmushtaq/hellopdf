@@ -6,8 +6,170 @@
 
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=910" />
+  <link rel="stylesheet" href="/css/style.css?v=911" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hp-profile-wrap {
+      display: none;
+      position: relative;
+      align-items: center;
+    }
+
+    .hp-profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      color: #111827;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .hp-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .hp-profile-menu {
+      display: none;
+      position: absolute;
+      top: 54px;
+      right: 0;
+      width: 300px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.16);
+      padding: 18px;
+      z-index: 999999;
+    }
+
+    .hp-profile-menu.active {
+      display: block;
+    }
+
+    .hp-profile-head {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eef2f7;
+    }
+
+    .hp-profile-head strong {
+      display: block;
+      color: #111827;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    .hp-profile-head p {
+      margin: 0;
+      color: #64748b;
+      font-size: 13px;
+      max-width: 190px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .hp-profile-list {
+      padding: 14px 0;
+    }
+
+    .hp-profile-list a,
+    .hp-profile-logout {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 8px;
+      border-radius: 10px;
+      color: #334155;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .hp-profile-list a:hover,
+    .hp-profile-logout:hover {
+      background: #f8fafc;
+      color: #111827;
+    }
+
+    .hp-premium-link {
+      color: #2563eb !important;
+    }
+
+    .hp-profile-logout {
+      border-top: 1px solid #eef2f7;
+      padding-top: 15px;
+      color: #ef4444;
+    }
+
+    .hp-mobile-profile {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+    }
+
+    .hp-mobile-profile strong {
+      display: block;
+      color: #111827;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .hp-mobile-profile p {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+
+    .hp-mobile-profile a,
+    .hp-mobile-profile button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 800;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hp-mobile-profile a {
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+    }
+
+    .hp-mobile-profile button {
+      background: #ef4444;
+      color: #ffffff;
+    }
+  </style>
 </head>
 
 <body>
@@ -26,9 +188,38 @@
     <a href="#convert-tools">Tools</a>
   </nav>
 
-  <div class="auth-buttons">
+  <div class="auth-buttons" id="desktopAuthButtons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+
+  <div class="hp-profile-wrap" id="desktopProfileBox">
+    <button class="hp-profile-btn" id="profileBtn" type="button">
+      <span class="hp-avatar" id="profileAvatar">U</span>
+      <span id="profileName">User</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    <div class="hp-profile-menu" id="profileMenu">
+      <div class="hp-profile-head">
+        <span class="hp-avatar" id="profileMenuAvatar">U</span>
+        <div>
+          <strong id="profileMenuName">User</strong>
+          <p id="profileMenuEmail">user@email.com</p>
+        </div>
+      </div>
+
+      <div class="hp-profile-list">
+        <a href="/account.html">⚙️ Account Settings</a>
+        <a href="/pricing.html" class="hp-premium-link">🚀 Upgrade to Premium</a>
+        <a href="#">👥 Team</a>
+        <a href="#">🔗 Workflows</a>
+      </div>
+
+      <button class="hp-profile-logout" id="logoutBtn" type="button">
+        ↪ Log out
+      </button>
+    </div>
   </div>
 </header>
 
@@ -93,23 +284,33 @@
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
 
-  <div class="drawer-bottom">
+  <div class="drawer-bottom" id="mobileAuthBox">
     <a href="#">Help ›</a>
     <a href="#">Language ›</a>
     <a href="/login.html" class="drawer-login">Login</a>
     <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+
+  <div class="hp-mobile-profile" id="mobileProfileBox">
+    <strong id="mobileProfileName">User</strong>
+    <p id="mobileProfileEmail">user@email.com</p>
+    <a href="/account.html">Account Settings</a>
+    <a href="/pricing.html">Upgrade to Premium</a>
+    <button id="mobileLogoutBtn" type="button">Log out</button>
   </div>
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <section class="hero">
-  <h1>Every tool you need to work with PDFs in one place</h1>
+  <h1 id="heroTitle">Every tool you need to work with PDFs in one place</h1>
   <p>
     Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
     Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
   </p>
 </section>
+
+<!-- baqi tools sections aapke same rahenge -->
 
 <section class="category-nav">
   <a href="#convert-tools"><i class="fa-solid fa-repeat"></i> Convert PDF</a>
@@ -290,7 +491,13 @@
   </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+  const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   const toolsBtn = document.getElementById("toolsMenuBtn");
   const mainBtn = document.getElementById("mainMenuBtn");
   const toolsDrawer = document.getElementById("toolsDrawer");
@@ -316,6 +523,105 @@
   document.getElementById("toolsClose").addEventListener("click", closeDrawers);
   document.getElementById("mainClose").addEventListener("click", closeDrawers);
   overlay.addEventListener("click", closeDrawers);
+
+  const desktopAuthButtons = document.getElementById("desktopAuthButtons");
+  const desktopProfileBox = document.getElementById("desktopProfileBox");
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+
+  const profileAvatar = document.getElementById("profileAvatar");
+  const profileName = document.getElementById("profileName");
+  const profileMenuAvatar = document.getElementById("profileMenuAvatar");
+  const profileMenuName = document.getElementById("profileMenuName");
+  const profileMenuEmail = document.getElementById("profileMenuEmail");
+
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const mobileAuthBox = document.getElementById("mobileAuthBox");
+  const mobileProfileBox = document.getElementById("mobileProfileBox");
+  const mobileProfileName = document.getElementById("mobileProfileName");
+  const mobileProfileEmail = document.getElementById("mobileProfileEmail");
+  const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
+
+  const heroTitle = document.getElementById("heroTitle");
+
+  function getUserName(user) {
+    const email = user.email || "";
+    return (
+      user.user_metadata?.full_name ||
+      localStorage.getItem("hellopdf_user_name") ||
+      email.split("@")[0] ||
+      "User"
+    );
+  }
+
+  function setProfileUI(user) {
+    const email = user.email || "";
+    const fullName = getUserName(user);
+    const firstLetter = fullName.charAt(0).toUpperCase();
+
+    desktopAuthButtons.style.display = "none";
+    desktopProfileBox.style.display = "flex";
+
+    profileAvatar.textContent = firstLetter;
+    profileName.textContent = fullName;
+    profileMenuAvatar.textContent = firstLetter;
+    profileMenuName.textContent = fullName;
+    profileMenuEmail.textContent = email;
+
+    mobileAuthBox.style.display = "none";
+    mobileProfileBox.style.display = "block";
+    mobileProfileName.textContent = fullName;
+    mobileProfileEmail.textContent = email;
+
+    heroTitle.textContent = "Hi " + fullName + ", let's get started";
+  }
+
+  function setLoggedOutUI() {
+    desktopAuthButtons.style.display = "flex";
+    desktopProfileBox.style.display = "none";
+
+    mobileAuthBox.style.display = "block";
+    mobileProfileBox.style.display = "none";
+
+    heroTitle.textContent = "Every tool you need to work with PDFs in one place";
+  }
+
+  async function checkUserSession() {
+    const { data } = await supabaseClient.auth.getUser();
+
+    if (data && data.user) {
+      setProfileUI(data.user);
+    } else {
+      setLoggedOutUI();
+    }
+  }
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    profileMenu.classList.toggle("active");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!desktopProfileBox.contains(e.target)) {
+      profileMenu.classList.remove("active");
+    }
+  });
+
+  async function logoutUser() {
+    await supabaseClient.auth.signOut();
+
+    localStorage.removeItem("hellopdf_user_email");
+    localStorage.removeItem("hellopdf_user_name");
+
+    setLoggedOutUI();
+    window.location.href = "/index.html";
+  }
+
+  logoutBtn.addEventListener("click", logoutUser);
+  mobileLogoutBtn.addEventListener("click", logoutUser);
+
+  checkUserSession();
 </script>
 
 </body>
