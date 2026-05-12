@@ -3547,4 +3547,69 @@ body > button.signup-btn {
     font-size: 12px;
   }
 }
+/* ===== TOOL PAGE DESKTOP HEADER FIX ===== */
 
+.desktop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.desktop-header .logo {
+  font-size: 26px;
+  font-weight: 900;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.desktop-header nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.desktop-header nav a {
+  color: #111827;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.desktop-header nav a:hover {
+  color: #ef4444;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-btn {
+  color: #111827;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.signup-btn {
+  background: #ef4444;
+  color: #ffffff !important;
+  padding: 11px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+@media (max-width: 768px) {
+  .desktop-header {
+    display: none !important;
+  }
+}
