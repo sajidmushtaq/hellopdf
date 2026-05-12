@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Merge PDF - PDFToolsPro</title>
-  <link rel="stylesheet" href="/css/style.css?v=911">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Merge PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=912" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
@@ -15,12 +18,10 @@
 </header>
 
 <div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
-
   <button class="drawer-close" id="toolsClose" type="button">×</button>
 
   <div class="drawer-category">
     <h4>ORGANIZE PDF</h4>
-
     <a href="/merge.html">🔀 Merge PDF</a>
     <a href="/split.html">✂️ Split PDF</a>
     <a href="/remove.html">❌ Remove Pages</a>
@@ -31,13 +32,11 @@
 
   <div class="drawer-category">
     <h4>OPTIMIZE PDF</h4>
-
     <a href="/compress.html">🗜️ Compress PDF</a>
   </div>
 
   <div class="drawer-category">
     <h4>CONVERT TO PDF</h4>
-
     <a href="/jpg-to-pdf.html">🖼️ JPG to PDF</a>
     <a href="/image-to-pdf.html">🖼️ Image to PDF</a>
     <a href="/word-to-pdf.html">📄 Word to PDF</a>
@@ -48,7 +47,6 @@
 
   <div class="drawer-category">
     <h4>CONVERT FROM PDF</h4>
-
     <a href="/pdf-to-word.html">📄 PDF to Word</a>
     <a href="/pdf-to-excel.html">📗 PDF to Excel</a>
     <a href="/pdf-to-powerpoint.html">📊 PDF to PowerPoint</a>
@@ -60,12 +58,10 @@
 
   <div class="drawer-category">
     <h4>PDF SECURITY</h4>
-
     <a href="/protect.html">🔒 Protect PDF</a>
     <a href="/unlock.html">🔓 Unlock PDF</a>
     <a href="/watermark.html">💧 Watermark PDF</a>
   </div>
-
 </div>
 
 <div class="main-drawer" id="mainDrawer">
@@ -77,7 +73,7 @@
     <h4>APPLICATIONS</h4>
   </div>
 
-  <a href="#">💳 Pricing</a>
+  <a href="/pricing.html">💳 Pricing</a>
   <a href="#">🔒 Security</a>
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
@@ -92,36 +88,83 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<section class="tool-page">
-  <div class="tool-box">
+<main class="merge-page">
 
-    <div class="icon-box merge">⇄</div>
-    <p>Combine multiple PDF files into one document quickly and securely.</p>
-
-    <form id="uploadForm">
-      <div class="drop-zone" id="dropZone">
-        <p>Click or Drag & Drop PDF Files Here</p>
-        <input type="file" id="fileInput" multiple hidden>
+  <section class="merge-start-screen" id="startScreen">
+    <div class="merge-logo-wrap">
+      <div class="merge-logo-icon">
+        <i class="fa-solid fa-object-group"></i>
       </div>
-
-      <div id="fileList"></div>
-
-      <button type="submit">Merge PDF</button>
-    </form>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
     </div>
 
-  </div>
-</section>
+    <h1>Merge PDF</h1>
+    <p>Combine multiple PDF files into one document quickly and securely.</p>
 
-<footer class="footer">
-  <p>© 2026 PDFToolsPro — Professional PDF Solutions</p>
-</footer>
+    <div class="merge-upload-box" id="dropZone">
+      <input type="file" id="fileInput" accept="application/pdf" multiple hidden>
 
+      <div class="merge-upload-icon">
+        <i class="fa-solid fa-file-pdf"></i>
+      </div>
 
-<script src="/js/merge.js?v=5"></script>
+      <h2>Select PDF files</h2>
+      <p>or drag and drop PDFs here</p>
+    </div>
+  </section>
+
+  <section class="merge-preview-screen" id="previewScreen" style="display:none;">
+    <div class="merge-topbar">
+      <div>
+        <h1>Merge PDF</h1>
+        <p id="fileCounter">0 files selected</p>
+      </div>
+
+      <button class="merge-add-btn" id="addMoreBtn" type="button">
+        <i class="fa-solid fa-plus"></i>
+        Add more files
+      </button>
+    </div>
+
+    <div class="merge-file-grid" id="fileList"></div>
+
+    <aside class="merge-action-panel">
+      <h2>Merge PDF</h2>
+      <p>Arrange your files and click merge to combine them into one PDF.</p>
+
+      <button class="merge-main-btn" id="mergeBtn" type="button">
+        Merge PDF
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container merge-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="merge-success-screen" id="successScreen" style="display:none;">
+    <div class="success-check">
+      <i class="fa-solid fa-check"></i>
+    </div>
+
+    <h1>PDFs have been merged!</h1>
+    <p>Your merged PDF is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      <i class="fa-solid fa-download"></i>
+      Download merged PDF
+    </button>
+
+    <div class="success-actions">
+      <a href="/merge.html">Merge more files</a>
+      <a href="/index.html">Back to tools</a>
+    </div>
+  </section>
+
+</main>
+
+<script src="/js/merge.js?v=6"></script>
+
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
   const mainBtn = document.getElementById("mainMenuBtn");
@@ -149,5 +192,6 @@
   document.getElementById("mainClose").addEventListener("click", closeDrawers);
   overlay.addEventListener("click", closeDrawers);
 </script>
+
 </body>
 </html>

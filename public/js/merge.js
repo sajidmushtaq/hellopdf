@@ -1,51 +1,117 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const startScreen = document.getElementById("startScreen");
+  const previewScreen = document.getElementById("previewScreen");
+  const successScreen = document.getElementById("successScreen");
+
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("fileInput");
+  const addMoreBtn = document.getElementById("addMoreBtn");
   const fileList = document.getElementById("fileList");
-  const form = document.getElementById("uploadForm");
+  const fileCounter = document.getElementById("fileCounter");
+  const mergeBtn = document.getElementById("mergeBtn");
   const progressBar = document.getElementById("progressBar");
+  const downloadBtn = document.getElementById("downloadBtn");
 
   let filesArray = [];
+  let mergedPdfUrl = null;
+
+  function formatFileSize(bytes) {
+    if (!bytes) return "0 KB";
+
+    const kb = bytes / 1024;
+    if (kb < 1024) return kb.toFixed(1) + " KB";
+
+    return (kb / 1024).toFixed(2) + " MB";
+  }
+
+  function addFiles(files) {
+    const selectedFiles = Array.from(files).filter((file) => {
+      return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+    });
+
+    if (selectedFiles.length === 0) {
+      alert("Please select PDF files only");
+      return;
+    }
+
+    filesArray = [...filesArray, ...selectedFiles];
+    renderFiles();
+  }
+
+  function renderFiles() {
+    fileList.innerHTML = "";
+
+    if (filesArray.length === 0) {
+      startScreen.style.display = "flex";
+      previewScreen.style.display = "none";
+      successScreen.style.display = "none";
+      return;
+    }
+
+    startScreen.style.display = "none";
+    previewScreen.style.display = "grid";
+    successScreen.style.display = "none";
+
+    fileCounter.textContent =
+      filesArray.length === 1
+        ? "1 file selected"
+        : filesArray.length + " files selected";
+
+    filesArray.forEach((file, index) => {
+      const card = document.createElement("div");
+      card.className = "merge-file-card";
+
+      card.innerHTML = `
+        <button class="remove-file-btn" type="button" aria-label="Remove file">×</button>
+
+        <div class="file-card-icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+
+        <h3>${file.name}</h3>
+        <p>${formatFileSize(file.size)}</p>
+
+        <span class="file-order-badge">${index + 1}</span>
+      `;
+
+      card.querySelector(".remove-file-btn").addEventListener("click", () => {
+        filesArray.splice(index, 1);
+        renderFiles();
+      });
+
+      fileList.appendChild(card);
+    });
+  }
 
   dropZone.addEventListener("click", () => {
     fileInput.click();
   });
 
+  addMoreBtn.addEventListener("click", () => {
+    fileInput.click();
+  });
+
   fileInput.addEventListener("change", () => {
-    filesArray = Array.from(fileInput.files);
-    showFiles();
+    addFiles(fileInput.files);
+    fileInput.value = "";
   });
 
   dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
-    dropZone.style.borderColor = "#2563eb";
+    dropZone.classList.add("drag-active");
   });
 
   dropZone.addEventListener("dragleave", () => {
-    dropZone.style.borderColor = "#94a3b8";
+    dropZone.classList.remove("drag-active");
   });
 
   dropZone.addEventListener("drop", (e) => {
     e.preventDefault();
-    dropZone.style.borderColor = "#94a3b8";
-    filesArray = Array.from(e.dataTransfer.files);
-    showFiles();
+    dropZone.classList.remove("drag-active");
+    addFiles(e.dataTransfer.files);
   });
 
-  function showFiles() {
-    fileList.innerHTML = "";
-
-    filesArray.forEach((file) => {
-      const div = document.createElement("div");
-      div.textContent = "📄 " + file.name;
-      fileList.appendChild(div);
-    });
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-      
-
+  mergeBtn.addEventListener("click", async () => {
     if (filesArray.length < 2) {
       alert("Please select at least 2 PDF files");
       return;
@@ -57,10 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("pdfs", file);
     });
 
-    if (progressBar) {
-      progressBar.style.width = "20%";
-      progressBar.textContent = "20%";
-    }
+    progressBar.style.width = "20%";
+    progressBar.textContent = "20%";
+    mergeBtn.disabled = true;
+    mergeBtn.innerHTML = `Merging... <i class="fa-solid fa-spinner fa-spin"></i>`;
 
     try {
       const response = await fetch("/merge", {
@@ -81,26 +147,38 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (progressBar) {
-        progressBar.style.width = "100%";
-        progressBar.textContent = "100%";
+      progressBar.style.width = "100%";
+      progressBar.textContent = "100%";
+
+      if (mergedPdfUrl) {
+        window.URL.revokeObjectURL(mergedPdfUrl);
       }
 
-      const url = window.URL.createObjectURL(blob);
+      mergedPdfUrl = window.URL.createObjectURL(blob);
 
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "merged.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-
-      window.URL.revokeObjectURL(url);
+      previewScreen.style.display = "none";
+      successScreen.style.display = "flex";
 
     } catch (error) {
       console.error("MERGE FRONTEND ERROR:", error);
       alert("Merge failed. Please try again.");
+    } finally {
+      mergeBtn.disabled = false;
+      mergeBtn.innerHTML = `Merge PDF <i class="fa-solid fa-arrow-right"></i>`;
     }
+  });
+
+  downloadBtn.addEventListener("click", () => {
+    if (!mergedPdfUrl) {
+      alert("Merged PDF is not ready yet");
+      return;
+    }
+
+    const a = document.createElement("a");
+    a.href = mergedPdfUrl;
+    a.download = "merged.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   });
 });

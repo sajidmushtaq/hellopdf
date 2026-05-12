@@ -3003,3 +3003,442 @@ body > button.signup-btn {
   cursor: pointer;
 }
 
+/* ===== MERGE PDF ILOVEPDF STYLE UI ===== */
+
+.merge-page {
+  min-height: calc(100vh - 64px);
+  background: #f6f8fb;
+}
+
+.merge-start-screen {
+  min-height: calc(100vh - 64px);
+  padding: 70px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #111827;
+}
+
+.merge-logo-wrap {
+  margin-bottom: 18px;
+}
+
+.merge-logo-icon {
+  width: 86px;
+  height: 86px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  box-shadow: 0 20px 45px rgba(239, 68, 68, 0.25);
+}
+
+.merge-start-screen h1 {
+  font-size: 54px;
+  line-height: 1.1;
+  font-weight: 900;
+  margin: 10px 0 12px;
+  color: #111827;
+}
+
+.merge-start-screen > p {
+  max-width: 620px;
+  color: #64748b;
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 34px;
+}
+
+.merge-upload-box {
+  width: 100%;
+  max-width: 560px;
+  min-height: 250px;
+  background: #ffffff;
+  border: 2px dashed #cbd5e1;
+  border-radius: 28px;
+  padding: 42px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+  transition: 0.25s ease;
+}
+
+.merge-upload-box:hover,
+.merge-upload-box.drag-active {
+  border-color: #ef4444;
+  transform: translateY(-3px);
+  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.12);
+}
+
+.merge-upload-icon {
+  width: 74px;
+  height: 74px;
+  border-radius: 24px;
+  background: #fee2e2;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+}
+
+.merge-upload-box h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  color: #ef4444;
+}
+
+.merge-upload-box p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.merge-preview-screen {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 26px;
+  padding: 34px 370px 34px 34px;
+  position: relative;
+}
+
+.merge-topbar {
+  grid-column: 1 / 2;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.06);
+}
+
+.merge-topbar h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #111827;
+  font-weight: 900;
+}
+
+.merge-topbar p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.merge-add-btn {
+  border: none;
+  background: #111827;
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 13px 18px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.merge-file-grid {
+  grid-column: 1 / 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 18px;
+  align-content: start;
+}
+
+.merge-file-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  padding: 22px 16px;
+  min-height: 205px;
+  text-align: center;
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+  transition: 0.25s ease;
+}
+
+.merge-file-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.12);
+}
+
+.file-card-icon {
+  width: 68px;
+  height: 82px;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.merge-file-card h3 {
+  font-size: 14px;
+  color: #111827;
+  margin: 0 0 7px;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+.merge-file-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.remove-file-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.file-order-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 999px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.merge-action-panel {
+  position: fixed;
+  right: 26px;
+  top: 94px;
+  bottom: 26px;
+  width: 320px;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.merge-action-panel h2 {
+  font-size: 30px;
+  color: #111827;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.merge-action-panel p {
+  color: #64748b;
+  line-height: 1.7;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.merge-main-btn {
+  width: 100%;
+  border: none;
+  background: #ef4444;
+  color: #ffffff;
+  padding: 17px 22px;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 18px 40px rgba(239, 68, 68, 0.28);
+}
+
+.merge-main-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.merge-progress {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 18px;
+}
+
+.merge-success-screen {
+  min-height: calc(100vh - 64px);
+  padding: 70px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.success-check {
+  width: 118px;
+  height: 118px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  margin-bottom: 28px;
+  box-shadow: 0 20px 55px rgba(34, 197, 94, 0.28);
+}
+
+.merge-success-screen h1 {
+  color: #111827;
+  font-size: 44px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.merge-success-screen p {
+  color: #64748b;
+  font-size: 18px;
+  margin-bottom: 28px;
+}
+
+.download-result-btn {
+  border: none;
+  background: #ef4444;
+  color: #ffffff;
+  padding: 17px 30px;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 18px 40px rgba(239, 68, 68, 0.28);
+}
+
+.success-actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.success-actions a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+@media (max-width: 980px) {
+  .merge-preview-screen {
+    grid-template-columns: 1fr;
+    padding: 20px 20px 150px;
+  }
+
+  .merge-topbar {
+    grid-column: auto;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .merge-file-grid {
+    grid-column: auto;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .merge-action-panel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 22px 22px 0 0;
+    padding: 18px;
+  }
+
+  .merge-action-panel h2,
+  .merge-action-panel p {
+    display: none;
+  }
+
+  .merge-main-btn {
+    padding: 16px;
+  }
+
+  .merge-progress {
+    margin-top: 12px;
+  }
+
+  .merge-start-screen h1 {
+    font-size: 40px;
+  }
+
+  .merge-success-screen h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 520px) {
+  .merge-upload-box {
+    min-height: 220px;
+    padding: 32px 18px;
+  }
+
+  .merge-upload-box h2 {
+    font-size: 24px;
+  }
+
+  .merge-file-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .merge-file-card {
+    min-height: 180px;
+    padding: 20px 10px;
+  }
+
+  .file-card-icon {
+    width: 56px;
+    height: 68px;
+    font-size: 26px;
+  }
+
+  .merge-file-card h3 {
+    font-size: 12px;
+  }
+}
+
