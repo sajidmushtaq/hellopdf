@@ -8,6 +8,29 @@
 
   <link rel="stylesheet" href="/css/style.css?v=912" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+.merge-page{min-height:100vh;background:#f6f8fb;padding:60px 20px}
+.merge-start-screen{max-width:720px;margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center}
+.merge-logo-icon{width:86px;height:86px;border-radius:26px;background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:20px}
+.merge-start-screen h1{font-size:54px;font-weight:900;color:#111827;margin:10px 0}
+.merge-start-screen p{color:#64748b;font-size:18px;line-height:1.7}
+.merge-upload-box{width:100%;max-width:560px;min-height:250px;background:#fff;border:2px dashed #cbd5e1;border-radius:28px;padding:42px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:pointer;box-shadow:0 22px 60px rgba(15,23,42,.08);margin-top:30px}
+.merge-upload-box:hover{border-color:#ef4444}
+.merge-upload-icon{width:74px;height:74px;border-radius:24px;background:#fee2e2;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:34px}
+.merge-upload-box h2{font-size:28px;font-weight:900;color:#ef4444;margin:0}
+.merge-preview-screen{min-height:100vh;background:#f6f8fb;padding:28px 370px 28px 28px;display:grid;gap:20px}
+.merge-topbar{background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center}
+.merge-file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:18px}
+.merge-file-card{position:relative;background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:22px 16px;min-height:205px;text-align:center;box-shadow:0 16px 45px rgba(15,23,42,.08)}
+.file-card-icon{width:68px;height:82px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px}
+.remove-file-btn{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;border:none;background:#fee2e2;color:#dc2626;font-size:20px;font-weight:900;cursor:pointer}
+.file-order-badge{position:absolute;left:12px;top:12px;background:#eff6ff;color:#2563eb;border-radius:999px;min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:900}
+.merge-action-panel{position:fixed;right:26px;top:94px;bottom:26px;width:320px;background:#fff;border-radius:24px;padding:28px 24px;box-shadow:0 18px 55px rgba(15,23,42,.12);display:flex;flex-direction:column;justify-content:flex-end}
+.merge-main-btn,.download-result-btn{border:none;background:#ef4444;color:#fff;padding:17px 22px;border-radius:16px;font-size:18px;font-weight:900;cursor:pointer}
+.merge-success-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column}
+.success-check{width:118px;height:118px;border-radius:50%;background:#22c55e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:52px;margin-bottom:28px}
+@media(max-width:980px){.merge-preview-screen{padding:20px 20px 150px}.merge-action-panel{top:auto;left:0;right:0;bottom:0;width:100%;border-radius:22px 22px 0 0}.merge-action-panel h2,.merge-action-panel p{display:none}}
+</style>
 </head>
 <body>
 
