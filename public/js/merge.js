@@ -44,9 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-      if (!checkToolLimit("merge")) {
-    return;
-  }
+      
 
     if (filesArray.length < 2) {
       alert("Please select at least 2 PDF files");
@@ -97,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
       a.click();
       a.remove();
 
-      markToolUsed("merge");
 
       window.URL.revokeObjectURL(url);
 
