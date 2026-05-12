@@ -3613,3 +3613,60 @@ body > button.signup-btn {
     display: none !important;
   }
 }
+/* ===== COMPACT MERGE TOOL SIZE ===== */
+
+.merge-start-screen {
+  padding: 45px 20px 35px !important;
+}
+
+.merge-start-screen h1 {
+  font-size: 44px !important;
+  margin-bottom: 10px !important;
+}
+
+.merge-start-screen > p {
+  font-size: 16px !important;
+  margin-bottom: 24px !important;
+}
+
+.merge-upload-box {
+  max-width: 360px !important;
+  min-height: 135px !important;
+  padding: 22px 18px !important;
+  border-radius: 20px !important;
+  gap: 10px !important;
+}
+
+.merge-upload-icon {
+  width: 56px !important;
+  height: 56px !important;
+  font-size: 24px !important;
+}
+
+.merge-upload-box h2 {
+  font-size: 22px !important;
+}
+
+.merge-upload-box p {
+  font-size: 13px !important;
+}
+
+@media (max-width: 768px) {
+  .merge-start-screen {
+    padding: 35px 16px 24px !important;
+  }
+
+  .merge-start-screen h1 {
+    font-size: 34px !important;
+  }
+
+  .merge-upload-box {
+    max-width: 300px !important;
+    min-height: 120px !important;
+    padding: 18px 14px !important;
+  }
+
+  .merge-upload-box h2 {
+    font-size: 19px !important;
+  }
+}
