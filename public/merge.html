@@ -5,9 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Merge PDF - HelloPDF</title>
-<link rel="stylesheet" href="/css/style.css?v=916" />
+<link rel="stylesheet" href="/css/style.css?v=917" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+  .merge-page {
+    background: #f7f7fb !important;
+    min-height: calc(100vh - 72px) !important;
+  }
 
+  .merge-start-screen {
+    padding: 38px 20px 70px !important;
+    text-align: center !important;
+    justify-content: flex-start !important;
+    min-height: auto !important;
+  }
+
+  .merge-logo-wrap {
+    display: none !important;
+  }
+
+  .merge-start-screen h1 {
+    font-size: 44px !important;
+    line-height: 1.15 !important;
+    margin: 0 0 14px !important;
+    color: #2b2f3a !important;
+    font-weight: 900 !important;
+  }
+
+  .merge-start-screen > p {
+    max-width: 850px !important;
+    font-size: 24px !important;
+    line-height: 1.45 !important;
+    color: #2f3542 !important;
+    margin: 0 auto 28px !important;
+  }
+
+  .merge-upload-box {
+    width: auto !important;
+    max-width: none !important;
+    min-height: auto !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    position: relative !important;
+  }
+
+  .merge-upload-icon {
+    display: none !important;
+  }
+
+  .merge-upload-box h2 {
+    background: #ef2f2f !important;
+    color: #ffffff !important;
+    min-width: 330px !important;
+    padding: 25px 38px !important;
+    border-radius: 11px !important;
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    box-shadow: 0 10px 22px rgba(239, 47, 47, 0.25) !important;
+  }
+
+  .merge-upload-box p {
+    position: absolute !important;
+    top: 92px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    color: #303645 !important;
+    font-size: 15px !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .merge-upload-box::after {
+    content: "☁";
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: #ef2f2f !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+  }
+
+  @media (max-width: 768px) {
+    .merge-start-screen h1 {
+      font-size: 34px !important;
+    }
+
+    .merge-start-screen > p {
+      font-size: 18px !important;
+    }
+
+    .merge-upload-box h2 {
+      min-width: 250px !important;
+      padding: 20px 26px !important;
+      font-size: 22px !important;
+    }
+
+    .merge-upload-box p {
+      top: 82px !important;
+    }
+  }
+</style>
 </head>
 <body>
 
