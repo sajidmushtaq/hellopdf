@@ -3,273 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<style>
-/* ===== PREVIEW SCREEN FIX ===== */
-
-.merge-preview-screen {
-  min-height: calc(100vh - 72px);
-  display: grid !important;
-  grid-template-columns: 1fr 300px;
-  gap: 20px;
-  padding: 24px 330px 24px 24px;
-  background: #f5f5fa;
-}
-
-.merge-topbar {
-  grid-column: 1 / 2;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.merge-file-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill,minmax(170px,1fr));
-  gap: 18px;
-  align-content: start;
-}
-
-.merge-file-card {
-  position: relative;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 16px;
-  min-height: 220px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-.file-card-icon {
-  width: 110px;
-  height: 140px;
-  margin: 0 auto 14px;
-  border-radius: 12px;
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ef4444;
-  font-size: 42px;
-}
-
-.merge-file-card h3 {
-  font-size: 14px;
-  margin-bottom: 8px;
-  word-break: break-word;
-}
-
-.merge-file-card p {
-  color: #64748b;
-  font-size: 13px;
-}
-
-.remove-file-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 50%;
-  background: #fee2e2;
-  color: #dc2626;
-  cursor: pointer;
-}
-
-.file-order-badge {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #eff6ff;
-  color: #2563eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-}
-
-.merge-action-panel {
-  position: fixed;
-  right: 20px;
-  top: 94px;
-  bottom: 20px;
-  width: 285px;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-}
-
-.merge-main-btn {
-  width: 100%;
-  border: none;
-  background: #ef4444;
-  color: #ffffff;
-  padding: 16px;
-  border-radius: 14px;
-  font-size: 17px;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.merge-add-btn {
-  border: none;
-  background: #111827;
-  color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-@media(max-width:768px){
-
-  .merge-preview-screen{
-    grid-template-columns:1fr;
-    padding:16px 16px 140px;
-  }
-
-  .merge-file-grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-  }
-
-  .merge-action-panel{
-    top:auto;
-    left:0;
-    right:0;
-    bottom:0;
-    width:100%;
-    border-radius:18px 18px 0 0;
-  }
-
-}
-</style>
 
   <title>Merge PDF - HelloPDF</title>
-<link rel="stylesheet" href="/css/style.css?v=924" />
+
+  <link rel="stylesheet" href="/css/style.css?v=1001" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-<style>
-  .merge-page {
-    background: #f7f7fb !important;
-    min-height: calc(100vh - 72px) !important;
-  }
 
-  .merge-start-screen {
-    padding: 38px 20px 70px !important;
-    text-align: center !important;
-    justify-content: flex-start !important;
-    min-height: auto !important;
-  }
-
-  .merge-logo-wrap {
-    display: none !important;
-  }
-
-  .merge-start-screen h1 {
-    font-size: 44px !important;
-    line-height: 1.15 !important;
-    margin: 0 0 14px !important;
-    color: #2b2f3a !important;
-    font-weight: 900 !important;
-  }
-
-  .merge-start-screen > p {
-    max-width: 850px !important;
-    font-size: 24px !important;
-    line-height: 1.45 !important;
-    color: #2f3542 !important;
-    margin: 0 auto 28px !important;
-  }
-
-  .merge-upload-box {
-    width: auto !important;
-    max-width: none !important;
-    min-height: auto !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 auto !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 12px !important;
-    position: relative !important;
-  }
-
-  .merge-upload-icon {
-    display: none !important;
-  }
-
-  .merge-upload-box h2 {
-    background: #ef2f2f !important;
-    color: #ffffff !important;
-    min-width: 330px !important;
-    padding: 25px 38px !important;
-    border-radius: 11px !important;
-    font-size: 28px !important;
-    font-weight: 900 !important;
-    margin: 0 !important;
-    box-shadow: 0 10px 22px rgba(239, 47, 47, 0.25) !important;
-  }
-
-  .merge-upload-box p {
-    position: absolute !important;
-    top: 92px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    color: #303645 !important;
-    font-size: 15px !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-  }
-
-  .merge-upload-box::after {
-    content: "☁";
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 50% !important;
-    background: #ef2f2f !important;
-    color: #ffffff !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 20px !important;
-    font-weight: 900 !important;
-  }
-
-  @media (max-width: 768px) {
-    .merge-start-screen h1 {
-      font-size: 34px !important;
+  <style>
+    #previewScreen,
+    #successScreen,
+    .hidden-screen {
+      display: none !important;
     }
-
-    .merge-start-screen > p {
-      font-size: 18px !important;
-    }
-
-    .merge-upload-box h2 {
-      min-width: 250px !important;
-      padding: 20px 26px !important;
-      font-size: 22px !important;
-    }
-
-    .merge-upload-box p {
-      top: 82px !important;
-    }
-  }
-</style>
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -277,6 +25,7 @@
   <a href="/index.html" class="mobile-logo">HelloPDF</a>
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
+
 <header class="desktop-header">
   <a href="/index.html" class="logo">HelloPDF</a>
 
@@ -376,37 +125,41 @@
 
     <div class="merge-select-row">
       <div class="merge-upload-box" id="dropZone">
-        <input type="file" id="fileInput" accept="application/pdf" multiple hidden>
+        <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
         <h2>Select PDF files</h2>
       </div>
 
       <div class="cloud-buttons">
-        <button type="button">☁</button>
-        <button type="button">⬚</button>
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
       </div>
     </div>
 
     <div class="drop-text">or drop PDFs here</div>
 
-    <div class="ad-placeholder">
-      Advertisement space
-    </div>
+    <div class="ad-placeholder"></div>
   </section>
 
   <section class="merge-preview-screen hidden-screen" id="previewScreen">
-    <div class="merge-topbar">
-      <div>
-        <h1>Merge PDF</h1>
-        <p id="fileCounter">0 files selected</p>
+    <div class="merge-preview-left">
+      <div class="merge-topbar">
+        <div>
+          <h1>Merge PDF</h1>
+          <p id="fileCounter">0 files selected</p>
+        </div>
+
+        <button class="merge-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+          Add more files
+        </button>
       </div>
 
-      <button class="merge-add-btn" id="addMoreBtn" type="button">
-        <i class="fa-solid fa-plus"></i>
-        Add more files
-      </button>
+      <div class="merge-file-grid" id="fileList"></div>
     </div>
-
-    <div class="merge-file-grid" id="fileList"></div>
 
     <aside class="merge-action-panel">
       <h2>Merge PDF</h2>
@@ -423,7 +176,7 @@
     </aside>
   </section>
 
-  <section class="merge-success-screen hidden-screen" id="successScreen" style="display:none;">
+  <section class="merge-success-screen hidden-screen" id="successScreen">
     <h1>PDFs have been merged!</h1>
     <p>Your merged PDF is ready to download.</p>
 
@@ -434,7 +187,7 @@
 
 </main>
 
-<script src="/js/merge.js?v=924"></script>
+<script src="/js/merge.js?v=1001"></script>
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
@@ -442,6 +195,8 @@
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
   const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
   function closeDrawers() {
     toolsDrawer.classList.remove("active");
@@ -449,21 +204,24 @@
     overlay.classList.remove("active");
   }
 
-  toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>
-<h1 style="background:red;color:white">TEST123</h1>
 </html>
