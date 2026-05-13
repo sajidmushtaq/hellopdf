@@ -4008,3 +4008,22 @@ body > button.signup-btn {
     height: 80px !important;
   }
 }
+/* ===== FIX MERGE PAGE 1 ONLY ===== */
+
+#previewScreen[style*="display:none"],
+#successScreen[style*="display:none"] {
+  display: none !important;
+}
+
+.merge-start-screen {
+  min-height: 520px !important;
+  padding-bottom: 80px !important;
+}
+
+.merge-action-panel {
+  display: none;
+}
+
+#previewScreen:not([style*="display:none"]) .merge-action-panel {
+  display: flex !important;
+}
