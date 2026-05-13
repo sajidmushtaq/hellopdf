@@ -39,46 +39,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderFiles() {
-  fileList.innerHTML = "";
+    fileList.innerHTML = "";
 
-  if (filesArray.length === 0) {
-    startScreen.style.display = "flex";
-    previewScreen.style.display = "none";
+    if (filesArray.length === 0) {
+      startScreen.style.display = "flex";
+      previewScreen.style.display = "none";
+      successScreen.style.display = "none";
+      return;
+    }
+
+    startScreen.style.display = "none";
+    previewScreen.style.display = "grid";
     successScreen.style.display = "none";
-    return;
-  }
 
-  startScreen.style.display = "none";
-  previewScreen.style.display = "grid";
-  successScreen.style.display = "none";
+    fileCounter.textContent =
+      filesArray.length === 1
+        ? "1 file selected"
+        : filesArray.length + " files selected";
 
-  fileCounter.textContent = filesArray.length + " files selected";
-
-  filesArray.forEach((file, index) => {
-    const fileUrl = URL.createObjectURL(file);
-
-    const card = document.createElement("div");
-    card.className = "merge-file-card";
-
-    card.innerHTML = `
-      <button class="remove-file-btn" type="button">×</button>
-
-      <div class="pdf-preview-box">
-        <embed src="${fileUrl}#page=1&toolbar=0&navpanes=0&scrollbar=0" type="application/pdf">
-      </div>
-
-      <h3>${file.name}</h3>
-      <span class="file-order-badge">${index + 1}</span>
-    `;
-
-    card.querySelector(".remove-file-btn").addEventListener("click", () => {
-      filesArray.splice(index, 1);
-      renderFiles();
-    });
-
-    fileList.appendChild(card);
-  });
-}
+    filesArray.forEach((file, index) => {
       const card = document.createElement("div");
       card.className = "merge-file-card";
 
