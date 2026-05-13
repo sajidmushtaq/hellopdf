@@ -4151,3 +4151,150 @@ main.merge-page > #successScreen[style*="display:none"] *,
 main.merge-page > #successScreen[style*="display: none"] * {
   display: none !important;
 }
+
+/* ===== MERGE PAGE FINAL FIX ===== */
+
+.merge-page {
+  background: #f3f3f8;
+  min-height: calc(100vh - 72px);
+}
+
+/* HIDE UNUSED SCREENS */
+
+.hidden-screen {
+  display: none !important;
+}
+
+/* START SCREEN */
+
+.merge-start-screen {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 55px;
+  text-align: center;
+}
+
+/* TITLE */
+
+.merge-start-screen h1 {
+  font-size: 62px;
+  line-height: 1.1;
+  font-weight: 800;
+  color: #2f3640;
+  margin-bottom: 18px;
+}
+
+/* DESCRIPTION */
+
+.merge-start-screen p {
+  font-size: 28px;
+  color: #4b5563;
+  max-width: 980px;
+  margin-bottom: 36px;
+}
+
+/* BUTTON ROW */
+
+.merge-select-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* MAIN BUTTON */
+
+.merge-upload-box {
+  cursor: pointer;
+}
+
+.merge-upload-box h2 {
+  background: #ef2f2f;
+  color: #ffffff;
+  min-width: 420px;
+  padding: 30px 44px;
+  border-radius: 16px;
+  font-size: 40px;
+  font-weight: 800;
+  box-shadow: 0 12px 30px rgba(239,47,47,0.25);
+}
+
+/* CLOUD BUTTONS */
+
+.cloud-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cloud-buttons button {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #ef2f2f;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* DROP TEXT */
+
+.drop-text {
+  margin-top: 18px;
+  font-size: 18px;
+  color: #4b5563;
+}
+
+/* AD AREA */
+
+.ad-placeholder {
+  margin-top: 80px;
+  width: 100%;
+  max-width: 1100px;
+  height: 320px;
+  border-radius: 18px;
+  background: transparent;
+}
+
+/* FORCE HIDE PREVIEW AREA */
+
+#previewScreen,
+#successScreen {
+  display: none !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .merge-start-screen {
+    padding: 40px 18px;
+  }
+
+  .merge-start-screen h1 {
+    font-size: 38px;
+  }
+
+  .merge-start-screen p {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .merge-upload-box h2 {
+    min-width: 260px;
+    padding: 22px 24px;
+    font-size: 24px;
+  }
+
+  .cloud-buttons button {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+
+  .ad-placeholder {
+    height: 220px;
+  }
+}

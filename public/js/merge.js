@@ -49,7 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     startScreen.style.display = "none";
-    previewScreen.style.display = "grid";
+
+previewScreen.classList.remove("hidden-screen");
+previewScreen.style.display = "grid";
     successScreen.style.display = "none";
 
     fileCounter.textContent =
