@@ -4133,3 +4133,21 @@ body > button.signup-btn {
   padding: 24px 38px !important;
   font-size: 27px !important;
 }
+/* ===== FORCE HIDE MERGE PAGE 2 UNTIL FILE SELECTED ===== */
+
+main.merge-page > #previewScreen[style*="display:none"],
+main.merge-page > #previewScreen[style*="display: none"],
+main.merge-page > #successScreen[style*="display:none"],
+main.merge-page > #successScreen[style*="display: none"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+main.merge-page > #previewScreen[style*="display:none"] *,
+main.merge-page > #previewScreen[style*="display: none"] *,
+main.merge-page > #successScreen[style*="display:none"] *,
+main.merge-page > #successScreen[style*="display: none"] * {
+  display: none !important;
+}
