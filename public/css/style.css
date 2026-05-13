@@ -3884,98 +3884,235 @@ body > button.signup-btn {
     margin-top: 100px !important;
   }
 }
-/* ===== MERGE PAGE 1 EXACT START SCREEN ===== */
 
-.merge-page {
-  background: #f7f7fb !important;
+/* ===== EXACT ILOVEPDF MERGE PREVIEW LAYOUT ===== */
+
+.merge-preview-screen {
   min-height: calc(100vh - 72px) !important;
+  display: grid !important;
+  grid-template-columns: 1fr 300px !important;
+  gap: 0 !important;
+  padding: 0 300px 0 0 !important;
+  background: #f5f5fa !important;
 }
 
-.merge-start-screen {
-  min-height: 540px !important;
-  padding: 36px 20px 0 !important;
-  text-align: center !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-}
-
-.merge-start-screen h1 {
-  font-size: 44px !important;
-  font-weight: 900 !important;
-  color: #2b2f3a !important;
-  margin: 0 0 14px !important;
-}
-
-.merge-start-screen > p {
-  font-size: 24px !important;
-  color: #2f3542 !important;
-  margin: 0 auto 28px !important;
-  max-width: 850px !important;
-  line-height: 1.4 !important;
-}
-
-.merge-select-row {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 12px !important;
-}
-
-.merge-upload-box {
+.merge-topbar {
+  position: static !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  margin: 0 !important;
-  min-height: auto !important;
-  cursor: pointer !important;
 }
 
-.merge-upload-box h2 {
-  background: #ef2f2f !important;
-  color: #ffffff !important;
-  min-width: 330px !important;
-  padding: 24px 38px !important;
-  border-radius: 10px !important;
-  font-size: 27px !important;
-  font-weight: 900 !important;
-  margin: 0 !important;
-  box-shadow: 0 10px 22px rgba(239,47,47,.25) !important;
+.merge-topbar h1,
+.merge-topbar p {
+  display: none !important;
 }
 
-.cloud-buttons {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-}
-
-.cloud-buttons button {
-  width: 38px !important;
-  height: 38px !important;
-  border: none !important;
+.merge-add-btn {
+  position: fixed !important;
+  right: 322px !important;
+  top: 245px !important;
+  width: 52px !important;
+  height: 52px !important;
   border-radius: 50% !important;
   background: #ef2f2f !important;
   color: #ffffff !important;
-  font-size: 18px !important;
-  font-weight: 900 !important;
-  cursor: pointer !important;
+  border: none !important;
+  font-size: 0 !important;
+  padding: 0 !important;
+  z-index: 20 !important;
+  box-shadow: 0 12px 25px rgba(239, 47, 47, 0.28) !important;
 }
 
-.drop-text {
-  margin-top: 14px !important;
-  color: #303645 !important;
-  font-size: 15px !important;
+.merge-add-btn i {
+  font-size: 22px !important;
+}
+
+.merge-file-grid {
+  grid-column: 1 / 2 !important;
+  width: 100% !important;
+  max-width: 860px !important;
+  margin: 160px auto 40px !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important;
+  gap: 14px !important;
+  align-content: start !important;
+}
+
+.merge-file-card {
+  position: relative !important;
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  border: 1px solid #e5e7eb !important;
+  min-height: 245px !important;
+  padding: 30px 16px 12px !important;
+  text-align: center !important;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+.pdf-preview-box {
+  width: 128px !important;
+  height: 178px !important;
+  margin: 0 auto 10px !important;
+  background: #ffffff !important;
+  overflow: hidden !important;
+  border: 1px solid #f1f5f9 !important;
+}
+
+.pdf-preview-box embed {
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+}
+
+.merge-file-card h3 {
+  font-size: 13px !important;
+  color: #334155 !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.remove-file-btn {
+  position: absolute !important;
+  top: 7px !important;
+  right: 7px !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 3px !important;
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+}
+
+.file-order-badge {
+  display: none !important;
+}
+
+.merge-action-panel {
+  position: fixed !important;
+  right: 0 !important;
+  top: 72px !important;
+  bottom: 0 !important;
+  width: 300px !important;
+  background: #ffffff !important;
+  border-left: 1px solid #d8dbe2 !important;
+  border-radius: 0 !important;
+  padding: 16px 14px 24px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.merge-action-panel h2 {
+  display: block !important;
+  text-align: center !important;
+  font-size: 30px !important;
+  color: #1f2937 !important;
+  font-weight: 900 !important;
+  margin: 25px 0 18px !important;
+}
+
+.merge-action-panel p {
+  display: block !important;
+  background: #dff2ff !important;
+  color: #1f2937 !important;
+  border-radius: 8px !important;
+  padding: 14px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+.merge-main-btn {
+  width: 100% !important;
+  background: #ef2f2f !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 18px 20px !important;
+  font-size: 23px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 20px rgba(239, 47, 47, 0.25) !important;
+}
+
+.merge-progress {
+  margin-top: 12px !important;
+}
+
+@media (max-width: 768px) {
+  .merge-preview-screen {
+    grid-template-columns: 1fr !important;
+    padding: 0 0 130px 0 !important;
+  }
+
+  .merge-file-grid {
+    margin: 30px auto !important;
+    padding: 0 14px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .merge-file-card {
+    min-height: 220px !important;
+  }
+
+  .pdf-preview-box {
+    width: 110px !important;
+    height: 150px !important;
+  }
+
+  .merge-add-btn {
+    right: 20px !important;
+    top: auto !important;
+    bottom: 118px !important;
+  }
+
+  .merge-action-panel {
+    top: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    border-left: none !important;
+    border-top: 1px solid #e5e7eb !important;
+    padding: 14px !important;
+  }
+
+  .merge-action-panel h2,
+  .merge-action-panel p {
+    display: none !important;
+  }
+
+  .merge-main-btn {
+    font-size: 20px !important;
+    padding: 16px !important;
+  }
+}
+
+/* ===== FINAL MERGE PAGE 1 LAYOUT ===== */
+
+.merge-start-screen {
+  min-height: 540px !important;
+  padding: 36px 20px 0 !important;
 }
 
 .ad-placeholder {
-  margin-top: 80px !important;
+  margin-top: 85px !important;
   width: 730px !important;
   max-width: 90% !important;
   height: 90px !important;
-  background: #dff8f8 !important;
+  background: #e6ffff !important;
   border: 1px dashed #94a3b8 !important;
+  border-radius: 0 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -3983,47 +4120,16 @@ body > button.signup-btn {
   font-weight: 800 !important;
 }
 
-@media (max-width: 768px) {
-  .merge-start-screen {
-    min-height: 520px !important;
-    padding: 55px 16px 0 !important;
-  }
-
-  .merge-start-screen h1 {
-    font-size: 40px !important;
-  }
-
-  .merge-start-screen > p {
-    font-size: 23px !important;
-  }
-
-  .merge-upload-box h2 {
-    min-width: 280px !important;
-    padding: 22px 26px !important;
-    font-size: 26px !important;
-  }
-
-  .ad-placeholder {
-    margin-top: 70px !important;
-    height: 80px !important;
-  }
-}
-/* ===== FIX MERGE PAGE 1 ONLY ===== */
-
-#previewScreen[style*="display:none"],
-#successScreen[style*="display:none"] {
-  display: none !important;
+.merge-start-screen h1 {
+  font-size: 44px !important;
 }
 
-.merge-start-screen {
-  min-height: 520px !important;
-  padding-bottom: 80px !important;
+.merge-start-screen > p {
+  font-size: 24px !important;
 }
 
-.merge-action-panel {
-  display: none;
-}
-
-#previewScreen:not([style*="display:none"]) .merge-action-panel {
-  display: flex !important;
+.merge-upload-box h2 {
+  min-width: 330px !important;
+  padding: 24px 38px !important;
+  font-size: 27px !important;
 }
