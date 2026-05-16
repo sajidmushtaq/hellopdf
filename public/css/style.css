@@ -8756,3 +8756,321 @@ body .reorder-page #downloadBtn{
     font-size:18px!important;
   }
 }
+
+/* ===== PAGE NUMBER FINAL UI ===== */
+
+.page-number-page{
+  min-height:calc(100vh - 72px);
+  background:#f3f4f8;
+}
+
+.page-number-start-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:55px 20px 40px;
+}
+
+.page-number-start-screen h1{
+  font-size:44px;
+  font-weight:900;
+  color:#111827;
+  margin:0 0 14px;
+}
+
+.page-number-start-screen p{
+  max-width:850px;
+  font-size:24px;
+  line-height:1.45;
+  color:#4b5563;
+  margin:0 auto 28px;
+}
+
+.page-number-select-row{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+}
+
+.page-number-upload-box h2{
+  min-width:330px;
+  padding:25px 38px;
+  background:#ef4444;
+  color:white;
+  border-radius:11px;
+  font-size:28px;
+  font-weight:900;
+  margin:0;
+  box-shadow:0 10px 22px rgba(239,48,48,.25);
+}
+
+.page-number-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.page-number-page .cloud-buttons button{
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* PREVIEW */
+
+.page-number-preview-screen{
+  min-height:calc(100vh - 72px);
+  display:grid;
+  grid-template-columns:1fr 320px;
+  background:#f3f4f8;
+  padding-right:320px;
+}
+
+.page-number-preview-left{
+  padding:24px;
+}
+
+.page-number-file-grid{
+  max-width:850px;
+  margin:90px auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(195px,1fr));
+  gap:18px;
+}
+
+.page-number-pdf-card{
+  min-height:245px;
+  padding:18px 14px 14px;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+/* RIGHT PANEL */
+
+.page-number-action-panel{
+  position:fixed;
+  top:72px;
+  right:0;
+  width:320px;
+  height:calc(100vh - 72px);
+  background:white;
+  border-left:1px solid #e5e7eb;
+  padding:26px 22px;
+  display:flex;
+  flex-direction:column;
+}
+
+.page-number-action-panel h2{
+  font-size:36px;
+  color:#111827;
+  margin-bottom:12px;
+}
+
+.page-number-action-panel p{
+  color:#64748b;
+  line-height:1.7;
+  font-size:16px;
+  margin-bottom:24px;
+}
+
+.page-number-option-box{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:18px;
+}
+
+.page-number-radio{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:17px;
+  font-weight:700;
+  color:#111827;
+  margin-bottom:8px;
+}
+
+.page-number-radio input{
+  width:18px;
+  height:18px;
+}
+
+.page-number-option-box small{
+  color:#64748b;
+  line-height:1.5;
+}
+
+.page-number-main-btn{
+  margin-top:auto;
+  width:100%;
+  border:none;
+  background:#ef4444;
+  color:white;
+  padding:20px;
+  border-radius:16px;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+/* SUCCESS */
+
+.page-number-success-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+  background:#f3f4f8;
+}
+
+.page-number-success-screen h1{
+  font-size:54px;
+  color:#111827;
+  margin-bottom:14px;
+  font-weight:900;
+}
+
+.page-number-success-screen p{
+  font-size:20px;
+  color:#64748b;
+  margin-bottom:28px;
+}
+
+.page-number-page #downloadBtn{
+  border:none!important;
+  background:#ef4444!important;
+  color:white!important;
+  padding:20px 36px!important;
+  border-radius:16px!important;
+  font-size:22px!important;
+  font-weight:800!important;
+  cursor:pointer!important;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .page-number-start-screen{
+    padding:38px 20px 30px!important;
+  }
+
+  .page-number-start-screen h1{
+    font-size:30px!important;
+  }
+
+  .page-number-start-screen p{
+    max-width:320px!important;
+    font-size:18px!important;
+  }
+
+  .page-number-select-row{
+    flex-direction:column!important;
+    gap:18px!important;
+  }
+
+  .page-number-upload-box h2{
+    min-width:unset!important;
+    width:100%!important;
+    max-width:320px!important;
+    padding:26px 24px!important;
+    font-size:22px!important;
+    border-radius:16px!important;
+  }
+
+  .page-number-page .cloud-buttons{
+    flex-direction:row!important;
+    gap:18px!important;
+  }
+
+  .page-number-page .cloud-buttons button{
+    width:56px!important;
+    height:56px!important;
+  }
+
+  .page-number-preview-screen{
+    display:block!important;
+    padding:28px 14px 210px!important;
+    overflow-x:hidden!important;
+  }
+
+  .page-number-preview-left{
+    padding:0!important;
+  }
+
+  .page-number-file-grid{
+    width:100%!important;
+    max-width:100%!important;
+    margin:20px auto 0!important;
+    grid-template-columns:1fr!important;
+  }
+
+  .page-number-pdf-card{
+    max-width:320px!important;
+    margin:0 auto!important;
+    border-radius:18px!important;
+  }
+
+  .page-number-action-panel{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    top:auto!important;
+    width:100%!important;
+    height:auto!important;
+    padding:14px 16px!important;
+    border-radius:18px 18px 0 0!important;
+  }
+
+  .page-number-action-panel h2,
+  .page-number-action-panel p{
+    display:none!important;
+  }
+
+  .page-number-main-btn{
+    margin:0!important;
+    padding:18px!important;
+    font-size:20px!important;
+  }
+
+  .page-number-success-screen{
+    justify-content:flex-start!important;
+    padding-top:120px!important;
+  }
+
+  .page-number-success-screen h1{
+    font-size:30px!important;
+  }
+
+  .page-number-success-screen p{
+    font-size:16px!important;
+    max-width:300px!important;
+  }
+
+  .page-number-page #downloadBtn{
+    width:100%!important;
+    max-width:320px!important;
+    font-size:18px!important;
+  }
+}
