@@ -9756,138 +9756,64 @@ body .reorder-page #downloadBtn{
   height:16px !important;
 }
 
-/* ===== UNLOCK PDF FINAL UI ===== */
+/* ===== CLEAN FIX: UNLOCK PDF BUTTON STYLE ===== */
 
-.unlock-page{
-  min-height:calc(100vh - 72px);
-  background:#f3f4f8;
+body .unlock-page .unlock-upload-box h2{
+  min-width:330px !important;
+  padding:25px 38px !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border-radius:11px !important;
+  font-size:28px !important;
+  font-weight:900 !important;
+  margin:0 !important;
+  border:none !important;
+  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
 }
 
-.unlock-start-screen{
-  min-height:calc(100vh - 72px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:55px 20px 40px;
+body .unlock-page .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 }
 
-.unlock-start-screen h1{
-  font-size:44px;
-  font-weight:900;
-  color:#111827;
-  margin:0 0 14px;
+body .unlock-page .unlock-main-btn{
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border:none !important;
 }
 
-.unlock-start-screen p{
-  max-width:850px;
-  font-size:24px;
-  line-height:1.45;
-  color:#4b5563;
-  margin:0 auto 28px;
+body .unlock-page #downloadBtn{
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border:none !important;
 }
 
-.unlock-select-row{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
-}
+@media(max-width:768px){
+  body .unlock-page .unlock-upload-box h2{
+    min-width:unset !important;
+    width:100% !important;
+    max-width:320px !important;
+    padding:26px 24px !important;
+    font-size:22px !important;
+    border-radius:16px !important;
+  }
 
-.unlock-upload-box h2{
-  min-width:330px;
-  padding:25px 38px;
-  background:#ef4444;
-}
+  body .unlock-page .cloud-buttons{
+    flex-direction:row !important;
+    gap:18px !important;
+  }
 
-.unlock-page .cloud-buttons{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.unlock-page .cloud-buttons button{
-  width:38px;
-  height:38px;
-  border:none;
-  border-radius:50%;
-  background:#ef4444;
-}
-
-/* PREVIEW */
-
-.unlock-preview-screen{
-  min-height:calc(100vh - 72px);
-  display:grid;
-  grid-template-columns:1fr 320px;
-  background:#f3f4f8;
-  padding-right:320px;
-}
-
-.unlock-preview-left{
-  padding:24px;
-}
-
-.unlock-file-grid{
-  max-width:850px;
-  margin:90px auto 0;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(195px,1fr));
-  gap:18px;
-}
-
-.unlock-pdf-card{
-  min-height:245px;
-  padding:18px 14px 14px;
-  border-radius:10px;
-  background:#fff;
-  border:1px solid #e5e7eb;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-/* RIGHT PANEL */
-
-.unlock-action-panel{
-  position:fixed;
-  top:72px;
-  right:0;
-  width:320px;
-  height:calc(100vh - 72px);
-  background:white;
-  border-left:1px solid #e5e7eb;
-  padding:26px 22px;
-  display:flex;
-  flex-direction:column;
-}
-
-.unlock-action-panel h2{
-  font-size:36px;
-  color:#111827;
-  margin-bottom:12px;
-}
-
-.unlock-action-panel p{
-  color:#64748b;
-  line-height:1.7;
-  font-size:16px;
-  margin-bottom:22px;
-}
-
-.unlock-option-box{
-  background:#f8fafc;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:18px;
-}
-
-.unlock-option-box label{
-  display:block;
-  font-size:15px;
-  font-weight:800;
-  color:#111827;
-  margin-bottom:10px;
+  body .unlock-page .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+  }
 }
 
 .unlock-option-box input{
