@@ -6269,3 +6269,31 @@ body .split-page #downloadBtn{
     border-radius:14px !important;
   }
 }
+
+/* ===== MOBILE CLOUD ICONS SIDE BY SIDE FIX ===== */
+
+@media(max-width:768px){
+
+  .merge-select-row,
+  .split-select-row{
+    flex-direction:column !important;
+    gap:18px !important;
+  }
+
+  .merge-select-row .cloud-buttons,
+  .split-select-row .cloud-buttons{
+    display:flex !important;
+    flex-direction:row !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:18px !important;
+    width:100% !important;
+  }
+
+  .merge-select-row .cloud-buttons button,
+  .split-select-row .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+    border-radius:50% !important;
+  }
+}
