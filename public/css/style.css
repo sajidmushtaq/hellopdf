@@ -5546,3 +5546,37 @@ body .merge-page #successScreen:not(.hidden-screen){
 body .merge-page #startScreen.hidden-screen{
   display:none !important;
 }
+
+/* ===== FIX PREVIEW SCREEN AFTER FILE SELECT ===== */
+
+body .merge-page #startScreen[style*="display: none"]{
+  display:none !important;
+}
+
+body .merge-page #previewScreen:not(.hidden-screen){
+  display:grid !important;
+  grid-template-columns:1fr 310px !important;
+  padding:24px 334px 24px 24px !important;
+  min-height:calc(100vh - 72px) !important;
+  background:#f3f4f8 !important;
+}
+
+body .merge-page #previewScreen:not(.hidden-screen) .merge-preview-left{
+  display:block !important;
+  width:100% !important;
+}
+
+body .merge-page #previewScreen:not(.hidden-screen) .merge-file-grid{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr)) !important;
+  gap:18px !important;
+  width:100% !important;
+}
+
+body .merge-page #previewScreen:not(.hidden-screen) .merge-file-card{
+  display:block !important;
+  background:white !important;
+  min-height:260px !important;
+  border-radius:16px !important;
+  padding:16px !important;
+}
