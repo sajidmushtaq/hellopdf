@@ -9798,13 +9798,7 @@ body .reorder-page #downloadBtn{
 .unlock-upload-box h2{
   min-width:330px;
   padding:25px 38px;
-  background:#2563eb;
-  color:white;
-  border-radius:11px;
-  font-size:28px;
-  font-weight:900;
-  margin:0;
-  box-shadow:0 10px 22px rgba(239,48,48,.25);
+  background:#ef4444;
 }
 
 .unlock-page .cloud-buttons{
@@ -9818,11 +9812,7 @@ body .reorder-page #downloadBtn{
   height:38px;
   border:none;
   border-radius:50%;
-  background:#2563eb;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:#ef4444;
 }
 
 /* PREVIEW */
@@ -9918,10 +9908,11 @@ body .reorder-page #downloadBtn{
   line-height:1.5;
 }
 
-.unlock-main-btn{
-  margin-top:auto;
-  width:100%;
+.unlock-page .cloud-buttons button{
+  width:38px;
+  height:38px;
   border:none;
+  border-radius:50%;
   background:#ef4444;
   color:white;
   padding:20px;
@@ -9963,7 +9954,7 @@ body .reorder-page #downloadBtn{
 
 .unlock-page #downloadBtn{
   border:none!important;
-  background:#2563eb!important;
+  background:#ef4444!important;
   color:white!important;
   padding:20px 36px!important;
   border-radius:16px!important;
