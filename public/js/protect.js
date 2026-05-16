@@ -218,6 +218,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const password = passwordInput.value.trim();
+    const showPasswordToggle = document.getElementById("showPasswordToggle");
+
+if (showPasswordToggle) {
+  showPasswordToggle.addEventListener("change", () => {
+    passwordInput.type = showPasswordToggle.checked ? "text" : "password";
+  });
+}
 
     if (!password) {
 

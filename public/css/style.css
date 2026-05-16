@@ -9739,3 +9739,19 @@ body .reorder-page #downloadBtn{
     font-size:18px!important;
   }
 }
+
+.show-password-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+  font-size:14px;
+  font-weight:700;
+  color:#374151;
+  cursor:pointer;
+}
+
+.show-password-row input{
+  width:16px !important;
+  height:16px !important;
+}
