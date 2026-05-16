@@ -9876,6 +9876,115 @@ body .unlock-page #downloadBtn{
   }
 }
 
+/* ===== FINAL UNLOCK FIX ===== */
+
+.unlock-clean-page .unlock-start-screen{
+  min-height:calc(100vh - 72px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+  padding:70px 20px 40px !important;
+}
+
+.unlock-clean-page .unlock-start-screen h1{
+  font-size:58px !important;
+  font-weight:900 !important;
+  color:#111827 !important;
+  margin:0 0 18px !important;
+}
+
+.unlock-clean-page .unlock-start-screen p{
+  font-size:22px !important;
+  color:#4b5563 !important;
+  margin:0 0 34px !important;
+}
+
+.unlock-clean-page .unlock-select-row{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:16px !important;
+}
+
+.unlock-clean-page .unlock-upload-box h2{
+  width:340px !important;
+  padding:30px 20px !important;
+  margin:0 !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border-radius:14px !important;
+  font-size:28px !important;
+  font-weight:900 !important;
+  border:none !important;
+  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
+}
+
+.unlock-clean-page .cloud-buttons{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+}
+
+.unlock-clean-page .cloud-buttons button{
+  width:40px !important;
+  height:40px !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+.unlock-clean-page .drop-text{
+  margin-top:14px !important;
+  font-size:16px !important;
+  color:#374151 !important;
+}
+
+@media(max-width:768px){
+
+  .unlock-clean-page .unlock-start-screen{
+    padding:42px 20px 30px !important;
+  }
+
+  .unlock-clean-page .unlock-start-screen h1{
+    font-size:34px !important;
+  }
+
+  .unlock-clean-page .unlock-start-screen p{
+    font-size:18px !important;
+    max-width:320px !important;
+    line-height:1.5 !important;
+  }
+
+  .unlock-clean-page .unlock-select-row{
+    flex-direction:column !important;
+    gap:20px !important;
+  }
+
+  .unlock-clean-page .unlock-upload-box h2{
+    width:100% !important;
+    max-width:320px !important;
+    padding:26px 18px !important;
+    font-size:22px !important;
+    border-radius:16px !important;
+  }
+
+  .unlock-clean-page .cloud-buttons{
+    flex-direction:row !important;
+    gap:18px !important;
+  }
+
+  .unlock-clean-page .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+  }
+}
+
 .unlock-option-box input{
   width:100%;
   padding:13px 14px;
