@@ -6697,3 +6697,87 @@ body .split-page #downloadBtn{
     border-radius:18px !important;
   }
 }
+
+/* ===== COMPRESS PAGE FINAL FIXES ===== */
+
+/* Cloud buttons desktop proper red circles */
+body .compress-page .cloud-buttons{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:10px !important;
+}
+
+body .compress-page .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  font-size:17px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* Compress success desktop button */
+body .compress-page #compressSuccessScreen:not(.hidden-screen){
+  min-height:calc(100vh - 72px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+  background:#f3f4f8 !important;
+  padding:40px 20px !important;
+}
+
+body .compress-page #compressSuccessScreen h1{
+  font-size:54px !important;
+  font-weight:900 !important;
+  color:#111827 !important;
+  margin:0 0 14px !important;
+}
+
+body .compress-page #compressSuccessScreen p{
+  font-size:20px !important;
+  color:#64748b !important;
+  margin:0 0 30px !important;
+}
+
+body .compress-page #downloadBtn{
+  border:none !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  padding:20px 36px !important;
+  border-radius:16px !important;
+  font-size:22px !important;
+  font-weight:800 !important;
+  cursor:pointer !important;
+  box-shadow:0 12px 28px rgba(239,68,68,.25) !important;
+}
+
+/* Mobile same final size */
+@media(max-width:768px){
+  body .compress-page #compressSuccessScreen:not(.hidden-screen){
+    justify-content:flex-start !important;
+    padding-top:120px !important;
+  }
+
+  body .compress-page #compressSuccessScreen h1{
+    font-size:30px !important;
+    line-height:1.2 !important;
+  }
+
+  body .compress-page #compressSuccessScreen p{
+    font-size:16px !important;
+    max-width:300px !important;
+  }
+
+  body .compress-page #downloadBtn{
+    width:100% !important;
+    max-width:320px !important;
+    padding:22px 20px !important;
+    font-size:18px !important;
+  }
+}
