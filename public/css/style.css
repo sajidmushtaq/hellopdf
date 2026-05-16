@@ -6334,3 +6334,15 @@ body .split-page #downloadBtn{
     margin:0 !important;
   }
 }
+
+/* ===== HIDE CENTER CLOUD ICON ON MOBILE ===== */
+
+@media(max-width:768px){
+
+  body .merge-page .mobile-upload-icon,
+  body .split-page .mobile-upload-icon,
+  body .merge-page .upload-cloud-icon,
+  body .split-page .upload-cloud-icon{
+    display:none !important;
+  }
+}
