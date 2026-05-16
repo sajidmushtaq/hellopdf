@@ -142,7 +142,11 @@
           autocomplete="new-password"
         />
         <label class="show-password-row">
-  <input type="checkbox" id="showPasswordToggle">
+  <input 
+    type="checkbox" 
+    id="showPasswordToggle"
+    onclick="document.getElementById('passwordInput').type = this.checked ? 'text' : 'password';"
+  >
   <span>Show password</span>
 </label>
 
