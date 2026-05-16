@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const extractStartScreen = document.getElementById("extractStartScreen");
-  const extractPreviewScreen = document.getElementById("extractPreviewScreen");
-  const extractSuccessScreen = document.getElementById("extractSuccessScreen");
+  const reorderStartScreen = document.getElementById("reorderStartScreen");
+  const reorderPreviewScreen = document.getElementById("reorderPreviewScreen");
+  const reorderSuccessScreen = document.getElementById("reorderSuccessScreen");
 
   const dropZone = document.getElementById("dropZone");
   const fileInput = document.getElementById("fileInput");
 
   const fileList = document.getElementById("fileList");
 
-  const extractBtn = document.getElementById("extractBtn");
+  const reorderBtn = document.getElementById("reorderBtn");
   const progressBar = document.getElementById("progressBar");
 
-  const pagesInput = document.getElementById("pagesInput");
+  const orderInput = document.getElementById("orderInput");
 
   const downloadBtn = document.getElementById("downloadBtn");
 
@@ -20,29 +20,23 @@ document.addEventListener("DOMContentLoaded", () => {
   let finalPdfUrl = null;
   let progressInterval = null;
 
-  /* =========================
-     INITIAL STATE
-  ========================= */
+  /* INITIAL */
 
-  extractStartScreen.style.display = "flex";
+  reorderStartScreen.style.display = "flex";
 
-  extractPreviewScreen.classList.add("hidden-screen");
-  extractSuccessScreen.classList.add("hidden-screen");
+  reorderPreviewScreen.classList.add("hidden-screen");
+  reorderSuccessScreen.classList.add("hidden-screen");
 
-  extractPreviewScreen.style.display = "none";
-  extractSuccessScreen.style.display = "none";
+  reorderPreviewScreen.style.display = "none";
+  reorderSuccessScreen.style.display = "none";
 
-  /* =========================
-     CLICK SELECT
-  ========================= */
+  /* CLICK */
 
   dropZone.addEventListener("click", () => {
     fileInput.click();
   });
 
-  /* =========================
-     FILE SELECT
-  ========================= */
+  /* SELECT */
 
   fileInput.addEventListener("change", (e) => {
 
@@ -66,9 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-  /* =========================
-     DRAG DROP
-  ========================= */
+  /* DRAG DROP */
 
   dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -105,24 +97,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-  /* =========================
-     PREVIEW
-  ========================= */
+  /* PREVIEW */
 
   function renderPreview() {
 
     if (!selectedFile) return;
 
-    extractStartScreen.style.display = "none";
+    reorderStartScreen.style.display = "none";
 
-    extractPreviewScreen.classList.remove("hidden-screen");
-    extractPreviewScreen.style.display = "grid";
+    reorderPreviewScreen.classList.remove("hidden-screen");
+    reorderPreviewScreen.style.display = "grid";
 
-    extractSuccessScreen.classList.add("hidden-screen");
-    extractSuccessScreen.style.display = "none";
+    reorderSuccessScreen.classList.add("hidden-screen");
+    reorderSuccessScreen.style.display = "none";
 
     fileList.innerHTML = `
-      <div class="merge-file-card extract-pdf-card">
+      <div class="merge-file-card reorder-pdf-card">
 
         <button class="remove-file-btn" id="removeSelectedFile" type="button">
           ×
@@ -155,15 +145,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       fileList.innerHTML = "";
 
-      extractStartScreen.style.display = "flex";
+      reorderStartScreen.style.display = "flex";
 
-      extractPreviewScreen.classList.add("hidden-screen");
-      extractPreviewScreen.style.display = "none";
+      reorderPreviewScreen.classList.add("hidden-screen");
+      reorderPreviewScreen.style.display = "none";
 
-      extractSuccessScreen.classList.add("hidden-screen");
-      extractSuccessScreen.style.display = "none";
+      reorderSuccessScreen.classList.add("hidden-screen");
+      reorderSuccessScreen.style.display = "none";
 
-      pagesInput.value = "";
+      orderInput.value = "";
 
       resetProgress();
 
@@ -171,9 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-  /* =========================
-     PROGRESS
-  ========================= */
+  /* PROGRESS */
 
   function resetProgress() {
 
@@ -220,11 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-  /* =========================
-     EXTRACT PAGES
-  ========================= */
+  /* REORDER */
 
-  extractBtn?.addEventListener("click", async () => {
+  reorderBtn?.addEventListener("click", async () => {
 
     if (!selectedFile) {
 
@@ -233,9 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (!pagesInput.value.trim()) {
+    if (!orderInput.value.trim()) {
 
-      alert("Please enter page numbers");
+      alert("Please enter page order");
 
       return;
     }
@@ -243,20 +229,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData();
 
     formData.append("pdfFile", selectedFile);
-    formData.append("pages", pagesInput.value.trim());
+    formData.append("order", orderInput.value.trim());
 
     startFakeProgress();
 
-    extractBtn.disabled = true;
+    reorderBtn.disabled = true;
 
-    extractBtn.innerHTML = `
-      Extracting...
+    reorderBtn.innerHTML = `
+      Reordering...
       <i class="fa-solid fa-spinner fa-spin"></i>
     `;
 
     try {
 
-      const response = await fetch("/extract-pages", {
+      const response = await fetch("/reorder-pages", {
         method: "POST",
         body: formData
       });
@@ -265,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const errorText = await response.text();
 
-        alert(errorText || "Failed to extract pages");
+        alert(errorText || "Failed to reorder pages");
 
         return;
       }
@@ -274,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!blob || blob.size < 100) {
 
-        alert("Failed to extract pages");
+        alert("Failed to reorder pages");
 
         return;
       }
@@ -289,19 +275,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
 
-        extractPreviewScreen.classList.add("hidden-screen");
-        extractPreviewScreen.style.display = "none";
+        reorderPreviewScreen.classList.add("hidden-screen");
+        reorderPreviewScreen.style.display = "none";
 
-        extractSuccessScreen.classList.remove("hidden-screen");
-        extractSuccessScreen.style.display = "flex";
+        reorderSuccessScreen.classList.remove("hidden-screen");
+        reorderSuccessScreen.style.display = "flex";
 
       }, 400);
 
     } catch (error) {
 
-      console.error("EXTRACT PAGES ERROR:", error);
+      console.error("REORDER ERROR:", error);
 
-      alert("Failed to extract pages");
+      alert("Failed to reorder pages");
 
     } finally {
 
@@ -310,10 +296,10 @@ document.addEventListener("DOMContentLoaded", () => {
         progressInterval = null;
       }
 
-      extractBtn.disabled = false;
+      reorderBtn.disabled = false;
 
-      extractBtn.innerHTML = `
-        Extract Pages
+      reorderBtn.innerHTML = `
+        Reorder Pages
         <i class="fa-solid fa-arrow-right"></i>
       `;
 
@@ -321,9 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-  /* =========================
-     DOWNLOAD
-  ========================= */
+  /* DOWNLOAD */
 
   downloadBtn?.addEventListener("click", () => {
 
@@ -338,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     a.href = finalPdfUrl;
 
-    a.download = "extracted-pages.pdf";
+    a.download = "reordered.pdf";
 
     document.body.appendChild(a);
 
