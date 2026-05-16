@@ -5090,3 +5090,122 @@ main.merge-page > #successScreen[style*="display: none"] * {
     font-size:18px;
   }
 }
+
+/* =====================================
+   FINAL MERGE PAGE OVERRIDE
+===================================== */
+
+.merge-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+  padding:60px 20px 40px !important;
+}
+
+.merge-start-screen h1{
+  width:100% !important;
+  display:block !important;
+  font-size:64px !important;
+  font-weight:900 !important;
+  line-height:1.1 !important;
+  color:#111827 !important;
+  margin:0 0 18px !important;
+}
+
+.merge-start-screen > p{
+  width:100% !important;
+  max-width:900px !important;
+  display:block !important;
+  margin:0 auto 40px !important;
+  font-size:28px !important;
+  line-height:1.5 !important;
+  color:#4b5563 !important;
+}
+
+.merge-select-row{
+  width:100% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:14px !important;
+}
+
+.merge-upload-box{
+  width:auto !important;
+  max-width:none !important;
+  min-height:auto !important;
+  padding:0 !important;
+  background:none !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+
+.merge-upload-box h2{
+  min-width:420px !important;
+  padding:30px 40px !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border-radius:18px !important;
+  font-size:40px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  margin:0 !important;
+  box-shadow:0 15px 40px rgba(239,68,68,0.25) !important;
+}
+
+.cloud-buttons{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+}
+
+.cloud-buttons button{
+  width:54px !important;
+  height:54px !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  font-size:20px !important;
+}
+
+.drop-text{
+  width:100% !important;
+  margin-top:20px !important;
+  text-align:center !important;
+  font-size:18px !important;
+  color:#4b5563 !important;
+}
+
+.ad-placeholder{
+  width:100% !important;
+  height:320px !important;
+  margin-top:80px !important;
+}
+
+@media(max-width:768px){
+
+  .merge-start-screen h1{
+    font-size:38px !important;
+  }
+
+  .merge-start-screen > p{
+    font-size:18px !important;
+  }
+
+  .merge-upload-box h2{
+    min-width:260px !important;
+    font-size:24px !important;
+    padding:22px 24px !important;
+  }
+
+  .cloud-buttons button{
+    width:42px !important;
+    height:42px !important;
+    font-size:16px !important;
+  }
+}
