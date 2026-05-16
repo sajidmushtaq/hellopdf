@@ -122,9 +122,13 @@ document.addEventListener("DOMContentLoaded", () => {
           ×
         </button>
 
-        <div class="pdf-preview-thumb">
-          <i class="fa-solid fa-file-pdf"></i>
-        </div>
+       <div class="pdf-thumb-wrap">
+  <embed
+    src="${URL.createObjectURL(file)}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+    type="application/pdf"
+    class="pdf-thumb"
+  />
+</div>
 
         <h3>${file.name}</h3>
 
