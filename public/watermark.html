@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Add Watermark - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=380">
+  <link rel="stylesheet" href="/css/style.css?v=3005" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen{display:none!important}
+    #watermarkPreviewScreen:not(.hidden-screen){display:grid!important}
+    #watermarkSuccessScreen:not(.hidden-screen){display:flex!important}
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -16,19 +24,41 @@
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
 
-<div class="tools-drawer" id="toolsDrawer">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
   <button class="drawer-close" id="toolsClose" type="button">×</button>
 
-  <h3>PDF Tools</h3>
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/reorder.html">↕️ Reorder Pages</a>
+    <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+  </div>
 
-  <a href="/merge.html">Merge PDF</a>
-  <a href="/compress.html">Compress PDF</a>
-  <a href="/image-to-pdf.html">Image to PDF</a>
-  <a href="/pdf-to-image.html">PDF to Image</a>
-  <a href="/split.html">Split PDF</a>
-  <a href="/remove.html">Remove Pages</a>
-  <a href="/rotate.html">Rotate PDF</a>
-  <a href="/watermark.html">Watermark</a>
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
 </div>
 
 <div class="main-drawer" id="mainDrawer">
@@ -40,7 +70,7 @@
     <h4>APPLICATIONS</h4>
   </div>
 
-  <a href="#">💳 Pricing</a>
+  <a href="/pricing.html">💳 Pricing</a>
   <a href="#">🔒 Security</a>
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
@@ -55,38 +85,118 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<section class="tools-section">
+<main class="watermark-page">
 
-  <form id="uploadForm">
+  <section class="watermark-start-screen" id="watermarkStartScreen">
+    <h1>Add Watermark to PDF</h1>
 
-    <div class="drop-zone" id="dropZone">
-      <p>Click or Drag & Drop PDF</p>
-      <input type="file" id="fileInput" accept="application/pdf" hidden>
+    <p>
+      Add custom text watermark to your PDF file easily.
+    </p>
+
+    <div class="watermark-select-row">
+      <div class="watermark-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
     </div>
 
-    <div id="fileList"></div>
+    <div class="drop-text">or drop PDF here</div>
+  </section>
 
-    <input type="text" id="text" placeholder="Enter watermark text" required>
+  <section class="watermark-preview-screen hidden-screen" id="watermarkPreviewScreen">
 
-    <label for="size">Size:</label>
-    <input type="range" id="size" min="10" max="80" value="30">
+    <div class="watermark-preview-left">
+      <div class="watermark-file-grid" id="fileList"></div>
+    </div>
 
-    <label for="opacity">Opacity:</label>
-    <input type="range" id="opacity" min="0.1" max="1" step="0.1" value="0.5">
+    <aside class="watermark-action-panel">
 
-    <br><br>
+      <h2>Watermark PDF</h2>
 
-    <button type="submit">Add Watermark</button>
+      <p>
+        Add text watermark and customize its appearance.
+      </p>
 
-  </form>
+      <div class="watermark-option-box">
 
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar">0%</div>
-  </div>
+        <label for="watermarkText">Watermark text</label>
 
-</section>
+        <input
+          type="text"
+          id="watermarkText"
+          placeholder="Enter watermark text"
+        />
 
-<script src="/js/watermark.js"></script>
+      </div>
+
+      <div class="watermark-option-box">
+
+        <label for="watermarkSize">Text size</label>
+
+        <input
+          type="range"
+          id="watermarkSize"
+          min="20"
+          max="100"
+          value="50"
+        />
+
+      </div>
+
+      <div class="watermark-option-box">
+
+        <label for="watermarkOpacity">Opacity</label>
+
+        <input
+          type="range"
+          id="watermarkOpacity"
+          min="0.1"
+          max="1"
+          step="0.1"
+          value="0.5"
+        />
+
+      </div>
+
+      <button class="watermark-main-btn" id="watermarkBtn" type="button">
+        Add Watermark
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container watermark-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <section class="watermark-success-screen hidden-screen" id="watermarkSuccessScreen">
+
+    <h1>Watermark added successfully!</h1>
+
+    <p>Your watermarked PDF is ready to download.</p>
+
+    <button id="downloadBtn">
+      Download PDF
+    </button>
+
+  </section>
+
+</main>
+
+<script src="/js/watermark.js?v=3005"></script>
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
@@ -94,6 +204,8 @@
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
   const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
   function closeDrawers() {
     toolsDrawer.classList.remove("active");
@@ -101,19 +213,19 @@
     overlay.classList.remove("active");
   }
 
-  toolsBtn.addEventListener("click", () => {
+  if (toolsBtn) toolsBtn.addEventListener("click", () => {
     toolsDrawer.classList.add("active");
     overlay.classList.add("active");
   });
 
-  mainBtn.addEventListener("click", () => {
+  if (mainBtn) mainBtn.addEventListener("click", () => {
     mainDrawer.classList.add("active");
     overlay.classList.add("active");
   });
 
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>

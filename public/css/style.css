@@ -9074,3 +9074,339 @@ body .reorder-page #downloadBtn{
     font-size:18px!important;
   }
 }
+
+/* ===== WATERMARK PDF FINAL UI ===== */
+
+.watermark-page{
+  min-height:calc(100vh - 72px);
+  background:#f3f4f8;
+}
+
+.watermark-start-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:55px 20px 40px;
+}
+
+.watermark-start-screen h1{
+  font-size:44px;
+  font-weight:900;
+  color:#111827;
+  margin:0 0 14px;
+}
+
+.watermark-start-screen p{
+  max-width:850px;
+  font-size:24px;
+  line-height:1.45;
+  color:#4b5563;
+  margin:0 auto 28px;
+}
+
+.watermark-select-row{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+}
+
+.watermark-upload-box h2{
+  min-width:330px;
+  padding:25px 38px;
+  background:#ef4444;
+  color:white;
+  border-radius:11px;
+  font-size:28px;
+  font-weight:900;
+  margin:0;
+  box-shadow:0 10px 22px rgba(239,48,48,.25);
+}
+
+.watermark-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.watermark-page .cloud-buttons button{
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* PREVIEW */
+
+.watermark-preview-screen{
+  min-height:calc(100vh - 72px);
+  display:grid;
+  grid-template-columns:1fr 320px;
+  background:#f3f4f8;
+  padding-right:320px;
+}
+
+.watermark-preview-left{
+  padding:24px;
+}
+
+.watermark-file-grid{
+  max-width:850px;
+  margin:90px auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(195px,1fr));
+  gap:18px;
+}
+
+.watermark-pdf-card{
+  min-height:245px;
+  padding:18px 14px 14px;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+/* RIGHT PANEL */
+
+.watermark-action-panel{
+  position:fixed;
+  top:72px;
+  right:0;
+  width:320px;
+  height:calc(100vh - 72px);
+  background:white;
+  border-left:1px solid #e5e7eb;
+  padding:26px 22px;
+  display:flex;
+  flex-direction:column;
+}
+
+.watermark-action-panel h2{
+  font-size:36px;
+  color:#111827;
+  margin-bottom:12px;
+}
+
+.watermark-action-panel p{
+  color:#64748b;
+  line-height:1.7;
+  font-size:16px;
+  margin-bottom:22px;
+}
+
+.watermark-option-box{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.watermark-option-box label{
+  display:block;
+  font-size:15px;
+  font-weight:800;
+  color:#111827;
+  margin-bottom:10px;
+}
+
+.watermark-option-box input[type="text"]{
+  width:100%;
+  padding:13px 14px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  outline:none;
+  font-size:15px;
+  margin:0;
+  color:#111827;
+  background:white;
+  text-align:left;
+}
+
+.watermark-option-box input[type="range"]{
+  width:100%;
+  cursor:pointer;
+}
+
+.watermark-main-btn{
+  margin-top:auto;
+  width:100%;
+  border:none;
+  background:#ef4444;
+  color:white;
+  padding:20px;
+  border-radius:16px;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+/* SUCCESS */
+
+.watermark-success-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+  background:#f3f4f8;
+}
+
+.watermark-success-screen h1{
+  font-size:54px;
+  color:#111827;
+  margin-bottom:14px;
+  font-weight:900;
+}
+
+.watermark-success-screen p{
+  font-size:20px;
+  color:#64748b;
+  margin-bottom:28px;
+}
+
+.watermark-page #downloadBtn{
+  border:none!important;
+  background:#ef4444!important;
+  color:white!important;
+  padding:20px 36px!important;
+  border-radius:16px!important;
+  font-size:22px!important;
+  font-weight:800!important;
+  cursor:pointer!important;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .watermark-start-screen{
+    padding:38px 20px 30px!important;
+  }
+
+  .watermark-start-screen h1{
+    font-size:30px!important;
+  }
+
+  .watermark-start-screen p{
+    max-width:320px!important;
+    font-size:18px!important;
+  }
+
+  .watermark-select-row{
+    flex-direction:column!important;
+    gap:18px!important;
+  }
+
+  .watermark-upload-box h2{
+    min-width:unset!important;
+    width:100%!important;
+    max-width:320px!important;
+    padding:26px 24px!important;
+    font-size:22px!important;
+    border-radius:16px!important;
+  }
+
+  .watermark-page .cloud-buttons{
+    flex-direction:row!important;
+    gap:18px!important;
+  }
+
+  .watermark-page .cloud-buttons button{
+    width:56px!important;
+    height:56px!important;
+  }
+
+  .watermark-preview-screen{
+    display:block!important;
+    padding:28px 14px 250px!important;
+    overflow-x:hidden!important;
+  }
+
+  .watermark-preview-left{
+    padding:0!important;
+  }
+
+  .watermark-file-grid{
+    width:100%!important;
+    max-width:100%!important;
+    margin:20px auto 0!important;
+    grid-template-columns:1fr!important;
+  }
+
+  .watermark-pdf-card{
+    max-width:320px!important;
+    margin:0 auto!important;
+    border-radius:18px!important;
+  }
+
+  .watermark-action-panel{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    top:auto!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:62vh!important;
+    overflow-y:auto!important;
+    padding:14px 16px!important;
+    border-radius:18px 18px 0 0!important;
+  }
+
+  .watermark-action-panel h2,
+  .watermark-action-panel p{
+    display:none!important;
+  }
+
+  .watermark-option-box{
+    margin-bottom:10px!important;
+    padding:12px!important;
+  }
+
+  .watermark-option-box label{
+    font-size:14px!important;
+    margin-bottom:8px!important;
+  }
+
+  .watermark-main-btn{
+    margin:0!important;
+    padding:18px!important;
+    font-size:20px!important;
+  }
+
+  .watermark-success-screen{
+    justify-content:flex-start!important;
+    padding-top:120px!important;
+  }
+
+  .watermark-success-screen h1{
+    font-size:30px!important;
+  }
+
+  .watermark-success-screen p{
+    font-size:16px!important;
+    max-width:300px!important;
+  }
+
+  .watermark-page #downloadBtn{
+    width:100%!important;
+    max-width:320px!important;
+    font-size:18px!important;
+  }
+}
