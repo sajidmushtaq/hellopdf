@@ -4694,3 +4694,399 @@ main.merge-page > #successScreen[style*="display: none"] * {
     font-size:18px;
   }
 }
+
+/* =========================================
+   HELLOPDF MERGE PDF FINAL UI
+========================================= */
+
+.hidden-screen{
+  display:none !important;
+}
+
+/* PAGE */
+
+.merge-page{
+  min-height:calc(100vh - 72px);
+  background:#f3f4f8;
+}
+
+/* START SCREEN */
+
+.merge-start-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:65px 20px 40px;
+  text-align:center;
+}
+
+/* TITLE */
+
+.merge-start-screen h1{
+  font-size:64px;
+  line-height:1.1;
+  font-weight:900;
+  color:#111827;
+  margin-bottom:18px;
+}
+
+/* DESCRIPTION */
+
+.merge-start-screen p{
+  max-width:920px;
+  font-size:28px;
+  line-height:1.5;
+  color:#4b5563;
+  margin-bottom:38px;
+}
+
+/* BUTTON ROW */
+
+.merge-select-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* MAIN BUTTON */
+
+.merge-upload-box{
+  cursor:pointer;
+}
+
+.merge-upload-box h2{
+  min-width:420px;
+  padding:30px 42px;
+  background:#ef4444;
+  color:#ffffff;
+  border-radius:18px;
+  font-size:40px;
+  font-weight:800;
+  box-shadow:0 14px 40px rgba(239,68,68,0.25);
+  transition:0.25s ease;
+}
+
+.merge-upload-box:hover h2{
+  transform:translateY(-2px);
+}
+
+/* CLOUD BUTTONS */
+
+.cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.cloud-buttons button{
+  width:54px;
+  height:54px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:#ffffff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* DROP TEXT */
+
+.drop-text{
+  margin-top:20px;
+  color:#4b5563;
+  font-size:18px;
+}
+
+/* EMPTY AREA */
+
+.ad-placeholder{
+  width:100%;
+  max-width:1100px;
+  height:320px;
+  margin-top:80px;
+}
+
+/* =========================================
+   PREVIEW SCREEN
+========================================= */
+
+.merge-preview-screen{
+  min-height:calc(100vh - 72px);
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:24px;
+  padding:24px;
+  align-items:start;
+}
+
+/* LEFT */
+
+.merge-preview-left{
+  width:100%;
+}
+
+/* TOPBAR */
+
+.merge-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.merge-topbar h1{
+  font-size:40px;
+  color:#111827;
+  margin-bottom:4px;
+}
+
+.merge-topbar p{
+  color:#64748b;
+  font-size:15px;
+}
+
+/* ADD MORE */
+
+.merge-add-btn{
+  border:none;
+  background:#2563eb;
+  color:white;
+  padding:14px 18px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* GRID */
+
+.merge-file-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:18px;
+}
+
+/* CARD */
+
+.merge-file-card{
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:16px;
+  position:relative;
+  text-align:center;
+  min-height:240px;
+}
+
+/* REMOVE */
+
+.remove-file-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ICON */
+
+.file-card-icon{
+  width:120px;
+  height:150px;
+  margin:12px auto;
+  border-radius:14px;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.file-card-icon i{
+  font-size:48px;
+  color:#ef4444;
+}
+
+/* FILE NAME */
+
+.merge-file-card h3{
+  margin-top:10px;
+  font-size:14px;
+  color:#111827;
+  word-break:break-word;
+}
+
+/* FILE SIZE */
+
+.merge-file-card p{
+  margin-top:6px;
+  color:#64748b;
+  font-size:13px;
+}
+
+/* ORDER */
+
+.file-order-badge{
+  position:absolute;
+  bottom:12px;
+  left:12px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#111827;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* RIGHT PANEL */
+
+.merge-action-panel{
+  position:sticky;
+  top:95px;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:22px;
+  padding:24px;
+}
+
+.merge-action-panel h2{
+  font-size:34px;
+  color:#111827;
+  margin-bottom:10px;
+}
+
+.merge-action-panel p{
+  color:#64748b;
+  line-height:1.6;
+  margin-bottom:22px;
+}
+
+/* MERGE BUTTON */
+
+.merge-main-btn{
+  width:100%;
+  border:none;
+  background:#ef4444;
+  color:white;
+  padding:18px;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+/* PROGRESS */
+
+.merge-progress{
+  width:100%;
+  max-width:100%;
+  margin-top:18px;
+}
+
+/* SUCCESS */
+
+.merge-success-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+}
+
+.merge-success-screen h1{
+  font-size:56px;
+  color:#111827;
+  margin-bottom:14px;
+}
+
+.merge-success-screen p{
+  font-size:20px;
+  color:#64748b;
+  margin-bottom:28px;
+}
+
+.download-result-btn{
+  border:none;
+  background:#ef4444;
+  color:white;
+  padding:20px 34px;
+  border-radius:18px;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:980px){
+
+  .merge-preview-screen{
+    grid-template-columns:1fr;
+  }
+
+  .merge-action-panel{
+    position:static;
+  }
+}
+
+@media(max-width:768px){
+
+  .merge-start-screen{
+    padding:40px 18px;
+  }
+
+  .merge-start-screen h1{
+    font-size:38px;
+  }
+
+  .merge-start-screen p{
+    font-size:18px;
+  }
+
+  .merge-upload-box h2{
+    min-width:260px;
+    padding:22px 24px;
+    font-size:24px;
+  }
+
+  .cloud-buttons button{
+    width:42px;
+    height:42px;
+    font-size:16px;
+  }
+
+  .merge-file-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .merge-success-screen h1{
+    font-size:34px;
+  }
+
+  .download-result-btn{
+    width:100%;
+    max-width:320px;
+    font-size:18px;
+  }
+}
