@@ -6,7 +6,7 @@
 
   <title>JPG to PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=5001"/>
+  <link rel="stylesheet" href="/css/style.css?v=5002"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
@@ -18,25 +18,14 @@
 
 <body>
 
-<!-- MOBILE HEADER -->
-
 <header class="mobile-header">
   <button class="mobile-menu-btn" type="button">☰</button>
-
-  <a href="/index.html" class="mobile-logo">
-    HelloPDF
-  </a>
-
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
   <button class="mobile-grid-btn" type="button">⠿</button>
 </header>
 
-<!-- DESKTOP HEADER -->
-
 <header class="desktop-header">
-
-  <a href="/index.html" class="logo">
-    HelloPDF
-  </a>
+  <a href="/index.html" class="logo">HelloPDF</a>
 
   <nav>
     <a href="/merge.html">Merge PDF</a>
@@ -50,89 +39,42 @@
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
-
 </header>
 
 <main class="jpg-page">
 
-  <!-- START SCREEN -->
-
   <section class="jpg-start-screen" id="jpgStartScreen">
-
     <h1>JPG to PDF</h1>
-
-    <p>
-      Convert JPG images into a single PDF document easily.
-    </p>
+    <p>Convert JPG images into a single PDF document easily.</p>
 
     <div class="jpg-select-row">
-
       <div class="jpg-upload-box" id="dropZone">
-
-        <input
-          type="file"
-          id="jpgFiles"
-          accept=".jpg,.jpeg,image/jpeg"
-          multiple
-          hidden
-        />
-
-        <input
-          type="file"
-          id="addMoreInput"
-          accept=".jpg,.jpeg,image/jpeg"
-          multiple
-          hidden
-        />
-
+        <input type="file" id="jpgFiles" accept=".jpg,.jpeg,image/jpeg" multiple hidden />
+        <input type="file" id="addMoreInput" accept=".jpg,.jpeg,image/jpeg" multiple hidden />
         <h2>Select JPG images</h2>
-
       </div>
 
       <div class="cloud-buttons">
-
-        <button type="button">
-          <i class="fa-brands fa-google-drive"></i>
-        </button>
-
-        <button type="button">
-          <i class="fa-brands fa-dropbox"></i>
-        </button>
-
+        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
+        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
       </div>
-
     </div>
 
-    <div class="drop-text">
-      or drop JPG images here
-    </div>
-
+    <div class="drop-text">or drop JPG images here</div>
   </section>
 
-  <!-- PREVIEW SCREEN -->
-
   <section class="jpg-preview-screen hidden-screen" id="jpgPreviewScreen">
-
     <div class="jpg-preview-left">
-
       <div class="jpg-file-grid" id="fileList"></div>
 
+      <button class="jpg-floating-add-btn" id="addMoreBtn" type="button">
+        <i class="fa-solid fa-plus"></i>
+      </button>
     </div>
 
-    <!-- RIGHT PANEL -->
-
     <aside class="jpg-action-panel">
-
       <h2>JPG to PDF</h2>
-
-      <p>
-        Convert selected JPG images into one PDF file.
-      </p>
-
-      <button class="add-more-btn" id="addMoreBtn" type="button">
-        <i class="fa-solid fa-plus"></i>
-        Add more files
-      </button>
+      <p>Convert selected JPG images into one PDF file.</p>
 
       <button class="jpg-main-btn" id="convertBtn" type="button">
         Convert to PDF
@@ -140,127 +82,82 @@
       </button>
 
       <div class="progress-container jpg-progress">
-
-        <div class="progress-bar" id="progressBar">
-          0%
-        </div>
-
+        <div class="progress-bar" id="progressBar">0%</div>
       </div>
-
     </aside>
-
   </section>
 
-  <!-- SUCCESS SCREEN -->
-
   <section class="jpg-success-screen hidden-screen" id="jpgSuccessScreen">
-
     <h1>PDF created successfully!</h1>
-
-    <p>
-      Your JPG images have been converted into PDF.
-    </p>
-
-    <button id="downloadBtn">
-      Download PDF
-    </button>
-
+    <p>Your JPG images have been converted into PDF.</p>
+    <button id="downloadBtn">Download PDF</button>
   </section>
 
 </main>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", () => {
-
   const jpgStartScreen = document.getElementById("jpgStartScreen");
   const jpgPreviewScreen = document.getElementById("jpgPreviewScreen");
   const jpgSuccessScreen = document.getElementById("jpgSuccessScreen");
 
   const dropZone = document.getElementById("dropZone");
-
   const fileInput = document.getElementById("jpgFiles");
   const addMoreInput = document.getElementById("addMoreInput");
 
   const fileList = document.getElementById("fileList");
-
   const addMoreBtn = document.getElementById("addMoreBtn");
   const convertBtn = document.getElementById("convertBtn");
-
   const progressBar = document.getElementById("progressBar");
-
   const downloadBtn = document.getElementById("downloadBtn");
 
   let selectedFiles = [];
   let finalPdfUrl = null;
   let progressInterval = null;
 
-  /* CLICK */
-
-  dropZone.addEventListener("click", () => {
-    fileInput.click();
-  });
-
-  /* SELECT FILES */
+  dropZone.addEventListener("click", () => fileInput.click());
+  addMoreBtn.addEventListener("click", () => addMoreInput.click());
 
   fileInput.addEventListener("change", (e) => {
-
     const files = Array.from(e.target.files);
-
     if (!files.length) return;
 
+    selectedFiles.forEach(item => URL.revokeObjectURL(item.previewUrl));
     selectedFiles = files.map(file => ({
       file,
       previewUrl: URL.createObjectURL(file)
     }));
 
     renderPreview();
-
-  });
-
-  /* ADD MORE */
-
-  addMoreBtn.addEventListener("click", () => {
-    addMoreInput.click();
   });
 
   addMoreInput.addEventListener("change", (e) => {
-
     const files = Array.from(e.target.files);
-
     if (!files.length) return;
 
-    const newFiles = files.map(file => ({
-      file,
-      previewUrl: URL.createObjectURL(file)
-    }));
+    selectedFiles = [
+      ...selectedFiles,
+      ...files.map(file => ({
+        file,
+        previewUrl: URL.createObjectURL(file)
+      }))
+    ];
 
-    selectedFiles = [...selectedFiles, ...newFiles];
-
+    addMoreInput.value = "";
     renderPreview();
-
   });
 
-  /* DRAG DROP */
-
   dropZone.addEventListener("dragover", (e) => {
-
     e.preventDefault();
-
     dropZone.classList.add("drag-active");
-
   });
 
   dropZone.addEventListener("dragleave", () => {
-
     dropZone.classList.remove("drag-active");
-
   });
 
   dropZone.addEventListener("drop", (e) => {
-
     e.preventDefault();
-
     dropZone.classList.remove("drag-active");
 
     const files = Array.from(e.dataTransfer.files).filter(file =>
@@ -270,26 +167,23 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     if (!files.length) {
-
       alert("Please select JPG images");
-
       return;
     }
 
+    selectedFiles.forEach(item => URL.revokeObjectURL(item.previewUrl));
     selectedFiles = files.map(file => ({
       file,
       previewUrl: URL.createObjectURL(file)
     }));
 
     renderPreview();
-
   });
 
-  /* RENDER */
-
   function renderPreview(){
-
     jpgStartScreen.style.display = "none";
+    jpgSuccessScreen.classList.add("hidden-screen");
+    jpgSuccessScreen.style.display = "none";
 
     jpgPreviewScreen.classList.remove("hidden-screen");
     jpgPreviewScreen.style.display = "grid";
@@ -297,188 +191,125 @@ document.addEventListener("DOMContentLoaded", () => {
     fileList.innerHTML = "";
 
     selectedFiles.forEach((item,index)=>{
-
       const card = document.createElement("div");
-
       card.className = "merge-file-card jpg-card";
 
       card.innerHTML = `
-        <button class="remove-file-btn" data-index="${index}">
-          ×
-        </button>
-
+        <button class="remove-file-btn" data-index="${index}" type="button">×</button>
         <div class="image-thumb-wrap">
-          <img src="${item.previewUrl}" class="image-thumb"/>
+          <img src="${item.previewUrl}" class="image-thumb" alt="">
         </div>
-
         <h3>${item.file.name}</h3>
-
-        <span class="file-order-badge">
-          ${index + 1}
-        </span>
+        <span class="file-order-badge">${index + 1}</span>
       `;
 
       fileList.appendChild(card);
-
     });
 
     document.querySelectorAll(".remove-file-btn").forEach(btn=>{
-
       btn.addEventListener("click",()=>{
-
         const index = Number(btn.dataset.index);
-
         URL.revokeObjectURL(selectedFiles[index].previewUrl);
-
         selectedFiles.splice(index,1);
 
         if(!selectedFiles.length){
-
           jpgPreviewScreen.classList.add("hidden-screen");
           jpgPreviewScreen.style.display = "none";
-
           jpgStartScreen.style.display = "flex";
-
           return;
         }
 
         renderPreview();
-
       });
-
     });
-
   }
 
-  /* PROGRESS */
-
   function startFakeProgress(){
-
     let progress = 15;
-
     progressBar.style.width = "15%";
     progressBar.textContent = "15%";
 
     progressInterval = setInterval(()=>{
-
       if(progress < 90){
-
         progress += 5;
-
         progressBar.style.width = progress + "%";
         progressBar.textContent = progress + "%";
-
       }
-
     },600);
-
   }
 
   function completeProgress(){
-
-    clearInterval(progressInterval);
-
+    if(progressInterval) clearInterval(progressInterval);
     progressBar.style.width = "100%";
     progressBar.textContent = "100%";
-
   }
 
-  /* CONVERT */
-
   convertBtn.addEventListener("click", async ()=>{
-
     if(!selectedFiles.length){
-
       alert("Please select JPG images");
-
       return;
     }
 
     const formData = new FormData();
-
-    selectedFiles.forEach(item=>{
-      formData.append("jpgFiles", item.file);
-    });
+    selectedFiles.forEach(item => formData.append("jpgFiles", item.file));
 
     startFakeProgress();
 
     convertBtn.disabled = true;
-
-    convertBtn.innerHTML = `
-      Converting...
-      <i class="fa-solid fa-spinner fa-spin"></i>
-    `;
+    convertBtn.innerHTML = `Converting... <i class="fa-solid fa-spinner fa-spin"></i>`;
 
     try{
-
-      const response = await fetch("/jpg-to-pdf",{
+      const response = await fetch("/jpg-to-pdf", {
         method:"POST",
         body:formData
       });
 
       if(!response.ok){
-        throw new Error("Conversion failed");
+        const text = await response.text();
+        throw new Error(text || "Conversion failed");
       }
 
       const blob = await response.blob();
 
+      if(!blob || blob.size < 100){
+        throw new Error("Conversion failed");
+      }
+
+      if(finalPdfUrl) URL.revokeObjectURL(finalPdfUrl);
       finalPdfUrl = URL.createObjectURL(blob);
 
       completeProgress();
 
       setTimeout(()=>{
-
         jpgPreviewScreen.classList.add("hidden-screen");
         jpgPreviewScreen.style.display = "none";
 
         jpgSuccessScreen.classList.remove("hidden-screen");
         jpgSuccessScreen.style.display = "flex";
-
       },400);
 
     }catch(error){
-
       console.error(error);
-
-      alert("Failed to convert JPG to PDF");
-
+      alert(error.message || "Failed to convert JPG to PDF");
     }finally{
-
-      clearInterval(progressInterval);
+      if(progressInterval) clearInterval(progressInterval);
 
       convertBtn.disabled = false;
-
-      convertBtn.innerHTML = `
-        Convert to PDF
-        <i class="fa-solid fa-arrow-right"></i>
-      `;
-
+      convertBtn.innerHTML = `Convert to PDF <i class="fa-solid fa-arrow-right"></i>`;
     }
-
   });
 
-  /* DOWNLOAD */
-
   downloadBtn.addEventListener("click",()=>{
-
     if(!finalPdfUrl) return;
 
     const a = document.createElement("a");
-
     a.href = finalPdfUrl;
-
     a.download = "jpg-to-pdf.pdf";
-
     document.body.appendChild(a);
-
     a.click();
-
     a.remove();
-
   });
-
 });
-
 </script>
 
 </body>
