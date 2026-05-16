@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Remove Pages - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=340">
+  <link rel="stylesheet" href="/css/style.css?v=1005" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen {
+      display: none !important;
+    }
+
+    #removePreviewScreen:not(.hidden-screen) {
+      display: grid !important;
+    }
+
+    #removeSuccessScreen:not(.hidden-screen) {
+      display: flex !important;
+    }
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -16,19 +32,68 @@
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
 
-<div class="tools-drawer" id="toolsDrawer">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
   <button class="drawer-close" id="toolsClose" type="button">×</button>
 
-  <h3>PDF Tools</h3>
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+  </div>
 
-  <a href="/merge.html">Merge PDF</a>
-  <a href="/compress.html">Compress PDF</a>
-  <a href="/image-to-pdf.html">Image to PDF</a>
-  <a href="/pdf-to-image.html">PDF to Image</a>
-  <a href="/split.html">Split PDF</a>
-  <a href="/remove.html">Remove Pages</a>
-  <a href="/rotate.html">Rotate PDF</a>
-  <a href="/watermark.html">Watermark</a>
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>CONVERT TO PDF</h4>
+    <a href="/jpg-to-pdf.html">🖼️ JPG to PDF</a>
+    <a href="/image-to-pdf.html">🖼️ Image to PDF</a>
+    <a href="/word-to-pdf.html">📄 Word to PDF</a>
+    <a href="/powerpoint-to-pdf.html">📊 PowerPoint to PDF</a>
+    <a href="/excel-to-pdf.html">📗 Excel to PDF</a>
+    <a href="/html-to-pdf.html">🌐 HTML to PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>CONVERT FROM PDF</h4>
+    <a href="/pdf-to-word.html">📄 PDF to Word</a>
+    <a href="/pdf-to-excel.html">📗 PDF to Excel</a>
+    <a href="/pdf-to-powerpoint.html">📊 PDF to PowerPoint</a>
+    <a href="/pdf-to-image.html">🖼️ PDF to Image</a>
+    <a href="/pdf-to-jpg.html">🖼️ PDF to JPG</a>
+    <a href="/pdf-to-png.html">🖼️ PDF to PNG</a>
+    <a href="/pdf-to-text.html">📝 PDF to Text</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>PDF SECURITY</h4>
+    <a href="/protect.html">🔒 Protect PDF</a>
+    <a href="/unlock.html">🔓 Unlock PDF</a>
+    <a href="/watermark.html">💧 Watermark PDF</a>
+  </div>
 </div>
 
 <div class="main-drawer" id="mainDrawer">
@@ -40,7 +105,7 @@
     <h4>APPLICATIONS</h4>
   </div>
 
-  <a href="#">💳 Pricing</a>
+  <a href="/pricing.html">💳 Pricing</a>
   <a href="#">🔒 Security</a>
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
@@ -55,64 +120,85 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<section class="tool-page">
-  <div class="tool-box">
+<main class="remove-page">
 
-    <h1>🗑 Remove Pages</h1>
-    <p>Delete unwanted pages from your PDF quickly and securely.</p>
+  <section class="remove-start-screen" id="removeStartScreen">
+    <h1>Remove PDF pages</h1>
 
-    <form id="uploadForm">
+    <p>
+      Delete unwanted pages from your PDF file quickly and securely.
+    </p>
 
-      <div class="drop-zone" id="dropZone">
-        <p>Click or Drag PDF Here</p>
-        <input
-          type="file"
-          id="fileInput"
-          accept="application/pdf"
-          hidden
-        >
+    <div class="remove-select-row">
+      <div class="remove-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
       </div>
 
-      <div id="fileList"></div>
-
-      <label for="pagesInput" style="margin-top:20px; display:block;">
-        Enter page numbers to remove (example: 2,4,6)
-      </label>
-
-      <input
-        type="text"
-        id="pagesInput"
-        name="pages"
-        placeholder="2,4,6"
-        style="
-          margin-top: 12px;
-          padding: 14px;
-          width: 300px;
-          max-width: 90%;
-          border-radius: 12px;
-          border: 1px solid rgba(255,255,255,0.2);
-          background: rgba(255,255,255,0.04);
-          color: white;
-          text-align: center;
-        "
-      >
-
-      <button type="submit">Remove Pages</button>
-
-    </form>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
+      <div class="cloud-buttons">
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
     </div>
 
-  </div>
-</section>
+    <div class="drop-text">or drop PDF here</div>
 
-<footer class="footer">
-  <p>© 2026 PDFToolsPro — Professional PDF Solutions</p>
-</footer>
+    <div class="ad-placeholder"></div>
+  </section>
 
-<script src="/js/remove.js"></script>
+  <section class="remove-preview-screen hidden-screen" id="removePreviewScreen">
+    <div class="remove-preview-left">
+      <div class="remove-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="remove-action-panel">
+      <h2>Remove Pages</h2>
+
+      <p>
+        Enter the page numbers you want to remove from your PDF.
+      </p>
+
+      <div class="remove-option-box">
+        <label for="pagesInput">Pages to remove</label>
+
+        <input
+          type="text"
+          id="pagesInput"
+          name="pages"
+          placeholder="Example: 2,4,6"
+        />
+
+        <small>Separate page numbers with commas.</small>
+      </div>
+
+      <button class="remove-main-btn" id="removeBtn" type="button">
+        Remove Pages
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container remove-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="remove-success-screen hidden-screen" id="removeSuccessScreen">
+    <h1>Pages have been removed!</h1>
+
+    <p>Your cleaned PDF is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download PDF
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/remove.js?v=1005"></script>
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
@@ -120,6 +206,8 @@
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
   const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
   function closeDrawers() {
     toolsDrawer.classList.remove("active");
@@ -127,19 +215,23 @@
     overlay.classList.remove("active");
   }
 
-  toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>
