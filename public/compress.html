@@ -6,15 +6,47 @@
 
   <title>Compress PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=910" />
+  <link rel="stylesheet" href="/css/style.css?v=1004" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen {
+      display: none !important;
+    }
+
+    #compressPreviewScreen:not(.hidden-screen) {
+      display: grid !important;
+    }
+
+    #compressSuccessScreen:not(.hidden-screen) {
+      display: flex !important;
+    }
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
   <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
   <a href="/index.html" class="mobile-logo">HelloPDF</a>
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
 </header>
 
 <div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
@@ -73,7 +105,7 @@
     <h4>APPLICATIONS</h4>
   </div>
 
-  <a href="#">💳 Pricing</a>
+  <a href="/pricing.html">💳 Pricing</a>
   <a href="#">🔒 Security</a>
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
@@ -88,34 +120,80 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<section class="tool-page">
-  <div class="tool-box">
+<main class="compress-page">
 
-    <div class="tool-icon">
-      <i class="fa-solid fa-compress" style="color:#16a34a;font-size:55px;"></i>
-    </div>
-
+  <section class="compress-start-screen" id="compressStartScreen">
     <h1>Compress PDF</h1>
-    <p class="tool-description">Reduce PDF file size while keeping good quality.</p>
 
-    <form id="uploadForm">
-      <div class="drop-zone" id="dropZone">
-        <p>Click or Drag & Drop PDF Here</p>
-        <input type="file" id="fileInput" accept="application/pdf" hidden>
+    <p>
+      Reduce PDF file size while keeping the best possible quality.
+    </p>
+
+    <div class="compress-select-row">
+      <div class="compress-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
       </div>
 
-      <div id="fileList"></div>
-
-      <button type="submit">Compress PDF</button>
-    </form>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
+      <div class="cloud-buttons">
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
     </div>
 
-  </div>
-</section>
-<script src="/js/compress.js?v=2"></script>
+    <div class="drop-text">or drop PDF here</div>
+
+    <div class="ad-placeholder"></div>
+  </section>
+
+  <section class="compress-preview-screen hidden-screen" id="compressPreviewScreen">
+    <div class="compress-preview-left">
+      <div class="compress-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="compress-action-panel">
+      <h2>Compress PDF</h2>
+
+      <p>
+        Choose compression level and reduce your PDF file size.
+      </p>
+
+      <div class="compress-option-box">
+        <label>
+          <input type="radio" name="compressLevel" value="recommended" checked />
+          Recommended compression
+        </label>
+        <small>Good quality with smaller file size.</small>
+      </div>
+
+      <button class="compress-main-btn" id="compressBtn" type="button">
+        Compress PDF
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container compress-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="compress-success-screen hidden-screen" id="compressSuccessScreen">
+    <h1>PDF has been compressed!</h1>
+
+    <p>Your compressed PDF is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download compressed PDF
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/compress.js?v=1004"></script>
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
@@ -123,6 +201,8 @@
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
   const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
   function closeDrawers() {
     toolsDrawer.classList.remove("active");
@@ -130,19 +210,23 @@
     overlay.classList.remove("active");
   }
 
-  toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>
