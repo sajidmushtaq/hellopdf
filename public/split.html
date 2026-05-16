@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Split PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=360">
+  <link rel="stylesheet" href="/css/style.css?v=1002" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen {
+      display: none !important;
+    }
+
+    #splitPreviewScreen:not(.hidden-screen) {
+      display: grid !important;
+    }
+
+    #splitSuccessScreen:not(.hidden-screen) {
+      display: flex !important;
+    }
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -16,19 +32,68 @@
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
 
-<div class="tools-drawer" id="toolsDrawer">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
   <button class="drawer-close" id="toolsClose" type="button">×</button>
 
-  <h3>PDF Tools</h3>
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+  </div>
 
-  <a href="/merge.html">Merge PDF</a>
-  <a href="/compress.html">Compress PDF</a>
-  <a href="/image-to-pdf.html">Image to PDF</a>
-  <a href="/pdf-to-image.html">PDF to Image</a>
-  <a href="/split.html">Split PDF</a>
-  <a href="/remove.html">Remove Pages</a>
-  <a href="/rotate.html">Rotate PDF</a>
-  <a href="/watermark.html">Watermark</a>
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>CONVERT TO PDF</h4>
+    <a href="/jpg-to-pdf.html">🖼️ JPG to PDF</a>
+    <a href="/image-to-pdf.html">🖼️ Image to PDF</a>
+    <a href="/word-to-pdf.html">📄 Word to PDF</a>
+    <a href="/powerpoint-to-pdf.html">📊 PowerPoint to PDF</a>
+    <a href="/excel-to-pdf.html">📗 Excel to PDF</a>
+    <a href="/html-to-pdf.html">🌐 HTML to PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>CONVERT FROM PDF</h4>
+    <a href="/pdf-to-word.html">📄 PDF to Word</a>
+    <a href="/pdf-to-excel.html">📗 PDF to Excel</a>
+    <a href="/pdf-to-powerpoint.html">📊 PDF to PowerPoint</a>
+    <a href="/pdf-to-image.html">🖼️ PDF to Image</a>
+    <a href="/pdf-to-jpg.html">🖼️ PDF to JPG</a>
+    <a href="/pdf-to-png.html">🖼️ PDF to PNG</a>
+    <a href="/pdf-to-text.html">📝 PDF to Text</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>PDF SECURITY</h4>
+    <a href="/protect.html">🔒 Protect PDF</a>
+    <a href="/unlock.html">🔓 Unlock PDF</a>
+    <a href="/watermark.html">💧 Watermark PDF</a>
+  </div>
 </div>
 
 <div class="main-drawer" id="mainDrawer">
@@ -40,7 +105,7 @@
     <h4>APPLICATIONS</h4>
   </div>
 
-  <a href="#">💳 Pricing</a>
+  <a href="/pricing.html">💳 Pricing</a>
   <a href="#">🔒 Security</a>
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
@@ -55,44 +120,81 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<section class="tool-page">
+<main class="split-page">
 
-  <div class="tool-box">
+  <section class="split-start-screen" id="splitStartScreen">
+    <h1>Split PDF file</h1>
 
-    <h1>✂ Split PDF</h1>
-    <p>Split one PDF into multiple separate PDF files easily and securely.</p>
+    <p>
+      Separate one page or a whole set for easy conversion into independent PDF files.
+    </p>
 
-    <form id="uploadForm">
-
-      <div class="drop-zone" id="dropZone">
-        <p>Click or Drag PDF Here</p>
-        <input
-          type="file"
-          id="fileInput"
-          accept="application/pdf"
-          hidden
-        >
+    <div class="split-select-row">
+      <div class="split-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
       </div>
 
-      <div id="fileList"></div>
-
-      <button type="submit">Split PDF</button>
-
-    </form>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
+      <div class="cloud-buttons">
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
     </div>
 
-  </div>
+    <div class="drop-text">or drop PDF here</div>
 
-</section>
+    <div class="ad-placeholder"></div>
+  </section>
 
-<footer class="footer">
-  <p>© 2026 PDFToolsPro — Professional PDF Solutions</p>
-</footer>
+  <section class="split-preview-screen hidden-screen" id="splitPreviewScreen">
+    <div class="split-preview-left">
+      <div class="split-file-grid" id="fileList"></div>
+    </div>
 
-<script src="/js/split.js"></script>
+    <aside class="split-action-panel">
+      <h2>Split PDF</h2>
+
+      <p>
+        Choose how you want to split your PDF file, then download a ZIP with separated PDF files.
+      </p>
+
+      <div class="split-option-box">
+        <label>
+          <input type="radio" name="splitMode" value="all" checked />
+          Split all pages
+        </label>
+
+        <small>Extract every page into a separate PDF file.</small>
+      </div>
+
+      <button class="split-main-btn" id="splitBtn" type="button">
+        Split PDF
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container split-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="split-success-screen hidden-screen" id="splitSuccessScreen">
+    <h1>PDF has been split!</h1>
+
+    <p>Your split PDF files are ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download split PDF
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/split.js?v=1002"></script>
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
@@ -100,6 +202,8 @@
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
   const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
   function closeDrawers() {
     toolsDrawer.classList.remove("active");
@@ -107,19 +211,23 @@
     overlay.classList.remove("active");
   }
 
-  toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>

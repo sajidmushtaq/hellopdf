@@ -5708,3 +5708,258 @@ body .merge-page #downloadBtn{
   cursor:pointer !important;
   box-shadow:0 12px 28px rgba(239,68,68,.25) !important;
 }
+
+/* =========================================
+   SPLIT PDF FINAL UI
+========================================= */
+
+.split-page{
+  min-height:calc(100vh - 72px);
+  background:#f3f4f8;
+}
+
+/* START SCREEN */
+
+.split-start-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  text-align:center;
+  padding:60px 20px 40px;
+}
+
+.split-start-screen h1{
+  font-size:64px;
+  line-height:1.1;
+  font-weight:900;
+  color:#111827;
+  margin-bottom:18px;
+}
+
+.split-start-screen p{
+  max-width:920px;
+  font-size:28px;
+  line-height:1.5;
+  color:#4b5563;
+  margin-bottom:38px;
+}
+
+/* BUTTON ROW */
+
+.split-select-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  width:100%;
+}
+
+/* BUTTON */
+
+.split-upload-box{
+  cursor:pointer;
+}
+
+.split-upload-box h2{
+  min-width:420px;
+  padding:30px 42px;
+  background:#ef4444;
+  color:#ffffff;
+  border-radius:18px;
+  font-size:40px;
+  font-weight:800;
+  box-shadow:0 14px 40px rgba(239,68,68,0.25);
+  transition:0.25s ease;
+}
+
+.split-upload-box:hover h2{
+  transform:translateY(-2px);
+}
+
+/* PREVIEW SCREEN */
+
+.split-preview-screen{
+  min-height:calc(100vh - 72px);
+  display:grid;
+  grid-template-columns:1fr 300px;
+  background:#f3f4f8;
+  padding-right:300px;
+}
+
+/* LEFT */
+
+.split-preview-left{
+  padding:24px;
+}
+
+/* FILE GRID */
+
+.split-file-grid{
+  max-width:850px;
+  margin:90px auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(195px,1fr));
+  gap:18px;
+}
+
+/* CARD */
+
+.split-pdf-card{
+  min-height:245px;
+  padding:18px 14px 14px;
+  border-radius:10px;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+/* RIGHT PANEL */
+
+.split-action-panel{
+  position:fixed;
+  top:72px;
+  right:0;
+  width:300px;
+  height:calc(100vh - 72px);
+  background:#ffffff;
+  border-left:1px solid #e5e7eb;
+  padding:26px 22px;
+  display:flex;
+  flex-direction:column;
+}
+
+.split-action-panel h2{
+  font-size:40px;
+  color:#111827;
+  margin-bottom:12px;
+}
+
+.split-action-panel p{
+  color:#64748b;
+  line-height:1.7;
+  font-size:16px;
+  margin-bottom:24px;
+}
+
+/* OPTION */
+
+.split-option-box{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:24px;
+}
+
+.split-option-box label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:16px;
+  font-weight:700;
+  color:#111827;
+  margin-bottom:8px;
+}
+
+.split-option-box small{
+  color:#64748b;
+  line-height:1.5;
+  display:block;
+}
+
+/* BUTTON */
+
+.split-main-btn{
+  margin-top:auto;
+  width:100%;
+  border:none;
+  background:#ef4444;
+  color:#ffffff;
+  padding:20px;
+  border-radius:16px;
+  font-size:24px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+/* SUCCESS */
+
+.split-success-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+  background:#f3f4f8;
+}
+
+.split-success-screen h1{
+  font-size:54px;
+  color:#111827;
+  margin-bottom:14px;
+}
+
+.split-success-screen p{
+  font-size:20px;
+  color:#64748b;
+  margin-bottom:28px;
+}
+
+/* MOBILE */
+
+@media(max-width:980px){
+
+  .split-preview-screen{
+    grid-template-columns:1fr;
+    padding-right:0;
+    padding-bottom:140px;
+  }
+
+  .split-action-panel{
+    width:100%;
+    height:auto;
+    left:0;
+    right:0;
+    top:auto;
+    bottom:0;
+    border-left:none;
+    border-top:1px solid #e5e7eb;
+  }
+
+  .split-file-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:768px){
+
+  .split-start-screen{
+    padding:40px 18px;
+  }
+
+  .split-start-screen h1{
+    font-size:38px;
+  }
+
+  .split-start-screen p{
+    font-size:18px;
+  }
+
+  .split-upload-box h2{
+    min-width:260px;
+    padding:22px 24px;
+    font-size:24px;
+  }
+
+  .split-success-screen h1{
+    font-size:34px;
+  }
+}
