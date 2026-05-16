@@ -1,44 +1,183 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Reorder PDF Pages - HelloPDF</title>
-
-  <link rel="stylesheet" href="/css/style.css?v=1008" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <style>
-    .hidden-screen{
-      display:none !important;
-    }
-
-    #reorderPreviewScreen:not(.hidden-screen){
-      display:grid !important;
-    }
-
-    #reorderSuccessScreen:not(.hidden-screen){
-      display:flex !important;
-    }
-  </style>
-</head>
-
-<body>
-
-<header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
-  <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
 </header>
 
-<header class="desktop-header">
-  <a href="/index.html" class="logo">HelloPDF</a>
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
+  <button class="drawer-close" id="toolsClose" type="button">×</button>
 
-  <nav>
-    <a href="/merge.html">Merge PDF</a>
-    <a href="/split.html">Split PDF</a>
-    <a href="/compress.html">Compress PDF</a>
-    <a href="/index.html#convert-tools">Convert PDF</a>
-    <a href="/index.html">All PDF Tools</a>
-  </
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/reorder.html">↕️ Reorder Pages</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
+</div>
+
+<div class="main-drawer" id="mainDrawer">
+  <button class="drawer-close" id="mainClose" type="button">×</button>
+
+  <div class="drawer-section">
+    <h4>OTHER PRODUCTS</h4>
+    <h4>SOLUTIONS</h4>
+    <h4>APPLICATIONS</h4>
+  </div>
+
+  <a href="/pricing.html">💳 Pricing</a>
+  <a href="#">🔒 Security</a>
+  <a href="#">⚙️ Features</a>
+  <a href="#">💎 About us</a>
+
+  <div class="drawer-bottom">
+    <a href="#">Help ›</a>
+    <a href="#">Language ›</a>
+    <a href="/login.html" class="drawer-login">Login</a>
+    <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<main class="reorder-page">
+
+  <!-- START SCREEN -->
+
+  <section class="reorder-start-screen" id="reorderStartScreen">
+
+    <h1>Reorder PDF pages</h1>
+
+    <p>
+      Change the order of PDF pages easily and quickly.
+    </p>
+
+    <div class="reorder-select-row">
+
+      <div class="reorder-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="drop-text">or drop PDF here</div>
+
+  </section>
+
+  <!-- PREVIEW SCREEN -->
+
+  <section class="reorder-preview-screen hidden-screen" id="reorderPreviewScreen">
+
+    <div class="reorder-preview-left">
+      <div class="reorder-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="reorder-action-panel">
+
+      <h2>Reorder Pages</h2>
+
+      <p>
+        Enter the new order of pages.
+      </p>
+
+      <div class="reorder-option-box">
+
+        <label for="orderInput">Page order</label>
+
+        <input
+          type="text"
+          id="orderInput"
+          placeholder="Example: 3,1,2"
+        />
+
+        <small>
+          Separate page numbers with commas.
+        </small>
+
+      </div>
+
+      <button class="reorder-main-btn" id="reorderBtn" type="button">
+        Reorder Pages
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container reorder-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <!-- SUCCESS SCREEN -->
+
+  <section class="reorder-success-screen hidden-screen" id="reorderSuccessScreen">
+
+    <h1>PDF reordered successfully!</h1>
+
+    <p>Your reordered PDF is ready to download.</p>
+
+    <button id="downloadBtn">
+      Download PDF
+    </button>
+
+  </section>
+
+</main>
+
+<script src="/js/reorder.js?v=1008"></script>
+
+<script>
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
+
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
+
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
+
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
+</script>
+
+</body>
+</html>
