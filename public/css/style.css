@@ -9804,7 +9804,7 @@ body .reorder-page #downloadBtn{
   font-size:28px;
   font-weight:900;
   margin:0;
-  box-shadow:0 10px 22px rgba(37,99,235,.25);
+  box-shadow:0 10px 22px rgba(239,48,48,.25);
 }
 
 .unlock-page .cloud-buttons{
@@ -9922,7 +9922,7 @@ body .reorder-page #downloadBtn{
   margin-top:auto;
   width:100%;
   border:none;
-  background:#2563eb;
+  background:#ef4444;
   color:white;
   padding:20px;
   border-radius:16px;
