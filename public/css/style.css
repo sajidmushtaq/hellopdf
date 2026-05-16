@@ -6177,3 +6177,95 @@ body .split-page #downloadBtn{
     border-radius:18px !important;
   }
 }
+
+/* ===== MERGE/SPLIT MOBILE PREVIEW CARD FIX ===== */
+
+@media(max-width:768px){
+
+  body .merge-page #previewScreen:not(.hidden-screen),
+  body .split-page #splitPreviewScreen:not(.hidden-screen){
+    display:block !important;
+    padding:28px 14px 190px !important;
+    overflow-x:hidden !important;
+  }
+
+  body .merge-page .merge-preview-left,
+  body .split-page .split-preview-left{
+    width:100% !important;
+    padding:0 !important;
+  }
+
+  body .merge-page .merge-file-grid,
+  body .split-page .split-file-grid{
+    width:100% !important;
+    max-width:100% !important;
+    margin:20px auto 0 !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:18px !important;
+  }
+
+  body .merge-page .merge-file-card,
+  body .split-page .split-pdf-card{
+    width:100% !important;
+    max-width:320px !important;
+    min-height:auto !important;
+    margin:0 auto !important;
+    padding:18px 14px 22px !important;
+    border-radius:18px !important;
+  }
+
+  body .merge-page .pdf-thumb-wrap,
+  body .split-page .pdf-thumb-wrap{
+    width:160px !important;
+    height:210px !important;
+    margin:8px auto 14px !important;
+  }
+
+  body .merge-page .pdf-thumb,
+  body .split-page .pdf-thumb{
+    width:100% !important;
+    height:100% !important;
+  }
+
+  body .merge-page .merge-file-card h3,
+  body .split-page .split-pdf-card h3{
+    max-width:260px !important;
+    margin:8px auto 0 !important;
+    font-size:15px !important;
+    line-height:1.35 !important;
+    text-align:center !important;
+    word-break:break-word !important;
+  }
+
+  body .merge-page .merge-action-panel,
+  body .split-page .split-action-panel{
+    position:fixed !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    top:auto !important;
+    width:100% !important;
+    height:auto !important;
+    padding:14px 16px !important;
+    border-radius:18px 18px 0 0 !important;
+    z-index:999 !important;
+  }
+
+  body .merge-page .merge-action-panel h2,
+  body .split-page .split-action-panel h2,
+  body .merge-page .merge-action-panel p,
+  body .split-page .split-action-panel p,
+  body .split-page .split-option-box{
+    display:none !important;
+  }
+
+  body .merge-page .merge-main-btn,
+  body .split-page .split-main-btn{
+    margin:0 !important;
+    width:100% !important;
+    padding:18px !important;
+    font-size:20px !important;
+    border-radius:14px !important;
+  }
+}
