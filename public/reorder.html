@@ -3,113 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reorder Pages - HelloPDF</title>
 
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Reorder PDF Pages - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1008" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen{
+      display:none !important;
+    }
+
+    #reorderPreviewScreen:not(.hidden-screen){
+      display:grid !important;
+    }
+
+    #reorderSuccessScreen:not(.hidden-screen){
+      display:flex !important;
+    }
+  </style>
 </head>
+
 <body>
 
-  <div class="tool-page">
-    <div class="tool-box">
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
 
-      <div class="tool-icon">
-        <i class="fa-solid fa-arrows-up-down"></i>
-      </div>
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-      <h1>Reorder Pages</h1>
-      <p>Change the order of PDF pages easily.</p>
-
-      <form id="reorderForm">
-
-        <label class="upload-area" for="pdfFile">
-          <i class="fa-solid fa-cloud-arrow-up"></i>
-          <span id="fileName">Select PDF file</span>
-          <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" hidden />
-        </label>
-
-        <input
-          type="text"
-          id="order"
-          class="tool-input"
-          placeholder="Example: 3,1,2"
-        />
-
-        <button type="submit" class="main-btn">
-          Reorder Pages
-        </button>
-
-      </form>
-
-      <p id="statusText"></p>
-
-    </div>
-  </div>
-
-  <script>
-    const form = document.getElementById("reorderForm");
-    const fileInput = document.getElementById("pdfFile");
-    const fileName = document.getElementById("fileName");
-    const orderInput = document.getElementById("order");
-    const statusText = document.getElementById("statusText");
-
-    fileInput.addEventListener("change", () => {
-      if (fileInput.files.length > 0) {
-        fileName.textContent = fileInput.files[0].name;
-      }
-    });
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      if (!fileInput.files.length) {
-        statusText.textContent = "Please select a PDF file first.";
-        return;
-      }
-
-      if (!orderInput.value.trim()) {
-        statusText.textContent = "Please enter page order.";
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("pdfFile", fileInput.files[0]);
-      formData.append("order", orderInput.value.trim());
-
-      statusText.textContent = "Reordering pages...";
-
-      try {
-        const response = await fetch("/reorder-pages", {
-          method: "POST",
-          body: formData
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || "Reorder failed");
-        }
-
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "reordered.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-
-        window.URL.revokeObjectURL(url);
-
-        statusText.textContent = "PDF reordered successfully.";
-      } catch (error) {
-        console.error(error);
-        statusText.textContent = error.message || "Something went wrong.";
-      }
-    });
-  </script>
-<script src="js/header.js"></script>
-</body>
-</html>
-</body>
-</html>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </
