@@ -6045,3 +6045,100 @@ body .split-page #downloadBtn{
   cursor:pointer !important;
   box-shadow:0 12px 28px rgba(239,68,68,.25) !important;
 }
+
+/* =====================================
+   MOBILE UI FINAL FIX LIKE ILOVEPDF
+===================================== */
+
+@media(max-width:768px){
+
+  /* PAGE TOP SPACE */
+
+  .merge-start-screen,
+  .split-start-screen{
+    padding:38px 20px 30px !important;
+  }
+
+  /* TITLE */
+
+  .merge-start-screen h1,
+  .split-start-screen h1{
+    font-size:30px !important;
+    line-height:1.2 !important;
+    margin-bottom:14px !important;
+  }
+
+  /* DESCRIPTION */
+
+  .merge-start-screen p,
+  .split-start-screen p{
+    max-width:320px !important;
+    font-size:18px !important;
+    line-height:1.45 !important;
+    margin-bottom:26px !important;
+  }
+
+  /* BUTTON ROW */
+
+  .merge-select-row,
+  .split-select-row{
+    flex-direction:column !important;
+    gap:18px !important;
+  }
+
+  /* MAIN BUTTON */
+
+  .merge-upload-box h2,
+  .split-upload-box h2{
+    min-width:unset !important;
+    width:100% !important;
+    max-width:320px !important;
+    padding:26px 24px !important;
+    font-size:22px !important;
+    border-radius:16px !important;
+  }
+
+  /* CLOUD BUTTONS */
+
+  .cloud-buttons{
+    flex-direction:row !important;
+    justify-content:center !important;
+    gap:18px !important;
+  }
+
+  .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+    font-size:22px !important;
+  }
+
+  /* DROP TEXT */
+
+  .drop-text{
+    margin-top:18px !important;
+    font-size:16px !important;
+  }
+
+  /* REMOVE BIG EMPTY AREA */
+
+  .ad-placeholder{
+    display:none !important;
+  }
+
+  /* MOBILE HEADER */
+
+  .mobile-header{
+    height:72px !important;
+    padding:0 18px !important;
+  }
+
+  .mobile-logo{
+    font-size:28px !important;
+    font-weight:900 !important;
+  }
+
+  .mobile-menu-btn,
+  .mobile-grid-btn{
+    font-size:34px !important;
+  }
+}
