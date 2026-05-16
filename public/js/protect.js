@@ -219,6 +219,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const password = passwordInput.value.trim();
     const showPasswordToggle = document.getElementById("showPasswordToggle");
+    if (showPasswordToggle && passwordInput) {
+  showPasswordToggle.addEventListener("change", () => {
+    if (showPasswordToggle.checked) {
+      passwordInput.setAttribute("type", "text");
+    } else {
+      passwordInput.setAttribute("type", "password");
+    }
+  });
+}
 
 if (showPasswordToggle) {
   showPasswordToggle.addEventListener("change", () => {
