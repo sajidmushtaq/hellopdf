@@ -52,25 +52,22 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================= */
 
   function addFiles(files) {
+  const selectedFiles = Array.from(files).filter((file) => {
+    return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+  });
 
-    const selectedFiles = Array.from(files).filter((file) => {
-
-      return (
-        file.type === "application/pdf" ||
-        file.name.toLowerCase().endsWith(".pdf")
-      );
-
-    });
-
-    if (selectedFiles.length === 0) {
-      alert("Please select PDF files only");
-      return;
-    }
-
-    filesArray = [...filesArray, ...selectedFiles];
-
-    renderFiles();
+  if (selectedFiles.length === 0) {
+    alert("Please select PDF files only");
+    return;
   }
+
+  selectedFiles.forEach((file) => {
+    file.previewUrl = URL.createObjectURL(file);
+  });
+
+  filesArray = [...filesArray, ...selectedFiles];
+  renderFiles();
+}
 
   /* =========================
      RENDER FILES
@@ -121,20 +118,20 @@ document.addEventListener("DOMContentLoaded", () => {
       card.className = "merge-file-card";
 
       card.innerHTML = `
-        <button class="remove-file-btn" type="button">×</button>
+  <button class="remove-file-btn" type="button">×</button>
 
-        <div class="file-card-icon">
-          <i class="fa-solid fa-file-pdf"></i>
-        </div>
+  <div class="pdf-thumb-wrap">
+    <embed 
+      src="${file.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH" 
+      type="application/pdf"
+      class="pdf-thumb"
+    />
+  </div>
 
-        <h3>${file.name}</h3>
+  <h3>${file.name}</h3>
 
-        <p>${formatFileSize(file.size)}</p>
-
-        <span class="file-order-badge">
-          ${index + 1}
-        </span>
-      `;
+  <span class="file-order-badge">${index + 1}</span>
+`;
 
       /* REMOVE FILE */
 
