@@ -6297,3 +6297,40 @@ body .split-page #downloadBtn{
     border-radius:50% !important;
   }
 }
+
+/* ===== FINAL FORCE: MOBILE CLOUD ICONS HORIZONTAL ===== */
+
+@media screen and (max-width: 768px){
+
+  body .merge-page .merge-select-row,
+  body .split-page .split-select-row{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  body .merge-page .merge-select-row > .cloud-buttons,
+  body .split-page .split-select-row > .cloud-buttons{
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:18px !important;
+    width:100% !important;
+    margin-top:0 !important;
+  }
+
+  body .merge-page .merge-select-row > .cloud-buttons button,
+  body .split-page .split-select-row > .cloud-buttons button{
+    display:inline-flex !important;
+    width:56px !important;
+    height:56px !important;
+    min-width:56px !important;
+    min-height:56px !important;
+    border-radius:50% !important;
+    align-items:center !important;
+    justify-content:center !important;
+    margin:0 !important;
+  }
+}
