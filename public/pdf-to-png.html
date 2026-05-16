@@ -1,51 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>PDF to PNG - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=910" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css?v=7001"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .hidden-screen{display:none!important}
+    #pngPreviewScreen:not(.hidden-screen){display:grid!important}
+    #pngSuccessScreen:not(.hidden-screen){display:flex!important}
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <button class="mobile-menu-btn" type="button">☰</button>
   <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+  <button class="mobile-grid-btn" type="button">⠿</button>
 </header>
 
-<section class="tool-page">
-  <div class="tool-box">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-    <div class="tool-icon">
-      <i class="fa-solid fa-file-image" style="color:#0ea5e9;font-size:55px;"></i>
-    </div>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<main class="pdf-png-page">
+
+  <!-- START -->
+
+  <section class="png-start-screen" id="pngStartScreen">
 
     <h1>PDF to PNG</h1>
-    <p class="tool-description">Convert PDF pages into high quality PNG images.</p>
 
-    <form id="uploadForm">
-      <div class="drop-zone" id="dropZone">
-        <p>Click or Drag & Drop PDF Here</p>
-        <input type="file" id="fileInput" accept="application/pdf" hidden>
+    <p>
+      Convert PDF pages into high quality PNG images easily.
+    </p>
+
+    <div class="png-select-row">
+
+      <div class="png-upload-box" id="dropZone">
+
+        <input
+          type="file"
+          id="pngFileInput"
+          accept="application/pdf"
+          hidden
+        />
+
+        <input
+          type="file"
+          id="addMoreInput"
+          accept="application/pdf"
+          hidden
+        />
+
+        <h2>Select PDF file</h2>
+
       </div>
 
-      <div id="fileList"></div>
+      <div class="cloud-buttons">
 
-      <button type="submit">Convert to PNG</button>
-    </form>
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
 
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+
+      </div>
+
     </div>
 
-  </div>
-</section>
+    <div class="drop-text">
+      or drop PDF here
+    </div>
 
-<script src="/js/pdf-to-png.js?v=1"></script>
+  </section>
+
+  <!-- PREVIEW -->
+
+  <section class="png-preview-screen hidden-screen" id="pngPreviewScreen">
+
+    <div class="png-preview-left">
+
+      <div class="png-file-grid" id="fileList"></div>
+
+      <button class="png-floating-add-btn" id="addMoreBtn" type="button">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+
+    </div>
+
+    <aside class="png-action-panel">
+
+      <h2>PDF to PNG</h2>
+
+      <p>
+        Convert PDF pages into PNG images instantly.
+      </p>
+
+      <button class="png-main-btn" id="convertBtn" type="button">
+        Convert to PNG
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container png-progress">
+
+        <div class="progress-bar" id="progressBar">
+          0%
+        </div>
+
+      </div>
+
+    </aside>
+
+  </section>
+
+  <!-- SUCCESS -->
+
+  <section class="png-success-screen hidden-screen" id="pngSuccessScreen">
+
+    <h1>PNG images created!</h1>
+
+    <p>
+      Your PDF has been converted successfully.
+    </p>
+
+    <button id="downloadBtn">
+      Download PNG ZIP
+    </button>
+
+  </section>
+
+</main>
+
+<script src="/js/pdf-to-png.js?v=7001"></script>
 
 </body>
 </html>
