@@ -9756,342 +9756,158 @@ body .reorder-page #downloadBtn{
   height:16px !important;
 }
 
-/* ===== CLEAN FIX: UNLOCK PDF BUTTON STYLE ===== */
+/* ===== FINAL CLEAN UNLOCK PDF ===== */
 
-body .unlock-page .unlock-upload-box h2{
-  min-width:330px !important;
-  padding:25px 38px !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border-radius:11px !important;
-  font-size:28px !important;
-  font-weight:900 !important;
-  margin:0 !important;
-  border:none !important;
-  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
+.unlock-page{
+  min-height:calc(100vh - 72px);
+  background:#f3f4f8;
 }
 
-body .unlock-page .cloud-buttons button{
-  width:38px !important;
-  height:38px !important;
-  border:none !important;
-  border-radius:50% !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
+/* START SCREEN */
+
+.unlock-start-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  text-align:center;
+  padding:70px 20px 40px;
 }
 
-body .unlock-page .unlock-main-btn{
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border:none !important;
+.unlock-start-screen h1{
+  font-size:56px;
+  font-weight:900;
+  color:#111827;
+  margin:0 0 18px;
 }
 
-body .unlock-page #downloadBtn{
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border:none !important;
+.unlock-start-screen p{
+  max-width:850px;
+  font-size:24px;
+  line-height:1.5;
+  color:#4b5563;
+  margin:0 0 34px;
 }
 
-@media(max-width:768px){
-  body .unlock-page .unlock-upload-box h2{
-    min-width:unset !important;
-    width:100% !important;
-    max-width:320px !important;
-    padding:26px 24px !important;
-    font-size:22px !important;
-    border-radius:16px !important;
-  }
-
-  body .unlock-page .cloud-buttons{
-    flex-direction:row !important;
-    gap:18px !important;
-  }
-
-  body .unlock-page .cloud-buttons button{
-    width:56px !important;
-    height:56px !important;
-  }
+.unlock-select-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
 }
 
-/* ===== CLEAN FIX: UNLOCK PDF BUTTON STYLE ===== */
-
-body .unlock-page .unlock-upload-box h2{
-  min-width:330px !important;
-  padding:25px 38px !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border-radius:11px !important;
-  font-size:28px !important;
-  font-weight:900 !important;
-  margin:0 !important;
-  border:none !important;
-  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
+.unlock-upload-box h2{
+  width:340px;
+  padding:28px 22px;
+  margin:0;
+  background:#ef4444;
+  color:#ffffff;
+  border:none;
+  border-radius:14px;
+  font-size:28px;
+  font-weight:900;
+  box-shadow:0 10px 22px rgba(239,48,48,.25);
 }
 
-body .unlock-page .cloud-buttons button{
-  width:38px !important;
-  height:38px !important;
-  border:none !important;
-  border-radius:50% !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
+.unlock-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
-body .unlock-page .unlock-main-btn{
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border:none !important;
+.unlock-page .cloud-buttons button{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
 }
 
-body .unlock-page #downloadBtn{
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border:none !important;
+.unlock-page .drop-text{
+  margin-top:14px;
+  font-size:16px;
+  color:#374151;
 }
 
-@media(max-width:768px){
-  body .unlock-page .unlock-upload-box h2{
-    min-width:unset !important;
-    width:100% !important;
-    max-width:320px !important;
-    padding:26px 24px !important;
-    font-size:22px !important;
-    border-radius:16px !important;
-  }
+/* PREVIEW SCREEN */
 
-  body .unlock-page .cloud-buttons{
-    flex-direction:row !important;
-    gap:18px !important;
-  }
-
-  body .unlock-page .cloud-buttons button{
-    width:56px !important;
-    height:56px !important;
-  }
+.unlock-preview-screen{
+  min-height:calc(100vh - 72px);
+  display:grid;
+  grid-template-columns:1fr 320px;
+  background:#f3f4f8;
+  padding-right:320px;
 }
 
-/* ===== FINAL UNLOCK FIX ===== */
-
-.unlock-clean-page .unlock-start-screen{
-  min-height:calc(100vh - 72px) !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  text-align:center !important;
-  padding:70px 20px 40px !important;
+.unlock-preview-left{
+  padding:24px;
 }
 
-.unlock-clean-page .unlock-start-screen h1{
-  font-size:58px !important;
-  font-weight:900 !important;
-  color:#111827 !important;
-  margin:0 0 18px !important;
+.unlock-file-grid{
+  max-width:900px;
+  margin:70px auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:18px;
 }
 
-.unlock-clean-page .unlock-start-screen p{
-  font-size:22px !important;
-  color:#4b5563 !important;
-  margin:0 0 34px !important;
+.unlock-pdf-card{
+  min-height:260px;
+  padding:18px 14px 14px;
+  border-radius:12px;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
-.unlock-clean-page .unlock-select-row{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:16px !important;
+/* RIGHT PANEL */
+
+.unlock-action-panel{
+  position:fixed;
+  top:72px;
+  right:0;
+  width:320px;
+  height:calc(100vh - 72px);
+  background:white;
+  border-left:1px solid #e5e7eb;
+  padding:26px 22px;
+  display:flex;
+  flex-direction:column;
 }
 
-.unlock-clean-page .unlock-upload-box h2{
-  width:340px !important;
-  padding:30px 20px !important;
-  margin:0 !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border-radius:14px !important;
-  font-size:28px !important;
-  font-weight:900 !important;
-  border:none !important;
-  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
+.unlock-action-panel h2{
+  font-size:34px;
+  color:#111827;
+  margin-bottom:12px;
 }
 
-.unlock-clean-page .cloud-buttons{
-  display:flex !important;
-  flex-direction:column !important;
-  gap:12px !important;
+.unlock-action-panel p{
+  color:#64748b;
+  line-height:1.7;
+  font-size:16px;
+  margin-bottom:22px;
 }
 
-.unlock-clean-page .cloud-buttons button{
-  width:40px !important;
-  height:40px !important;
-  border:none !important;
-  border-radius:50% !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
+.unlock-option-box{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:18px;
 }
 
-.unlock-clean-page .drop-text{
-  margin-top:14px !important;
-  font-size:16px !important;
-  color:#374151 !important;
-}
-
-@media(max-width:768px){
-
-  .unlock-clean-page .unlock-start-screen{
-    padding:42px 20px 30px !important;
-  }
-
-  .unlock-clean-page .unlock-start-screen h1{
-    font-size:34px !important;
-  }
-
-  .unlock-clean-page .unlock-start-screen p{
-    font-size:18px !important;
-    max-width:320px !important;
-    line-height:1.5 !important;
-  }
-
-  .unlock-clean-page .unlock-select-row{
-    flex-direction:column !important;
-    gap:20px !important;
-  }
-
-  .unlock-clean-page .unlock-upload-box h2{
-    width:100% !important;
-    max-width:320px !important;
-    padding:26px 18px !important;
-    font-size:22px !important;
-    border-radius:16px !important;
-  }
-
-  .unlock-clean-page .cloud-buttons{
-    flex-direction:row !important;
-    gap:18px !important;
-  }
-
-  .unlock-clean-page .cloud-buttons button{
-    width:56px !important;
-    height:56px !important;
-  }
-}
-
-/* ===== FINAL UNLOCK FIX ===== */
-
-.unlock-clean-page .unlock-start-screen{
-  min-height:calc(100vh - 72px) !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  text-align:center !important;
-  padding:70px 20px 40px !important;
-}
-
-.unlock-clean-page .unlock-start-screen h1{
-  font-size:58px !important;
-  font-weight:900 !important;
-  color:#111827 !important;
-  margin:0 0 18px !important;
-}
-
-.unlock-clean-page .unlock-start-screen p{
-  font-size:22px !important;
-  color:#4b5563 !important;
-  margin:0 0 34px !important;
-}
-
-.unlock-clean-page .unlock-select-row{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:16px !important;
-}
-
-.unlock-clean-page .unlock-upload-box h2{
-  width:340px !important;
-  padding:30px 20px !important;
-  margin:0 !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  border-radius:14px !important;
-  font-size:28px !important;
-  font-weight:900 !important;
-  border:none !important;
-  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
-}
-
-.unlock-clean-page .cloud-buttons{
-  display:flex !important;
-  flex-direction:column !important;
-  gap:12px !important;
-}
-
-.unlock-clean-page .cloud-buttons button{
-  width:40px !important;
-  height:40px !important;
-  border:none !important;
-  border-radius:50% !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-}
-
-.unlock-clean-page .drop-text{
-  margin-top:14px !important;
-  font-size:16px !important;
-  color:#374151 !important;
-}
-
-@media(max-width:768px){
-
-  .unlock-clean-page .unlock-start-screen{
-    padding:42px 20px 30px !important;
-  }
-
-  .unlock-clean-page .unlock-start-screen h1{
-    font-size:34px !important;
-  }
-
-  .unlock-clean-page .unlock-start-screen p{
-    font-size:18px !important;
-    max-width:320px !important;
-    line-height:1.5 !important;
-  }
-
-  .unlock-clean-page .unlock-select-row{
-    flex-direction:column !important;
-    gap:20px !important;
-  }
-
-  .unlock-clean-page .unlock-upload-box h2{
-    width:100% !important;
-    max-width:320px !important;
-    padding:26px 18px !important;
-    font-size:22px !important;
-    border-radius:16px !important;
-  }
-
-  .unlock-clean-page .cloud-buttons{
-    flex-direction:row !important;
-    gap:18px !important;
-  }
-
-  .unlock-clean-page .cloud-buttons button{
-    width:56px !important;
-    height:56px !important;
-  }
+.unlock-option-box label{
+  display:block;
+  font-size:15px;
+  font-weight:800;
+  color:#111827;
+  margin-bottom:10px;
 }
 
 .unlock-option-box input{
@@ -10105,6 +9921,22 @@ body .unlock-page #downloadBtn{
   background:white;
 }
 
+.show-password-row{
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+  font-size:14px;
+  font-weight:700;
+  color:#374151;
+  cursor:pointer;
+}
+
+.show-password-row input{
+  width:16px !important;
+  height:16px !important;
+}
+
 .unlock-option-box small{
   display:block;
   margin-top:10px;
@@ -10112,13 +9944,12 @@ body .unlock-page #downloadBtn{
   line-height:1.5;
 }
 
-.unlock-page .cloud-buttons button{
-  width:38px;
-  height:38px;
+.unlock-main-btn{
+  margin-top:auto;
+  width:100%;
   border:none;
-  border-radius:50%;
   background:#ef4444;
-  color:white;
+  color:#ffffff;
   padding:20px;
   border-radius:16px;
   font-size:22px;
@@ -10157,14 +9988,14 @@ body .unlock-page #downloadBtn{
 }
 
 .unlock-page #downloadBtn{
-  border:none!important;
-  background:#ef4444!important;
-  color:white!important;
-  padding:20px 36px!important;
-  border-radius:16px!important;
-  font-size:22px!important;
-  font-weight:800!important;
-  cursor:pointer!important;
+  border:none !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  padding:20px 36px !important;
+  border-radius:16px !important;
+  font-size:22px !important;
+  font-weight:800 !important;
+  cursor:pointer !important;
 }
 
 /* MOBILE */
@@ -10172,110 +10003,109 @@ body .unlock-page #downloadBtn{
 @media(max-width:768px){
 
   .unlock-start-screen{
-    padding:38px 20px 30px!important;
+    padding:42px 20px 30px;
   }
 
   .unlock-start-screen h1{
-    font-size:30px!important;
+    font-size:34px;
   }
 
   .unlock-start-screen p{
-    max-width:320px!important;
-    font-size:18px!important;
+    max-width:320px;
+    font-size:18px;
+    line-height:1.5;
   }
 
   .unlock-select-row{
-    flex-direction:column!important;
-    gap:18px!important;
+    flex-direction:column;
+    gap:20px;
   }
 
   .unlock-upload-box h2{
-    min-width:unset!important;
-    width:100%!important;
-    max-width:320px!important;
-    padding:26px 24px!important;
-    font-size:22px!important;
-    border-radius:16px!important;
+    width:100%;
+    max-width:320px;
+    padding:26px 18px;
+    font-size:22px;
+    border-radius:16px;
   }
 
   .unlock-page .cloud-buttons{
-    flex-direction:row!important;
-    gap:18px!important;
+    flex-direction:row;
+    gap:18px;
   }
 
   .unlock-page .cloud-buttons button{
-    width:56px!important;
-    height:56px!important;
+    width:56px;
+    height:56px;
   }
 
   .unlock-preview-screen{
-    display:block!important;
-    padding:28px 14px 220px!important;
-    overflow-x:hidden!important;
+    display:block !important;
+    padding:24px 14px 220px;
   }
 
   .unlock-preview-left{
-    padding:0!important;
+    padding:0;
   }
 
   .unlock-file-grid{
-    width:100%!important;
-    max-width:100%!important;
-    margin:20px auto 0!important;
-    grid-template-columns:1fr!important;
+    width:100%;
+    max-width:100%;
+    margin:20px auto 0;
+    grid-template-columns:1fr;
   }
 
   .unlock-pdf-card{
-    max-width:320px!important;
-    margin:0 auto!important;
-    border-radius:18px!important;
+    max-width:320px;
+    margin:0 auto;
+    border-radius:18px;
   }
 
   .unlock-action-panel{
-    position:fixed!important;
-    left:0!important;
-    right:0!important;
-    bottom:0!important;
-    top:auto!important;
-    width:100%!important;
-    height:auto!important;
-    padding:14px 16px!important;
-    border-radius:18px 18px 0 0!important;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    width:100%;
+    height:auto;
+    padding:14px 16px;
+    border-radius:18px 18px 0 0;
   }
 
   .unlock-action-panel h2,
   .unlock-action-panel p{
-    display:none!important;
+    display:none;
   }
 
   .unlock-option-box{
-    margin-bottom:12px!important;
-    padding:12px!important;
+    margin-bottom:12px;
+    padding:12px;
   }
 
   .unlock-main-btn{
-    margin:0!important;
-    padding:18px!important;
-    font-size:20px!important;
+    margin:0;
+    padding:18px;
+    font-size:20px;
   }
 
   .unlock-success-screen{
-    justify-content:flex-start!important;
-    padding-top:120px!important;
+    justify-content:flex-start;
+    padding-top:120px;
   }
 
   .unlock-success-screen h1{
-    font-size:30px!important;
+    font-size:30px;
   }
 
   .unlock-success-screen p{
-    font-size:16px!important;
-    max-width:300px!important;
+    font-size:16px;
+    max-width:300px;
   }
 
   .unlock-page #downloadBtn{
-    width:100%!important;
-    max-width:320px!important;
-    font-size:18px!important;
+    width:100%;
+    max-width:320px;
+    font-size:18px;
   }
 }
