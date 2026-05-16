@@ -5532,3 +5532,17 @@ body .merge-page .hidden-screen{
     grid-template-columns:repeat(2,1fr) !important;
   }
 }
+
+/* ===== FIX: SHOW PREVIEW AFTER FILE SELECT ===== */
+
+body .merge-page #previewScreen:not(.hidden-screen){
+  display:grid !important;
+}
+
+body .merge-page #successScreen:not(.hidden-screen){
+  display:flex !important;
+}
+
+body .merge-page #startScreen.hidden-screen{
+  display:none !important;
+}

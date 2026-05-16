@@ -10,12 +10,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    #previewScreen,
-    #successScreen,
-    .hidden-screen {
-      display: none !important;
-    }
-  </style>
+  .hidden-screen {
+    display: none !important;
+  }
+
+  #previewScreen:not(.hidden-screen) {
+    display: grid !important;
+  }
+
+  #successScreen:not(.hidden-screen) {
+    display: flex !important;
+  }
+</style>
 </head>
 
 <body>
