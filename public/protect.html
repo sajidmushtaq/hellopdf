@@ -6,9 +6,16 @@
 
   <title>Protect PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=910" />
+  <link rel="stylesheet" href="/css/style.css?v=3006" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen{display:none!important}
+    #protectPreviewScreen:not(.hidden-screen){display:grid!important}
+    #protectSuccessScreen:not(.hidden-screen){display:flex!important}
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -17,43 +24,181 @@
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
 
-<section class="tool-page">
-  <div class="tool-box">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-    <div class="tool-icon">
-      <i class="fa-solid fa-lock" style="color:#dc2626;font-size:55px;"></i>
-    </div>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
 
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
+  <button class="drawer-close" id="toolsClose" type="button">×</button>
+
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/reorder.html">↕️ Reorder Pages</a>
+    <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>PDF SECURITY</h4>
+    <a href="/protect.html">🔒 Protect PDF</a>
+    <a href="/unlock.html">🔓 Unlock PDF</a>
+    <a href="/watermark.html">💧 Watermark PDF</a>
+  </div>
+</div>
+
+<div class="main-drawer" id="mainDrawer">
+  <button class="drawer-close" id="mainClose" type="button">×</button>
+
+  <div class="drawer-section">
+    <h4>OTHER PRODUCTS</h4>
+    <h4>SOLUTIONS</h4>
+    <h4>APPLICATIONS</h4>
+  </div>
+
+  <a href="/pricing.html">💳 Pricing</a>
+  <a href="#">🔒 Security</a>
+  <a href="#">⚙️ Features</a>
+  <a href="#">💎 About us</a>
+
+  <div class="drawer-bottom">
+    <a href="#">Help ›</a>
+    <a href="#">Language ›</a>
+    <a href="/login.html" class="drawer-login">Login</a>
+    <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<main class="protect-page">
+
+  <section class="protect-start-screen" id="protectStartScreen">
     <h1>Protect PDF</h1>
-    <p class="tool-description">Add password protection and secure your PDF document.</p>
 
-    <form id="uploadForm">
-      <div class="drop-zone" id="dropZone">
-        <p>Click or Drag & Drop PDF Here</p>
-        <input type="file" id="fileInput" accept="application/pdf" hidden>
+    <p>
+      Add password protection and secure your PDF document.
+    </p>
+
+    <div class="protect-select-row">
+      <div class="protect-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
       </div>
 
-      <div id="fileList"></div>
-
-      <input
-        type="password"
-        id="passwordInput"
-        placeholder="Enter password"
-        required
-        style="margin-top:15px;padding:14px;width:100%;max-width:360px;border:1px solid #cbd5e1;border-radius:12px;"
-      >
-
-      <button type="submit">Protect PDF</button>
-    </form>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
+      <div class="cloud-buttons">
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
     </div>
 
-  </div>
-</section>
+    <div class="drop-text">or drop PDF here</div>
+  </section>
 
-<script src="/js/protect.js?v=1"></script>
+  <section class="protect-preview-screen hidden-screen" id="protectPreviewScreen">
+    <div class="protect-preview-left">
+      <div class="protect-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="protect-action-panel">
+      <h2>Protect PDF</h2>
+
+      <p>
+        Set a password to encrypt and protect your PDF file.
+      </p>
+
+      <div class="protect-option-box">
+        <label for="passwordInput">PDF password</label>
+
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="Enter password"
+          autocomplete="new-password"
+        />
+
+        <small>Use a strong password for better security.</small>
+      </div>
+
+      <button class="protect-main-btn" id="protectBtn" type="button">
+        Protect PDF
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="progress-container protect-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="protect-success-screen hidden-screen" id="protectSuccessScreen">
+    <h1>PDF protected successfully!</h1>
+
+    <p>Your password-protected PDF is ready to download.</p>
+
+    <button id="downloadBtn">
+      Download PDF
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/protect.js?v=3006"></script>
+
+<script>
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
+
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+
+  if (toolsBtn) toolsBtn.addEventListener("click", () => {
+    toolsDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  if (mainBtn) mainBtn.addEventListener("click", () => {
+    mainDrawer.classList.add("active");
+    overlay.classList.add("active");
+  });
+
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
+</script>
 
 </body>
 </html>
