@@ -5209,3 +5209,100 @@ main.merge-page > #successScreen[style*="display: none"] * {
     font-size:16px !important;
   }
 }
+}
+
+/* ===== FORCE MERGE PAGE DESKTOP FIX ===== */
+
+body .merge-page .merge-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+  padding:55px 20px 40px !important;
+}
+
+body .merge-page .merge-start-screen h1{
+  display:block !important;
+  font-size:44px !important;
+  font-weight:900 !important;
+  color:#1f2937 !important;
+  margin:0 0 10px !important;
+  line-height:1.15 !important;
+}
+
+body .merge-page .merge-start-screen > p{
+  display:block !important;
+  max-width:900px !important;
+  font-size:24px !important;
+  color:#374151 !important;
+  margin:0 auto 28px !important;
+  line-height:1.4 !important;
+}
+
+body .merge-page .merge-select-row{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:12px !important;
+  width:100% !important;
+}
+
+body .merge-page .merge-upload-box{
+  width:auto !important;
+  min-height:auto !important;
+  max-width:none !important;
+  padding:0 !important;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  cursor:pointer !important;
+}
+
+body .merge-page .merge-upload-box h2{
+  background:#ef3030 !important;
+  color:#ffffff !important;
+  min-width:330px !important;
+  padding:25px 38px !important;
+  border-radius:11px !important;
+  font-size:28px !important;
+  font-weight:900 !important;
+  margin:0 !important;
+  line-height:1 !important;
+  box-shadow:0 10px 22px rgba(239,48,48,.25) !important;
+}
+
+body .merge-page .cloud-buttons{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:10px !important;
+}
+
+body .merge-page .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  border-radius:50% !important;
+  border:none !important;
+  background:#ef3030 !important;
+  color:white !important;
+  font-size:17px !important;
+}
+
+body .merge-page .drop-text{
+  margin-top:14px !important;
+  font-size:15px !important;
+  color:#374151 !important;
+}
+
+body .merge-page .ad-placeholder{
+  height:300px !important;
+  margin-top:70px !important;
+}
+
+body .merge-page #previewScreen,
+body .merge-page #successScreen,
+body .merge-page .hidden-screen{
+  display:none !important;
+}
