@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Rotate PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=350">
+  <link rel="stylesheet" href="/css/style.css?v=3003" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen{display:none!important}
+    #rotatePreviewScreen:not(.hidden-screen){display:grid!important}
+    #rotateSuccessScreen:not(.hidden-screen){display:flex!important}
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -16,35 +24,50 @@
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
 
-<div class="tools-drawer" id="toolsDrawer">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
   <button class="drawer-close" id="toolsClose" type="button">×</button>
-
-  <h3>PDF Tools</h3>
-
-  <a href="/merge.html">Merge PDF</a>
-  <a href="/compress.html">Compress PDF</a>
-  <a href="/image-to-pdf.html">Image to PDF</a>
-  <a href="/pdf-to-image.html">PDF to Image</a>
-  <a href="/split.html">Split PDF</a>
-  <a href="/remove.html">Remove Pages</a>
-  <a href="/rotate.html">Rotate PDF</a>
-  <a href="/watermark.html">Watermark</a>
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/reorder.html">↕️ Reorder Pages</a>
+    <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+  </div>
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
 </div>
 
 <div class="main-drawer" id="mainDrawer">
   <button class="drawer-close" id="mainClose" type="button">×</button>
-
   <div class="drawer-section">
     <h4>OTHER PRODUCTS</h4>
     <h4>SOLUTIONS</h4>
     <h4>APPLICATIONS</h4>
   </div>
-
-  <a href="#">💳 Pricing</a>
+  <a href="/pricing.html">💳 Pricing</a>
   <a href="#">🔒 Security</a>
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
-
   <div class="drawer-bottom">
     <a href="#">Help ›</a>
     <a href="#">Language ›</a>
@@ -55,36 +78,71 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<section class="tools-section">
+<main class="rotate-page">
 
-  <form id="uploadForm">
+  <section class="rotate-start-screen" id="rotateStartScreen">
+    <h1>Rotate PDF</h1>
+    <p>Rotate your PDF pages quickly and easily.</p>
 
-    <div class="drop-zone" id="dropZone">
-      <p>Click or Drag & Drop PDF</p>
-      <input type="file" id="fileInput" accept="application/pdf" hidden>
+    <div class="rotate-select-row">
+      <div class="rotate-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
     </div>
 
-    <div id="fileList"></div>
+    <div class="drop-text">or drop PDF here</div>
+  </section>
 
-    <select id="angle">
-      <option value="90">Rotate 90°</option>
-      <option value="180">Rotate 180°</option>
-      <option value="270">Rotate 270°</option>
-    </select>
+  <section class="rotate-preview-screen hidden-screen" id="rotatePreviewScreen">
+    <div class="rotate-preview-left">
+      <div class="rotate-file-grid" id="fileList"></div>
+    </div>
 
-    <br><br>
+    <aside class="rotate-action-panel">
+      <h2>Rotate PDF</h2>
+      <p>Choose rotation angle and apply it to your PDF.</p>
 
-    <button type="submit">Rotate PDF</button>
+      <div class="rotate-option-box">
+        <label for="angleInput">Rotation angle</label>
 
-  </form>
+        <select id="angleInput">
+          <option value="90">Rotate 90°</option>
+          <option value="180">Rotate 180°</option>
+          <option value="270">Rotate 270°</option>
+        </select>
 
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar">0%</div>
-  </div>
+        <small>Select how much you want to rotate the PDF pages.</small>
+      </div>
 
-</section>
+      <button class="rotate-main-btn" id="rotateBtn" type="button">
+        Rotate PDF <i class="fa-solid fa-arrow-right"></i>
+      </button>
 
-<script src="/js/rotate.js"></script>
+      <div class="progress-container rotate-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="rotate-success-screen hidden-screen" id="rotateSuccessScreen">
+    <h1>PDF rotated successfully!</h1>
+    <p>Your rotated PDF is ready to download.</p>
+    <button id="downloadBtn">Download PDF</button>
+  </section>
+
+</main>
+
+<script src="/js/rotate.js?v=3003"></script>
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
@@ -92,6 +150,8 @@
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
   const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
   function closeDrawers() {
     toolsDrawer.classList.remove("active");
@@ -99,19 +159,19 @@
     overlay.classList.remove("active");
   }
 
-  toolsBtn.addEventListener("click", () => {
+  if (toolsBtn) toolsBtn.addEventListener("click", () => {
     toolsDrawer.classList.add("active");
     overlay.classList.add("active");
   });
 
-  mainBtn.addEventListener("click", () => {
+  if (mainBtn) mainBtn.addEventListener("click", () => {
     mainDrawer.classList.add("active");
     overlay.classList.add("active");
   });
 
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>
