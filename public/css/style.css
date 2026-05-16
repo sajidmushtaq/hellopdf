@@ -7176,3 +7176,37 @@ body .remove-page #downloadBtn{
     border-radius:18px !important;
   }
 }
+
+/* ===== COMPRESS MOBILE ICON FIX ===== */
+
+@media(max-width:768px){
+
+  body .compress-page .compress-select-row{
+    flex-direction:column !important;
+    align-items:center !important;
+  }
+
+  body .compress-page .compress-select-row .cloud-buttons{
+    display:flex !important;
+    flex-direction:row !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:18px !important;
+    margin-top:18px !important;
+  }
+
+  body .compress-page .compress-select-row .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+    min-width:56px !important;
+    min-height:56px !important;
+    border-radius:50% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    background:#ef4444 !important;
+    color:#ffffff !important;
+    border:none !important;
+    font-size:22px !important;
+  }
+}
