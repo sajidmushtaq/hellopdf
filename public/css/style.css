@@ -11789,3 +11789,52 @@ body .reorder-page #downloadBtn{
   color: #fff;
   font-size: 24px;
 }
+
+/* FIX REPAIR PDF ALIGNMENT */
+
+.repair-start-screen {
+  justify-content: center;
+}
+
+.repair-start-screen h1 {
+  font-size: 64px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.repair-start-screen p {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.repair-success-screen {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.repair-success-screen h1 {
+  font-size: 54px;
+  margin-bottom: 18px;
+}
+
+.repair-success-screen p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.repair-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 18px 38px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.repair-success-screen .download-result-btn:hover {
+  background: #c92420;
+}
