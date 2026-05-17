@@ -139,19 +139,175 @@
 
   <!-- SUCCESS -->
 
-  <section class="redact-success-screen hidden-screen" id="successScreen">
+ <section class="redact-editor-screen hidden-screen" id="previewScreen">
 
-    <h1>PDF has been redacted!</h1>
+  <!-- LEFT THUMBNAILS -->
 
-    <p>
-      Your redacted PDF is ready to download.
-    </p>
+  <div class="redact-left-sidebar">
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
-      Download redacted PDF
+    <div class="thumb-page active-thumb">
+
+      <div class="thumb-preview"></div>
+
+      <span>1</span>
+
+    </div>
+
+    <div class="thumb-page">
+      <div class="thumb-preview"></div>
+      <span>2</span>
+    </div>
+
+    <div class="thumb-page">
+      <div class="thumb-preview"></div>
+      <span>3</span>
+    </div>
+
+  </div>
+
+  <!-- CENTER -->
+
+  <div class="redact-center-viewer">
+
+    <!-- TOP TOOLS -->
+
+    <div class="redact-top-toolbar">
+
+      <button type="button" class="toolbar-btn active-tool">
+        <i class="fa-regular fa-hand"></i>
+      </button>
+
+      <button type="button" class="toolbar-btn">
+        <i class="fa-regular fa-square"></i>
+        <span>Redact</span>
+      </button>
+
+      <button type="button" class="toolbar-btn">
+        <i class="fa-regular fa-file"></i>
+      </button>
+
+      <button type="button" class="toolbar-btn">
+        <i class="fa-solid fa-eraser"></i>
+      </button>
+
+    </div>
+
+    <!-- PDF -->
+
+    <div class="redact-pdf-stage">
+
+      <div class="redact-canvas-wrap" id="canvasWrap">
+
+        <canvas id="pdfCanvas"></canvas>
+
+        <div class="redact-box" id="redactBox"></div>
+
+      </div>
+
+    </div>
+
+    <!-- ZOOM -->
+
+    <div class="redact-page-controls">
+
+      <button type="button" id="zoomOutBtn">−</button>
+
+      <span id="zoomText">100%</span>
+
+      <button type="button" id="zoomInBtn">+</button>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+
+  <aside class="redact-editor-panel">
+
+    <h2>Redact PDF</h2>
+
+    <input
+      type="text"
+      class="redact-search"
+      placeholder="Search text"
+    />
+
+    <button class="redact-option active-option">
+
+      <i class="fa-regular fa-square"></i>
+
+      <span>Text</span>
+
     </button>
 
-  </section>
+    <button class="redact-option">
+
+      <i class="fa-regular fa-credit-card"></i>
+
+      <span>Credit Card</span>
+
+    </button>
+
+    <button class="redact-option">
+
+      <i class="fa-solid fa-phone"></i>
+
+      <span>Phone Number</span>
+
+    </button>
+
+    <button class="redact-option">
+
+      <i class="fa-regular fa-envelope"></i>
+
+      <span>Email</span>
+
+    </button>
+
+    <div class="redact-actions">
+
+      <button
+        class="redact-cancel-btn"
+        id="resetBox"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="redact-accept-btn"
+        type="button"
+      >
+        Accept
+      </button>
+
+    </div>
+
+    <div class="redact-warning-box">
+
+      <i class="fa-solid fa-circle-exclamation"></i>
+
+      <p>
+        Remember to review the result of your document before sending private information.
+      </p>
+
+    </div>
+
+    <button
+      class="redact-main-btn"
+      id="redactBtn"
+      type="button"
+    >
+      Redact
+    </button>
+
+    <div class="progress-container redact-progress">
+      <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+  </aside>
+
+</section>
 
 </main>
 
