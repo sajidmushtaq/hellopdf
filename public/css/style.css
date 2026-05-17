@@ -13937,3 +13937,353 @@ body .reorder-page #downloadBtn{
     font-size: 32px;
   }
 }
+
+/* ================================
+   PDF TO POWERPOINT TOOL PAGE
+================================ */
+
+.pdf-ppt-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f7fb;
+}
+
+.pdf-ppt-start-screen {
+  min-height: calc(100vh - 70px);
+  padding: 70px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pdf-ppt-start-screen h1 {
+  font-size: 46px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.pdf-ppt-start-screen p {
+  font-size: 18px;
+  color: #555;
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+.pdf-ppt-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pdf-ppt-upload-box {
+  background: #e5322d;
+  color: #fff;
+  padding: 24px 58px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+  transition: 0.25s ease;
+}
+
+.pdf-ppt-upload-box:hover,
+.pdf-ppt-upload-box.drag-active {
+  background: #c92420;
+  transform: translateY(-2px);
+}
+
+.pdf-ppt-upload-box h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.pdf-ppt-page .cloud-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pdf-ppt-page .cloud-buttons button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ef2f2f;
+  color: #fff;
+  font-size: 21px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(239, 47, 47, 0.25);
+}
+
+.pdf-ppt-page .cloud-buttons button i {
+  color: #fff;
+  font-size: 21px;
+}
+
+.pdf-ppt-page .cloud-buttons button:hover {
+  background: #d92727;
+  transform: translateY(-1px);
+}
+
+.pdf-ppt-preview-screen {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  background: #f4f4f8;
+}
+
+.pdf-ppt-preview-left {
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.pdf-ppt-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.pdf-ppt-topbar h1 {
+  font-size: 34px;
+  margin: 0 0 5px;
+  color: #222;
+}
+
+.pdf-ppt-topbar p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.pdf-ppt-add-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-ppt-add-btn i {
+  font-size: 24px;
+}
+
+.pdf-ppt-add-btn:hover {
+  background: #c92420;
+}
+
+.pdf-ppt-file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.pdf-ppt-file-card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  min-height: 290px;
+}
+
+.pdf-ppt-file-card h3 {
+  font-size: 14px;
+  color: #333;
+  margin: 12px 0 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.pdf-ppt-action-panel {
+  background: #fff;
+  border-left: 1px solid #ddd;
+  padding: 32px 24px;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-ppt-action-panel h2 {
+  font-size: 28px;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+.pdf-ppt-action-panel p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.pdf-ppt-main-btn {
+  width: 100%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pdf-ppt-main-btn:hover {
+  background: #c92420;
+}
+
+.pdf-ppt-main-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.pdf-ppt-progress {
+  margin-top: 16px;
+}
+
+.pdf-ppt-success-screen {
+  min-height: calc(100vh - 70px);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #f7f7fb;
+}
+
+.pdf-ppt-success-screen h1 {
+  font-size: 42px;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.pdf-ppt-success-screen p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 26px;
+}
+
+.pdf-ppt-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 34px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.pdf-ppt-success-screen .download-result-btn:hover {
+  background: #c92420;
+}
+
+@media (max-width: 768px) {
+  .pdf-ppt-start-screen {
+    min-height: calc(100vh - 56px);
+    padding: 55px 16px 28px;
+  }
+
+  .pdf-ppt-start-screen h1 {
+    font-size: 34px;
+  }
+
+  .pdf-ppt-start-screen p {
+    font-size: 16px;
+  }
+
+  .pdf-ppt-upload-box {
+    padding: 20px 36px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .pdf-ppt-upload-box h2 {
+    font-size: 21px;
+  }
+
+  .pdf-ppt-preview-screen {
+    grid-template-columns: 1fr;
+    padding-bottom: 190px;
+  }
+
+  .pdf-ppt-preview-left {
+    padding: 18px;
+  }
+
+  .pdf-ppt-topbar {
+    align-items: flex-start;
+  }
+
+  .pdf-ppt-topbar h1 {
+    font-size: 28px;
+  }
+
+  .pdf-ppt-add-btn {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .pdf-ppt-file-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-ppt-action-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: auto;
+    z-index: 90;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    padding: 16px;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.12);
+  }
+
+  .pdf-ppt-action-panel h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+
+  .pdf-ppt-action-panel p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .pdf-ppt-main-btn {
+    margin-top: 0;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .pdf-ppt-success-screen h1 {
+    font-size: 32px;
+  }
+}
