@@ -1586,6 +1586,66 @@ app.post("/repair-pdf", upload.single("pdf"), async (req, res) => {
   }
 });
 
+app.post("/crop-pdf", upload.single("pdfFile"), async (req, res) => {
+  let inputPath = null;
+
+  try {
+
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded");
+    }
+
+    inputPath = req.file.path;
+
+    const cropLevel = parseInt(req.body.cropLevel || "40");
+
+    const pdfBytes = fs.readFileSync(inputPath);
+
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+
+    const pages = pdfDoc.getPages();
+
+    pages.forEach((page) => {
+
+      const width = page.getWidth();
+      const height = page.getHeight();
+
+      page.setCropBox(
+        cropLevel,
+        cropLevel,
+        width - cropLevel * 2,
+        height - cropLevel * 2
+      );
+
+    });
+
+    const finalPdf = await pdfDoc.save();
+
+    if (fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    res.setHeader("Content-Type", "application/pdf");
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=cropped.pdf"
+    );
+
+    return res.end(Buffer.from(finalPdf));
+
+  } catch (err) {
+
+    console.error("CROP PDF ERROR:", err);
+
+    if (inputPath && fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    return res.status(500).send("Crop PDF failed");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

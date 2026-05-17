@@ -12187,3 +12187,214 @@ body .reorder-page #downloadBtn{
     flex-shrink: 0 !important;
   }
 }
+
+/* =========================
+   CROP PDF TOOL
+========================= */
+
+.crop-page{
+  min-height:calc(100vh - 70px);
+  background:#f7f7fb;
+}
+
+.crop-start-screen{
+  min-height:calc(100vh - 70px);
+  padding:70px 20px 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.crop-start-screen h1{
+  font-size:46px;
+  font-weight:800;
+  color:#222;
+  margin-bottom:12px;
+}
+
+.crop-start-screen p{
+  font-size:18px;
+  color:#555;
+  max-width:620px;
+  margin-bottom:32px;
+}
+
+.crop-select-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.crop-upload-box{
+  background:#e5322d;
+  color:#fff;
+  padding:24px 58px;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.25);
+}
+
+.crop-upload-box h2{
+  margin:0;
+  font-size:24px;
+  font-weight:800;
+}
+
+.crop-preview-screen{
+  min-height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:1fr 330px;
+  background:#f4f4f8;
+}
+
+.crop-preview-left{
+  padding:28px;
+}
+
+.crop-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.crop-topbar h1{
+  font-size:34px;
+  margin:0 0 5px;
+}
+
+.crop-topbar p{
+  margin:0;
+  color:#666;
+}
+
+.crop-add-btn{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.crop-file-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:22px;
+}
+
+.crop-file-card{
+  position:relative;
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+}
+
+.crop-file-card h3{
+  font-size:14px;
+  margin-top:12px;
+  word-break:break-word;
+}
+
+.crop-action-panel{
+  background:#fff;
+  border-left:1px solid #ddd;
+  padding:32px 24px;
+  position:sticky;
+  top:70px;
+  height:calc(100vh - 70px);
+  display:flex;
+  flex-direction:column;
+}
+
+.crop-label{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:8px;
+  color:#333;
+}
+
+.crop-select{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  margin-bottom:18px;
+  font-size:15px;
+}
+
+.crop-main-btn{
+  width:100%;
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:16px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:auto;
+}
+
+.crop-progress{
+  margin-top:16px;
+}
+
+.crop-success-screen{
+  min-height:calc(100vh - 70px);
+  padding:60px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.crop-success-screen h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
+
+.crop-success-screen p{
+  font-size:18px;
+  margin-bottom:26px;
+}
+
+@media (max-width:768px){
+
+  .crop-preview-screen{
+    grid-template-columns:1fr;
+    padding-bottom:190px;
+  }
+
+  .crop-preview-left{
+    padding:18px;
+  }
+
+  .crop-file-grid{
+    grid-template-columns:1fr;
+  }
+
+  .crop-action-panel{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    height:auto;
+    z-index:999;
+    border-left:none;
+    border-top:1px solid #ddd;
+    padding:16px;
+    box-shadow:0 -8px 24px rgba(0,0,0,0.12);
+  }
+
+}
