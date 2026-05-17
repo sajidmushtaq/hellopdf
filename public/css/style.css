@@ -13159,3 +13159,399 @@ body .reorder-page #downloadBtn{
     font-size: 32px;
   }
 }
+
+/* WORD TO PDF - CLEAN FILE PREVIEW FIX */
+.word-pdf-file-card {
+  max-width: 270px;
+  margin: 0 auto;
+}
+
+.word-file-preview {
+  height: 190px;
+  border-radius: 10px;
+  background: #eef4ff;
+  border: 1px solid #cfe0ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.word-file-preview i {
+  font-size: 76px;
+  color: #2b65d9;
+  margin-bottom: 12px;
+}
+
+.word-file-preview span {
+  background: #2b65d9;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 999px;
+}
+
+.word-pdf-file-card h3 {
+  font-size: 14px;
+  color: #222;
+  margin: 14px 0 6px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.word-pdf-file-card p {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+/* ================================
+   PDF TO EXCEL TOOL PAGE
+================================ */
+
+.pdf-excel-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f7fb;
+}
+
+.pdf-excel-start-screen {
+  min-height: calc(100vh - 70px);
+  padding: 70px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pdf-excel-start-screen h1 {
+  font-size: 46px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.pdf-excel-start-screen p {
+  font-size: 18px;
+  color: #555;
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+.pdf-excel-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pdf-excel-upload-box {
+  background: #e5322d;
+  color: #fff;
+  padding: 24px 58px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+  transition: 0.25s ease;
+}
+
+.pdf-excel-upload-box:hover,
+.pdf-excel-upload-box.drag-active {
+  background: #c92420;
+  transform: translateY(-2px);
+}
+
+.pdf-excel-upload-box h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.pdf-excel-page .cloud-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pdf-excel-page .cloud-buttons button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ef2f2f;
+  color: #fff;
+  font-size: 21px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(239, 47, 47, 0.25);
+}
+
+.pdf-excel-page .cloud-buttons button i {
+  color: #fff;
+  font-size: 21px;
+}
+
+.pdf-excel-page .cloud-buttons button:hover {
+  background: #d92727;
+  transform: translateY(-1px);
+}
+
+.pdf-excel-preview-screen {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  background: #f4f4f8;
+}
+
+.pdf-excel-preview-left {
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.pdf-excel-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.pdf-excel-topbar h1 {
+  font-size: 34px;
+  margin: 0 0 5px;
+  color: #222;
+}
+
+.pdf-excel-topbar p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.pdf-excel-add-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-excel-add-btn i {
+  font-size: 24px;
+}
+
+.pdf-excel-add-btn:hover {
+  background: #c92420;
+}
+
+.pdf-excel-file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.pdf-excel-file-card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  min-height: 290px;
+}
+
+.pdf-excel-file-card h3 {
+  font-size: 14px;
+  color: #333;
+  margin: 12px 0 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.pdf-excel-action-panel {
+  background: #fff;
+  border-left: 1px solid #ddd;
+  padding: 32px 24px;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-excel-action-panel h2 {
+  font-size: 28px;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+.pdf-excel-action-panel p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.pdf-excel-main-btn {
+  width: 100%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pdf-excel-main-btn:hover {
+  background: #c92420;
+}
+
+.pdf-excel-main-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.pdf-excel-progress {
+  margin-top: 16px;
+}
+
+.pdf-excel-success-screen {
+  min-height: calc(100vh - 70px);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #f7f7fb;
+}
+
+.pdf-excel-success-screen h1 {
+  font-size: 42px;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.pdf-excel-success-screen p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 26px;
+}
+
+.pdf-excel-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 34px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.pdf-excel-success-screen .download-result-btn:hover {
+  background: #c92420;
+}
+
+@media (max-width: 768px) {
+  .pdf-excel-start-screen {
+    min-height: calc(100vh - 56px);
+    padding: 55px 16px 28px;
+  }
+
+  .pdf-excel-start-screen h1 {
+    font-size: 34px;
+  }
+
+  .pdf-excel-start-screen p {
+    font-size: 16px;
+  }
+
+  .pdf-excel-upload-box {
+    padding: 20px 36px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .pdf-excel-upload-box h2 {
+    font-size: 21px;
+  }
+
+  .pdf-excel-preview-screen {
+    grid-template-columns: 1fr;
+    padding-bottom: 190px;
+  }
+
+  .pdf-excel-preview-left {
+    padding: 18px;
+  }
+
+  .pdf-excel-topbar {
+    align-items: flex-start;
+  }
+
+  .pdf-excel-topbar h1 {
+    font-size: 28px;
+  }
+
+  .pdf-excel-add-btn {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .pdf-excel-file-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-excel-action-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: auto;
+    z-index: 90;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    padding: 16px;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.12);
+  }
+
+  .pdf-excel-action-panel h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+
+  .pdf-excel-action-panel p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .pdf-excel-main-btn {
+    margin-top: 0;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .pdf-excel-success-screen h1 {
+    font-size: 32px;
+  }
+}
