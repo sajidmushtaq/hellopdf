@@ -1,171 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>PDF to Text - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=300"/>
+  <link rel="stylesheet" href="/css/style.css?v=8001"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .hidden-screen{display:none!important}
+    #textPreviewScreen:not(.hidden-screen){display:grid!important}
+    #textSuccessScreen:not(.hidden-screen){display:flex!important}
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <button class="mobile-menu-btn" type="button">☰</button>
   <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+  <button class="mobile-grid-btn" type="button">⠿</button>
 </header>
 
-<div class="tools-drawer" id="toolsDrawer">
-  <button class="drawer-close" id="toolsClose" type="button">×</button>
-
-  <h3>PDF Tools</h3>
-
-  <a href="/merge.html">Merge PDF</a>
-  <a href="/compress.html">Compress PDF</a>
-  <a href="/image-to-pdf.html">Image to PDF</a>
-  <a href="/pdf-to-image.html">PDF to Image</a>
-  <a href="/split.html">Split PDF</a>
-  <a href="/remove.html">Remove Pages</a>
-  <a href="/rotate.html">Rotate PDF</a>
-  <a href="/watermark.html">Watermark</a>
-</div>
-
-<div class="main-drawer" id="mainDrawer">
-  <button class="drawer-close" id="mainClose" type="button">×</button>
-
-  <div class="drawer-section">
-    <h4>OTHER PRODUCTS</h4>
-    <h4>SOLUTIONS</h4>
-    <h4>APPLICATIONS</h4>
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
+</header>
 
-  <a href="#">💳 Pricing</a>
-  <a href="#">🔒 Security</a>
-  <a href="#">⚙️ Features</a>
-  <a href="#">💎 About us</a>
+<main class="pdf-text-page">
 
-  <div class="drawer-bottom">
-    <a href="#">Help ›</a>
-    <a href="#">Language ›</a>
-    <a href="/login.html" class="drawer-login">Login</a>
-    <a href="/signup.html" class="drawer-signup">Sign up</a>
-  </div>
-</div>
+  <section class="text-start-screen" id="textStartScreen">
+    <h1>PDF to Text</h1>
+    <p>Extract text from your PDF file quickly and easily.</p>
 
-<div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="text-select-row">
+      <div class="text-upload-box" id="dropZone">
+        <input type="file" id="textFileInput" accept="application/pdf" hidden />
+        <input type="file" id="addMoreInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
 
-<div class="tool-page">
-  <div class="tool-box">
-
-    <div class="tool-icon">
-      <i class="fa-solid fa-file-lines" style="color:#06b6d4;"></i>
+      <div class="cloud-buttons">
+        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
+        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+      </div>
     </div>
 
-    <h1>PDF to Text</h1>
-    <p>Extract text from your PDF file.</p>
+    <div class="drop-text">or drop PDF here</div>
+  </section>
 
-    <form id="pdfToTextForm">
+  <section class="text-preview-screen hidden-screen" id="textPreviewScreen">
+    <div class="text-preview-left">
+      <div class="text-file-grid" id="fileList"></div>
 
-      <label class="upload-area" for="pdfFile">
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <span id="fileName">Select PDF file</span>
-        <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" hidden />
-      </label>
+      <button class="text-floating-add-btn" id="addMoreBtn" type="button">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
 
-      <button type="submit" class="main-btn">
+    <aside class="text-action-panel">
+      <h2>PDF to Text</h2>
+      <p>Extract readable text from your selected PDF file.</p>
+
+      <button class="text-main-btn" id="convertBtn" type="button">
         Extract Text
+        <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-    </form>
+      <div class="progress-container text-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
 
-    <p id="statusText"></p>
+  <section class="text-success-screen hidden-screen" id="textSuccessScreen">
+    <h1>Text extracted successfully!</h1>
+    <p>Your text file is ready to download.</p>
+    <button id="downloadBtn">Download TXT</button>
+  </section>
 
-  </div>
-</div>
+</main>
 
-<script>
-  const form = document.getElementById("pdfToTextForm");
-  const fileInput = document.getElementById("pdfFile");
-  const fileName = document.getElementById("fileName");
-  const statusText = document.getElementById("statusText");
-
-  fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
-      fileName.textContent = fileInput.files[0].name;
-    }
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    if (!fileInput.files.length) {
-      statusText.textContent = "Please select a PDF file first.";
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("pdfFile", fileInput.files[0]);
-
-    statusText.textContent = "Extracting text...";
-
-    try {
-      const response = await fetch("/pdf-to-text", {
-        method: "POST",
-        body: formData
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "Extraction failed");
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "pdf-text.txt";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-
-      statusText.textContent = "Text downloaded successfully.";
-    } catch (error) {
-      console.error(error);
-      statusText.textContent = error.message || "Something went wrong.";
-    }
-  });
-
-  const toolsBtn = document.getElementById("toolsMenuBtn");
-  const mainBtn = document.getElementById("mainMenuBtn");
-  const toolsDrawer = document.getElementById("toolsDrawer");
-  const mainDrawer = document.getElementById("mainDrawer");
-  const overlay = document.getElementById("drawerOverlay");
-
-  function closeDrawers() {
-    toolsDrawer.classList.remove("active");
-    mainDrawer.classList.remove("active");
-    overlay.classList.remove("active");
-  }
-
-  toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
-</script>
+<script src="/js/pdf-to-text.js?v=8001"></script>
 
 </body>
 </html>
