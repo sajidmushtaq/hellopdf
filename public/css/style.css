@@ -12777,3 +12777,385 @@ body .reorder-page #downloadBtn{
   background: #d92727;
   transform: translateY(-1px);
 }
+
+/* ================================
+   WORD TO PDF TOOL PAGE
+================================ */
+
+.word-pdf-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f7fb;
+}
+
+.word-pdf-start-screen {
+  min-height: calc(100vh - 70px);
+  padding: 70px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.word-pdf-start-screen h1 {
+  font-size: 46px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.word-pdf-start-screen p {
+  font-size: 18px;
+  color: #555;
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+.word-pdf-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.word-pdf-upload-box {
+  background: #e5322d;
+  color: #fff;
+  padding: 24px 58px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+  transition: 0.25s ease;
+}
+
+.word-pdf-upload-box:hover,
+.word-pdf-upload-box.drag-active {
+  background: #c92420;
+  transform: translateY(-2px);
+}
+
+.word-pdf-upload-box h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.word-pdf-page .cloud-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-pdf-page .cloud-buttons button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ef2f2f;
+  color: #fff;
+  font-size: 21px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(239, 47, 47, 0.25);
+}
+
+.word-pdf-page .cloud-buttons button i {
+  color: #fff;
+  font-size: 21px;
+}
+
+.word-pdf-page .cloud-buttons button:hover {
+  background: #d92727;
+  transform: translateY(-1px);
+}
+
+.word-pdf-preview-screen {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  background: #f4f4f8;
+}
+
+.word-pdf-preview-left {
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.word-pdf-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.word-pdf-topbar h1 {
+  font-size: 34px;
+  margin: 0 0 5px;
+  color: #222;
+}
+
+.word-pdf-topbar p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.word-pdf-add-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.word-pdf-add-btn i {
+  font-size: 24px;
+}
+
+.word-pdf-add-btn:hover {
+  background: #c92420;
+}
+
+.word-pdf-file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.word-pdf-file-card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  min-height: 290px;
+}
+
+.word-file-preview {
+  height: 190px;
+  border-radius: 10px;
+  background: #f0f5ff;
+  border: 1px solid #d8e4ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.word-file-preview i {
+  font-size: 70px;
+  color: #2b65d9;
+  margin-bottom: 12px;
+}
+
+.word-file-preview span {
+  background: #2b65d9;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.word-pdf-file-card h3 {
+  font-size: 14px;
+  color: #333;
+  margin: 12px 0 5px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.word-pdf-file-card p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.word-pdf-action-panel {
+  background: #fff;
+  border-left: 1px solid #ddd;
+  padding: 32px 24px;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.word-pdf-action-panel h2 {
+  font-size: 28px;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+.word-pdf-action-panel p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.word-pdf-main-btn {
+  width: 100%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.word-pdf-main-btn:hover {
+  background: #c92420;
+}
+
+.word-pdf-main-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.word-pdf-progress {
+  margin-top: 16px;
+}
+
+.word-pdf-success-screen {
+  min-height: calc(100vh - 70px);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #f7f7fb;
+}
+
+.word-pdf-success-screen h1 {
+  font-size: 42px;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.word-pdf-success-screen p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 26px;
+}
+
+.word-pdf-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 34px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.word-pdf-success-screen .download-result-btn:hover {
+  background: #c92420;
+}
+
+@media (max-width: 768px) {
+  .word-pdf-start-screen {
+    min-height: calc(100vh - 56px);
+    padding: 55px 16px 28px;
+  }
+
+  .word-pdf-start-screen h1 {
+    font-size: 34px;
+  }
+
+  .word-pdf-start-screen p {
+    font-size: 16px;
+  }
+
+  .word-pdf-upload-box {
+    padding: 20px 36px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .word-pdf-upload-box h2 {
+    font-size: 21px;
+  }
+
+  .word-pdf-preview-screen {
+    grid-template-columns: 1fr;
+    padding-bottom: 190px;
+  }
+
+  .word-pdf-preview-left {
+    padding: 18px;
+  }
+
+  .word-pdf-topbar {
+    align-items: flex-start;
+  }
+
+  .word-pdf-topbar h1 {
+    font-size: 28px;
+  }
+
+  .word-pdf-add-btn {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .word-pdf-file-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .word-pdf-action-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: auto;
+    z-index: 90;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    padding: 16px;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.12);
+  }
+
+  .word-pdf-action-panel h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+
+  .word-pdf-action-panel p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .word-pdf-main-btn {
+    margin-top: 0;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .word-pdf-success-screen h1 {
+    font-size: 32px;
+  }
+}
