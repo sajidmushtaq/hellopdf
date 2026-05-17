@@ -15289,3 +15289,13 @@ body .reorder-page #downloadBtn{
     font-size: 32px;
   }
 }
+
+.tool-icon.repair {
+  background: linear-gradient(135deg, #ff5f57, #e5322d);
+  color: #fff;
+}
+
+.tool-icon.repair i {
+  color: #fff;
+  font-size: 30px;
+}
