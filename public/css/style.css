@@ -14583,3 +14583,359 @@ body .reorder-page #downloadBtn{
 .ppt-pdf-success-screen .download-result-btn:hover{
   background:#c92420;
 }
+
+/* ================================
+   HTML TO PDF TOOL PAGE
+================================ */
+
+.html-pdf-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f7fb;
+}
+
+.html-pdf-start-screen {
+  min-height: calc(100vh - 70px);
+  padding: 55px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.html-pdf-start-screen h1 {
+  font-size: 46px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.html-pdf-start-screen p {
+  font-size: 18px;
+  color: #555;
+  max-width: 620px;
+  margin-bottom: 24px;
+}
+
+.html-pdf-code-box {
+  width: 100%;
+  max-width: 820px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.html-pdf-code-box textarea {
+  width: 100%;
+  min-height: 260px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+  font-family: Consolas, Monaco, monospace;
+}
+
+.html-pdf-code-box textarea:focus {
+  border-color: #e5322d;
+}
+
+.html-pdf-start-btn {
+  margin-top: 20px;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 42px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.html-pdf-start-btn:hover {
+  background: #c92420;
+}
+
+.html-pdf-preview-screen {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  background: #f4f4f8;
+}
+
+.html-pdf-preview-left {
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.html-pdf-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.html-pdf-topbar h1 {
+  font-size: 34px;
+  margin: 0 0 5px;
+  color: #222;
+}
+
+.html-pdf-topbar p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.html-pdf-add-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.html-pdf-add-btn i {
+  font-size: 22px;
+}
+
+.html-pdf-add-btn:hover {
+  background: #c92420;
+}
+
+.html-pdf-file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.html-pdf-file-card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  min-height: 290px;
+}
+
+.html-file-preview {
+  height: 190px;
+  border-radius: 10px;
+  background: #f5f0ff;
+  border: 1px solid #ddd0ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.html-file-preview i {
+  font-size: 74px;
+  color: #7c3aed;
+  margin-bottom: 12px;
+}
+
+.html-file-preview span {
+  background: #7c3aed;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 999px;
+}
+
+.html-pdf-file-card h3 {
+  font-size: 14px;
+  color: #333;
+  margin: 12px 0 5px;
+}
+
+.html-pdf-file-card p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.html-pdf-action-panel {
+  background: #fff;
+  border-left: 1px solid #ddd;
+  padding: 32px 24px;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.html-pdf-action-panel h2 {
+  font-size: 28px;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+.html-pdf-action-panel p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.html-pdf-main-btn {
+  width: 100%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.html-pdf-main-btn:hover {
+  background: #c92420;
+}
+
+.html-pdf-main-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.html-pdf-progress {
+  margin-top: 16px;
+}
+
+.html-pdf-success-screen {
+  min-height: calc(100vh - 70px);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #f7f7fb;
+}
+
+.html-pdf-success-screen h1 {
+  font-size: 42px;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.html-pdf-success-screen p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 26px;
+}
+
+.html-pdf-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 34px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.html-pdf-success-screen .download-result-btn:hover {
+  background: #c92420;
+}
+
+@media (max-width: 768px) {
+  .html-pdf-start-screen {
+    min-height: calc(100vh - 56px);
+    padding: 45px 16px 28px;
+  }
+
+  .html-pdf-start-screen h1 {
+    font-size: 34px;
+  }
+
+  .html-pdf-start-screen p {
+    font-size: 16px;
+  }
+
+  .html-pdf-code-box textarea {
+    min-height: 230px;
+  }
+
+  .html-pdf-preview-screen {
+    grid-template-columns: 1fr;
+    padding-bottom: 190px;
+  }
+
+  .html-pdf-preview-left {
+    padding: 18px;
+  }
+
+  .html-pdf-topbar {
+    align-items: flex-start;
+  }
+
+  .html-pdf-topbar h1 {
+    font-size: 28px;
+  }
+
+  .html-pdf-add-btn {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .html-pdf-file-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .html-pdf-action-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: auto;
+    z-index: 90;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    padding: 16px;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.12);
+  }
+
+  .html-pdf-action-panel h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+  }
+
+  .html-pdf-action-panel p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .html-pdf-main-btn {
+    margin-top: 0;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .html-pdf-success-screen h1 {
+    font-size: 32px;
+  }
+}
