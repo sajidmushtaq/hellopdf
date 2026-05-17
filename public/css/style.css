@@ -15525,3 +15525,76 @@ body .reorder-page #downloadBtn{
   }
 
 }
+
+/* REDACT PDF START SCREEN FINAL FIX */
+
+.redact-start-screen {
+  min-height: calc(100vh - 70px) !important;
+  padding: 70px 20px 40px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: #f7f7fb !important;
+}
+
+.redact-start-screen h1 {
+  font-size: 46px !important;
+  font-weight: 800 !important;
+  color: #222 !important;
+  margin: 0 0 12px !important;
+}
+
+.redact-start-screen p {
+  font-size: 18px !important;
+  color: #555 !important;
+  max-width: 650px !important;
+  margin: 0 0 32px !important;
+}
+
+.redact-select-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  flex-wrap: wrap !important;
+}
+
+.redact-upload-box {
+  background: #e5322d !important;
+  color: #fff !important;
+  padding: 24px 58px !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 20px rgba(229,50,45,0.25) !important;
+}
+
+.redact-upload-box h2 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+}
+
+.redact-page .cloud-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.redact-page .cloud-buttons button {
+  width: 42px !important;
+  height: 42px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: #ef2f2f !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 8px 18px rgba(239,47,47,0.25) !important;
+}
+
+.redact-page .cloud-buttons button i {
+  color: #fff !important;
+  font-size: 21px !important;
+}
