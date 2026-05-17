@@ -4,11 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>PowerPoint to PDF - Coming Soon | HelloPDF</title>
+  <title>PowerPoint to PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=910" />
+  <link rel="stylesheet" href="/css/style.css?v=1012" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen { display: none !important; }
+    #previewScreen:not(.hidden-screen) { display: grid !important; }
+    #successScreen:not(.hidden-screen) { display: flex !important; }
+  </style>
 </head>
+
 <body>
 
 <header class="mobile-header">
@@ -17,61 +24,108 @@
   <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
 </header>
 
-<section class="tool-page">
-  <div class="tool-box">
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-    <div class="tool-icon">
-      <i class="fa-solid fa-file-powerpoint" style="color:#ea580c;font-size:55px;"></i>
-    </div>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
 
-    <h1>PowerPoint to PDF</h1>
-
-    <p class="tool-description">
-      Convert PowerPoint presentations into high-quality PDF documents.
-    </p>
-
-    <div style="margin-top:28px;">
-      <span style="
-        display:inline-block;
-        background:#f59e0b;
-        color:white;
-        padding:10px 22px;
-        border-radius:999px;
-        font-weight:800;
-        font-size:15px;
-      ">
-        🚀 Coming Soon
-      </span>
-    </div>
-
-    <p style="
-      margin-top:24px;
-      color:#64748b;
-      line-height:1.8;
-      font-size:15px;
-      max-width:560px;
-      margin-left:auto;
-      margin-right:auto;
-    ">
-      This tool needs LibreOffice server support for accurate PPT and PPTX conversion.
-      We are preparing a stable cloud version so your presentations convert safely without errors.
-    </p>
-
-    <a href="/index.html" style="
-      display:inline-block;
-      margin-top:22px;
-      background:#2563eb;
-      color:white;
-      padding:13px 24px;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:800;
-    ">
-      Back to Home
-    </a>
-
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
-</section>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<main class="ppt-pdf-page">
+
+  <section class="ppt-pdf-start-screen" id="startScreen">
+    <h1>PowerPoint to PDF</h1>
+    <p>Convert your PowerPoint presentation into a clean PDF file.</p>
+
+    <div class="ppt-pdf-select-row">
+      <div class="ppt-pdf-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept=".ppt,.pptx" hidden />
+        <h2>Select PowerPoint file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="drop-text">or drop PowerPoint file here</div>
+
+    <div class="ad-placeholder"></div>
+  </section>
+
+  <section class="ppt-pdf-preview-screen hidden-screen" id="previewScreen">
+
+    <div class="ppt-pdf-preview-left">
+
+      <div class="ppt-pdf-topbar">
+        <div>
+          <h1>PowerPoint to PDF</h1>
+          <p id="fileCounter">0 file selected</p>
+        </div>
+
+        <button class="ppt-pdf-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+          Add more files
+        </button>
+      </div>
+
+      <div class="ppt-pdf-file-grid" id="fileList"></div>
+
+    </div>
+
+    <aside class="ppt-pdf-action-panel">
+
+      <h2>PowerPoint to PDF</h2>
+
+      <p>
+        Convert your PPT or PPTX presentation into PDF.
+      </p>
+
+      <button class="ppt-pdf-main-btn" id="convertBtn" type="button">
+        Convert to PDF
+      </button>
+
+      <div class="progress-container ppt-pdf-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <section class="ppt-pdf-success-screen hidden-screen" id="successScreen">
+
+    <h1>PowerPoint has been converted!</h1>
+
+    <p>Your PDF file is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download PDF file
+    </button>
+
+  </section>
+
+</main>
+
+<script src="/js/powerpoint-to-pdf.js?v=1012"></script>
 
 </body>
 </html>
