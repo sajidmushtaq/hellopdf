@@ -11773,3 +11773,19 @@ body .reorder-page #downloadBtn{
   color: #fff;
   font-size: 30px;
 }
+
+.tool-icon.red {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #ff5f57, #e5322d);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.tool-icon.red i {
+  color: #fff;
+  font-size: 24px;
+}
