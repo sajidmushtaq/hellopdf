@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Flatten PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1023"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .hidden-screen{
+      display:none !important;
+    }
+
+    #previewScreen:not(.hidden-screen){
+      display:grid !important;
+    }
+
+    #successScreen:not(.hidden-screen){
+      display:flex !important;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<main class="flatten-page">
+
+  <!-- START -->
+
+  <section class="flatten-start-screen" id="startScreen">
+
+    <h1>Flatten PDF</h1>
+
+    <p>
+      Flatten PDF forms, annotations and layers into a clean PDF.
+    </p>
+
+    <div class="flatten-select-row">
+
+      <div class="flatten-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="drop-text">
+      or drop PDF here
+    </div>
+
+  </section>
+
+  <!-- PREVIEW -->
+
+  <section class="flatten-preview-screen hidden-screen" id="previewScreen">
+
+    <div class="flatten-preview-left">
+
+      <div class="flatten-topbar">
+
+        <div>
+          <h1>Flatten PDF</h1>
+          <p id="fileCounter">0 file selected</p>
+        </div>
+
+        <button class="flatten-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+      </div>
+
+      <div class="flatten-file-grid" id="fileList"></div>
+
+    </div>
+
+    <aside class="flatten-action-panel">
+
+      <h2>Flatten PDF</h2>
+
+      <div class="flatten-help">
+        <i class="fa-solid fa-circle-info"></i>
+        Merge form fields, annotations and layers permanently into the PDF.
+      </div>
+
+      <div class="flatten-option-box">
+
+        <label class="flatten-check">
+          <input type="checkbox" id="flattenForms" checked />
+          Flatten forms
+        </label>
+
+        <label class="flatten-check">
+          <input type="checkbox" id="flattenAnnotations" checked />
+          Flatten annotations
+        </label>
+
+      </div>
+
+      <button class="flatten-main-btn" id="flattenBtn" type="button">
+        Flatten PDF
+      </button>
+
+      <div class="progress-container flatten-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <!-- SUCCESS -->
+
+  <section class="flatten-success-screen hidden-screen" id="successScreen">
+
+    <h1>PDF has been flattened!</h1>
+
+    <p>
+      Your flattened PDF is ready to download.
+    </p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download flattened PDF
+    </button>
+
+  </section>
+
+</main>
+
+<script src="/js/flatten-pdf.js?v=1023"></script>
+
+</body>
+</html>

@@ -1653,6 +1653,59 @@ app.post("/crop-pdf", upload.single("pdfFile"), async (req, res) => {
   }
 });
 
+app.post("/flatten-pdf", upload.single("pdfFile"), async (req, res) => {
+
+  let inputPath = null;
+
+  try {
+
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded");
+    }
+
+    inputPath = req.file.path;
+
+    const pdfBytes = fs.readFileSync(inputPath);
+
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+
+    const form = pdfDoc.getForm();
+
+    try {
+      form.flatten();
+    } catch (e) {
+      console.log("No forms found");
+    }
+
+    const finalPdf = await pdfDoc.save({
+      useObjectStreams: false
+    });
+
+    if (fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    res.setHeader("Content-Type", "application/pdf");
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=flattened.pdf"
+    );
+
+    return res.end(Buffer.from(finalPdf));
+
+  } catch (err) {
+
+    console.error("FLATTEN PDF ERROR:", err);
+
+    if (inputPath && fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    return res.status(500).send("Flatten PDF failed");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

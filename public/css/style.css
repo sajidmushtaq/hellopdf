@@ -12704,3 +12704,278 @@ body .reorder-page #downloadBtn{
     padding:15px;
   }
 }
+
+/* =========================
+   FLATTEN PDF TOOL
+========================= */
+
+.flatten-page{
+  min-height:calc(100vh - 70px);
+  background:#f7f7fb;
+}
+
+.flatten-start-screen{
+  min-height:calc(100vh - 70px);
+  padding:70px 20px 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.flatten-start-screen h1{
+  font-size:46px;
+  font-weight:800;
+  color:#222;
+  margin-bottom:12px;
+}
+
+.flatten-start-screen p{
+  font-size:18px;
+  color:#555;
+  max-width:650px;
+  margin-bottom:32px;
+}
+
+.flatten-select-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.flatten-upload-box{
+  background:#e5322d;
+  color:#fff;
+  padding:24px 58px;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.25);
+}
+
+.flatten-upload-box h2{
+  margin:0;
+  font-size:24px;
+  font-weight:800;
+}
+
+.flatten-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.flatten-page .cloud-buttons button{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#ef2f2f;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(239,47,47,0.25);
+}
+
+.flatten-page .cloud-buttons button i{
+  color:#fff;
+  font-size:21px;
+}
+
+.flatten-preview-screen{
+  min-height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:1fr 360px;
+  background:#eef0f4;
+}
+
+.flatten-preview-left{
+  padding:28px;
+}
+
+.flatten-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.flatten-topbar h1{
+  font-size:34px;
+  margin:0 0 6px;
+}
+
+.flatten-topbar p{
+  margin:0;
+  color:#666;
+}
+
+.flatten-add-btn{
+  width:68px;
+  height:68px;
+  min-width:68px;
+  border:none;
+  border-radius:50%;
+  background:#e5322d;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.35);
+}
+
+.flatten-add-btn i{
+  font-size:24px;
+}
+
+.flatten-file-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:22px;
+}
+
+.flatten-file-card{
+  position:relative;
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+}
+
+.flatten-file-card h3{
+  font-size:14px;
+  margin-top:12px;
+  word-break:break-word;
+}
+
+.flatten-action-panel{
+  background:#fff;
+  border-left:1px solid #ddd;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+}
+
+.flatten-action-panel h2{
+  font-size:32px;
+  margin:0 0 16px;
+}
+
+.flatten-help{
+  background:#dff2ff;
+  color:#1f2937;
+  padding:12px 14px;
+  border-radius:7px;
+  line-height:1.5;
+  display:flex;
+  gap:10px;
+  font-size:15px;
+  margin-bottom:24px;
+}
+
+.flatten-help i{
+  color:#0ea5e9;
+  margin-top:3px;
+}
+
+.flatten-option-box{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.flatten-check{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.flatten-check input{
+  width:22px;
+  height:22px;
+  accent-color:#22c55e;
+}
+
+.flatten-main-btn{
+  margin-top:auto;
+  width:100%;
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:18px 20px;
+  border-radius:10px;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.flatten-progress{
+  margin-top:16px;
+}
+
+.flatten-success-screen{
+  min-height:calc(100vh - 70px);
+  padding:60px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.flatten-success-screen h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
+
+.flatten-success-screen p{
+  font-size:18px;
+  margin-bottom:26px;
+}
+
+.flatten-success-screen .download-result-btn{
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:16px 34px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.25);
+}
+
+@media(max-width:768px){
+
+  .flatten-preview-screen{
+    grid-template-columns:1fr;
+    padding-bottom:230px;
+  }
+
+  .flatten-preview-left{
+    padding:18px;
+  }
+
+  .flatten-file-grid{
+    grid-template-columns:1fr;
+  }
+
+  .flatten-action-panel{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    z-index:999;
+    border-left:none;
+    border-top:1px solid #ddd;
+    box-shadow:0 -8px 24px rgba(0,0,0,0.14);
+  }
+
+}
