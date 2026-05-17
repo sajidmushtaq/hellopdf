@@ -105,13 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
     card.innerHTML = `
       <button class="remove-file-btn" type="button">×</button>
 
-      <div class="pdf-thumb-wrap">
-        <embed
-          src="${file.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
-          type="application/pdf"
-          class="pdf-thumb"
-        />
-      </div>
+      <div class="pdf-viewer-wrap">
+  <canvas class="pdf-canvas"></canvas>
+
+  <div class="pdf-controls">
+    <button class="zoom-btn zoom-out">−</button>
+    <span class="zoom-level">100%</span>
+    <button class="zoom-btn zoom-in">+</button>
+  </div>
+</div>
 
       <h3>${file.name}</h3>
       <span class="file-order-badge">${slot}</span>
@@ -129,6 +131,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
       renderFiles();
     });
+    const canvas = card.querySelector(".pdf-canvas");
+const ctx = canvas.getContext("2d");
+
+const zoomText = card.querySelector(".zoom-level");
+const zoomInBtn = card.querySelector(".zoom-in");
+const zoomOutBtn = card.querySelector(".zoom-out");
+
+let scale = 1;
+
+pdfjsLib.getDocument(file.previewUrl).promise.then((pdf) => {
+  pdf.getPage(1).then((page) => {
+
+    function renderPage() {
+      const viewport = page.getViewport({ scale });
+
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      page.render({
+        canvasContext: ctx,
+        viewport
+      });
+
+      zoomText.textContent = Math.round(scale * 100) + "%";
+    }
+
+    renderPage();
+
+    zoomInBtn.addEventListener("click", () => {
+      scale += 0.2;
+      renderPage();
+    });
+
+    zoomOutBtn.addEventListener("click", () => {
+      if (scale > 0.6) {
+        scale -= 0.2;
+        renderPage();
+      }
+    });
+
+  });
+});
 
     return card;
   }
