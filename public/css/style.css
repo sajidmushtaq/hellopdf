@@ -12117,3 +12117,73 @@ body .reorder-page #downloadBtn{
 #successScreen:not(.hidden-screen) {
   display: flex !important;
 }
+
+/* REPAIR PDF MOBILE FINAL FIX */
+@media (max-width: 768px) {
+  .repair-preview-screen {
+    grid-template-columns: 1fr !important;
+    padding-bottom: 190px !important;
+    overflow-x: hidden !important;
+  }
+
+  .repair-preview-left {
+    padding: 18px !important;
+    width: 100% !important;
+  }
+
+  .repair-topbar {
+    align-items: flex-start !important;
+  }
+
+  .repair-topbar h1 {
+    font-size: 28px !important;
+  }
+
+  .repair-file-grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  .repair-file-card {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+
+  .repair-action-panel {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    z-index: 999 !important;
+    border-left: none !important;
+    border-top: 1px solid #ddd !important;
+    padding: 16px !important;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.12) !important;
+  }
+
+  .repair-action-panel h2 {
+    font-size: 22px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .repair-action-panel p {
+    font-size: 13px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .repair-main-btn {
+    margin-top: 0 !important;
+    padding: 14px 18px !important;
+    font-size: 16px !important;
+  }
+
+  .repair-add-btn {
+    width: 56px !important;
+    height: 56px !important;
+    flex-shrink: 0 !important;
+  }
+}
