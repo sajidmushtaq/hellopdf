@@ -3,97 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>PDF to Word - HelloPDF</title>
-  <link rel="stylesheet" href="/css/style.css?v=999" />
+
+  <link rel="stylesheet" href="/css/style.css?v=1004" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen {
+      display: none !important;
+    }
+
+    #previewScreen:not(.hidden-screen) {
+      display: grid !important;
+    }
+
+    #successScreen:not(.hidden-screen) {
+      display: flex !important;
+    }
+  </style>
 </head>
+
 <body>
 
-<section class="tool-page">
-  <div class="tool-box">
-    <h1>📄 PDF to Word</h1>
-    <p>Convert your PDF into editable Word document.</p>
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
 
-    <form id="uploadForm">
-      <input
-        type="file"
-        id="fileInput"
-        accept="application/pdf"
-        style="display:block; margin:20px auto; padding:14px; border:2px solid #94a3b8; border-radius:12px; background:white;"
-      />
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-      <div id="fileList"></div>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
 
-      <button type="submit">Convert to Word</button>
-    </form>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">0%</div>
-    </div>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
-</section>
+</header>
+
+<div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
+  <button class="drawer-close" id="toolsClose" type="button">×</button>
+
+  <div class="drawer-category">
+    <h4>ORGANIZE PDF</h4>
+    <a href="/merge.html">🔀 Merge PDF</a>
+    <a href="/split.html">✂️ Split PDF</a>
+    <a href="/remove.html">❌ Remove Pages</a>
+    <a href="/extract.html">📤 Extract Pages</a>
+    <a href="/rotate.html">🔄 Rotate PDF</a>
+    <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>OPTIMIZE PDF</h4>
+    <a href="/compress.html">🗜️ Compress PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>CONVERT TO PDF</h4>
+    <a href="/jpg-to-pdf.html">🖼️ JPG to PDF</a>
+    <a href="/image-to-pdf.html">🖼️ Image to PDF</a>
+    <a href="/word-to-pdf.html">📄 Word to PDF</a>
+    <a href="/powerpoint-to-pdf.html">📊 PowerPoint to PDF</a>
+    <a href="/excel-to-pdf.html">📗 Excel to PDF</a>
+    <a href="/html-to-pdf.html">🌐 HTML to PDF</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>CONVERT FROM PDF</h4>
+    <a href="/pdf-to-word.html">📄 PDF to Word</a>
+    <a href="/pdf-to-excel.html">📗 PDF to Excel</a>
+    <a href="/pdf-to-powerpoint.html">📊 PDF to PowerPoint</a>
+    <a href="/pdf-to-image.html">🖼️ PDF to Image</a>
+    <a href="/pdf-to-jpg.html">🖼️ PDF to JPG</a>
+    <a href="/pdf-to-png.html">🖼️ PDF to PNG</a>
+    <a href="/pdf-to-text.html">📝 PDF to Text</a>
+  </div>
+
+  <div class="drawer-category">
+    <h4>PDF SECURITY</h4>
+    <a href="/protect.html">🔒 Protect PDF</a>
+    <a href="/unlock.html">🔓 Unlock PDF</a>
+    <a href="/watermark.html">💧 Watermark PDF</a>
+  </div>
+</div>
+
+<div class="main-drawer" id="mainDrawer">
+  <button class="drawer-close" id="mainClose" type="button">×</button>
+
+  <div class="drawer-section">
+    <h4>OTHER PRODUCTS</h4>
+    <h4>SOLUTIONS</h4>
+    <h4>APPLICATIONS</h4>
+  </div>
+
+  <a href="/pricing.html">💳 Pricing</a>
+  <a href="#">🔒 Security</a>
+  <a href="#">⚙️ Features</a>
+  <a href="#">💎 About us</a>
+
+  <div class="drawer-bottom">
+    <a href="#">Help ›</a>
+    <a href="#">Language ›</a>
+    <a href="/login.html" class="drawer-login">Login</a>
+    <a href="/signup.html" class="drawer-signup">Sign up</a>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<main class="pdf-word-page">
+
+  <section class="pdf-word-start-screen" id="startScreen">
+    <h1>PDF to Word</h1>
+
+    <p>
+      Convert your PDF into an editable Word document quickly and easily.
+    </p>
+
+    <div class="pdf-word-select-row">
+      <div class="pdf-word-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="drop-text">or drop PDF here</div>
+
+    <div class="ad-placeholder"></div>
+  </section>
+
+  <section class="pdf-word-preview-screen hidden-screen" id="previewScreen">
+    <div class="pdf-word-preview-left">
+      <div class="pdf-word-topbar">
+        <div>
+          <h1>PDF to Word</h1>
+          <p id="fileCounter">0 file selected</p>
+        </div>
+
+        <button class="pdf-word-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+          Add more files
+        </button>
+      </div>
+
+      <div class="pdf-word-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="pdf-word-action-panel">
+      <h2>PDF to Word</h2>
+      <p>Convert your PDF into an editable DOCX document.</p>
+
+      <button class="pdf-word-main-btn" id="convertBtn" type="button">
+        Convert to Word
+      </button>
+
+      <div class="progress-container pdf-word-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="pdf-word-success-screen hidden-screen" id="successScreen">
+    <h1>PDF has been converted!</h1>
+    <p>Your Word document is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download Word file
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/pdf-to-word.js?v=1004"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const fileInput = document.getElementById("fileInput");
-  const form = document.getElementById("uploadForm");
-  const fileList = document.getElementById("fileList");
-  const progressBar = document.getElementById("progressBar");
+  const toolsBtn = document.getElementById("toolsMenuBtn");
+  const mainBtn = document.getElementById("mainMenuBtn");
+  const toolsDrawer = document.getElementById("toolsDrawer");
+  const mainDrawer = document.getElementById("mainDrawer");
+  const overlay = document.getElementById("drawerOverlay");
+  const toolsClose = document.getElementById("toolsClose");
+  const mainClose = document.getElementById("mainClose");
 
-  let selectedFile = null;
+  function closeDrawers() {
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
 
-  fileInput.addEventListener("change", () => {
-    selectedFile = fileInput.files[0];
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-    if (selectedFile) {
-      fileList.innerHTML = "📄 " + selectedFile.name;
-    }
-  });
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    if (!selectedFile) {
-      alert("Please select PDF file first");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("pdf", selectedFile);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/pdf-to-word");
-    xhr.responseType = "blob";
-
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percent = Math.round((e.loaded / e.total) * 100);
-        progressBar.style.width = percent + "%";
-        progressBar.innerText = percent + "%";
-      }
-    };
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const url = window.URL.createObjectURL(xhr.response);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "converted.docx";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
-      } else {
-        alert("Conversion failed");
-      }
-    };
-
-    xhr.onerror = () => {
-      alert("Request failed");
-    };
-
-    xhr.send(formData);
-  });
-});
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
 
 </body>
