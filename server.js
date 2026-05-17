@@ -10,6 +10,7 @@ const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
+const { PDFDocument } = require("pdf-lib");
 
 const pdfParseModule = require("pdf-parse");
 const pdfParse = pdfParseModule.default || pdfParseModule;
@@ -1540,6 +1541,48 @@ app.get("/check-auth", (req, res) => {
     res.json({ loggedIn: true, user: req.session.user });
   } else {
     res.json({ loggedIn: false });
+  }
+});
+
+app.post("/repair-pdf", upload.single("pdf"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded");
+    }
+
+    const inputPath = req.file.path;
+
+    const inputBytes = fs.readFileSync(inputPath);
+
+    const pdfDoc = await PDFDocument.load(inputBytes, {
+      ignoreEncryption: true
+    });
+
+    const repairedBytes = await pdfDoc.save({
+      useObjectStreams: false
+    });
+
+    const outputFileName = `repaired-${Date.now()}.pdf`;
+    const outputPath = path.join(__dirname, "outputs", outputFileName);
+
+    fs.writeFileSync(outputPath, repairedBytes);
+
+    res.download(outputPath, "repaired.pdf", (err) => {
+      try {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+      } catch (cleanupError) {
+        console.error("Repair cleanup error:", cleanupError);
+      }
+
+      if (err) {
+        console.error("Repair download error:", err);
+      }
+    });
+
+  } catch (error) {
+    console.error("REPAIR PDF ERROR:", error);
+    res.status(500).send("Repair failed. This PDF may be too corrupted or password protected.");
   }
 });
 

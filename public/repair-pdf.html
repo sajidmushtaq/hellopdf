@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Repair PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1014" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen { display: none !important; }
+    #previewScreen:not(.hidden-screen) { display: grid !important; }
+    #successScreen:not(.hidden-screen) { display: flex !important; }
+  </style>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<main class="repair-page">
+
+  <section class="repair-start-screen" id="startScreen">
+    <h1>Repair PDF</h1>
+    <p>Fix minor PDF structure problems and create a clean PDF copy.</p>
+
+    <div class="repair-select-row">
+      <div class="repair-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
+        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+      </div>
+    </div>
+
+    <div class="drop-text">or drop PDF here</div>
+    <div class="ad-placeholder"></div>
+  </section>
+
+  <section class="repair-preview-screen hidden-screen" id="previewScreen">
+    <div class="repair-preview-left">
+      <div class="repair-topbar">
+        <div>
+          <h1>Repair PDF</h1>
+          <p id="fileCounter">0 file selected</p>
+        </div>
+
+        <button class="repair-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+          Add more files
+        </button>
+      </div>
+
+      <div class="repair-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="repair-action-panel">
+      <h2>Repair PDF</h2>
+      <p>We will rebuild your PDF and create a clean downloadable copy.</p>
+
+      <button class="repair-main-btn" id="repairBtn" type="button">
+        Repair PDF
+      </button>
+
+      <div class="progress-container repair-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="repair-success-screen hidden-screen" id="successScreen">
+    <h1>PDF has been repaired!</h1>
+    <p>Your repaired PDF is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download repaired PDF
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/repair-pdf.js?v=1014"></script>
+
+</body>
+</html>
