@@ -12979,3 +12979,242 @@ body .reorder-page #downloadBtn{
   }
 
 }
+
+/* =========================
+   COMPARE PDF TOOL
+========================= */
+
+.compare-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f7fb;
+}
+
+.compare-start-screen {
+  min-height: calc(100vh - 70px);
+  padding: 70px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.compare-start-screen h1 {
+  font-size: 46px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.compare-start-screen p {
+  font-size: 18px;
+  color: #555;
+  max-width: 650px;
+  margin-bottom: 32px;
+}
+
+.compare-upload-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.compare-upload-box {
+  background: #e5322d;
+  color: #fff;
+  padding: 24px 42px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229,50,45,0.25);
+}
+
+.compare-upload-box h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.compare-upload-box:hover,
+.compare-upload-box.drag-active {
+  background: #c92420;
+  transform: translateY(-2px);
+}
+
+.compare-preview-screen {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  background: #eef0f4;
+}
+
+.compare-preview-left {
+  padding: 28px;
+}
+
+.compare-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.compare-topbar h1 {
+  font-size: 34px;
+  margin: 0 0 6px;
+}
+
+.compare-topbar p {
+  margin: 0;
+  color: #666;
+}
+
+.compare-file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.compare-file-card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.compare-file-card h3 {
+  font-size: 14px;
+  margin-top: 12px;
+  word-break: break-word;
+}
+
+.compare-action-panel {
+  background: #fff;
+  border-left: 1px solid #ddd;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.compare-action-panel h2 {
+  font-size: 32px;
+  margin: 0 0 16px;
+}
+
+.compare-help {
+  background: #dff2ff;
+  color: #1f2937;
+  padding: 12px 14px;
+  border-radius: 7px;
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.compare-help i {
+  color: #0ea5e9;
+  margin-top: 3px;
+}
+
+.compare-main-btn {
+  margin-top: auto;
+  width: 100%;
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 18px 20px;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.compare-progress {
+  margin-top: 16px;
+}
+
+.compare-success-screen {
+  min-height: calc(100vh - 70px);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #f7f7fb;
+}
+
+.compare-success-screen h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.compare-success-screen p {
+  font-size: 18px;
+  margin-bottom: 26px;
+}
+
+.compare-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 34px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229,50,45,0.25);
+}
+
+@media(max-width:768px) {
+  .compare-upload-row {
+    flex-direction: column;
+    width: 100%;
+    max-width: 330px;
+  }
+
+  .compare-upload-box {
+    width: 100%;
+  }
+
+  .compare-preview-screen {
+    grid-template-columns: 1fr;
+    padding-bottom: 190px;
+  }
+
+  .compare-preview-left {
+    padding: 18px;
+  }
+
+  .compare-file-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-action-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    z-index: 999;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.14);
+  }
+
+  .compare-action-panel h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .compare-help {
+    display: none;
+  }
+
+  .compare-main-btn {
+    font-size: 18px;
+    padding: 15px;
+  }
+}

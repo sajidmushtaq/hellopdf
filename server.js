@@ -1706,6 +1706,131 @@ app.post("/flatten-pdf", upload.single("pdfFile"), async (req, res) => {
   }
 });
 
+app.post(
+  "/compare-pdf",
+  upload.fields([
+    { name: "pdfOne", maxCount: 1 },
+    { name: "pdfTwo", maxCount: 1 }
+  ]),
+  async (req, res) => {
+    let fileOnePath = null;
+    let fileTwoPath = null;
+
+    try {
+      if (!req.files || !req.files.pdfOne || !req.files.pdfTwo) {
+        return res.status(400).send("Please upload both PDF files");
+      }
+
+      fileOnePath = req.files.pdfOne[0].path;
+      fileTwoPath = req.files.pdfTwo[0].path;
+
+      const bufferOne = fs.readFileSync(fileOnePath);
+      const bufferTwo = fs.readFileSync(fileTwoPath);
+
+      const dataOne = await pdfParse(bufferOne);
+      const dataTwo = await pdfParse(bufferTwo);
+
+      const textOne = dataOne.text || "";
+      const textTwo = dataTwo.text || "";
+
+      if (!textOne.trim() && !textTwo.trim()) {
+        return res.status(400).send("No readable text found in both PDFs");
+      }
+
+      const linesOne = textOne
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      const linesTwo = textTwo
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      const maxLines = Math.max(linesOne.length, linesTwo.length);
+
+      const differences = [];
+
+      for (let i = 0; i < maxLines; i++) {
+        const left = linesOne[i] || "";
+        const right = linesTwo[i] || "";
+
+        if (left !== right) {
+          differences.push({
+            line: i + 1,
+            pdfOne: left,
+            pdfTwo: right
+          });
+        }
+      }
+
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=compare-report.pdf"
+      );
+
+      const doc = new PDFKit({
+        size: "A4",
+        margin: 45
+      });
+
+      doc.pipe(res);
+
+      doc.fontSize(22).text("HelloPDF Compare Report", {
+        align: "center"
+      });
+
+      doc.moveDown();
+
+      doc.fontSize(12).text(`PDF 1 lines: ${linesOne.length}`);
+      doc.text(`PDF 2 lines: ${linesTwo.length}`);
+      doc.text(`Differences found: ${differences.length}`);
+
+      doc.moveDown();
+
+      if (differences.length === 0) {
+        doc.fontSize(14).text("No text differences found.");
+      } else {
+        differences.slice(0, 200).forEach((diff) => {
+          if (doc.y > 720) doc.addPage();
+
+          doc.fontSize(11).text(`Line ${diff.line}`, {
+            underline: true
+          });
+
+          doc.fontSize(10).text(`PDF 1: ${diff.pdfOne || "[empty]"}`);
+          doc.text(`PDF 2: ${diff.pdfTwo || "[empty]"}`);
+
+          doc.moveDown(0.7);
+        });
+
+        if (differences.length > 200) {
+          doc.addPage();
+          doc
+            .fontSize(12)
+            .text(`Only first 200 differences shown out of ${differences.length}.`);
+        }
+      }
+
+      doc.end();
+
+      res.on("finish", () => {
+        if (fileOnePath && fs.existsSync(fileOnePath)) fs.unlinkSync(fileOnePath);
+        if (fileTwoPath && fs.existsSync(fileTwoPath)) fs.unlinkSync(fileTwoPath);
+      });
+
+    } catch (err) {
+      console.error("COMPARE PDF ERROR:", err);
+
+      if (fileOnePath && fs.existsSync(fileOnePath)) fs.unlinkSync(fileOnePath);
+      if (fileTwoPath && fs.existsSync(fileTwoPath)) fs.unlinkSync(fileTwoPath);
+
+      return res.status(500).send("Compare PDF failed");
+    }
+  }
+);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
