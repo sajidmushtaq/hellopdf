@@ -17,38 +17,55 @@ document.addEventListener("DOMContentLoaded", () => {
   let progressInterval = null;
 
   function showStart() {
+    startScreen.classList.remove("hidden-screen");
     startScreen.style.display = "flex";
+
     previewScreen.classList.add("hidden-screen");
-    successScreen.classList.add("hidden-screen");
     previewScreen.style.display = "none";
+
+    successScreen.classList.add("hidden-screen");
     successScreen.style.display = "none";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function showPreview() {
+    startScreen.classList.add("hidden-screen");
     startScreen.style.display = "none";
+
     previewScreen.classList.remove("hidden-screen");
     previewScreen.style.display = "grid";
+
     successScreen.classList.add("hidden-screen");
     successScreen.style.display = "none";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function showSuccess() {
+    startScreen.classList.add("hidden-screen");
     startScreen.style.display = "none";
+
     previewScreen.classList.add("hidden-screen");
     previewScreen.style.display = "none";
+
     successScreen.classList.remove("hidden-screen");
     successScreen.style.display = "flex";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function resetProgress() {
     if (progressInterval) clearInterval(progressInterval);
     progressInterval = null;
+
     progressBar.style.width = "0%";
     progressBar.textContent = "0%";
   }
 
   function startFakeProgress() {
     let progress = 15;
+
     progressBar.style.width = "15%";
     progressBar.textContent = "15%";
 
@@ -64,12 +81,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function completeProgress() {
     if (progressInterval) clearInterval(progressInterval);
     progressInterval = null;
+
     progressBar.style.width = "100%";
     progressBar.textContent = "100%";
   }
 
   function isPdf(file) {
-    return file && (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"));
+    return file && (
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf")
+    );
   }
 
   function addFile(files) {
@@ -187,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const blob = await response.blob();
 
-      if (!blob || blob.size < 100) {
+      if (!blob || blob.size < 100 || blob.type !== "application/pdf") {
         alert("Repair failed. Please try another PDF file.");
         return;
       }

@@ -12090,3 +12090,30 @@ body .reorder-page #downloadBtn{
 .repair-success-screen .download-result-btn:hover {
   background: #c92420;
 }
+
+/* REPAIR PDF SCREEN SWITCH FIX */
+#startScreen.hidden-screen,
+#previewScreen.hidden-screen,
+#successScreen.hidden-screen {
+  display: none !important;
+}
+
+.repair-start-screen {
+  display: flex;
+}
+
+.repair-preview-screen {
+  display: none;
+}
+
+.repair-success-screen {
+  display: none;
+}
+
+#previewScreen:not(.hidden-screen) {
+  display: grid !important;
+}
+
+#successScreen:not(.hidden-screen) {
+  display: flex !important;
+}
