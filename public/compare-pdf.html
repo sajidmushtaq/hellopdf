@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Compare PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1024" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .hidden-screen { display: none !important; }
+    #previewScreen:not(.hidden-screen) { display: grid !important; }
+    #successScreen:not(.hidden-screen) { display: flex !important; }
+  </style>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<main class="compare-page">
+
+  <section class="compare-start-screen" id="startScreen">
+    <h1>Compare PDF</h1>
+    <p>Compare two PDF files and download a difference report.</p>
+
+    <div class="compare-upload-row">
+      <div class="compare-upload-box" id="dropZone1">
+        <input type="file" id="fileInput1" accept="application/pdf" hidden />
+        <h2>Select first PDF</h2>
+      </div>
+
+      <div class="compare-upload-box" id="dropZone2">
+        <input type="file" id="fileInput2" accept="application/pdf" hidden />
+        <h2>Select second PDF</h2>
+      </div>
+    </div>
+
+    <div class="drop-text">or drop PDF files here</div>
+  </section>
+
+  <section class="compare-preview-screen hidden-screen" id="previewScreen">
+    <div class="compare-preview-left">
+      <div class="compare-topbar">
+        <div>
+          <h1>Compare PDF</h1>
+          <p id="fileCounter">0 files selected</p>
+        </div>
+      </div>
+
+      <div class="compare-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="compare-action-panel">
+      <h2>Compare PDF</h2>
+
+      <div class="compare-help">
+        <i class="fa-solid fa-circle-info"></i>
+        We compare readable text from both PDFs and create a PDF report.
+      </div>
+
+      <button class="compare-main-btn" id="compareBtn" type="button">
+        Compare PDF
+      </button>
+
+      <div class="progress-container compare-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="compare-success-screen hidden-screen" id="successScreen">
+    <h1>PDFs have been compared!</h1>
+    <p>Your comparison report is ready to download.</p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download comparison report
+    </button>
+  </section>
+
+</main>
+
+<script src="/js/compare-pdf.js?v=1024"></script>
+
+</body>
+</html>
