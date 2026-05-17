@@ -16,11 +16,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let repairedPdfUrl = null;
   let progressInterval = null;
 
-  startScreen.style.display = "flex";
-  previewScreen.classList.add("hidden-screen");
-  successScreen.classList.add("hidden-screen");
-  previewScreen.style.display = "none";
-  successScreen.style.display = "none";
+  function showStart() {
+    startScreen.style.display = "flex";
+    previewScreen.classList.add("hidden-screen");
+    successScreen.classList.add("hidden-screen");
+    previewScreen.style.display = "none";
+    successScreen.style.display = "none";
+  }
+
+  function showPreview() {
+    startScreen.style.display = "none";
+    previewScreen.classList.remove("hidden-screen");
+    previewScreen.style.display = "grid";
+    successScreen.classList.add("hidden-screen");
+    successScreen.style.display = "none";
+  }
+
+  function showSuccess() {
+    startScreen.style.display = "none";
+    previewScreen.classList.add("hidden-screen");
+    previewScreen.style.display = "none";
+    successScreen.classList.remove("hidden-screen");
+    successScreen.style.display = "flex";
+  }
 
   function resetProgress() {
     if (progressInterval) clearInterval(progressInterval);
@@ -76,20 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
     fileList.innerHTML = "";
 
     if (!selectedFile) {
-      startScreen.style.display = "flex";
-      previewScreen.classList.add("hidden-screen");
-      successScreen.classList.add("hidden-screen");
-      previewScreen.style.display = "none";
-      successScreen.style.display = "none";
       resetProgress();
+      showStart();
       return;
     }
-
-    startScreen.style.display = "none";
-    previewScreen.classList.remove("hidden-screen");
-    previewScreen.style.display = "grid";
-    successScreen.classList.add("hidden-screen");
-    successScreen.style.display = "none";
 
     fileCounter.textContent = "1 file selected";
 
@@ -118,10 +126,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     fileList.appendChild(card);
+    resetProgress();
+    showPreview();
   }
 
-  dropZone.addEventListener("click", () => fileInput.click());
-  addMoreBtn?.addEventListener("click", () => fileInput.click());
+  dropZone.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  addMoreBtn?.addEventListener("click", () => {
+    fileInput.click();
+  });
 
   fileInput.addEventListener("change", () => {
     addFile(fileInput.files);
@@ -143,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addFile(e.dataTransfer.files);
   });
 
-  repairBtn?.addEventListener("click", async () => {
+  repairBtn.addEventListener("click", async () => {
     if (!selectedFile) {
       alert("Please select a PDF file first");
       return;
@@ -156,10 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startFakeProgress();
 
     repairBtn.disabled = true;
-    repairBtn.innerHTML = `
-      Repairing...
-      <i class="fa-solid fa-spinner fa-spin"></i>
-    `;
+    repairBtn.innerHTML = `Repairing... <i class="fa-solid fa-spinner fa-spin"></i>`;
 
     try {
       const response = await fetch("/repair-pdf", {
@@ -175,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const blob = await response.blob();
 
-      if (!blob || blob.size < 100 || blob.type !== "application/pdf") {
+      if (!blob || blob.size < 100) {
         alert("Repair failed. Please try another PDF file.");
         return;
       }
@@ -186,10 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
       repairedPdfUrl = URL.createObjectURL(blob);
 
       setTimeout(() => {
-        previewScreen.classList.add("hidden-screen");
-        previewScreen.style.display = "none";
-        successScreen.classList.remove("hidden-screen");
-        successScreen.style.display = "flex";
+        showSuccess();
       }, 400);
 
     } catch (error) {
@@ -200,14 +209,11 @@ document.addEventListener("DOMContentLoaded", () => {
       progressInterval = null;
 
       repairBtn.disabled = false;
-      repairBtn.innerHTML = `
-        Repair PDF
-        <i class="fa-solid fa-arrow-right"></i>
-      `;
+      repairBtn.innerHTML = `Repair PDF <i class="fa-solid fa-arrow-right"></i>`;
     }
   });
 
-  downloadBtn?.addEventListener("click", () => {
+  downloadBtn.addEventListener("click", () => {
     if (!repairedPdfUrl) {
       alert("Repaired PDF is not ready yet");
       return;
@@ -220,4 +226,6 @@ document.addEventListener("DOMContentLoaded", () => {
     a.click();
     a.remove();
   });
+
+  showStart();
 });
