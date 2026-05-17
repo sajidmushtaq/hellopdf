@@ -2,7 +2,8 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const { PDFDocument, rgb, degrees } = require("pdf-lib");
+const { PDFDocument } = require("pdf-lib");
+
 const archiver = require("archiver");
 const { exec } = require("child_process");
 const ExcelJS = require("exceljs");
