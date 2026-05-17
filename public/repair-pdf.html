@@ -6,7 +6,7 @@
 
   <title>Repair PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1014" />
+  <link rel="stylesheet" href="/css/style.css?v=1016" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -41,13 +41,14 @@
   </div>
 </header>
 
-<div class="drawer-overlay" id="drawerOverlay"></div>
-
 <main class="repair-page">
 
   <section class="repair-start-screen" id="startScreen">
     <h1>Repair PDF</h1>
-    <p>Fix minor PDF structure problems and create a clean PDF copy.</p>
+
+    <p>
+      Fix minor PDF structure problems and create a clean PDF copy.
+    </p>
 
     <div class="repair-select-row">
       <div class="repair-upload-box" id="dropZone">
@@ -56,12 +57,17 @@
       </div>
 
       <div class="cloud-buttons">
-        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
-        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+        <button type="button" aria-label="Upload from Google Drive">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+        <button type="button" aria-label="Upload from Dropbox">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
       </div>
     </div>
 
     <div class="drop-text">or drop PDF here</div>
+
     <div class="ad-placeholder"></div>
   </section>
 
@@ -107,7 +113,7 @@
 
 </main>
 
-<script src="/js/repair-pdf.js?v=1014"></script>
+<script src="/js/repair-pdf.js?v=1016"></script>
 
 </body>
 </html>
