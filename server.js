@@ -1831,6 +1831,80 @@ app.post(
   }
 );
 
+app.post("/redact-pdf", upload.single("pdfFile"), async (req, res) => {
+
+  let inputPath = null;
+
+  try {
+
+    if (!req.file) {
+      return res.status(400).send("No PDF uploaded");
+    }
+
+    inputPath = req.file.path;
+
+    const redactData = JSON.parse(req.body.redactData);
+
+    const pdfBytes = fs.readFileSync(inputPath);
+
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+
+    const pages = pdfDoc.getPages();
+
+    const page = pages[0];
+
+    const pdfWidth = page.getWidth();
+    const pdfHeight = page.getHeight();
+
+    const scaleX = pdfWidth / redactData.canvasWidth;
+    const scaleY = pdfHeight / redactData.canvasHeight;
+
+    const x = redactData.x * scaleX;
+
+    const yFromTop = redactData.y * scaleY;
+
+    const width = redactData.width * scaleX;
+    const height = redactData.height * scaleY;
+
+    const pdfY = pdfHeight - yFromTop - height;
+
+    page.drawRectangle({
+      x,
+      y: pdfY,
+      width,
+      height,
+      color: rgb(0, 0, 0)
+    });
+
+    const finalPdf = await pdfDoc.save({
+      useObjectStreams: false
+    });
+
+    if (fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    res.setHeader("Content-Type", "application/pdf");
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=redacted.pdf"
+    );
+
+    return res.end(Buffer.from(finalPdf));
+
+  } catch (err) {
+
+    console.error("REDACT PDF ERROR:", err);
+
+    if (inputPath && fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    return res.status(500).send("Redact PDF failed");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

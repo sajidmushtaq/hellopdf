@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Redact PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1029"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .hidden-screen{
+      display:none !important;
+    }
+
+    #previewScreen:not(.hidden-screen){
+      display:grid !important;
+    }
+
+    #successScreen:not(.hidden-screen){
+      display:flex !important;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<main class="redact-page">
+
+  <!-- START -->
+
+  <section class="redact-start-screen" id="startScreen">
+
+    <h1>Redact PDF</h1>
+
+    <p>
+      Permanently cover sensitive text and information in your PDF.
+    </p>
+
+    <div class="redact-select-row">
+
+      <div class="redact-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
+      </div>
+
+      <div class="cloud-buttons">
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="drop-text">
+      or drop PDF here
+    </div>
+
+  </section>
+
+  <!-- PREVIEW -->
+
+  <section class="redact-editor-screen hidden-screen" id="previewScreen">
+
+    <div class="redact-editor-left">
+
+      <div class="redact-canvas-wrap" id="canvasWrap">
+
+        <canvas id="pdfCanvas"></canvas>
+
+        <div class="redact-box" id="redactBox"></div>
+
+      </div>
+
+      <div class="redact-page-controls">
+
+        <button type="button" id="zoomOutBtn">−</button>
+
+        <span id="zoomText">100%</span>
+
+        <button type="button" id="zoomInBtn">+</button>
+
+      </div>
+
+    </div>
+
+    <aside class="redact-editor-panel">
+
+      <h2>Redact PDF</h2>
+
+      <div class="redact-help">
+        <i class="fa-solid fa-circle-info"></i>
+
+        Drag and resize the black box to hide sensitive content.
+      </div>
+
+      <button class="redact-reset-btn" id="resetBox" type="button">
+        Reset box
+      </button>
+
+      <button class="redact-main-btn" id="redactBtn" type="button">
+        Redact PDF
+      </button>
+
+      <div class="progress-container redact-progress">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+
+    </aside>
+
+  </section>
+
+  <!-- SUCCESS -->
+
+  <section class="redact-success-screen hidden-screen" id="successScreen">
+
+    <h1>PDF has been redacted!</h1>
+
+    <p>
+      Your redacted PDF is ready to download.
+    </p>
+
+    <button class="download-result-btn" id="downloadBtn" type="button">
+      Download redacted PDF
+    </button>
+
+  </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script src="/js/redact-pdf.js?v=1029"></script>
+
+</body>
+</html>

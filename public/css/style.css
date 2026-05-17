@@ -13499,3 +13499,252 @@ body .reorder-page #downloadBtn{
   font-size: 15px;
   font-weight: 700;
 }
+
+/* =========================
+   REDACT PDF TOOL
+========================= */
+
+.redact-page{
+  min-height:calc(100vh - 70px);
+  background:#f7f7fb;
+}
+
+.redact-start-screen{
+  min-height:calc(100vh - 70px);
+  padding:70px 20px 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.redact-start-screen h1{
+  font-size:46px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.redact-start-screen p{
+  font-size:18px;
+  color:#555;
+  max-width:650px;
+  margin-bottom:32px;
+}
+
+.redact-select-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+
+.redact-upload-box{
+  background:#e5322d;
+  color:#fff;
+  padding:24px 58px;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.25);
+}
+
+.redact-upload-box h2{
+  margin:0;
+  font-size:24px;
+  font-weight:800;
+}
+
+.redact-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.redact-page .cloud-buttons button{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#ef2f2f;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.redact-page .cloud-buttons button i{
+  font-size:21px;
+  color:#fff;
+}
+
+.redact-editor-screen{
+  min-height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:1fr 360px;
+  background:#eef0f4;
+}
+
+.redact-editor-left{
+  padding:24px;
+  overflow:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.redact-canvas-wrap{
+  position:relative;
+  background:#fff;
+  box-shadow:0 8px 22px rgba(0,0,0,0.15);
+}
+
+#pdfCanvas{
+  display:block;
+}
+
+.redact-box{
+  position:absolute;
+  background:#000;
+  cursor:move;
+}
+
+.redact-page-controls{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#3f3f46;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.redact-page-controls button{
+  width:34px;
+  height:34px;
+  border:none;
+  border-radius:50%;
+  background:#52525b;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.redact-editor-panel{
+  background:#fff;
+  border-left:1px solid #ddd;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+}
+
+.redact-editor-panel h2{
+  font-size:32px;
+  margin:0 0 16px;
+}
+
+.redact-help{
+  background:#dff2ff;
+  color:#1f2937;
+  padding:12px 14px;
+  border-radius:7px;
+  display:flex;
+  gap:10px;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+.redact-reset-btn{
+  background:none;
+  border:none;
+  color:#e5322d;
+  text-align:left;
+  cursor:pointer;
+  margin-bottom:18px;
+  font-size:15px;
+}
+
+.redact-main-btn{
+  margin-top:auto;
+  width:100%;
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:18px 20px;
+  border-radius:10px;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.redact-progress{
+  margin-top:16px;
+}
+
+.redact-success-screen{
+  min-height:calc(100vh - 70px);
+  padding:60px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.redact-success-screen h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
+
+.redact-success-screen p{
+  font-size:18px;
+  margin-bottom:26px;
+}
+
+.redact-success-screen .download-result-btn{
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:16px 34px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+@media(max-width:768px){
+
+  .redact-editor-screen{
+    grid-template-columns:1fr;
+    padding-bottom:220px;
+  }
+
+  .redact-editor-panel{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    z-index:999;
+    border-left:none;
+    border-top:1px solid #ddd;
+    box-shadow:0 -8px 24px rgba(0,0,0,0.14);
+  }
+
+  .redact-editor-panel h2{
+    font-size:24px;
+    margin-bottom:10px;
+  }
+
+  .redact-help{
+    display:none;
+  }
+
+  .redact-main-btn{
+    font-size:18px;
+    padding:15px;
+  }
+
+}
