@@ -13218,3 +13218,46 @@ body .reorder-page #downloadBtn{
     padding: 15px;
   }
 }
+
+.compare-second-upload {
+  min-height: 290px;
+  background: #fff;
+  border: 2px dashed #d1d5db;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  color: #555;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.compare-second-upload:hover,
+.compare-second-upload.drag-active {
+  border-color: #e5322d;
+  background: #fff7f7;
+}
+
+.compare-second-upload i {
+  font-size: 48px;
+  color: #e5322d;
+  margin-bottom: 12px;
+}
+
+.compare-second-upload h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #222;
+}
+
+.compare-second-upload p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.compare-main-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

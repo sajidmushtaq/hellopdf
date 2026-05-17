@@ -4,11 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const successScreen = document.getElementById("successScreen");
 
   const dropZone1 = document.getElementById("dropZone1");
-  const dropZone2 = document.getElementById("dropZone2");
+  const secondUploadBox = document.getElementById("secondUploadBox");
+
   const fileInput1 = document.getElementById("fileInput1");
   const fileInput2 = document.getElementById("fileInput2");
 
-  const fileList = document.getElementById("fileList");
+  const fileOneBox = document.getElementById("fileOneBox");
+  const fileTwoBox = document.getElementById("fileTwoBox");
+
   const fileCounter = document.getElementById("fileCounter");
   const compareBtn = document.getElementById("compareBtn");
   const progressBar = document.getElementById("progressBar");
@@ -95,49 +98,62 @@ document.addEventListener("DOMContentLoaded", () => {
     renderFiles();
   }
 
-  function renderFiles() {
-    fileList.innerHTML = "";
+  function createPdfCard(file, slot) {
+    const card = document.createElement("div");
+    card.className = "compare-file-card";
 
-    const files = [fileOne, fileTwo].filter(Boolean);
-    fileCounter.textContent = `${files.length} file${files.length === 1 ? "" : "s"} selected`;
+    card.innerHTML = `
+      <button class="remove-file-btn" type="button">×</button>
 
-    files.forEach((file, index) => {
-      const card = document.createElement("div");
-      card.className = "compare-file-card";
+      <div class="pdf-thumb-wrap">
+        <embed
+          src="${file.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+          type="application/pdf"
+          class="pdf-thumb"
+        />
+      </div>
 
-      card.innerHTML = `
-        <button class="remove-file-btn" type="button">×</button>
+      <h3>${file.name}</h3>
+      <span class="file-order-badge">${slot}</span>
+    `;
 
-        <div class="pdf-thumb-wrap">
-          <embed
-            src="${file.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
-            type="application/pdf"
-            class="pdf-thumb"
-          />
-        </div>
+    card.querySelector(".remove-file-btn").addEventListener("click", () => {
+      if (file.previewUrl) URL.revokeObjectURL(file.previewUrl);
 
-        <h3>${file.name}</h3>
-        <span class="file-order-badge">${index + 1}</span>
-      `;
+      if (slot === 1) fileOne = null;
+      if (slot === 2) fileTwo = null;
 
-      card.querySelector(".remove-file-btn").addEventListener("click", () => {
-        if (file.previewUrl) URL.revokeObjectURL(file.previewUrl);
+      if (!fileOne && !fileTwo) {
+        showStart();
+      }
 
-        if (file === fileOne) fileOne = null;
-        if (file === fileTwo) fileTwo = null;
-
-        if (!fileOne && !fileTwo) {
-          showStart();
-        } else {
-          renderFiles();
-        }
-      });
-
-      fileList.appendChild(card);
+      renderFiles();
     });
 
-    if (files.length > 0) {
-      resetProgress();
+    return card;
+  }
+
+  function renderFiles() {
+    fileOneBox.innerHTML = "";
+    fileTwoBox.innerHTML = "";
+
+    const count = [fileOne, fileTwo].filter(Boolean).length;
+    fileCounter.textContent = `${count} file${count === 1 ? "" : "s"} selected`;
+
+    if (fileOne) {
+      fileOneBox.appendChild(createPdfCard(fileOne, 1));
+    }
+
+    if (fileTwo) {
+      fileTwoBox.appendChild(createPdfCard(fileTwo, 2));
+    }
+
+    secondUploadBox.style.display = fileTwo ? "none" : "flex";
+    compareBtn.disabled = !(fileOne && fileTwo);
+
+    resetProgress();
+
+    if (fileOne || fileTwo) {
       showPreview();
     } else {
       showStart();
@@ -145,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   dropZone1.addEventListener("click", () => fileInput1.click());
-  dropZone2.addEventListener("click", () => fileInput2.click());
+  secondUploadBox.addEventListener("click", () => fileInput2.click());
 
   fileInput1.addEventListener("change", () => {
     setFile(1, fileInput1.files[0]);
@@ -157,23 +173,38 @@ document.addEventListener("DOMContentLoaded", () => {
     fileInput2.value = "";
   });
 
-  [dropZone1, dropZone2].forEach((zone, index) => {
-    zone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      zone.classList.add("drag-active");
-    });
+  dropZone1.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone1.classList.add("drag-active");
+  });
 
-    zone.addEventListener("dragleave", () => {
-      zone.classList.remove("drag-active");
-    });
+  dropZone1.addEventListener("dragleave", () => {
+    dropZone1.classList.remove("drag-active");
+  });
 
-    zone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      zone.classList.remove("drag-active");
+  dropZone1.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone1.classList.remove("drag-active");
 
-      const file = Array.from(e.dataTransfer.files || []).find(isPdf);
-      setFile(index + 1, file);
-    });
+    const file = Array.from(e.dataTransfer.files || []).find(isPdf);
+    setFile(1, file);
+  });
+
+  secondUploadBox.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    secondUploadBox.classList.add("drag-active");
+  });
+
+  secondUploadBox.addEventListener("dragleave", () => {
+    secondUploadBox.classList.remove("drag-active");
+  });
+
+  secondUploadBox.addEventListener("drop", (e) => {
+    e.preventDefault();
+    secondUploadBox.classList.remove("drag-active");
+
+    const file = Array.from(e.dataTransfer.files || []).find(isPdf);
+    setFile(2, file);
   });
 
   compareBtn.addEventListener("click", async () => {
@@ -225,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (progressInterval) clearInterval(progressInterval);
       progressInterval = null;
 
-      compareBtn.disabled = false;
+      compareBtn.disabled = !(fileOne && fileTwo);
       compareBtn.innerHTML = `Compare PDF`;
     }
   });
