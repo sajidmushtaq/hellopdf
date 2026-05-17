@@ -12745,3 +12745,35 @@ body .reorder-page #downloadBtn{
 .pdf-word-success-screen .download-result-btn:hover {
   background: #c92420;
 }
+
+/* PDF TO WORD - CLOUD ICON SAME AS MERGE TOOL */
+.pdf-word-page .cloud-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pdf-word-page .cloud-buttons button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ef2f2f;
+  color: #fff;
+  font-size: 21px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(239, 47, 47, 0.25);
+}
+
+.pdf-word-page .cloud-buttons button i {
+  color: #fff;
+  font-size: 21px;
+}
+
+.pdf-word-page .cloud-buttons button:hover {
+  background: #d92727;
+  transform: translateY(-1px);
+}
