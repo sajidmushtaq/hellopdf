@@ -13445,3 +13445,57 @@ body .reorder-page #downloadBtn{
   font-size: 15px;
   font-weight: 700;
 }
+
+/* COMPARE PDF ZOOM REAL FIX */
+
+.pdf-viewer-wrap {
+  background: #e5e7eb;
+  border-radius: 6px;
+  overflow: auto !important;
+  position: relative;
+  height: calc(100vh - 250px);
+  padding: 18px 18px 70px;
+}
+
+.pdf-canvas {
+  display: block;
+  background: #fff;
+  margin: 0 auto;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
+.pdf-controls {
+  position: sticky;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #3f3f46;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  z-index: 20;
+}
+
+.zoom-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #52525b;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.zoom-level {
+  min-width: 58px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+}

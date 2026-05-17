@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+
   const startScreen = document.getElementById("startScreen");
   const previewScreen = document.getElementById("previewScreen");
   const successScreen = document.getElementById("successScreen");
@@ -106,73 +111,98 @@ document.addEventListener("DOMContentLoaded", () => {
       <button class="remove-file-btn" type="button">×</button>
 
       <div class="pdf-viewer-wrap">
-  <canvas class="pdf-canvas"></canvas>
+        <canvas class="pdf-canvas"></canvas>
 
-  <div class="pdf-controls">
-    <button class="zoom-btn zoom-out">−</button>
-    <span class="zoom-level">100%</span>
-    <button class="zoom-btn zoom-in">+</button>
-  </div>
-</div>
+        <div class="pdf-controls">
+          <button class="zoom-btn zoom-out" type="button">−</button>
+          <span class="zoom-level">100%</span>
+          <button class="zoom-btn zoom-in" type="button">+</button>
+        </div>
+      </div>
 
       <h3>${file.name}</h3>
       <span class="file-order-badge">${slot}</span>
     `;
 
-    card.querySelector(".remove-file-btn").addEventListener("click", () => {
+    const removeBtn = card.querySelector(".remove-file-btn");
+
+    removeBtn.addEventListener("click", () => {
       if (file.previewUrl) URL.revokeObjectURL(file.previewUrl);
 
       if (slot === 1) fileOne = null;
       if (slot === 2) fileTwo = null;
 
-      if (!fileOne && !fileTwo) {
-        showStart();
-      }
-
       renderFiles();
     });
+
     const canvas = card.querySelector(".pdf-canvas");
-const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
+    const zoomText = card.querySelector(".zoom-level");
+    const zoomInBtn = card.querySelector(".zoom-in");
+    const zoomOutBtn = card.querySelector(".zoom-out");
 
-const zoomText = card.querySelector(".zoom-level");
-const zoomInBtn = card.querySelector(".zoom-in");
-const zoomOutBtn = card.querySelector(".zoom-out");
-
-let scale = 1;
-
-pdfjsLib.getDocument(file.previewUrl).promise.then((pdf) => {
-  pdf.getPage(1).then((page) => {
+    let scale = 1;
+    let pdfPage = null;
+    let renderTask = null;
 
     function renderPage() {
-      const viewport = page.getViewport({ scale });
+      if (!pdfPage) return;
 
-      canvas.height = viewport.height;
+      if (renderTask) {
+        renderTask.cancel();
+        renderTask = null;
+      }
+
+      const viewport = pdfPage.getViewport({ scale });
+
       canvas.width = viewport.width;
+      canvas.height = viewport.height;
 
-      page.render({
+      canvas.style.width = viewport.width + "px";
+      canvas.style.height = viewport.height + "px";
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      renderTask = pdfPage.render({
         canvasContext: ctx,
         viewport
+      });
+
+      renderTask.promise.catch((error) => {
+        if (error?.name !== "RenderingCancelledException") {
+          console.error("PDF render error:", error);
+        }
       });
 
       zoomText.textContent = Math.round(scale * 100) + "%";
     }
 
-    renderPage();
+    if (!window.pdfjsLib) {
+      card.querySelector(".pdf-viewer-wrap").innerHTML = `
+        <embed src="${file.previewUrl}" type="application/pdf" class="pdf-thumb" />
+      `;
+      return card;
+    }
+
+    pdfjsLib.getDocument(file.previewUrl).promise
+      .then((pdf) => pdf.getPage(1))
+      .then((page) => {
+        pdfPage = page;
+        renderPage();
+      })
+      .catch((error) => {
+        console.error("PDF load error:", error);
+      });
 
     zoomInBtn.addEventListener("click", () => {
-      scale += 0.2;
+      scale = Math.min(scale + 0.25, 3);
       renderPage();
     });
 
     zoomOutBtn.addEventListener("click", () => {
-      if (scale > 0.6) {
-        scale -= 0.2;
-        renderPage();
-      }
+      scale = Math.max(scale - 0.25, 0.5);
+      renderPage();
     });
-
-  });
-});
 
     return card;
   }
@@ -184,24 +214,16 @@ pdfjsLib.getDocument(file.previewUrl).promise.then((pdf) => {
     const count = [fileOne, fileTwo].filter(Boolean).length;
     fileCounter.textContent = `${count} file${count === 1 ? "" : "s"} selected`;
 
-    if (fileOne) {
-      fileOneBox.appendChild(createPdfCard(fileOne, 1));
-    }
-
-    if (fileTwo) {
-      fileTwoBox.appendChild(createPdfCard(fileTwo, 2));
-    }
+    if (fileOne) fileOneBox.appendChild(createPdfCard(fileOne, 1));
+    if (fileTwo) fileTwoBox.appendChild(createPdfCard(fileTwo, 2));
 
     secondUploadBox.style.display = fileTwo ? "none" : "flex";
     compareBtn.disabled = !(fileOne && fileTwo);
 
     resetProgress();
 
-    if (fileOne || fileTwo) {
-      showPreview();
-    } else {
-      showStart();
-    }
+    if (fileOne || fileTwo) showPreview();
+    else showStart();
   }
 
   dropZone1.addEventListener("click", () => fileInput1.click());
@@ -229,7 +251,6 @@ pdfjsLib.getDocument(file.previewUrl).promise.then((pdf) => {
   dropZone1.addEventListener("drop", (e) => {
     e.preventDefault();
     dropZone1.classList.remove("drag-active");
-
     const file = Array.from(e.dataTransfer.files || []).find(isPdf);
     setFile(1, file);
   });
@@ -246,7 +267,6 @@ pdfjsLib.getDocument(file.previewUrl).promise.then((pdf) => {
   secondUploadBox.addEventListener("drop", (e) => {
     e.preventDefault();
     secondUploadBox.classList.remove("drag-active");
-
     const file = Array.from(e.dataTransfer.files || []).find(isPdf);
     setFile(2, file);
   });
