@@ -15299,7 +15299,229 @@ body .reorder-page #downloadBtn{
   color: #fff;
   font-size: 30px;
 }
+/* =========================
+   REDACT PDF PRO UI
+========================= */
 
-git add .
-git commit -m "fix repair pdf card icon"
-git push
+.redact-editor-screen{
+  min-height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:190px 1fr 360px;
+  background:#eef0f4;
+}
+
+/* LEFT */
+
+.redact-left-sidebar{
+  background:#f3f4f8;
+  border-right:1px solid #d8d8dd;
+  overflow:auto;
+  padding:18px 14px;
+}
+
+.thumb-page{
+  margin-bottom:26px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.thumb-preview{
+  width:115px;
+  height:160px;
+  background:#fff;
+  margin:0 auto 10px;
+  border:1px solid #ddd;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.active-thumb .thumb-preview{
+  border:2px solid #1d7cff;
+}
+
+.thumb-page span{
+  color:#444;
+  font-size:15px;
+}
+
+/* CENTER */
+
+.redact-center-viewer{
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.redact-top-toolbar{
+  height:58px;
+  background:#fff;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  align-items:center;
+  padding:0 18px;
+  gap:8px;
+}
+
+.toolbar-btn{
+  height:40px;
+  padding:0 14px;
+  border:none;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.toolbar-btn:hover{
+  background:#f3f4f6;
+}
+
+.active-tool{
+  background:#fff1f1;
+  color:#e5322d;
+}
+
+.redact-pdf-stage{
+  flex:1;
+  overflow:auto;
+  padding:30px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+/* RIGHT */
+
+.redact-editor-panel{
+  background:#fff;
+  border-left:1px solid #ddd;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+}
+
+.redact-editor-panel h2{
+  text-align:center;
+  font-size:26px;
+  margin-bottom:16px;
+}
+
+.redact-search{
+  width:100%;
+  height:48px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  padding:0 14px;
+  font-size:16px;
+  margin-bottom:14px;
+}
+
+.redact-option{
+  width:100%;
+  height:54px;
+  border:1px solid #d7d7db;
+  border-radius:8px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:0 16px;
+  font-size:17px;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+
+.redact-option i{
+  width:24px;
+  text-align:center;
+}
+
+.active-option{
+  border:2px solid #3b82f6;
+  background:#f0f7ff;
+}
+
+.redact-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:14px;
+  margin:16px 0;
+}
+
+.redact-cancel-btn{
+  background:none;
+  border:none;
+  color:#111827;
+  font-size:17px;
+  cursor:pointer;
+}
+
+.redact-accept-btn{
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  height:42px;
+  padding:0 20px;
+  border-radius:8px;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.redact-warning-box{
+  background:#fff2df;
+  border:1px solid #ffbe69;
+  border-radius:10px;
+  padding:16px;
+  display:flex;
+  gap:14px;
+  margin-bottom:16px;
+}
+
+.redact-warning-box i{
+  color:#ff8a00;
+  font-size:22px;
+  margin-top:2px;
+}
+
+.redact-warning-box p{
+  margin:0;
+  font-size:15px;
+  line-height:1.5;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .redact-editor-screen{
+    grid-template-columns:1fr;
+    padding-bottom:230px;
+  }
+
+  .redact-left-sidebar{
+    display:none;
+  }
+
+  .redact-editor-panel{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    z-index:999;
+    max-height:230px;
+    overflow:auto;
+  }
+
+  .redact-warning-box{
+    display:none;
+  }
+
+  .redact-top-toolbar{
+    overflow:auto;
+  }
+
+}
