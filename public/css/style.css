@@ -12703,3 +12703,45 @@ body .reorder-page #downloadBtn{
     font-size: 32px;
   }
 }
+
+/* PDF TO WORD FIXES */
+.pdf-word-page .cloud-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pdf-word-page .cloud-buttons button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: #333;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-word-page .cloud-buttons button:hover {
+  background: #f1f1f1;
+}
+
+.pdf-word-success-screen .download-result-btn {
+  border: none;
+  background: #e5322d;
+  color: #fff;
+  padding: 16px 34px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(229, 50, 45, 0.25);
+}
+
+.pdf-word-success-screen .download-result-btn:hover {
+  background: #c92420;
+}
