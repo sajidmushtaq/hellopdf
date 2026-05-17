@@ -2,25 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Crop PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1021" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/style.css?v=1022" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    .hidden-screen{
-      display:none !important;
-    }
-
-    #previewScreen:not(.hidden-screen){
-      display:grid !important;
-    }
-
-    #successScreen:not(.hidden-screen){
-      display:flex !important;
-    }
+    .hidden-screen { display:none !important; }
+    #previewScreen:not(.hidden-screen){ display:grid !important; }
+    #successScreen:not(.hidden-screen){ display:flex !important; }
   </style>
 </head>
 
@@ -34,14 +26,13 @@
 
 <header class="desktop-header">
   <a href="/index.html" class="logo">HelloPDF</a>
-
   <nav>
     <a href="/merge.html">Merge PDF</a>
     <a href="/split.html">Split PDF</a>
     <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
     <a href="/index.html">All PDF Tools</a>
   </nav>
-
   <div class="auth-buttons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
@@ -50,82 +41,70 @@
 
 <main class="crop-page">
 
-  <!-- START SCREEN -->
-
   <section class="crop-start-screen" id="startScreen">
-
     <h1>Crop PDF</h1>
-
-    <p>
-      Crop PDF margins and remove unwanted white space.
-    </p>
+    <p>Crop PDF margins and remove unwanted white space.</p>
 
     <div class="crop-select-row">
-
       <div class="crop-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
         <h2>Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
-        <button type="button">
-          <i class="fa-brands fa-google-drive"></i>
-        </button>
-
-        <button type="button">
-          <i class="fa-brands fa-dropbox"></i>
-        </button>
+        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
+        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
       </div>
-
     </div>
 
-    <div class="drop-text">
-      or drop PDF here
-    </div>
-
-    <div class="ad-placeholder"></div>
-
+    <div class="drop-text">or drop PDF here</div>
   </section>
 
-  <!-- PREVIEW SCREEN -->
+  <section class="crop-editor-screen hidden-screen" id="previewScreen">
 
-  <section class="crop-preview-screen hidden-screen" id="previewScreen">
+    <div class="crop-editor-left">
+      <div class="crop-canvas-wrap" id="canvasWrap">
+        <canvas id="pdfCanvas"></canvas>
 
-    <div class="crop-preview-left">
-
-      <div class="crop-topbar">
-
-        <div>
-          <h1>Crop PDF</h1>
-          <p id="fileCounter">0 file selected</p>
+        <div class="crop-box" id="cropBox">
+          <span class="crop-handle tl"></span>
+          <span class="crop-handle tr"></span>
+          <span class="crop-handle bl"></span>
+          <span class="crop-handle br"></span>
         </div>
-
-        <button class="crop-add-btn" id="addMoreBtn" type="button">
-          <i class="fa-solid fa-plus"></i>
-          Add more files
-        </button>
-
       </div>
 
-      <div class="crop-file-grid" id="fileList"></div>
-
+      <div class="crop-page-controls">
+        <button type="button" id="prevPage">‹</button>
+        <span><span id="pageNum">1</span> / <span id="pageCount">1</span></span>
+        <button type="button" id="nextPage">›</button>
+        <span id="zoomText">100%</span>
+      </div>
     </div>
 
-    <aside class="crop-action-panel">
-
+    <aside class="crop-editor-panel">
       <h2>Crop PDF</h2>
 
-      <p>
-        Remove margins and crop all pages instantly.
-      </p>
+      <div class="crop-help">
+        <i class="fa-solid fa-circle-info"></i>
+        Click and drag to select the area you want to keep. Resize if needed.
+      </div>
 
-      <label class="crop-label">Crop Size</label>
+      <button type="button" class="crop-reset-btn" id="resetCrop">Reset all</button>
 
-      <select id="cropLevel" class="crop-select">
-        <option value="20">Small Crop</option>
-        <option value="40" selected>Medium Crop</option>
-        <option value="60">Large Crop</option>
-      </select>
+      <div class="crop-radio-box">
+        <h3>Pages:</h3>
+
+        <label>
+          <input type="radio" name="cropPages" value="all" checked />
+          All pages
+        </label>
+
+        <label>
+          <input type="radio" name="cropPages" value="current" />
+          Current page
+        </label>
+      </div>
 
       <button class="crop-main-btn" id="cropBtn" type="button">
         Crop PDF
@@ -134,30 +113,23 @@
       <div class="progress-container crop-progress">
         <div class="progress-bar" id="progressBar">0%</div>
       </div>
-
     </aside>
 
   </section>
 
-  <!-- SUCCESS SCREEN -->
-
   <section class="crop-success-screen hidden-screen" id="successScreen">
-
     <h1>PDF has been cropped!</h1>
-
-    <p>
-      Your cropped PDF is ready to download.
-    </p>
+    <p>Your cropped PDF is ready to download.</p>
 
     <button class="download-result-btn" id="downloadBtn" type="button">
       Download cropped PDF
     </button>
-
   </section>
 
 </main>
 
-<script src="/js/crop-pdf.js?v=1021"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="/js/crop-pdf.js?v=1022"></script>
 
 </body>
 </html>

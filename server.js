@@ -1590,52 +1590,59 @@ app.post("/crop-pdf", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
 
   try {
-
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
     }
 
+    if (!req.body.cropData) {
+      return res.status(400).send("Crop area missing");
+    }
+
     inputPath = req.file.path;
 
-    const cropLevel = parseInt(req.body.cropLevel || "40");
-
+    const cropData = JSON.parse(req.body.cropData);
     const pdfBytes = fs.readFileSync(inputPath);
-
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
     const pages = pdfDoc.getPages();
 
-    pages.forEach((page) => {
+    const targetPages =
+      cropData.applyTo === "current"
+        ? [pages[cropData.page - 1]]
+        : pages;
 
-      const width = page.getWidth();
-      const height = page.getHeight();
+    for (const page of targetPages) {
+      if (!page) continue;
 
-      page.setCropBox(
-        cropLevel,
-        cropLevel,
-        width - cropLevel * 2,
-        height - cropLevel * 2
-      );
+      const pdfWidth = page.getWidth();
+      const pdfHeight = page.getHeight();
 
-    });
+      const scaleX = pdfWidth / cropData.canvasWidth;
+      const scaleY = pdfHeight / cropData.canvasHeight;
 
-    const finalPdf = await pdfDoc.save();
+      const x = cropData.x * scaleX;
+      const yFromTop = cropData.y * scaleY;
+      const width = cropData.width * scaleX;
+      const height = cropData.height * scaleY;
 
-    if (fs.existsSync(inputPath)) {
-      fs.unlinkSync(inputPath);
+      const pdfY = pdfHeight - yFromTop - height;
+
+      page.setCropBox(x, pdfY, width, height);
+      page.setMediaBox(x, pdfY, width, height);
     }
 
-    res.setHeader("Content-Type", "application/pdf");
+    const finalPdf = await pdfDoc.save({
+      useObjectStreams: false
+    });
 
-    res.setHeader(
-      "Content-Disposition",
-      "attachment; filename=cropped.pdf"
-    );
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=cropped.pdf");
 
     return res.end(Buffer.from(finalPdf));
 
   } catch (err) {
-
     console.error("CROP PDF ERROR:", err);
 
     if (inputPath && fs.existsSync(inputPath)) {

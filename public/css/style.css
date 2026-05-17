@@ -12398,3 +12398,309 @@ body .reorder-page #downloadBtn{
   }
 
 }
+
+/* CROP PDF ICONS FIX */
+
+.crop-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.crop-page .cloud-buttons button{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#ef2f2f;
+  color:#fff;
+  font-size:21px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 18px rgba(239,47,47,0.25);
+}
+
+.crop-page .cloud-buttons button i{
+  color:#fff;
+  font-size:21px;
+}
+
+.crop-page .cloud-buttons button:hover{
+  background:#d92727;
+  transform:translateY(-1px);
+}
+
+/* CROP SUCCESS BUTTON FIX */
+
+.crop-success-screen .download-result-btn{
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:16px 34px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.25);
+}
+
+.crop-success-screen .download-result-btn:hover{
+  background:#c92420;
+}
+
+/* =========================
+   CROP PDF PROFESSIONAL EDITOR
+========================= */
+
+.crop-editor-screen{
+  min-height:calc(100vh - 70px);
+  display:grid;
+  grid-template-columns:1fr 375px;
+  background:#eef0f4;
+}
+
+.crop-editor-left{
+  position:relative;
+  padding:28px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  flex-direction:column;
+  overflow:auto;
+}
+
+.crop-canvas-wrap{
+  position:relative;
+  background:#fff;
+  box-shadow:0 8px 22px rgba(0,0,0,0.18);
+  margin:0 auto 20px;
+}
+
+#pdfCanvas{
+  display:block;
+}
+
+.crop-box{
+  position:absolute;
+  border:3px solid #e5322d;
+  background:rgba(229,50,45,0.08);
+  cursor:move;
+  box-sizing:border-box;
+}
+
+.crop-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border:1px dashed rgba(255,255,255,0.9);
+  pointer-events:none;
+}
+
+.crop-handle{
+  width:16px;
+  height:16px;
+  background:#e5322d;
+  border:2px solid #fff;
+  border-radius:50%;
+  position:absolute;
+}
+
+.crop-handle.tl{ left:-9px; top:-9px; cursor:nwse-resize; }
+.crop-handle.tr{ right:-9px; top:-9px; cursor:nesw-resize; }
+.crop-handle.bl{ left:-9px; bottom:-9px; cursor:nesw-resize; }
+.crop-handle.br{ right:-9px; bottom:-9px; cursor:nwse-resize; }
+
+.crop-page-controls{
+  position:sticky;
+  bottom:14px;
+  background:#4a4a55;
+  color:#fff;
+  border-radius:6px;
+  padding:8px 14px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:15px;
+}
+
+.crop-page-controls button{
+  background:transparent;
+  color:#fff;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.crop-editor-panel{
+  background:#fff;
+  border-left:1px solid #d4d4d8;
+  padding:18px 18px 26px;
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100vh - 70px);
+}
+
+.crop-editor-panel h2{
+  text-align:center;
+  font-size:30px;
+  margin:0 0 18px;
+}
+
+.crop-help{
+  background:#dff2ff;
+  color:#1f2937;
+  padding:12px 14px;
+  border-radius:7px;
+  line-height:1.5;
+  display:flex;
+  gap:10px;
+  font-size:15px;
+  margin-bottom:28px;
+}
+
+.crop-help i{
+  color:#0ea5e9;
+  margin-top:3px;
+}
+
+.crop-reset-btn{
+  background:none;
+  border:none;
+  color:#e5322d;
+  font-size:15px;
+  text-decoration:underline;
+  align-self:flex-end;
+  cursor:pointer;
+  margin-bottom:8px;
+}
+
+.crop-radio-box h3{
+  font-size:16px;
+  margin:0 0 12px;
+}
+
+.crop-radio-box label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-right:18px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.crop-radio-box input{
+  width:22px;
+  height:22px;
+  accent-color:#22c55e;
+}
+
+.crop-editor-panel .crop-main-btn{
+  margin-top:auto;
+  width:100%;
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:18px 20px;
+  border-radius:10px;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+.crop-editor-panel .crop-main-btn:hover{
+  background:#c92420;
+}
+
+.crop-success-screen .download-result-btn{
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:16px 34px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(229,50,45,0.25);
+}
+
+.crop-page .cloud-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.crop-page .cloud-buttons button{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#ef2f2f;
+  color:#fff;
+  font-size:21px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 18px rgba(239,47,47,0.25);
+}
+
+.crop-page .cloud-buttons button i{
+  color:#fff;
+}
+
+@media(max-width:768px){
+  .crop-editor-screen{
+    grid-template-columns:1fr;
+    padding-bottom:260px;
+  }
+
+  .crop-editor-left{
+    padding:18px 12px;
+    align-items:flex-start;
+    overflow-x:auto;
+  }
+
+  .crop-canvas-wrap{
+    transform-origin:top left;
+    max-width:none;
+  }
+
+  .crop-editor-panel{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:auto;
+    min-height:auto;
+    z-index:999;
+    border-left:none;
+    border-top:1px solid #ddd;
+    padding:16px;
+    box-shadow:0 -8px 24px rgba(0,0,0,0.14);
+  }
+
+  .crop-editor-panel h2{
+    text-align:left;
+    font-size:26px;
+    margin-bottom:8px;
+  }
+
+  .crop-help{
+    display:none;
+  }
+
+  .crop-radio-box{
+    margin-bottom:12px;
+  }
+
+  .crop-editor-panel .crop-main-btn{
+    font-size:18px;
+    padding:15px;
+  }
+}
