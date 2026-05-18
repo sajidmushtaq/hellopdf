@@ -208,136 +208,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderFiles() {
-    fileOneBox.innerHTML = "";
-    fileTwoBox.innerHTML = "";
+  fileOneBox.innerHTML = "";
+  fileTwoBox.innerHTML = "";
 
-    const count = [fileOne, fileTwo].filter(Boolean).length;
-    fileCounter.textContent = `${count} file${count === 1 ? "" : "s"} selected`;
+  const count = [fileOne, fileTwo].filter(Boolean).length;
+  fileCounter.textContent = `${count} file${count === 1 ? "" : "s"} selected`;
 
-    if (fileOne) fileOneBox.appendChild(createPdfCard(fileOne, 1));
-    if (fileTwo) fileTwoBox.appendChild(createPdfCard(fileTwo, 2));
-
-    secondUploadBox.style.display = fileTwo ? "none" : "flex";
-    compareBtn.disabled = !(fileOne && fileTwo);
-
-    resetProgress();
-
-    if (fileOne || fileTwo) showPreview();
-    else showStart();
+  if (fileOne) {
+    fileOneBox.appendChild(createPdfCard(fileOne, 1));
   }
 
-  dropZone1.addEventListener("click", () => fileInput1.click());
-  secondUploadBox.addEventListener("click", () => fileInput2.click());
+  if (fileTwo) {
+    fileTwoBox.appendChild(createPdfCard(fileTwo, 2));
+  }
 
-  fileInput1.addEventListener("change", () => {
-    setFile(1, fileInput1.files[0]);
-    fileInput1.value = "";
-  });
+  secondUploadBox.style.display = fileTwo ? "none" : "flex";
 
-  fileInput2.addEventListener("change", () => {
-    setFile(2, fileInput2.files[0]);
-    fileInput2.value = "";
-  });
+  compareBtn.disabled = !(fileOne && fileTwo);
 
-  dropZone1.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZone1.classList.add("drag-active");
-  });
+  resetProgress();
 
-  dropZone1.addEventListener("dragleave", () => {
-    dropZone1.classList.remove("drag-active");
-  });
+  if (fileOne || fileTwo) {
+    showPreview();
 
-  dropZone1.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZone1.classList.remove("drag-active");
-    const file = Array.from(e.dataTransfer.files || []).find(isPdf);
-    setFile(1, file);
-  });
+    setTimeout(() => {
+      const previewScreen = document.getElementById("previewScreen");
 
-  secondUploadBox.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    secondUploadBox.classList.add("drag-active");
-  });
-
-  secondUploadBox.addEventListener("dragleave", () => {
-    secondUploadBox.classList.remove("drag-active");
-  });
-
-  secondUploadBox.addEventListener("drop", (e) => {
-    e.preventDefault();
-    secondUploadBox.classList.remove("drag-active");
-    const file = Array.from(e.dataTransfer.files || []).find(isPdf);
-    setFile(2, file);
-  });
-
-  compareBtn.addEventListener("click", async () => {
-    if (!fileOne || !fileTwo) {
-      alert("Please select both PDF files first");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("pdfOne", fileOne);
-    formData.append("pdfTwo", fileTwo);
-
-    resetProgress();
-    startProgress();
-
-    compareBtn.disabled = true;
-    compareBtn.innerHTML = `Comparing... <i class="fa-solid fa-spinner fa-spin"></i>`;
-
-    try {
-      const response = await fetch("/compare-pdf", {
-        method: "POST",
-        body: formData
-      });
-
-      if (!response.ok) {
-        const text = await response.text();
-        alert(text || "Compare failed");
-        return;
+      if (previewScreen) {
+        previewScreen.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
       }
-
-      const blob = await response.blob();
-
-      if (!blob || blob.size < 100 || blob.type !== "application/pdf") {
-        alert("Compare failed");
-        return;
-      }
-
-      completeProgress();
-
-      if (reportUrl) URL.revokeObjectURL(reportUrl);
-      reportUrl = URL.createObjectURL(blob);
-
-      setTimeout(showSuccess, 400);
-
-    } catch (error) {
-      console.error("COMPARE PDF ERROR:", error);
-      alert("Compare failed");
-    } finally {
-      if (progressInterval) clearInterval(progressInterval);
-      progressInterval = null;
-
-      compareBtn.disabled = !(fileOne && fileTwo);
-      compareBtn.innerHTML = `Compare PDF`;
-    }
-  });
-
-  downloadBtn.addEventListener("click", () => {
-    if (!reportUrl) {
-      alert("Comparison report is not ready yet");
-      return;
-    }
-
-    const a = document.createElement("a");
-    a.href = reportUrl;
-    a.download = "compare-report.pdf";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  });
-
-  showStart();
-});
+    }, 100);
+  } else {
+    showStart();
+  }
+}
