@@ -16769,3 +16769,76 @@ body {
     padding: 15px;
   }
 }
+
+/* FLATTEN PDF FINAL FIX */
+
+.flatten-file-card{
+  position:relative;
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+}
+
+.pdf-viewer-wrap{
+  height:420px;
+  overflow:auto;
+  background:#e5e7eb;
+  border-radius:10px;
+  padding:14px 14px 70px;
+}
+
+.pdf-canvas{
+  display:block;
+  background:#fff;
+  margin:0 auto;
+}
+
+.pdf-controls{
+  position:sticky;
+  bottom:10px;
+  width:fit-content;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#3f3f46;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:10px;
+}
+
+.zoom-btn{
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:50%;
+  background:#52525b;
+  color:#fff;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.zoom-level{
+  font-weight:700;
+}
+
+.flatten-file-card h3{
+  background:#44444f;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:8px;
+  margin-top:12px;
+  font-size:14px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+@media(max-width:768px){
+
+  .pdf-viewer-wrap{
+    height:320px;
+  }
+
+}

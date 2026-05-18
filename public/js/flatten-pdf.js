@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+
   const startScreen = document.getElementById("startScreen");
   const previewScreen = document.getElementById("previewScreen");
   const successScreen = document.getElementById("successScreen");
@@ -20,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedFile = null;
   let flattenedUrl = null;
-  let progressInterval = null;
 
   function showStart() {
     startScreen.classList.remove("hidden-screen");
@@ -50,50 +54,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function setProgress(value) {
+    progressBar.style.width = value + "%";
+    progressBar.textContent = value + "%";
+  }
+
   function resetProgress() {
-
-    if (progressInterval) {
-      clearInterval(progressInterval);
-    }
-
-    progressBar.style.width = "0%";
-    progressBar.textContent = "0%";
-  }
-
-  function startProgress() {
-
-    let p = 15;
-
-    progressBar.style.width = "15%";
-    progressBar.textContent = "15%";
-
-    progressInterval = setInterval(() => {
-
-      if (p < 90) {
-
-        p += 5;
-
-        progressBar.style.width = p + "%";
-        progressBar.textContent = p + "%";
-      }
-
-    }, 700);
-  }
-
-  function completeProgress() {
-
-    if (progressInterval) {
-      clearInterval(progressInterval);
-    }
-
-    progressBar.style.width = "100%";
-    progressBar.textContent = "100%";
+    setProgress(0);
   }
 
   function isPdf(file) {
     return file &&
-      (file.type === "application/pdf" ||
-       file.name.toLowerCase().endsWith(".pdf"));
+      (
+        file.type === "application/pdf" ||
+        file.name.toLowerCase().endsWith(".pdf")
+      );
   }
 
   function addFile(files) {
@@ -105,10 +80,119 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (selectedFile?.previewUrl) {
+      URL.revokeObjectURL(selectedFile.previewUrl);
+    }
+
+    file.previewUrl = URL.createObjectURL(file);
+
     selectedFile = file;
-    selectedFile.previewUrl = URL.createObjectURL(file);
 
     renderFile();
+  }
+
+  function createPdfCard(file) {
+
+    const card = document.createElement("div");
+
+    card.className = "flatten-file-card";
+
+    card.innerHTML = `
+      <button class="remove-file-btn" type="button">×</button>
+
+      <div class="pdf-viewer-wrap">
+        <canvas class="pdf-canvas"></canvas>
+
+        <div class="pdf-controls">
+          <button class="zoom-btn zoom-out" type="button">−</button>
+          <span class="zoom-level">100%</span>
+          <button class="zoom-btn zoom-in" type="button">+</button>
+        </div>
+      </div>
+
+      <h3>${file.name}</h3>
+
+      <span class="file-order-badge">1</span>
+    `;
+
+    card.querySelector(".remove-file-btn").addEventListener("click", () => {
+
+      if (selectedFile?.previewUrl) {
+        URL.revokeObjectURL(selectedFile.previewUrl);
+      }
+
+      selectedFile = null;
+
+      renderFile();
+    });
+
+    const canvas = card.querySelector(".pdf-canvas");
+    const ctx = canvas.getContext("2d");
+
+    const zoomText = card.querySelector(".zoom-level");
+    const zoomInBtn = card.querySelector(".zoom-in");
+    const zoomOutBtn = card.querySelector(".zoom-out");
+
+    let scale = 1;
+
+    let pdfPage = null;
+    let renderTask = null;
+
+    function renderPage() {
+
+      if (!pdfPage) return;
+
+      if (renderTask) {
+        renderTask.cancel();
+      }
+
+      const viewport = pdfPage.getViewport({ scale });
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      canvas.style.width = viewport.width + "px";
+      canvas.style.height = viewport.height + "px";
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      renderTask = pdfPage.render({
+        canvasContext: ctx,
+        viewport
+      });
+
+      zoomText.textContent =
+        Math.round(scale * 100) + "%";
+    }
+
+    pdfjsLib.getDocument(file.previewUrl).promise
+      .then(pdf => pdf.getPage(1))
+      .then(page => {
+
+        pdfPage = page;
+
+        renderPage();
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    zoomInBtn.addEventListener("click", () => {
+
+      scale = Math.min(scale + 0.25, 3);
+
+      renderPage();
+    });
+
+    zoomOutBtn.addEventListener("click", () => {
+
+      scale = Math.max(scale - 0.25, 0.5);
+
+      renderPage();
+    });
+
+    return card;
   }
 
   function renderFile() {
@@ -122,38 +206,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fileCounter.textContent = "1 file selected";
 
-    const card = document.createElement("div");
-
-    card.className = "flatten-file-card";
-
-    card.innerHTML = `
-      <button class="remove-file-btn" type="button">×</button>
-
-      <div class="pdf-thumb-wrap">
-        <embed
-          src="${selectedFile.previewUrl}#toolbar=0"
-          type="application/pdf"
-          class="pdf-thumb"
-        />
-      </div>
-
-      <h3>${selectedFile.name}</h3>
-
-      <span class="file-order-badge">1</span>
-    `;
-
-    card.querySelector(".remove-file-btn").addEventListener("click", () => {
-
-      if (selectedFile.previewUrl) {
-        URL.revokeObjectURL(selectedFile.previewUrl);
-      }
-
-      selectedFile = null;
-
-      renderFile();
-    });
-
-    fileList.appendChild(card);
+    fileList.appendChild(
+      createPdfCard(selectedFile)
+    );
 
     resetProgress();
 
@@ -176,11 +231,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   dropZone.addEventListener("dragover", (e) => {
+
     e.preventDefault();
+
     dropZone.classList.add("drag-active");
   });
 
   dropZone.addEventListener("dragleave", () => {
+
     dropZone.classList.remove("drag-active");
   });
 
@@ -196,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
   flattenBtn.addEventListener("click", async () => {
 
     if (!selectedFile) {
-      alert("Please select a PDF file first");
+      alert("Please select PDF first");
       return;
     }
 
@@ -214,15 +272,14 @@ document.addEventListener("DOMContentLoaded", () => {
       flattenAnnotations.checked
     );
 
-    resetProgress();
-    startProgress();
-
     flattenBtn.disabled = true;
 
-    flattenBtn.innerHTML = `
-      Flattening...
-      <i class="fa-solid fa-spinner fa-spin"></i>
-    `;
+    flattenBtn.innerHTML =
+      `Flattening... <i class="fa-solid fa-spinner fa-spin"></i>`;
+
+    resetProgress();
+
+    setProgress(20);
 
     try {
 
@@ -230,6 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: formData
       });
+
+      setProgress(70);
 
       if (!response.ok) {
 
@@ -243,17 +302,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const blob = await response.blob();
 
       if (!blob || blob.size < 100) {
+
         alert("Flatten failed");
+
         return;
       }
-
-      completeProgress();
 
       if (flattenedUrl) {
         URL.revokeObjectURL(flattenedUrl);
       }
 
       flattenedUrl = URL.createObjectURL(blob);
+
+      setProgress(100);
 
       setTimeout(() => {
         showSuccess();
@@ -269,26 +330,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
       flattenBtn.disabled = false;
 
-      flattenBtn.innerHTML = `
-        Flatten PDF
-      `;
-
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
+      flattenBtn.innerHTML = "Flatten PDF";
     }
   });
 
   downloadBtn.addEventListener("click", () => {
 
     if (!flattenedUrl) {
+
       alert("Flattened PDF not ready");
+
       return;
     }
 
     const a = document.createElement("a");
 
     a.href = flattenedUrl;
+
     a.download = "flattened.pdf";
 
     document.body.appendChild(a);
