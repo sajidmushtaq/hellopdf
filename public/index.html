@@ -6,7 +6,7 @@
 
   <title>HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=911" />
+  <link rel="stylesheet" href="/css/style.css?v=1032" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -234,6 +234,7 @@
     <a href="/extract.html">📤 Extract Pages</a>
     <a href="/rotate.html">🔄 Rotate PDF</a>
     <a href="/page-numbers.html">#️⃣ Page Numbers</a>
+<a href="/crop-pdf.html">✂️ Crop PDF</a>
   </div>
 
   <div class="drawer-category">
@@ -268,7 +269,13 @@
     <a href="/unlock.html">🔓 Unlock PDF</a>
     <a href="/watermark.html">💧 Watermark PDF</a>
     <a href="/repair-pdf.html">🛠️ Repair PDF</a>
+<a href="/redact-pdf.html">🕵️ Redact PDF</a>
   </div>
+<div class="drawer-category">
+  <h4>EDIT PDF</h4>
+  <a href="/watermark.html">💧 Watermark PDF</a>
+  <a href="/compare-pdf.html">🔍 Compare PDF</a>
+  <a href="/flatten-pdf.html">📚 Flatten PDF</a>
 </div>
 
 <div class="main-drawer" id="mainDrawer">
@@ -457,15 +464,10 @@
       <h3>Page Numbers</h3>
       <p>Add numbers to PDF</p>
     </a>
-    <a href="/crop-pdf.html" class="tool-card">
-  <div class="tool-icon red">
-    <i class="fa-solid fa-crop-simple"></i>
-  </div>
-
-  <div class="tool-info">
-    <h3>Crop PDF</h3>
-    <p>Crop PDF margins and remove white space.</p>
-  </div>
+    <a class="tool-card" href="/crop-pdf.html">
+  <div class="icon-file red"><i class="fa-solid fa-crop-simple"></i></div>
+  <h3>Crop PDF</h3>
+  <p>Crop PDF margins and remove white space</p>
 </a>
   </div>
 </section>
@@ -480,6 +482,23 @@
       <h3>Watermark PDF</h3>
       <p>Add watermark to PDF</p>
     </a>
+<a class="tool-card" href="/compare-pdf.html">
+  <div class="icon-file purple"><i class="fa-solid fa-code-compare"></i></div>
+  <h3>Compare PDF</h3>
+  <p>Compare two PDF files</p>
+</a>
+
+<a class="tool-card" href="/redact-pdf.html">
+  <div class="icon-file red"><i class="fa-solid fa-user-secret"></i></div>
+  <h3>Redact PDF</h3>
+  <p>Hide sensitive information</p>
+</a>
+
+<a class="tool-card" href="/flatten-pdf.html">
+  <div class="icon-file orange"><i class="fa-solid fa-layer-group"></i></div>
+  <h3>Flatten PDF</h3>
+  <p>Flatten forms and annotations</p>
+</a>
   </div>
 </section>
 
@@ -499,15 +518,10 @@
       <h3>Unlock PDF</h3>
       <p>Remove PDF password</p>
     </a>
-    <a href="/repair-pdf.html" class="tool-card">
-  <div class="tool-icon red">
-    <i class="fa-solid fa-screwdriver-wrench"></i>
-  </div>
-
-  <div class="tool-info">
-    <h3>Repair PDF</h3>
-    <p>Repair damaged PDF files and restore structure.</p>
-  </div>
+    <a class="tool-card" href="/repair-pdf.html">
+  <div class="icon-file red"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+  <h3>Repair PDF</h3>
+  <p>Repair damaged PDF files</p>
 </a>
   </div>
 </section>
