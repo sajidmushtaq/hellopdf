@@ -15903,3 +15903,241 @@ body {
 .pdf-tool-box {
   margin: 70px auto 0 !important;
 }
+
+/* ===============================
+   NEW TOOLS PREVIEW SCREEN FINAL FIX
+================================ */
+
+/* shared preview layout */
+.compare-preview-screen,
+.flatten-preview-screen {
+  min-height: calc(100vh - 70px) !important;
+  display: grid !important;
+  grid-template-columns: 1fr 360px !important;
+  background: #eef0f4 !important;
+}
+
+.compare-preview-left,
+.flatten-preview-left {
+  padding: 28px !important;
+  overflow-y: auto !important;
+}
+
+.compare-topbar,
+.flatten-topbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 24px !important;
+}
+
+.compare-topbar h1,
+.flatten-topbar h1 {
+  font-size: 34px !important;
+  margin: 0 0 6px !important;
+  color: #111827 !important;
+}
+
+.compare-topbar p,
+.flatten-topbar p {
+  margin: 0 !important;
+  color: #666 !important;
+}
+
+.compare-file-grid,
+.flatten-file-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)) !important;
+  gap: 22px !important;
+}
+
+.compare-file-card,
+.flatten-file-card {
+  position: relative !important;
+  background: #fff !important;
+  border-radius: 14px !important;
+  padding: 14px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+  min-height: 290px !important;
+}
+
+.compare-file-card h3,
+.flatten-file-card h3 {
+  font-size: 14px !important;
+  margin: 12px 0 0 !important;
+  color: #111827 !important;
+  word-break: break-word !important;
+}
+
+.compare-action-panel,
+.flatten-action-panel {
+  background: #fff !important;
+  border-left: 1px solid #ddd !important;
+  padding: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: calc(100vh - 70px) !important;
+}
+
+.compare-action-panel h2,
+.flatten-action-panel h2 {
+  font-size: 32px !important;
+  margin: 0 0 16px !important;
+  color: #111827 !important;
+}
+
+.compare-help,
+.flatten-help {
+  background: #dff2ff !important;
+  color: #1f2937 !important;
+  padding: 12px 14px !important;
+  border-radius: 7px !important;
+  line-height: 1.5 !important;
+  display: flex !important;
+  gap: 10px !important;
+  font-size: 15px !important;
+  margin-bottom: 24px !important;
+}
+
+.compare-main-btn,
+.flatten-main-btn {
+  margin-top: auto !important;
+  width: 100% !important;
+  border: none !important;
+  background: #e5322d !important;
+  color: #fff !important;
+  padding: 18px 20px !important;
+  border-radius: 10px !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+}
+
+.compare-progress,
+.flatten-progress {
+  margin-top: 16px !important;
+}
+
+/* plus button */
+.flatten-add-btn,
+.crop-add-btn {
+  width: 68px !important;
+  height: 68px !important;
+  min-width: 68px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: #e5322d !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 20px rgba(229,50,45,0.35) !important;
+  font-size: 0 !important;
+}
+
+.flatten-add-btn i,
+.crop-add-btn i {
+  font-size: 24px !important;
+  color: #fff !important;
+}
+
+/* thumbnails */
+.pdf-thumb-wrap {
+  width: 100% !important;
+  height: 190px !important;
+  background: #f8fafc !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.pdf-thumb {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* remove + order */
+.remove-file-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  width: 28px !important;
+  height: 28px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: #ef4444 !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  z-index: 5 !important;
+}
+
+.file-order-badge {
+  position: absolute !important;
+  left: 12px !important;
+  bottom: 12px !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  background: #111827 !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 800 !important;
+}
+
+/* flatten options */
+.flatten-option-box {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.flatten-check {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 16px !important;
+}
+
+.flatten-check input {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .compare-preview-screen,
+  .flatten-preview-screen {
+    grid-template-columns: 1fr !important;
+    padding-bottom: 220px !important;
+  }
+
+  .compare-preview-left,
+  .flatten-preview-left {
+    padding: 18px !important;
+  }
+
+  .compare-file-grid,
+  .flatten-file-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .compare-action-panel,
+  .flatten-action-panel {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    z-index: 999 !important;
+    min-height: auto !important;
+    border-left: none !important;
+    border-top: 1px solid #ddd !important;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.14) !important;
+  }
+}
