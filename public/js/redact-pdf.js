@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let scale = 1.2;
 
   let redactedUrl = null;
-  let progressInterval = null;
 
   let dragging = false;
 
@@ -39,8 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let startY = 0;
 
   let box = {
-    x: 80,
-    y: 80,
+    x: 100,
+    y: 100,
     w: 220,
     h: 80
   };
@@ -55,70 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
     startScreen.classList.add("hidden-screen");
     previewScreen.classList.remove("hidden-screen");
     successScreen.classList.add("hidden-screen");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
   }
 
   function showSuccess() {
     startScreen.classList.add("hidden-screen");
     previewScreen.classList.add("hidden-screen");
     successScreen.classList.remove("hidden-screen");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-
-  function resetProgress() {
-
-    if (progressInterval) {
-      clearInterval(progressInterval);
-    }
-
-    progressBar.style.width = "0%";
-    progressBar.textContent = "0%";
-  }
-
-  function startProgress() {
-
-    let p = 15;
-
-    progressBar.style.width = "15%";
-    progressBar.textContent = "15%";
-
-    progressInterval = setInterval(() => {
-
-      if (p < 90) {
-
-        p += 5;
-
-        progressBar.style.width = p + "%";
-        progressBar.textContent = p + "%";
-      }
-
-    }, 700);
-  }
-
-  function completeProgress() {
-
-    if (progressInterval) {
-      clearInterval(progressInterval);
-    }
-
-    progressBar.style.width = "100%";
-    progressBar.textContent = "100%";
-  }
-
-  function isPdf(file) {
-    return file &&
-      (
-        file.type === "application/pdf" ||
-        file.name.toLowerCase().endsWith(".pdf")
-      );
   }
 
   async function loadPdf(file) {
@@ -198,14 +139,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fileInput.addEventListener("change", async () => {
 
-    const file = Array.from(fileInput.files || []).find(isPdf);
+    const file = fileInput.files[0];
 
-    if (!file) {
-      alert("Please select PDF file only");
-      return;
-    }
-
-    fileInput.value = "";
+    if (!file) return;
 
     await loadPdf(file);
   });
@@ -230,8 +166,8 @@ document.addEventListener("DOMContentLoaded", () => {
   resetBox.addEventListener("click", () => {
 
     box = {
-      x: 80,
-      y: 80,
+      x: 100,
+      y: 100,
       w: 220,
       h: 80
     };
@@ -242,37 +178,18 @@ document.addEventListener("DOMContentLoaded", () => {
   redactBtn.addEventListener("click", async () => {
 
     if (!selectedFile) {
-      alert("Please select a PDF file first");
+      alert("Please select PDF file");
       return;
     }
 
-    const redactData = {
-      canvasWidth: canvas.width,
-      canvasHeight: canvas.height,
-      x: box.x,
-      y: box.y,
-      width: box.w,
-      height: box.h
-    };
+    progressBar.style.width = "30%";
+    progressBar.textContent = "30%";
 
     const formData = new FormData();
 
     formData.append("pdfFile", selectedFile);
 
-    formData.append(
-      "redactData",
-      JSON.stringify(redactData)
-    );
-
-    resetProgress();
-    startProgress();
-
-    redactBtn.disabled = true;
-
-    redactBtn.innerHTML = `
-      Redacting...
-      <i class="fa-solid fa-spinner fa-spin"></i>
-    `;
+    formData.append("redactData", JSON.stringify(box));
 
     try {
 
@@ -282,26 +199,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) {
-
-        const text = await response.text();
-
-        alert(text || "Redact failed");
-
-        return;
+        throw new Error("Redact failed");
       }
 
       const blob = await response.blob();
 
-      if (!blob || blob.size < 100) {
-        alert("Redact failed");
-        return;
-      }
-
-      completeProgress();
-
-      if (redactedUrl) {
-        URL.revokeObjectURL(redactedUrl);
-      }
+      progressBar.style.width = "100%";
+      progressBar.textContent = "100%";
 
       redactedUrl = URL.createObjectURL(blob);
 
@@ -314,27 +218,12 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(err);
 
       alert("Redact failed");
-
-    } finally {
-
-      redactBtn.disabled = false;
-
-      redactBtn.innerHTML = `
-        Redact PDF
-      `;
-
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
     }
   });
 
   downloadBtn.addEventListener("click", () => {
 
-    if (!redactedUrl) {
-      alert("Redacted PDF not ready");
-      return;
-    }
+    if (!redactedUrl) return;
 
     const a = document.createElement("a");
 
