@@ -6,13 +6,13 @@
 
   <title>Crop PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1038" />
+  <link rel="stylesheet" href="/css/style.css?v=1040" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    .hidden-screen { display:none !important; }
-    #previewScreen:not(.hidden-screen){ display:grid !important; }
-    #successScreen:not(.hidden-screen){ display:flex !important; }
+    .hidden-screen { display: none !important; }
+    #previewScreen:not(.hidden-screen) { display: grid !important; }
+    #successScreen:not(.hidden-screen) { display: flex !important; }
   </style>
 </head>
 
@@ -26,6 +26,7 @@
 
 <header class="desktop-header">
   <a href="/index.html" class="logo">HelloPDF</a>
+
   <nav>
     <a href="/merge.html">Merge PDF</a>
     <a href="/split.html">Split PDF</a>
@@ -33,6 +34,7 @@
     <a href="/index.html#convert-tools">Convert PDF</a>
     <a href="/index.html">All PDF Tools</a>
   </nav>
+
   <div class="auth-buttons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
@@ -107,7 +109,7 @@
       </div>
 
       <button class="crop-main-btn" id="cropBtn" type="button">
-        Crop PDF
+        Crop PDF <i class="fa-solid fa-arrow-right"></i>
       </button>
 
       <div class="progress-container crop-progress">
@@ -129,7 +131,7 @@
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="/js/crop-pdf.js?v=1022"></script>
+<script src="/js/crop-pdf.js?v=1040"></script>
 
 </body>
 </html>
