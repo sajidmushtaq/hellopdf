@@ -16842,3 +16842,58 @@ body {
   }
 
 }
+
+/* FLATTEN SUCCESS SCREEN FIX */
+
+.flatten-success-screen{
+  min-height:calc(100vh - 70px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+  background:#f7f7fb;
+}
+
+.flatten-success-screen h1{
+  font-size:52px;
+  font-weight:800;
+  color:#111827;
+  margin-bottom:14px;
+}
+
+.flatten-success-screen p{
+  font-size:20px;
+  color:#4b5563;
+  margin-bottom:30px;
+}
+
+.flatten-success-screen .download-result-btn{
+  border:none;
+  background:#e5322d;
+  color:#fff;
+  padding:18px 34px;
+  border-radius:10px;
+  font-size:20px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(229,50,45,.25);
+}
+
+@media(max-width:768px){
+
+  .flatten-success-screen h1{
+    font-size:38px;
+  }
+
+  .flatten-success-screen p{
+    font-size:17px;
+  }
+
+  .flatten-success-screen .download-result-btn{
+    width:100%;
+    max-width:320px;
+  }
+
+}
