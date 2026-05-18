@@ -15783,3 +15783,123 @@ body {
 .drawer-overlay.active {
   display: block;
 }
+
+/* ===============================
+   GLOBAL NEW TOOLS START SCREEN FIX
+================================ */
+
+.crop-start-screen,
+.compare-start-screen,
+.flatten-start-screen,
+.redact-start-screen {
+  min-height: calc(100vh - 70px) !important;
+  padding: 80px 20px 40px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: center !important;
+  background: #f7f7fb !important;
+}
+
+.crop-start-screen h1,
+.compare-start-screen h1,
+.flatten-start-screen h1,
+.redact-start-screen h1 {
+  font-size: 46px !important;
+  font-weight: 800 !important;
+  color: #111827 !important;
+  margin: 0 0 14px !important;
+}
+
+.crop-start-screen p,
+.compare-start-screen p,
+.flatten-start-screen p,
+.redact-start-screen p {
+  font-size: 18px !important;
+  color: #4b5563 !important;
+  max-width: 680px !important;
+  margin: 0 0 34px !important;
+}
+
+.crop-select-row,
+.flatten-select-row,
+.redact-select-row,
+.compare-upload-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  flex-wrap: wrap !important;
+}
+
+.crop-upload-box,
+.flatten-upload-box,
+.redact-upload-box,
+.compare-upload-box {
+  background: #e5322d !important;
+  color: #fff !important;
+  padding: 24px 58px !important;
+  min-width: 285px !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  box-shadow: 0 10px 24px rgba(229, 50, 45, 0.25) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.crop-upload-box h2,
+.flatten-upload-box h2,
+.redact-upload-box h2,
+.compare-upload-box h2 {
+  margin: 0 !important;
+  font-size: 25px !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+}
+
+.crop-page .cloud-buttons,
+.flatten-page .cloud-buttons,
+.redact-page .cloud-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.crop-page .cloud-buttons button,
+.flatten-page .cloud-buttons button,
+.redact-page .cloud-buttons button {
+  width: 42px !important;
+  height: 42px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: #ef2f2f !important;
+  color: #fff !important;
+  font-size: 21px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 8px 18px rgba(239, 47, 47, 0.25) !important;
+}
+
+.crop-page .cloud-buttons button i,
+.flatten-page .cloud-buttons button i,
+.redact-page .cloud-buttons button i {
+  color: #fff !important;
+  font-size: 21px !important;
+}
+
+.drop-text {
+  margin-top: 12px !important;
+  font-size: 16px !important;
+  color: #111827 !important;
+}
+
+/* old simple tool pages center fix */
+.tool-container,
+.converter-box,
+.pdf-tool-box {
+  margin: 70px auto 0 !important;
+}
