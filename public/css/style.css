@@ -15743,3 +15743,43 @@ body .reorder-page #downloadBtn{
     box-shadow: 0 -8px 24px rgba(0,0,0,0.14) !important;
   }
 }
+
+/* HOME PAGE EMERGENCY DISPLAY FIX */
+
+body {
+  background: #f7f7fb !important;
+  color: #111827 !important;
+}
+
+.hero,
+.category-nav,
+.tools-section {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.hero {
+  padding: 70px 20px 35px !important;
+  text-align: center !important;
+}
+
+.hero h1 {
+  color: #111827 !important;
+}
+
+.hero p {
+  color: #4b5563 !important;
+}
+
+.tools-grid {
+  display: grid !important;
+}
+
+.drawer-overlay {
+  display: none;
+}
+
+.drawer-overlay.active {
+  display: block;
+}
