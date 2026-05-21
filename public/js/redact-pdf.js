@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   pdfjsLib.GlobalWorkerOptions.workerSrc =
     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const canvasWrap = document.getElementById("canvasWrap");
   const canvas = document.getElementById("pdfCanvas");
   const ctx = canvas.getContext("2d");
-
   const redactBox = document.getElementById("redactBox");
 
   const zoomText = document.getElementById("zoomText");
@@ -39,29 +37,43 @@ document.addEventListener("DOMContentLoaded", () => {
   let startX = 0;
   let startY = 0;
 
-  let box = {
-    x: 100,
-    y: 100,
-    w: 220,
-    h: 80
-  };
+  let box = { x: 100, y: 100, w: 240, h: 70 };
 
   function showStart() {
     startScreen.classList.remove("hidden-screen");
     previewScreen.classList.add("hidden-screen");
     successScreen.classList.add("hidden-screen");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function showPreview() {
     startScreen.classList.add("hidden-screen");
     previewScreen.classList.remove("hidden-screen");
     successScreen.classList.add("hidden-screen");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function showSuccess() {
     startScreen.classList.add("hidden-screen");
     previewScreen.classList.add("hidden-screen");
     successScreen.classList.remove("hidden-screen");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function setProgress(value) {
+    progressBar.style.width = value + "%";
+    progressBar.textContent = value + "%";
+  }
+
+  function resetProgress() {
+    setProgress(0);
+  }
+
+  function isPdf(file) {
+    return file && (
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf")
+    );
   }
 
   function updateBox() {
@@ -74,11 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function resetAcceptedState() {
     accepted = false;
     redactBox.classList.remove("accepted-box");
-
-    if (acceptBtn) {
-      acceptBtn.classList.remove("accepted");
-      acceptBtn.textContent = "Accept";
-    }
+    acceptBtn.classList.remove("accepted");
+    acceptBtn.textContent = "Accept";
   }
 
   async function renderPage() {
@@ -87,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     canvas.width = viewport.width;
     canvas.height = viewport.height;
-
     canvas.style.width = viewport.width + "px";
     canvas.style.height = viewport.height + "px";
 
@@ -100,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
     canvasWrap.style.height = viewport.height + "px";
 
     zoomText.textContent = Math.round(scale * 100) + "%";
-
     updateBox();
   }
 
@@ -113,29 +120,22 @@ document.addEventListener("DOMContentLoaded", () => {
       data: arrayBuffer
     }).promise;
 
-    await renderPage();
+    scale = 1.2;
+    box = { x: 100, y: 100, w: 240, h: 70 };
+    resetAcceptedState();
+    resetProgress();
 
+    await renderPage();
     showPreview();
   }
 
   function setBoxByOption(type) {
     selectedOption = type;
 
-    if (type === "Text") {
-      box = { x: 100, y: 100, w: 240, h: 70 };
-    }
-
-    if (type === "Credit Card") {
-      box = { x: 100, y: 160, w: 320, h: 55 };
-    }
-
-    if (type === "Phone Number") {
-      box = { x: 100, y: 230, w: 260, h: 50 };
-    }
-
-    if (type === "Email") {
-      box = { x: 100, y: 300, w: 340, h: 50 };
-    }
+    if (type === "Text") box = { x: 100, y: 100, w: 240, h: 70 };
+    if (type === "Credit Card") box = { x: 100, y: 160, w: 320, h: 55 };
+    if (type === "Phone Number") box = { x: 100, y: 230, w: 260, h: 50 };
+    if (type === "Email") box = { x: 100, y: 300, w: 340, h: 50 };
 
     resetAcceptedState();
     updateBox();
@@ -155,14 +155,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  if (acceptBtn) {
-    acceptBtn.addEventListener("click", () => {
-      accepted = true;
-      redactBox.classList.add("accepted-box");
-      acceptBtn.classList.add("accepted");
-      acceptBtn.textContent = "Accepted";
-    });
-  }
+  acceptBtn.addEventListener("click", () => {
+    accepted = true;
+    redactBox.classList.add("accepted-box");
+    acceptBtn.classList.add("accepted");
+    acceptBtn.textContent = "Accepted";
+  });
 
   redactBox.addEventListener("mousedown", (e) => {
     dragging = true;
@@ -184,24 +182,40 @@ document.addEventListener("DOMContentLoaded", () => {
     dragging = false;
   });
 
-  dropZone.addEventListener("click", () => {
-    fileInput.click();
-  });
+  dropZone.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", async () => {
     const file = fileInput.files[0];
 
-    if (!file) return;
-
-    if (
-      file.type !== "application/pdf" &&
-      !file.name.toLowerCase().endsWith(".pdf")
-    ) {
+    if (!isPdf(file)) {
       alert("Please select PDF file only");
+      fileInput.value = "";
       return;
     }
 
     fileInput.value = "";
+    await loadPdf(file);
+  });
+
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("drag-active");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("drag-active");
+  });
+
+  dropZone.addEventListener("drop", async (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-active");
+
+    const file = Array.from(e.dataTransfer.files || []).find(isPdf);
+
+    if (!file) {
+      alert("Please select PDF file only");
+      return;
+    }
 
     await loadPdf(file);
   });
@@ -219,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   resetBox.addEventListener("click", () => {
-    box = { x: 100, y: 100, w: 220, h: 80 };
+    box = { x: 100, y: 100, w: 240, h: 70 };
     resetAcceptedState();
     updateBox();
   });
@@ -235,9 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    progressBar.style.width = "30%";
-    progressBar.textContent = "30%";
-
     const redactData = {
       type: selectedOption,
       canvasWidth: canvas.width,
@@ -249,12 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const formData = new FormData();
-
     formData.append("pdfFile", selectedFile);
     formData.append("redactData", JSON.stringify(redactData));
 
     redactBtn.disabled = true;
     redactBtn.innerHTML = `Redacting... <i class="fa-solid fa-spinner fa-spin"></i>`;
+    setProgress(30);
 
     try {
       const response = await fetch("/redact-pdf", {
@@ -275,16 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      progressBar.style.width = "100%";
-      progressBar.textContent = "100%";
-
       if (redactedUrl) URL.revokeObjectURL(redactedUrl);
 
       redactedUrl = URL.createObjectURL(blob);
+      setProgress(100);
 
-      setTimeout(() => {
-        showSuccess();
-      }, 400);
+      setTimeout(showSuccess, 400);
 
     } catch (err) {
       console.error(err);
@@ -304,12 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const a = document.createElement("a");
     a.href = redactedUrl;
     a.download = "redacted.pdf";
-
     document.body.appendChild(a);
     a.click();
     a.remove();
   });
 
   showStart();
-
 });

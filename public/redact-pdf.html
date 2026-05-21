@@ -6,73 +6,394 @@
 
   <title>Redact PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1051"/>
-
-
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/style.css?v=1053"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
+    .hidden-screen{display:none!important}
+    #previewScreen:not(.hidden-screen){display:grid!important}
+    #successScreen:not(.hidden-screen){display:flex!important}
 
-    /* REDACT BUTTON SIZE + PANEL FINAL FIX */
+    .redact-page{min-height:calc(100vh - 70px);background:#f7f7fb}
 
-.redact-start-screen {
-  min-height: calc(100vh - 70px) !important;
-  padding: 80px 20px 40px !important;
-}
+    .redact-start-screen{
+      min-height:calc(100vh - 70px);
+      padding:80px 20px 40px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      background:#f7f7fb;
+    }
 
-.redact-start-screen h1 {
-  font-size: 46px !important;
-}
+    .redact-start-screen h1{
+      font-size:46px;
+      font-weight:800;
+      color:#111827;
+      margin:0 0 14px;
+    }
 
-.redact-start-screen p {
-  font-size: 18px !important;
-}
+    .redact-start-screen p{
+      font-size:18px;
+      color:#4b5563;
+      margin:0 0 34px;
+    }
 
-.redact-upload-box {
-  width: auto !important;
-  height: auto !important;
-  min-width: 285px !important;
-  padding: 24px 58px !important;
-  border-radius: 10px !important;
-}
+    .redact-select-row{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+    }
 
-.redact-upload-box h2 {
-  font-size: 25px !important;
-}
+    .redact-upload-box{
+      background:#e5322d;
+      color:#fff;
+      padding:24px 58px;
+      min-width:285px;
+      border-radius:10px;
+      cursor:pointer;
+      box-shadow:0 10px 24px rgba(229,50,45,.25);
+    }
 
-.redact-option.active-option {
-  border: 2px solid #e5322d !important;
-  background: #fff3f3 !important;
-  color: #e5322d !important;
-  font-weight: 800 !important;
-}
+    .redact-upload-box h2{
+      margin:0;
+      font-size:25px;
+      font-weight:800;
+      color:#fff;
+    }
 
-.redact-accept-btn.accepted {
-  background: #16a34a !important;
-}
+    .redact-page .cloud-buttons{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
 
-.redact-box.accepted-box {
-  border: 3px solid #16a34a !important;
-  background: rgba(0,0,0,0.85) !important;
-}
+    .redact-page .cloud-buttons button{
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:50%;
+      background:#ef2f2f;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:21px;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(239,47,47,.25);
+    }
 
+    .drop-text{
+      margin-top:12px;
+      font-size:16px;
+      color:#111827;
+    }
+
+    .redact-editor-screen{
+      min-height:calc(100vh - 70px);
+      grid-template-columns:130px 1fr 360px;
+      background:#eef0f4;
+    }
+
+    .redact-left-sidebar{
+      background:#f3f4f8;
+      border-right:1px solid #d8d8dd;
+      padding:18px 12px;
+      overflow:auto;
+    }
+
+    .thumb-page{
+      text-align:center;
+      cursor:pointer;
+      margin-bottom:18px;
+    }
+
+    .thumb-preview{
+      width:92px;
+      height:130px;
+      background:#fff;
+      border:2px solid #1d7cff;
+      border-radius:8px;
+      margin:0 auto 8px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .redact-center-viewer{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+      overflow:hidden;
+    }
+
+    .redact-top-toolbar{
+      height:58px;
+      background:#fff;
+      border-bottom:1px solid #ddd;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:0 18px;
+    }
+
+    .toolbar-btn{
+      height:42px;
+      min-width:52px;
+      border:none;
+      background:#f5f5f5;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:18px;
+      color:#111827;
+    }
+
+    .active-tool{
+      background:#ffe7e7;
+      color:#e5322d;
+    }
+
+    .redact-pdf-stage{
+      flex:1;
+      overflow:auto;
+      padding:30px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
+
+    .redact-canvas-wrap{
+      position:relative;
+      background:#fff;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+    }
+
+    #pdfCanvas{display:block}
+
+    .redact-box{
+      position:absolute;
+      border:3px dashed #000;
+      background:rgba(0,0,0,.75);
+      cursor:move;
+      box-sizing:border-box;
+    }
+
+    .redact-box.accepted-box{
+      border:3px solid #16a34a;
+      background:rgba(0,0,0,.85);
+    }
+
+    .redact-page-controls{
+      position:sticky;
+      bottom:14px;
+      margin:0 auto 14px;
+      width:fit-content;
+      background:#3f3f46;
+      color:#fff;
+      padding:10px 16px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      z-index:20;
+    }
+
+    .redact-page-controls button{
+      width:34px;
+      height:34px;
+      border:none;
+      border-radius:50%;
+      background:#52525b;
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+    }
+
+    .redact-editor-panel{
+      background:#fff;
+      border-left:1px solid #ddd;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      overflow:auto;
+    }
+
+    .redact-editor-panel h2{
+      text-align:center;
+      font-size:30px;
+      margin:0 0 18px;
+      color:#111827;
+    }
+
+    .redact-search{
+      width:100%;
+      height:48px;
+      border:1px solid #d7d7db;
+      border-radius:8px;
+      padding:0 14px;
+      font-size:16px;
+      margin-bottom:14px;
+      box-sizing:border-box;
+    }
+
+    .redact-option{
+      width:100%;
+      height:52px;
+      border:1px solid #d7d7db;
+      border-radius:8px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:0 16px;
+      font-size:17px;
+      cursor:pointer;
+      margin-bottom:10px;
+      color:#111827;
+    }
+
+    .redact-option.active-option{
+      border:2px solid #e5322d;
+      background:#fff3f3;
+      color:#e5322d;
+      font-weight:800;
+    }
+
+    .redact-actions{
+      display:flex;
+      gap:12px;
+      margin:16px 0;
+    }
+
+    .redact-cancel-btn,
+    .redact-accept-btn{
+      flex:1;
+      height:54px;
+      border:none;
+      border-radius:12px;
+      font-size:17px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .redact-cancel-btn{background:#ececf3;color:#111827}
+    .redact-accept-btn{background:#e5322d;color:#fff}
+    .redact-accept-btn.accepted{background:#16a34a}
+
+    .redact-warning-box{
+      background:#fff2df;
+      border:1px solid #ffbe69;
+      border-radius:10px;
+      padding:14px;
+      display:flex;
+      gap:12px;
+      color:#7a4f00;
+      margin-bottom:16px;
+      line-height:1.5;
+    }
+
+    .redact-main-btn{
+      margin-top:auto;
+      width:100%;
+      border:none;
+      background:#e5322d;
+      color:#fff;
+      padding:18px 20px;
+      border-radius:10px;
+      font-size:22px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .redact-progress{margin-top:16px}
+
+    .redact-success-screen{
+      min-height:calc(100vh - 70px);
+      padding:60px 20px;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:#f7f7fb;
+    }
+
+    .redact-success-screen h1{
+      font-size:42px;
+      margin-bottom:12px;
+      color:#111827;
+    }
+
+    .redact-success-screen p{
+      font-size:18px;
+      margin-bottom:26px;
+      color:#4b5563;
+    }
+
+    .redact-success-screen .download-result-btn{
+      border:none;
+      background:#e5322d;
+      color:#fff;
+      padding:16px 34px;
+      border-radius:8px;
+      font-size:18px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    @media(max-width:768px){
+      .redact-select-row{flex-direction:column}
+      .redact-upload-box{min-width:260px;padding:22px 34px}
+
+      .redact-editor-screen{
+        grid-template-columns:1fr;
+        padding-bottom:250px;
+      }
+
+      .redact-left-sidebar{display:none}
+
+      .redact-pdf-stage{
+        padding:18px;
+        justify-content:flex-start;
+      }
+
+      .redact-top-toolbar{
+        overflow:auto;
+      }
+
+      .redact-editor-panel{
+        position:fixed;
+        left:0;
+        right:0;
+        bottom:0;
+        z-index:999;
+        max-height:250px;
+        border-left:none;
+        border-top:1px solid #ddd;
+        box-shadow:0 -8px 24px rgba(0,0,0,.14);
+      }
+
+      .redact-warning-box{display:none}
+      .redact-editor-panel h2{font-size:24px;text-align:left}
+      .redact-main-btn{font-size:18px;padding:15px}
+    }
   </style>
-
 </head>
 
 <body>
 
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
 <header class="desktop-header">
   <a href="/index.html" class="logo">HelloPDF</a>
-
   <nav>
     <a href="/merge.html">Merge PDF</a>
     <a href="/split.html">Split PDF</a>
     <a href="/compress.html">Compress PDF</a>
     <a href="/index.html">All PDF Tools</a>
   </nav>
-
   <div class="auth-buttons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
@@ -81,180 +402,108 @@
 
 <main class="redact-page">
 
-  <!-- START SCREEN -->
-
   <section class="redact-start-screen" id="startScreen">
-
     <h1>Redact PDF</h1>
+    <p>Permanently cover sensitive text and information in your PDF.</p>
 
-    <p>
-      Permanently cover sensitive text and information in your PDF.
-    </p>
+    <div class="redact-select-row">
+      <div class="redact-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden/>
+        <h2>Select PDF file</h2>
+      </div>
 
-    <div class="redact-upload-box" id="dropZone">
-      <input type="file" id="fileInput" accept="application/pdf" hidden/>
-      <h2>Select PDF file</h2>
+      <div class="cloud-buttons">
+        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
+        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+      </div>
     </div>
 
-    <div class="drop-text">
-      or drop PDF here
-    </div>
-
+    <div class="drop-text">or drop PDF here</div>
   </section>
 
-  <!-- PREVIEW SCREEN -->
-
   <section class="redact-editor-screen hidden-screen" id="previewScreen">
-
     <div class="redact-left-sidebar">
-
       <div class="thumb-page active-thumb">
         <div class="thumb-preview"></div>
         <span>1</span>
       </div>
-
     </div>
 
     <div class="redact-center-viewer">
-
       <div class="redact-top-toolbar">
-
-        <button type="button" class="toolbar-btn active-tool">
-          <i class="fa-regular fa-hand"></i>
-        </button>
-
-        <button type="button" class="toolbar-btn">
-          <i class="fa-regular fa-square"></i>
-        </button>
-
-        <button type="button" class="toolbar-btn">
-          <i class="fa-regular fa-file"></i>
-        </button>
-
-        <button type="button" class="toolbar-btn">
-          <i class="fa-solid fa-eraser"></i>
-        </button>
-
+        <button type="button" class="toolbar-btn active-tool"><i class="fa-regular fa-hand"></i></button>
+        <button type="button" class="toolbar-btn"><i class="fa-regular fa-square"></i></button>
+        <button type="button" class="toolbar-btn"><i class="fa-regular fa-file"></i></button>
+        <button type="button" class="toolbar-btn"><i class="fa-solid fa-eraser"></i></button>
       </div>
 
       <div class="redact-pdf-stage">
-
         <div class="redact-canvas-wrap" id="canvasWrap">
-
           <canvas id="pdfCanvas"></canvas>
-
           <div class="redact-box" id="redactBox"></div>
-
         </div>
-
       </div>
 
       <div class="redact-page-controls">
-
         <button type="button" id="zoomOutBtn">−</button>
-
         <span id="zoomText">100%</span>
-
         <button type="button" id="zoomInBtn">+</button>
-
       </div>
-
     </div>
 
     <aside class="redact-editor-panel">
-
       <h2>Redact PDF</h2>
 
-      <input
-        type="text"
-        class="redact-search"
-        placeholder="Search text"
-      />
+      <input type="text" class="redact-search" placeholder="Search text"/>
 
-      <button class="redact-option active-option">
+      <button class="redact-option active-option" type="button">
         <i class="fa-regular fa-square"></i>
         <span>Text</span>
       </button>
 
-      <button class="redact-option">
+      <button class="redact-option" type="button">
         <i class="fa-regular fa-credit-card"></i>
         <span>Credit Card</span>
       </button>
 
-      <button class="redact-option">
+      <button class="redact-option" type="button">
         <i class="fa-solid fa-phone"></i>
         <span>Phone Number</span>
       </button>
 
-      <button class="redact-option">
+      <button class="redact-option" type="button">
         <i class="fa-regular fa-envelope"></i>
         <span>Email</span>
       </button>
 
       <div class="redact-actions">
-
-        <button
-          class="redact-cancel-btn"
-          id="resetBox"
-          type="button"
-        >
-          Cancel
-        </button>
-
-        <button
-          class="redact-accept-btn"
-          type="button"
-        >
-          Accept
-        </button>
-
+        <button class="redact-cancel-btn" id="resetBox" type="button">Cancel</button>
+        <button class="redact-accept-btn" type="button">Accept</button>
       </div>
 
       <div class="redact-warning-box">
-
         <i class="fa-solid fa-circle-exclamation"></i>
-
-        <p>
-          Remember to review the result before sending private information.
-        </p>
-
+        <p>Remember to review the result before sending private information.</p>
       </div>
 
-      <button
-        class="redact-main-btn"
-        id="redactBtn"
-        type="button"
-      >
-        Redact
-      </button>
+      <button class="redact-main-btn" id="redactBtn" type="button">Redact</button>
 
-      <div class="progress-container">
+      <div class="progress-container redact-progress">
         <div class="progress-bar" id="progressBar">0%</div>
       </div>
-
     </aside>
-
   </section>
 
-  <!-- SUCCESS -->
-
-  <section class="success-screen hidden-screen" id="successScreen">
-
+  <section class="redact-success-screen hidden-screen" id="successScreen">
     <h1>PDF has been redacted!</h1>
-
     <p>Your redacted PDF is ready to download.</p>
-
-    <button class="download-btn" id="downloadBtn">
-      Download redacted PDF
-    </button>
-
+    <button class="download-result-btn" id="downloadBtn" type="button">Download redacted PDF</button>
   </section>
 
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-<script src="/js/redact-pdf.js?v=1052"></script>
+<script src="/js/redact-pdf.js?v=1053"></script>
 
 </body>
 </html>
