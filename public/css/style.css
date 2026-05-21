@@ -17271,15 +17271,18 @@ body {
 .repair-start-screen{
   min-height:calc(100vh - 72px);
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   justify-content:center;
-  padding:70px 20px 40px;
+  padding:40px 20px;
+}
 }
 
 .repair-start-content{
   width:100%;
   max-width:900px;
   text-align:center;
+  margin:auto;
+}
 }
 
 .repair-start-content h1{
