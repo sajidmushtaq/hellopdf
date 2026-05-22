@@ -1982,6 +1982,82 @@ app.post("/pdf-to-pdfa", upload.single("pdf"), async (req, res) => {
   }
 });
 
+app.post("/scan-to-pdf", upload.array("images"), async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("No images uploaded");
+    }
+
+    const pdfDoc = await PDFDocument.create();
+
+    for (const file of req.files) {
+      const ext = path.extname(file.originalname).toLowerCase();
+      const imageBytes = fs.readFileSync(file.path);
+
+      let image;
+
+      if (ext === ".jpg" || ext === ".jpeg") {
+        image = await pdfDoc.embedJpg(imageBytes);
+      } else if (ext === ".png") {
+        image = await pdfDoc.embedPng(imageBytes);
+      } else {
+        req.files.forEach((f) => {
+          if (fs.existsSync(f.path)) fs.unlinkSync(f.path);
+        });
+
+        return res.status(400).send("Only JPG, JPEG, and PNG images are allowed");
+      }
+
+      const pageWidth = 595.28;
+      const pageHeight = 841.89;
+
+      const page = pdfDoc.addPage([pageWidth, pageHeight]);
+
+      const scale = Math.min(
+        pageWidth / image.width,
+        pageHeight / image.height
+      );
+
+      const imgWidth = image.width * scale;
+      const imgHeight = image.height * scale;
+
+      const x = (pageWidth - imgWidth) / 2;
+      const y = (pageHeight - imgHeight) / 2;
+
+      page.drawImage(image, {
+        x,
+        y,
+        width: imgWidth,
+        height: imgHeight
+      });
+    }
+
+    const pdfBytes = await pdfDoc.save({
+      useObjectStreams: false
+    });
+
+    req.files.forEach((file) => {
+      if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
+    });
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=scanned.pdf");
+
+    return res.end(Buffer.from(pdfBytes));
+
+  } catch (err) {
+    console.error("SCAN TO PDF ERROR:", err);
+
+    if (req.files) {
+      req.files.forEach((file) => {
+        if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
+      });
+    }
+
+    return res.status(500).send("Scan to PDF failed");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
