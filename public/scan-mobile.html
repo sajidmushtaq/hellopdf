@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mobile Scan - HelloPDF</title>
-  <link rel="stylesheet" href="/css/style.css?v=5030"/>
+  <link rel="stylesheet" href="/css/style.css?v=5031"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
@@ -87,6 +87,10 @@
   let selectedFiles = [];
   let outputUrl = null;
   let progressTimer = null;
+  
+  scanPage.style.display = "block";
+bottomBar.style.display = "block";
+successScreen.classList.remove("active");
 
   cameraBtn.addEventListener("click", () => cameraInput.click());
   galleryBtn.addEventListener("click", () => galleryInput.click());
