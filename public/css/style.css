@@ -18311,3 +18311,7 @@ body {
   .pdf-image-pdf-preview{height:145px}
   .pdf-image-file-card{min-height:215px;padding:12px}
 }
+
+const upload = multer({
+  dest: "uploads/"
+});

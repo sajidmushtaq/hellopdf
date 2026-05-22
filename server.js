@@ -10,6 +10,9 @@ const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
+const upload = multer({
+  dest: "uploads/"
+});
 
 
 const pdfParseModule = require("pdf-parse");
