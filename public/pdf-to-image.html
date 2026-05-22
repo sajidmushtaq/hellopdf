@@ -1,171 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>PDF to Image - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=260" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css?v=4000"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .hidden-screen{
+      display:none !important;
+    }
+
+    #previewScreen.active-screen{
+      display:grid !important;
+    }
+
+    #successScreen.active-screen{
+      display:flex !important;
+    }
+  </style>
+
 </head>
+
 <body>
 
+<!-- MOBILE HEADER -->
+
 <header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
-  <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">
+    ☰
+  </button>
+
+  <a href="/index.html" class="mobile-logo">
+    HelloPDF
+  </a>
+
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">
+    ⠿
+  </button>
+
 </header>
 
-<div class="tools-drawer" id="toolsDrawer">
-  <button class="drawer-close" id="toolsClose" type="button">×</button>
+<!-- DESKTOP HEADER -->
 
-  <h3>PDF Tools</h3>
+<header class="desktop-header">
 
-  <a href="/merge.html">Merge PDF</a>
-  <a href="/compress.html">Compress PDF</a>
-  <a href="/image-to-pdf.html">Image to PDF</a>
-  <a href="/pdf-to-image.html">PDF to Image</a>
-  <a href="/split.html">Split PDF</a>
-  <a href="/remove.html">Remove Pages</a>
-  <a href="/rotate.html">Rotate PDF</a>
-  <a href="/watermark.html">Watermark</a>
-</div>
+  <a href="/index.html" class="logo">
+    HelloPDF
+  </a>
 
-<div class="main-drawer" id="mainDrawer">
-  <button class="drawer-close" id="mainClose" type="button">×</button>
+  <nav>
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/index.html#convert-tools">Convert PDF</a>
+    <a href="/index.html">All PDF Tools</a>
+  </nav>
 
-  <div class="drawer-section">
-    <h4>OTHER PRODUCTS</h4>
-    <h4>SOLUTIONS</h4>
-    <h4>APPLICATIONS</h4>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
 
-  <a href="#">💳 Pricing</a>
-  <a href="#">🔒 Security</a>
-  <a href="#">⚙️ Features</a>
-  <a href="#">💎 About us</a>
+</header>
 
-  <div class="drawer-bottom">
-    <a href="#">Help ›</a>
-    <a href="#">Language ›</a>
-    <a href="/login.html" class="drawer-login">Login</a>
-    <a href="/signup.html" class="drawer-signup">Sign up</a>
-  </div>
-</div>
+<!-- MAIN -->
 
-<div class="drawer-overlay" id="drawerOverlay"></div>
+<main class="pdf-image-page">
 
-<div class="tool-page">
-  <div class="tool-box">
+  <!-- START SCREEN -->
 
-    <div class="tool-icon">
-      <i class="fa-solid fa-file-image" style="color:#f97316;"></i>
+  <section class="pdf-image-start-screen" id="startScreen">
+
+    <div class="pdf-image-start-content">
+
+      <h1>PDF to Image</h1>
+
+      <p>
+        Convert PDF pages into high-quality JPG images in seconds.
+      </p>
+
+      <div class="pdf-image-upload-area" id="dropZone">
+
+        <input type="file" id="fileInput" accept=".pdf" hidden>
+
+        <button class="pdf-image-select-btn" type="button">
+          Select PDF file
+        </button>
+
+        <div class="cloud-buttons">
+
+          <button type="button">
+            <i class="fa-brands fa-google-drive"></i>
+          </button>
+
+          <button type="button">
+            <i class="fa-brands fa-dropbox"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="pdf-image-drop-text">
+        or drop PDF here
+      </div>
+
     </div>
 
-    <h1>PDF to Image</h1>
-    <p>Convert each PDF page into images.</p>
+  </section>
 
-    <form id="pdfToImageForm">
+  <!-- PREVIEW SCREEN -->
 
-      <label class="upload-area" for="pdfFile">
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <span id="fileName">Select PDF file</span>
-        <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" hidden />
-      </label>
+  <section class="pdf-image-preview-screen hidden-screen" id="previewScreen">
 
-      <button type="submit" class="main-btn">
+    <!-- LEFT -->
+
+    <div class="pdf-image-preview-left">
+
+      <div class="pdf-image-topbar">
+
+        <div>
+
+          <h1>PDF to Image</h1>
+
+          <p id="fileCounter">
+            0 file selected
+          </p>
+
+        </div>
+
+        <button class="pdf-image-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+      </div>
+
+      <div class="pdf-image-file-grid" id="fileList"></div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <aside class="pdf-image-action-panel">
+
+      <h2>PDF to Image</h2>
+
+      <p>
+        Convert every PDF page into image files and download them in ZIP format.
+      </p>
+
+      <button class="pdf-image-main-btn" id="convertBtn" type="button">
         Convert to Images
       </button>
 
-    </form>
+      <div class="progress-container pdf-image-progress">
 
-    <p id="statusText"></p>
+        <div class="progress-bar" id="progressBar">
+          0%
+        </div>
 
-  </div>
-</div>
+      </div>
 
-<script>
-  const form = document.getElementById("pdfToImageForm");
-  const fileInput = document.getElementById("pdfFile");
-  const fileName = document.getElementById("fileName");
-  const statusText = document.getElementById("statusText");
+    </aside>
 
-  fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
-      fileName.textContent = fileInput.files[0].name;
-    }
-  });
+  </section>
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  <!-- SUCCESS SCREEN -->
 
-    if (!fileInput.files.length) {
-      statusText.textContent = "Please select a PDF file first.";
-      return;
-    }
+  <section class="pdf-image-success-screen hidden-screen" id="successScreen">
 
-    const formData = new FormData();
-    formData.append("pdf", fileInput.files[0]);
+    <div class="pdf-image-success-box">
 
-    statusText.textContent = "Converting PDF to images...";
+      <div class="pdf-image-success-icon">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
 
-    try {
-      const response = await fetch("/pdf-to-image", {
-        method: "POST",
-        body: formData
-      });
+      <h1>Images Ready</h1>
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "PDF to Image failed");
-      }
+      <p>
+        Your PDF has been converted successfully.
+      </p>
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      <button class="pdf-image-download-btn" id="downloadBtn" type="button">
+        Download ZIP
+      </button>
 
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "pdf-images.zip";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+    </div>
 
-      window.URL.revokeObjectURL(url);
+  </section>
 
-      statusText.textContent = "Images downloaded successfully.";
-    } catch (error) {
-      console.error(error);
-      statusText.textContent = error.message || "Something went wrong.";
-    }
-  });
+</main>
 
-  const toolsBtn = document.getElementById("toolsMenuBtn");
-  const mainBtn = document.getElementById("mainMenuBtn");
-  const toolsDrawer = document.getElementById("toolsDrawer");
-  const mainDrawer = document.getElementById("mainDrawer");
-  const overlay = document.getElementById("drawerOverlay");
-
-  function closeDrawers() {
-    toolsDrawer.classList.remove("active");
-    mainDrawer.classList.remove("active");
-    overlay.classList.remove("active");
-  }
-
-  toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  document.getElementById("toolsClose").addEventListener("click", closeDrawers);
-  document.getElementById("mainClose").addEventListener("click", closeDrawers);
-  overlay.addEventListener("click", closeDrawers);
-</script>
+<script src="/js/pdf-to-image.js?v=4000"></script>
 
 </body>
 </html>
