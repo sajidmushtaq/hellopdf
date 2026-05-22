@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mobile Scan - HelloPDF</title>
+  <link rel="stylesheet" href="/css/style.css?v=5030"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    body{background:#f5f6fa}
+    .mobile-scan-page{min-height:100vh;padding:22px 16px 120px}
+    .mobile-scan-head{text-align:center;margin-bottom:22px}
+    .mobile-scan-head h1{font-size:34px;font-weight:900;color:#111827}
+    .mobile-scan-head p{color:#64748b;font-size:15px;line-height:1.6}
+    .mobile-scan-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+    .mobile-scan-actions button{height:70px;border:none;border-radius:18px;background:#ef4444;color:#fff;font-size:16px;font-weight:900}
+    .mobile-scan-actions button.secondary{background:#111827}
+    .mobile-scan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .mobile-scan-card{position:relative;background:#fff;border-radius:16px;padding:10px;box-shadow:0 10px 25px rgba(0,0,0,.07)}
+    .mobile-scan-card img{width:100%;height:170px;object-fit:contain;border-radius:12px;background:#f8fafc}
+    .mobile-scan-card span{display:block;margin-top:8px;font-size:12px;font-weight:800;color:#111827;word-break:break-word}
+    .mobile-remove{position:absolute;top:8px;right:8px;width:30px;height:30px;border:none;border-radius:50%;background:#ef4444;color:#fff;font-size:18px}
+    .mobile-bottom-bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e5e7eb;padding:14px 16px;box-shadow:0 -10px 30px rgba(0,0,0,.08)}
+    .mobile-create-btn{width:100%;height:62px;border:none;border-radius:16px;background:#ef4444;color:#fff;font-size:20px;font-weight:900}
+    .mobile-progress{width:100%;height:22px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:10px}
+    .mobile-progress-bar{width:0%;height:100%;background:#ef4444;color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
+    .mobile-success{display:none;text-align:center;padding:80px 20px}
+    .mobile-success.active{display:block}
+    .mobile-success-icon{width:88px;height:88px;border-radius:50%;background:#22c55e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 24px}
+    .mobile-success h1{font-size:34px;color:#111827}
+    .mobile-success p{color:#64748b;margin:10px 0 24px}
+    .download-btn{height:62px;padding:0 32px;border:none;border-radius:16px;background:#ef4444;color:#fff;font-size:20px;font-weight:900}
+  </style>
+</head>
+
+<body>
+
+<main class="mobile-scan-page" id="scanPage">
+  <div class="mobile-scan-head">
+    <h1>Scan to PDF</h1>
+    <p>Capture document photos or upload images from your gallery.</p>
+  </div>
+
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+  <input type="file" id="galleryInput" accept="image/jpeg,image/jpg,image/png" multiple hidden>
+
+  <div class="mobile-scan-actions">
+    <button id="cameraBtn" type="button">
+      <i class="fa-solid fa-camera"></i><br>Camera
+    </button>
+    <button id="galleryBtn" class="secondary" type="button">
+      <i class="fa-solid fa-images"></i><br>Gallery
+    </button>
+  </div>
+
+  <div class="mobile-scan-grid" id="imageList"></div>
+</main>
+
+<section class="mobile-success" id="successScreen">
+  <div class="mobile-success-icon"><i class="fa-solid fa-check"></i></div>
+  <h1>PDF Ready</h1>
+  <p>Your scanned document is ready.</p>
+  <button class="download-btn" id="downloadBtn" type="button">Download PDF</button>
+</section>
+
+<div class="mobile-bottom-bar" id="bottomBar">
+  <button class="mobile-create-btn" id="createBtn" type="button">Create PDF</button>
+  <div class="mobile-progress">
+    <div class="mobile-progress-bar" id="progressBar">0%</div>
+  </div>
+</div>
+
+<script>
+  const cameraInput = document.getElementById("cameraInput");
+  const galleryInput = document.getElementById("galleryInput");
+  const cameraBtn = document.getElementById("cameraBtn");
+  const galleryBtn = document.getElementById("galleryBtn");
+  const imageList = document.getElementById("imageList");
+  const createBtn = document.getElementById("createBtn");
+  const progressBar = document.getElementById("progressBar");
+  const scanPage = document.getElementById("scanPage");
+  const successScreen = document.getElementById("successScreen");
+  const bottomBar = document.getElementById("bottomBar");
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  let selectedFiles = [];
+  let outputUrl = null;
+  let progressTimer = null;
+
+  cameraBtn.addEventListener("click", () => cameraInput.click());
+  galleryBtn.addEventListener("click", () => galleryInput.click());
+
+  cameraInput.addEventListener("change", e => {
+    addFiles(e.target.files);
+    cameraInput.value = "";
+  });
+
+  galleryInput.addEventListener("change", e => {
+    addFiles(e.target.files);
+    galleryInput.value = "";
+  });
+
+  function isImage(file){
+    return file && (
+      file.type === "image/jpeg" ||
+      file.type === "image/png" ||
+      file.name.toLowerCase().endsWith(".jpg") ||
+      file.name.toLowerCase().endsWith(".jpeg") ||
+      file.name.toLowerCase().endsWith(".png")
+    );
+  }
+
+  function addFiles(files){
+    const valid = Array.from(files || []).filter(isImage);
+    if(valid.length === 0){
+      alert("Please select JPG, JPEG, or PNG images only");
+      return;
+    }
+    selectedFiles = selectedFiles.concat(valid);
+    renderImages();
+  }
+
+  function renderImages(){
+    imageList.innerHTML = "";
+
+    selectedFiles.forEach((file, index) => {
+      const url = URL.createObjectURL(file);
+      const card = document.createElement("div");
+      card.className = "mobile-scan-card";
+      card.innerHTML = `
+        <button class="mobile-remove" type="button">×</button>
+        <img src="${url}" alt="${file.name}">
+        <span>${index + 1}. ${file.name}</span>
+      `;
+
+      card.querySelector(".mobile-remove").addEventListener("click", () => {
+        URL.revokeObjectURL(url);
+        selectedFiles.splice(index, 1);
+        renderImages();
+      });
+
+      imageList.appendChild(card);
+    });
+  }
+
+  function resetProgress(){
+    clearInterval(progressTimer);
+    progressBar.style.width = "0%";
+    progressBar.textContent = "0%";
+  }
+
+  function startProgress(){
+    let progress = 10;
+    progressBar.style.width = "10%";
+    progressBar.textContent = "10%";
+
+    progressTimer = setInterval(() => {
+      if(progress < 90){
+        progress += 5;
+        progressBar.style.width = progress + "%";
+        progressBar.textContent = progress + "%";
+      }
+    }, 500);
+  }
+
+  function completeProgress(){
+    clearInterval(progressTimer);
+    progressBar.style.width = "100%";
+    progressBar.textContent = "100%";
+  }
+
+  createBtn.addEventListener("click", async () => {
+    if(selectedFiles.length === 0){
+      alert("Please capture or select images first");
+      return;
+    }
+
+    const formData = new FormData();
+    selectedFiles.forEach(file => formData.append("images", file));
+
+    resetProgress();
+    startProgress();
+
+    createBtn.disabled = true;
+    createBtn.innerHTML = `Creating... <i class="fa-solid fa-spinner fa-spin"></i>`;
+
+    try{
+      const response = await fetch("/scan-to-pdf", {
+        method: "POST",
+        body: formData
+      });
+
+      if(!response.ok){
+        const text = await response.text();
+        alert(text || "Scan to PDF failed");
+        return;
+      }
+
+      const blob = await response.blob();
+
+      if(!blob || blob.size < 100){
+        alert("PDF creation failed");
+        return;
+      }
+
+      outputUrl = URL.createObjectURL(blob);
+      completeProgress();
+
+      setTimeout(() => {
+        scanPage.style.display = "none";
+        bottomBar.style.display = "none";
+        successScreen.classList.add("active");
+        window.scrollTo({top:0, behavior:"smooth"});
+      }, 400);
+
+    }catch(error){
+      alert("Scan to PDF failed. Please try again.");
+    }finally{
+      clearInterval(progressTimer);
+      createBtn.disabled = false;
+      createBtn.textContent = "Create PDF";
+    }
+  });
+
+  downloadBtn.addEventListener("click", () => {
+    if(!outputUrl){
+      alert("PDF not ready");
+      return;
+    }
+
+    const a = document.createElement("a");
+    a.href = outputUrl;
+    a.download = "scanned.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+</script>
+
+</body>
+</html>

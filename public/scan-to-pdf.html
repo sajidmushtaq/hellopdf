@@ -4,14 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Scan to PDF - HelloPDF</title>
-
-  <link rel="stylesheet" href="/css/style.css?v=5020"/>
+  <link rel="stylesheet" href="/css/style.css?v=5030"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
-    .hidden-screen{display:none!important}
-    #previewScreen.active-screen{display:grid!important}
-    #successScreen.active-screen{display:flex!important}
+    .scan-qr-page{min-height:calc(100vh - 72px);background:#f5f6fa;padding:40px 20px;text-align:center}
+    .scan-qr-title{font-size:46px;font-weight:900;color:#111827;margin:20px 0 10px}
+    .scan-qr-subtitle{font-size:21px;color:#64748b;margin-bottom:32px}
+    .scan-steps{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:760px;margin:0 auto}
+    .scan-step-card{background:#fff;border-radius:18px;padding:36px 28px;min-height:420px;box-shadow:0 18px 45px rgba(0,0,0,.06)}
+    .scan-step-card.disabled{opacity:.45}
+    .scan-step-card h2{font-size:30px;color:#111827;margin-bottom:14px}
+    .scan-step-card p{color:#64748b;font-size:16px;line-height:1.7}
+    .scan-qr-box{width:190px;height:190px;margin:30px auto 0;background:#fff;border:10px solid #fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    .scan-qr-box img{width:100%;height:100%}
+    .scan-phone-icon{font-size:92px;color:#94a3b8;margin-top:70px}
+    .scan-upload-fallback{margin-top:35px}
+    .scan-upload-fallback a{display:inline-flex;align-items:center;gap:10px;background:#ef4444;color:#fff;text-decoration:none;padding:17px 28px;border-radius:16px;font-weight:900;font-size:18px}
+    @media(max-width:768px){
+      .scan-steps{grid-template-columns:1fr}
+      .scan-qr-title{font-size:36px}
+      .scan-qr-subtitle{font-size:17px}
+    }
   </style>
 </head>
 
@@ -38,85 +52,41 @@
   </div>
 </header>
 
-<main class="scan-page">
+<main class="scan-qr-page">
+  <h1 class="scan-qr-title">Scan to PDF</h1>
+  <p class="scan-qr-subtitle">Scan documents from your smartphone to your browser</p>
 
-  <section class="scan-start-screen" id="startScreen">
-    <div class="scan-start-content">
-      <h1>Scan to PDF</h1>
-      <p>Upload scanned images and convert them into one clean PDF file.</p>
-
-      <div class="scan-upload-area" id="dropZone">
-        <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png" multiple hidden>
-
-        <button class="scan-select-btn" type="button">Select image files</button>
-
-        <div class="cloud-buttons">
-          <button type="button" aria-label="Google Drive">
-            <svg viewBox="0 0 87.3 78" width="30" height="30">
-              <path fill="#0066da" d="M6.6 66.9l4.3 7.4c.9 1.6 2.3 2.8 3.9 3.6L30.3 51H-.7c0 1.8.5 3.6 1.4 5.2z"/>
-              <path fill="#00ac47" d="M43.6 25.9L28.1 0c-1.6.8-3 2-3.9 3.6L.7 45.8c-.9 1.6-1.4 3.4-1.4 5.2h31z"/>
-              <path fill="#ea4335" d="M72.5 77.9c1.6-.8 3-2 3.9-3.6l1.8-3.1L61.8 43.1H30.3L14.8 77.9z"/>
-              <path fill="#00832d" d="M43.6 25.9L59.1 0c-1.6-.8-3.4-1.1-5.2-1.1H33.4c-1.8 0-3.6.4-5.2 1.1z"/>
-              <path fill="#2684fc" d="M61.8 43.1l16.4 28.1 8.4-14.5c.9-1.6 1.4-3.4 1.4-5.2s-.5-3.6-1.4-5.2L63.1 3.6c-.9-1.6-2.3-2.8-3.9-3.6L43.6 25.9z"/>
-              <path fill="#ffba00" d="M30.3 51h31.5L43.6 25.9z"/>
-            </svg>
-          </button>
-
-          <button type="button" aria-label="Dropbox">
-            <svg viewBox="0 0 528 512" width="30" height="30">
-              <path fill="#0061ff" d="M264 140.1L132 224l132 83.9L132 391.8 0 307.9 132 224 0 140.1 132 56.2z"/>
-              <path fill="#0061ff" d="M264 140.1l132-83.9 132 83.9L396 224l132 83.9-132 83.9-132-83.9L396 224z"/>
-              <path fill="#0061ff" d="M264 332.3l132 83.9L264 500.1 132 416.2z"/>
-            </svg>
-          </button>
-        </div>
+  <div class="scan-steps">
+    <div class="scan-step-card">
+      <h2>Step 1</h2>
+      <p>Use your smartphone camera to scan this QR code.</p>
+      <div class="scan-qr-box">
+        <img id="qrImage" alt="Scan to PDF QR Code">
       </div>
-
-      <div class="scan-drop-text">or drop images here</div>
-    </div>
-  </section>
-
-  <section class="scan-preview-screen hidden-screen" id="previewScreen">
-    <div class="scan-preview-left">
-      <div class="scan-topbar">
-        <div>
-          <h1>Scan to PDF</h1>
-          <p id="fileCounter">0 images selected</p>
-        </div>
-
-        <button class="scan-add-btn" id="addMoreBtn" type="button">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </div>
-
-      <div class="scan-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="scan-action-panel">
-      <h2>Scan to PDF</h2>
-      <p>Convert your scanned images into a single PDF document.</p>
-
-      <button class="scan-main-btn" id="convertBtn" type="button">
-        Create PDF
-      </button>
-
-      <div class="scan-progress">
-        <div class="scan-progress-bar" id="progressBar">0%</div>
+    <div class="scan-step-card disabled">
+      <h2>Step 2</h2>
+      <p>Open the mobile scan page, capture or upload document photos, then create your PDF.</p>
+      <div class="scan-phone-icon">
+        <i class="fa-solid fa-mobile-screen-button"></i>
       </div>
-    </aside>
-  </section>
-
-  <section class="scan-success-screen hidden-screen" id="successScreen">
-    <div class="scan-success-box">
-      <div class="scan-success-icon"><i class="fa-solid fa-check"></i></div>
-      <h1>PDF Ready</h1>
-      <p>Your scanned images have been converted successfully.</p>
-      <button class="scan-download-btn" id="downloadBtn" type="button">Download PDF</button>
     </div>
-  </section>
+  </div>
 
+  <div class="scan-upload-fallback">
+    <a href="/scan-mobile.html">
+      <i class="fa-solid fa-camera"></i>
+      Open scanner in this browser
+    </a>
+  </div>
 </main>
 
-<script src="/js/scan-to-pdf.js?v=5020"></script>
+<script>
+  const mobileScanUrl = window.location.origin + "/scan-mobile.html";
+  const qrImage = document.getElementById("qrImage");
+  qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(mobileScanUrl);
+</script>
+
 </body>
 </html>
