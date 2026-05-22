@@ -4,32 +4,34 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mobile Scan - HelloPDF</title>
-  <link rel="stylesheet" href="/css/style.css?v=5031"/>
+
+  <link rel="stylesheet" href="/css/style.css?v=5035"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
-    body{background:#f5f6fa}
-    .mobile-scan-page{min-height:100vh;padding:22px 16px 120px}
-    .mobile-scan-head{text-align:center;margin-bottom:22px}
-    .mobile-scan-head h1{font-size:34px;font-weight:900;color:#111827}
+    body{margin:0;background:#f5f6fa;font-family:Arial,sans-serif;color:#111827}
+    .mobile-scan-page{display:block;min-height:100vh;padding:28px 16px 130px}
+    .mobile-scan-head{text-align:center;margin-bottom:24px}
+    .mobile-scan-head h1{font-size:34px;font-weight:900;margin-bottom:8px}
     .mobile-scan-head p{color:#64748b;font-size:15px;line-height:1.6}
-    .mobile-scan-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
-    .mobile-scan-actions button{height:70px;border:none;border-radius:18px;background:#ef4444;color:#fff;font-size:16px;font-weight:900}
-    .mobile-scan-actions button.secondary{background:#111827}
+    .mobile-scan-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+    .mobile-scan-actions button{height:72px;border:none;border-radius:18px;background:#ef4444;color:#fff;font-size:16px;font-weight:900}
+    .mobile-scan-actions .secondary{background:#111827}
     .mobile-scan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .mobile-scan-card{position:relative;background:#fff;border-radius:16px;padding:10px;box-shadow:0 10px 25px rgba(0,0,0,.07)}
     .mobile-scan-card img{width:100%;height:170px;object-fit:contain;border-radius:12px;background:#f8fafc}
-    .mobile-scan-card span{display:block;margin-top:8px;font-size:12px;font-weight:800;color:#111827;word-break:break-word}
+    .mobile-scan-card span{display:block;margin-top:8px;font-size:12px;font-weight:800;word-break:break-word}
     .mobile-remove{position:absolute;top:8px;right:8px;width:30px;height:30px;border:none;border-radius:50%;background:#ef4444;color:#fff;font-size:18px}
-    .mobile-bottom-bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e5e7eb;padding:14px 16px;box-shadow:0 -10px 30px rgba(0,0,0,.08)}
+    .mobile-empty{text-align:center;color:#64748b;margin-top:45px;font-size:15px}
+    .mobile-bottom-bar{display:block;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e5e7eb;padding:14px 16px;box-shadow:0 -10px 30px rgba(0,0,0,.08)}
     .mobile-create-btn{width:100%;height:62px;border:none;border-radius:16px;background:#ef4444;color:#fff;font-size:20px;font-weight:900}
     .mobile-progress{width:100%;height:22px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:10px}
     .mobile-progress-bar{width:0%;height:100%;background:#ef4444;color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
-    .mobile-success{display:none;text-align:center;padding:80px 20px}
+    .mobile-success{display:none;min-height:100vh;text-align:center;padding:120px 20px 40px}
     .mobile-success.active{display:block}
     .mobile-success-icon{width:88px;height:88px;border-radius:50%;background:#22c55e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 24px}
-    .mobile-success h1{font-size:34px;color:#111827}
-    .mobile-success p{color:#64748b;margin:10px 0 24px}
+    .mobile-success h1{font-size:34px;margin-bottom:10px}
+    .mobile-success p{color:#64748b;margin-bottom:24px}
     .download-btn{height:62px;padding:0 32px;border:none;border-radius:16px;background:#ef4444;color:#fff;font-size:20px;font-weight:900}
   </style>
 </head>
@@ -43,7 +45,7 @@
   </div>
 
   <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
-  <input type="file" id="galleryInput" accept="image/jpeg,image/jpg,image/png" multiple hidden>
+  <input type="file" id="galleryInput" accept="image/jpeg,image/jpg,image/png,image/webp" multiple hidden>
 
   <div class="mobile-scan-actions">
     <button id="cameraBtn" type="button">
@@ -52,6 +54,10 @@
     <button id="galleryBtn" class="secondary" type="button">
       <i class="fa-solid fa-images"></i><br>Gallery
     </button>
+  </div>
+
+  <div class="mobile-empty" id="emptyText">
+    No images selected yet.
   </div>
 
   <div class="mobile-scan-grid" id="imageList"></div>
@@ -72,6 +78,7 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const cameraInput = document.getElementById("cameraInput");
   const galleryInput = document.getElementById("galleryInput");
   const cameraBtn = document.getElementById("cameraBtn");
@@ -83,55 +90,60 @@
   const successScreen = document.getElementById("successScreen");
   const bottomBar = document.getElementById("bottomBar");
   const downloadBtn = document.getElementById("downloadBtn");
+  const emptyText = document.getElementById("emptyText");
 
   let selectedFiles = [];
   let outputUrl = null;
   let progressTimer = null;
-  
+
   scanPage.style.display = "block";
-bottomBar.style.display = "block";
-successScreen.classList.remove("active");
+  bottomBar.style.display = "block";
+  successScreen.classList.remove("active");
 
   cameraBtn.addEventListener("click", () => cameraInput.click());
   galleryBtn.addEventListener("click", () => galleryInput.click());
 
-  cameraInput.addEventListener("change", e => {
+  cameraInput.addEventListener("change", (e) => {
     addFiles(e.target.files);
     cameraInput.value = "";
   });
 
-  galleryInput.addEventListener("change", e => {
+  galleryInput.addEventListener("change", (e) => {
     addFiles(e.target.files);
     galleryInput.value = "";
   });
 
   function isImage(file){
     return file && (
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
+      file.type.startsWith("image/") ||
       file.name.toLowerCase().endsWith(".jpg") ||
       file.name.toLowerCase().endsWith(".jpeg") ||
-      file.name.toLowerCase().endsWith(".png")
+      file.name.toLowerCase().endsWith(".png") ||
+      file.name.toLowerCase().endsWith(".webp")
     );
   }
 
   function addFiles(files){
     const valid = Array.from(files || []).filter(isImage);
+
     if(valid.length === 0){
-      alert("Please select JPG, JPEG, or PNG images only");
+      alert("Please select image files only");
       return;
     }
+
     selectedFiles = selectedFiles.concat(valid);
     renderImages();
   }
 
   function renderImages(){
     imageList.innerHTML = "";
+    emptyText.style.display = selectedFiles.length ? "none" : "block";
 
     selectedFiles.forEach((file, index) => {
       const url = URL.createObjectURL(file);
       const card = document.createElement("div");
       card.className = "mobile-scan-card";
+
       card.innerHTML = `
         <button class="mobile-remove" type="button">×</button>
         <img src="${url}" alt="${file.name}">
@@ -208,6 +220,8 @@ successScreen.classList.remove("active");
         return;
       }
 
+      if(outputUrl) URL.revokeObjectURL(outputUrl);
+
       outputUrl = URL.createObjectURL(blob);
       completeProgress();
 
@@ -219,6 +233,7 @@ successScreen.classList.remove("active");
       }, 400);
 
     }catch(error){
+      console.error(error);
       alert("Scan to PDF failed. Please try again.");
     }finally{
       clearInterval(progressTimer);
@@ -240,6 +255,9 @@ successScreen.classList.remove("active");
     a.click();
     a.remove();
   });
+
+  renderImages();
+});
 </script>
 
 </body>
