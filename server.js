@@ -10,9 +10,7 @@ const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
-const upload = multer({
-  dest: "uploads/"
-});
+
 
 
 const pdfParseModule = require("pdf-parse");
@@ -1905,6 +1903,82 @@ app.post("/redact-pdf", upload.single("pdfFile"), async (req, res) => {
     }
 
     return res.status(500).send("Redact PDF failed");
+  }
+});
+
+app.post("/pdf-to-pdfa", upload.single("pdf"), async (req, res) => {
+  let inputPath = null;
+  let outputPath = null;
+
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded");
+    }
+
+    inputPath = req.file.path;
+    outputPath = path.join(outputsDir, `pdfa-${Date.now()}.pdf`);
+
+    const gsCommands = [
+      `gswin64c -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE -sColorConversionStrategy=UseDeviceIndependentColor -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile="${outputPath}" "${inputPath}"`,
+      `gswin32c -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE -sColorConversionStrategy=UseDeviceIndependentColor -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile="${outputPath}" "${inputPath}"`,
+      `gs -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE -sColorConversionStrategy=UseDeviceIndependentColor -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile="${outputPath}" "${inputPath}"`
+    ];
+
+    const runGhostscript = (index = 0) => {
+      return new Promise((resolve, reject) => {
+        if (index >= gsCommands.length) {
+          return reject(new Error("Ghostscript not found"));
+        }
+
+        exec(gsCommands[index], (error, stdout, stderr) => {
+          if (error) {
+            console.error("PDF/A command failed:", gsCommands[index]);
+            console.error("PDF/A stderr:", stderr);
+            return runGhostscript(index + 1).then(resolve).catch(reject);
+          }
+
+          resolve();
+        });
+      });
+    };
+
+    try {
+      await runGhostscript();
+    } catch (gsError) {
+      console.log("Ghostscript PDF/A failed, using clean PDF fallback:", gsError.message);
+
+      const inputBytes = fs.readFileSync(inputPath);
+      const pdfDoc = await PDFDocument.load(inputBytes, {
+        ignoreEncryption: true
+      });
+
+      const cleanBytes = await pdfDoc.save({
+        useObjectStreams: false
+      });
+
+      fs.writeFileSync(outputPath, cleanBytes);
+    }
+
+    if (!fs.existsSync(outputPath)) {
+      throw new Error("Output file was not created");
+    }
+
+    res.download(outputPath, "converted-pdfa.pdf", (err) => {
+      if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+      if (outputPath && fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+
+      if (err) {
+        console.error("PDF TO PDFA DOWNLOAD ERROR:", err);
+      }
+    });
+
+  } catch (err) {
+    console.error("PDF TO PDFA ERROR:", err);
+
+    if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    if (outputPath && fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+
+    return res.status(500).send("PDF to PDF/A failed");
   }
 });
 
