@@ -2114,6 +2114,73 @@ app.post("/scan-to-pdf", upload.array("images"), async (req, res) => {
   }
 });
 
+app.post("/sign-pdf", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
+
+    const placements = JSON.parse(req.body.placements || "[]");
+    if (!placements.length) {
+      return res.status(400).send("No signature placement found.");
+    }
+
+    const inputPath = req.file.path;
+    const pdfBytes = fs.readFileSync(inputPath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    for (const item of placements) {
+      const pageIndex = Number(item.page) - 1;
+      if (pageIndex < 0 || pageIndex >= pages.length) continue;
+
+      const page = pages[pageIndex];
+      const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+      const base64Data = item.dataUrl.split(",")[1];
+      const imageBytes = Buffer.from(base64Data, "base64");
+
+      let signatureImage;
+      if (item.dataUrl.includes("image/jpeg") || item.dataUrl.includes("image/jpg")) {
+        signatureImage = await pdfDoc.embedJpg(imageBytes);
+      } else {
+        signatureImage = await pdfDoc.embedPng(imageBytes);
+      }
+
+      const scaleX = pdfWidth / Number(item.pageWidth);
+      const scaleY = pdfHeight / Number(item.pageHeight);
+
+      const drawX = Number(item.x) * scaleX;
+      const drawWidth = Number(item.width) * scaleX;
+      const drawHeight = Number(item.height) * scaleY;
+      const drawY = pdfHeight - (Number(item.y) * scaleY) - drawHeight;
+
+      page.drawImage(signatureImage, {
+        x: drawX,
+        y: drawY,
+        width: drawWidth,
+        height: drawHeight
+      });
+    }
+
+    const signedPdfBytes = await pdfDoc.save();
+
+    const outputFileName = `signed-${Date.now()}.pdf`;
+    const outputPath = path.join(outputDir, outputFileName);
+
+    fs.writeFileSync(outputPath, signedPdfBytes);
+
+    fs.unlink(inputPath, () => {});
+
+    res.download(outputPath, "signed-pdf.pdf", () => {
+      fs.unlink(outputPath, () => {});
+    });
+  } catch (error) {
+    console.error("SIGN PDF ERROR:", error);
+    res.status(500).send("Failed to sign PDF.");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

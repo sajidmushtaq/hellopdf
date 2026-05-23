@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign PDF - HelloPDF</title>
+  <link rel="stylesheet" href="/css/style.css?v=signpdf1" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+  <div class="tool-page sign-pdf-page">
+    <section id="startScreen" class="sign-start-screen">
+      <div class="tool-start-card">
+        <h1>Sign PDF</h1>
+        <p>Add your signature to a PDF document.</p>
+
+        <input type="file" id="pdfInput" accept="application/pdf" hidden />
+
+        <button id="selectPdfBtn" class="main-red-btn">Select PDF file</button>
+
+        <div class="cloud-buttons">
+          <button type="button" title="Google Drive">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
+          </button>
+          <button type="button" title="Dropbox">
+            <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="previewScreen" class="sign-preview-screen hidden-screen">
+      <div class="sign-preview-area">
+        <div id="pdfCanvasWrap" class="pdf-canvas-wrap"></div>
+      </div>
+
+      <aside class="sign-side-panel">
+        <h2>Sign PDF</h2>
+        <p>Create your signature, then place it on the PDF.</p>
+
+        <div class="signature-tabs">
+          <button class="sig-tab active" data-tab="draw">Draw</button>
+          <button class="sig-tab" data-tab="text">Text</button>
+          <button class="sig-tab" data-tab="upload">Upload</button>
+        </div>
+
+        <div id="drawTab" class="signature-box">
+          <canvas id="drawCanvas" width="320" height="140"></canvas>
+          <button id="clearDrawBtn" class="small-light-btn">Clear</button>
+        </div>
+
+        <div id="textTab" class="signature-box hidden-screen">
+          <input type="text" id="textSignature" placeholder="Type your signature" />
+        </div>
+
+        <div id="uploadTab" class="signature-box hidden-screen">
+          <input type="file" id="signatureUpload" accept="image/png,image/jpeg" />
+        </div>
+
+        <button id="addSignatureBtn" class="main-red-btn">Add signature</button>
+
+        <div class="progress-wrap hidden-screen" id="progressWrap">
+          <div id="progressBar"></div>
+        </div>
+
+        <button id="applySignBtn" class="main-red-btn">Sign PDF</button>
+        <button id="backBtn" class="small-light-btn">Choose another file</button>
+      </aside>
+    </section>
+
+    <section id="successScreen" class="sign-success-screen hidden-screen">
+      <div class="success-card">
+        <h1>PDF signed successfully</h1>
+        <p>Your signed PDF is ready to download.</p>
+        <a id="downloadBtn" class="main-red-btn" download>Download signed PDF</a>
+        <button id="newFileBtn" class="small-light-btn">Sign another PDF</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="/js/sign-pdf.js?v=signpdf1"></script>
+</body>
+</html>
