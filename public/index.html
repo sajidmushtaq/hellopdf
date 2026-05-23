@@ -495,5 +495,39 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 })();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const categoryMap = {
+    "convert-tools": document.getElementById("convert-tools"),
+    "organize-tools": document.getElementById("organize-tools"),
+    "edit-tools": document.getElementById("edit-tools"),
+    "security-tools": document.getElementById("security-tools")
+  };
+
+  const buttons = document.querySelectorAll(".category-filter");
+
+  function showCategory(id) {
+    Object.keys(categoryMap).forEach(function (key) {
+      if (categoryMap[key]) {
+        categoryMap[key].style.display = key === id ? "block" : "none";
+      }
+    });
+
+    buttons.forEach(function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-target") === id);
+    });
+  }
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      showCategory(btn.getAttribute("data-target"));
+    });
+  });
+
+  showCategory("convert-tools");
+});
+</script>
 </body>
 </html>

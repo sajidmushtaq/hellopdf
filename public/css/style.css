@@ -19080,3 +19080,45 @@ body {
     padding:0 20px !important;
   }
 }
+
+/* FINAL MOBILE CATEGORY SLIM EDGE TO EDGE */
+
+@media(max-width:768px){
+  .category-filter-nav,
+  .category-nav{
+    width:100% !important;
+    max-width:100% !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:18px !important;
+    padding:0 24px !important;
+    margin:60px auto 45px !important;
+  }
+
+  .category-filter-nav button,
+  .category-filter-nav a,
+  .category-nav button,
+  .category-nav a{
+    width:100% !important;
+    min-height:58px !important;
+    padding:0 18px !important;
+    border-radius:999px !important;
+    font-size:20px !important;
+    font-weight:800 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:10px !important;
+    background:#fff !important;
+    color:#111827 !important;
+    border:1px solid #e5e7eb !important;
+    box-shadow:0 8px 22px rgba(0,0,0,.06) !important;
+    text-decoration:none !important;
+  }
+
+  .category-filter.active{
+    background:#ef4444 !important;
+    color:#fff !important;
+    border-color:#ef4444 !important;
+  }
+}
