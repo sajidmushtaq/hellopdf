@@ -19186,3 +19186,32 @@ body {
     display:none !important;
   }
 }
+
+/* HEADER DROPDOWN ICONS */
+
+.dropdown-menu a{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+
+.menu-icon{
+  width:22px;
+  height:22px;
+  border-radius:6px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:12px;
+  flex:0 0 22px;
+}
+
+.menu-icon.red{background:#ef4444}
+.menu-icon.orange{background:#f97316}
+.menu-icon.green{background:#22c55e}
+.menu-icon.blue{background:#3b82f6}
+.menu-icon.purple{background:#a855f7}
+.menu-icon.sky{background:#0ea5e9}
+.menu-icon.teal{background:#14b8a6}
+.menu-icon.pink{background:#ec4899}
