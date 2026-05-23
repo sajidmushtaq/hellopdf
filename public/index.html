@@ -425,109 +425,49 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 <script>
 (function () {
-  function initCategoryFilter() {
+  function ready(fn) {
+    if (document.readyState !== "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  }
+
+  ready(function () {
     const buttons = document.querySelectorAll(".category-filter");
-    const sections = document.querySelectorAll(".tools-section");
 
-    if (!buttons.length || !sections.length) return;
+    const sections = {
+      "convert-tools": document.getElementById("convert-tools"),
+      "organize-tools": document.getElementById("organize-tools"),
+      "edit-tools": document.getElementById("edit-tools"),
+      "security-tools": document.getElementById("security-tools")
+    };
 
-    function showCategory(targetId) {
-      sections.forEach(function (section) {
-        section.style.display = section.id === targetId ? "block" : "none";
+    function showOnly(id) {
+      Object.keys(sections).forEach(function (key) {
+        if (sections[key]) {
+          sections[key].setAttribute("style", key === id ? "display:block !important;" : "display:none !important;");
+        }
       });
 
-      buttons.forEach(function (button) {
-        button.classList.toggle("active", button.dataset.target === targetId);
+      buttons.forEach(function (btn) {
+        if (btn.dataset.target === id) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
       });
     }
-
-    buttons.forEach(function (button) {
-      button.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        showCategory(button.dataset.target);
-      };
-    });
-
-    showCategory("convert-tools");
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initCategoryFilter);
-  } else {
-    initCategoryFilter();
-  }
-})();
-</script>
-<script>
-(function () {
-  function initCategoryFilter() {
-    const buttons = document.querySelectorAll(".category-filter");
-    const sections = document.querySelectorAll(".tools-section");
-
-    if (!buttons.length || !sections.length) return;
-
-    function showCategory(targetId) {
-      sections.forEach(function (section) {
-        section.style.display = section.id === targetId ? "block" : "none";
-      });
-
-      buttons.forEach(function (button) {
-        button.classList.toggle("active", button.dataset.target === targetId);
-      });
-    }
-
-    buttons.forEach(function (button) {
-      button.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        showCategory(button.dataset.target);
-      };
-    });
-
-    showCategory("convert-tools");
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initCategoryFilter);
-  } else {
-    initCategoryFilter();
-  }
-})();
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const categoryMap = {
-    "convert-tools": document.getElementById("convert-tools"),
-    "organize-tools": document.getElementById("organize-tools"),
-    "edit-tools": document.getElementById("edit-tools"),
-    "security-tools": document.getElementById("security-tools")
-  };
-
-  const buttons = document.querySelectorAll(".category-filter");
-
-  function showCategory(id) {
-    Object.keys(categoryMap).forEach(function (key) {
-      if (categoryMap[key]) {
-        categoryMap[key].style.display = key === id ? "block" : "none";
-      }
-    });
 
     buttons.forEach(function (btn) {
-      btn.classList.toggle("active", btn.getAttribute("data-target") === id);
+      btn.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        showOnly(btn.dataset.target);
+        return false;
+      };
     });
-  }
 
-  buttons.forEach(function (btn) {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      showCategory(btn.getAttribute("data-target"));
-    });
+    showOnly("convert-tools");
   });
-
-  showCategory("convert-tools");
-});
+})();
 </script>
 </body>
 </html>
