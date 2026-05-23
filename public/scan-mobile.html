@@ -8,19 +8,28 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#f5f6fa;color:#111827}
-.page{min-height:100vh;padding:28px 16px 130px}
-h1{text-align:center;font-size:34px;margin-bottom:10px}
-p{text-align:center;color:#64748b;margin-bottom:24px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-.actions button{height:72px;border:none;border-radius:18px;background:#ef4444;color:white;font-size:17px;font-weight:900}
+.page{min-height:100vh;padding:22px 14px 135px}
+h1{text-align:center;font-size:32px;font-weight:900;margin-bottom:8px}
+.subtitle{text-align:center;color:#64748b;font-size:14px;line-height:1.5;margin-bottom:18px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.actions button{height:66px;border:none;border-radius:18px;background:#ef4444;color:white;font-size:16px;font-weight:900}
 .actions button:last-child{background:#111827}
-.empty{text-align:center;color:#64748b;margin-top:40px}
+.editor{display:none;background:#fff;border-radius:20px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,.08);margin-bottom:16px}
+.editor.active{display:block}
+.canvas-wrap{position:relative;width:100%;height:360px;background:#111827;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+canvas{max-width:100%;max-height:100%}
+.crop-box{position:absolute;left:8%;top:8%;width:84%;height:84%;border:3px dashed #ef4444;border-radius:10px;pointer-events:none}
+.editor-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.editor-tools button{height:48px;border:none;border-radius:12px;background:#f1f5f9;color:#111827;font-weight:900}
+.editor-tools .red{background:#ef4444;color:#fff}
+.pages-title{font-size:16px;font-weight:900;margin:12px 0}
+.empty{text-align:center;color:#64748b;margin-top:28px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .card{background:white;border-radius:16px;padding:10px;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .card img{width:100%;height:170px;object-fit:contain;border-radius:12px;background:#f8fafc}
 .card span{display:block;font-size:12px;font-weight:800;margin-top:8px;word-break:break-word}
 .remove{position:absolute;top:8px;right:8px;width:30px;height:30px;border:none;border-radius:50%;background:#ef4444;color:white;font-size:20px}
-.bottom{position:fixed;left:0;right:0;bottom:0;background:white;padding:14px 16px;border-top:1px solid #e5e7eb}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:white;padding:14px 16px;border-top:1px solid #e5e7eb;box-shadow:0 -10px 30px rgba(0,0,0,.08)}
 .create{width:100%;height:62px;border:none;border-radius:16px;background:#ef4444;color:white;font-size:20px;font-weight:900}
 .progress{height:22px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:10px}
 .bar{width:0%;height:100%;background:#ef4444;color:white;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
@@ -35,17 +44,34 @@ p{text-align:center;color:#64748b;margin-bottom:24px}
 
 <main class="page" id="page">
   <h1>Scan to PDF</h1>
-  <p>Capture document photos or upload images from your gallery.</p>
+  <p class="subtitle">Capture, crop, enhance and convert document photos into a clean PDF.</p>
 
   <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
-  <input type="file" id="galleryInput" accept="image/*" multiple hidden>
+  <input type="file" id="galleryInput" accept="image/*" hidden>
 
   <div class="actions">
     <button id="cameraBtn" type="button">📷<br>Camera</button>
     <button id="galleryBtn" type="button">🖼️<br>Gallery</button>
   </div>
 
-  <div class="empty" id="emptyText">No images selected yet.</div>
+  <section class="editor" id="editor">
+    <div class="canvas-wrap">
+      <canvas id="scanCanvas"></canvas>
+      <div class="crop-box"></div>
+    </div>
+
+    <div class="editor-tools">
+      <button id="rotateBtn" type="button">Rotate</button>
+      <button id="enhanceBtn" type="button">Enhance</button>
+      <button id="bwBtn" type="button">B/W</button>
+      <button id="resetBtn" type="button">Reset</button>
+      <button id="addPageBtn" class="red" type="button">Add Page</button>
+      <button id="cancelBtn" type="button">Cancel</button>
+    </div>
+  </section>
+
+  <div class="pages-title">Scanned Pages</div>
+  <div class="empty" id="emptyText">No scanned pages yet.</div>
   <div class="grid" id="imageList"></div>
 </main>
 
@@ -67,75 +93,218 @@ p{text-align:center;color:#64748b;margin-bottom:24px}
 const page = document.getElementById("page");
 const success = document.getElementById("success");
 const bottom = document.getElementById("bottom");
+
 const cameraInput = document.getElementById("cameraInput");
 const galleryInput = document.getElementById("galleryInput");
 const cameraBtn = document.getElementById("cameraBtn");
 const galleryBtn = document.getElementById("galleryBtn");
+
+const editor = document.getElementById("editor");
+const canvas = document.getElementById("scanCanvas");
+const ctx = canvas.getContext("2d");
+
+const rotateBtn = document.getElementById("rotateBtn");
+const enhanceBtn = document.getElementById("enhanceBtn");
+const bwBtn = document.getElementById("bwBtn");
+const resetBtn = document.getElementById("resetBtn");
+const addPageBtn = document.getElementById("addPageBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
 const imageList = document.getElementById("imageList");
 const emptyText = document.getElementById("emptyText");
 const createBtn = document.getElementById("createBtn");
 const progressBar = document.getElementById("progressBar");
 const downloadBtn = document.getElementById("downloadBtn");
 
-let selectedFiles = [];
+let currentImage = null;
+let originalImage = null;
+let rotation = 0;
+let enhanceMode = false;
+let bwMode = false;
+let scannedFiles = [];
 let outputUrl = null;
-
-page.style.display = "block";
-bottom.style.display = "block";
-success.classList.remove("active");
 
 cameraBtn.onclick = () => cameraInput.click();
 galleryBtn.onclick = () => galleryInput.click();
 
-cameraInput.onchange = e => {
-  addFiles(e.target.files);
-  cameraInput.value = "";
-};
+cameraInput.onchange = e => loadImage(e.target.files[0]);
+galleryInput.onchange = e => loadImage(e.target.files[0]);
 
-galleryInput.onchange = e => {
-  addFiles(e.target.files);
-  galleryInput.value = "";
-};
-
-function addFiles(files){
-  const arr = Array.from(files || []).filter(f => f.type.startsWith("image/"));
-  if(!arr.length){
-    alert("Please select image files only");
+function loadImage(file){
+  if(!file || !file.type.startsWith("image/")){
+    alert("Please select an image");
     return;
   }
-  selectedFiles = selectedFiles.concat(arr);
-  render();
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      originalImage = img;
+      currentImage = img;
+      rotation = 0;
+      enhanceMode = false;
+      bwMode = false;
+      editor.classList.add("active");
+      drawImage();
+      window.scrollTo({top:0,behavior:"smooth"});
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+
+  cameraInput.value = "";
+  galleryInput.value = "";
 }
 
-function render(){
-  imageList.innerHTML = "";
-  emptyText.style.display = selectedFiles.length ? "none" : "block";
+function drawImage(){
+  if(!currentImage) return;
 
-  selectedFiles.forEach((file,index)=>{
+  const maxW = 1000;
+  const scale = Math.min(1, maxW / currentImage.width);
+  let w = currentImage.width * scale;
+  let h = currentImage.height * scale;
+
+  if(rotation % 180 !== 0){
+    canvas.width = h;
+    canvas.height = w;
+  }else{
+    canvas.width = w;
+    canvas.height = h;
+  }
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.save();
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(rotation * Math.PI / 180);
+  ctx.drawImage(currentImage, -w / 2, -h / 2, w, h);
+  ctx.restore();
+
+  applyFilters();
+}
+
+function applyFilters(){
+  let imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+  let data = imageData.data;
+
+  for(let i=0;i<data.length;i+=4){
+    let r=data[i], g=data[i+1], b=data[i+2];
+
+    if(enhanceMode){
+      r = Math.min(255, (r - 20) * 1.25);
+      g = Math.min(255, (g - 20) * 1.25);
+      b = Math.min(255, (b - 20) * 1.25);
+    }
+
+    if(bwMode){
+      const gray = 0.299*r + 0.587*g + 0.114*b;
+      const bw = gray > 145 ? 255 : 0;
+      r = g = b = bw;
+    }
+
+    data[i]=r;
+    data[i+1]=g;
+    data[i+2]=b;
+  }
+
+  ctx.putImageData(imageData,0,0);
+}
+
+rotateBtn.onclick = () => {
+  rotation = (rotation + 90) % 360;
+  drawImage();
+};
+
+enhanceBtn.onclick = () => {
+  enhanceMode = !enhanceMode;
+  drawImage();
+};
+
+bwBtn.onclick = () => {
+  bwMode = !bwMode;
+  drawImage();
+};
+
+resetBtn.onclick = () => {
+  rotation = 0;
+  enhanceMode = false;
+  bwMode = false;
+  drawImage();
+};
+
+cancelBtn.onclick = () => {
+  editor.classList.remove("active");
+};
+
+addPageBtn.onclick = () => {
+  if(!currentImage) return;
+
+  const croppedCanvas = document.createElement("canvas");
+  const croppedCtx = croppedCanvas.getContext("2d");
+
+  const cropX = canvas.width * 0.08;
+  const cropY = canvas.height * 0.08;
+  const cropW = canvas.width * 0.84;
+  const cropH = canvas.height * 0.84;
+
+  croppedCanvas.width = cropW;
+  croppedCanvas.height = cropH;
+
+  croppedCtx.drawImage(
+    canvas,
+    cropX,
+    cropY,
+    cropW,
+    cropH,
+    0,
+    0,
+    cropW,
+    cropH
+  );
+
+  croppedCanvas.toBlob(blob => {
+    const file = new File([blob], `scan-page-${Date.now()}.jpg`, {
+      type:"image/jpeg"
+    });
+
+    scannedFiles.push(file);
+    renderPages();
+    editor.classList.remove("active");
+  }, "image/jpeg", 0.92);
+};
+
+function renderPages(){
+  imageList.innerHTML = "";
+  emptyText.style.display = scannedFiles.length ? "none" : "block";
+
+  scannedFiles.forEach((file,index)=>{
     const url = URL.createObjectURL(file);
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
       <button class="remove" type="button">×</button>
       <img src="${url}">
-      <span>${index + 1}. ${file.name}</span>
+      <span>${index + 1}. Scanned page</span>
     `;
+
     card.querySelector(".remove").onclick = () => {
-      selectedFiles.splice(index,1);
-      render();
+      scannedFiles.splice(index,1);
+      URL.revokeObjectURL(url);
+      renderPages();
     };
+
     imageList.appendChild(card);
   });
 }
 
 createBtn.onclick = async () => {
-  if(!selectedFiles.length){
-    alert("Please capture or select images first");
+  if(!scannedFiles.length){
+    alert("Please scan and add at least one page first");
     return;
   }
 
   const formData = new FormData();
-  selectedFiles.forEach(file => formData.append("images", file));
+  scannedFiles.forEach(file => formData.append("images", file));
 
   progressBar.style.width = "20%";
   progressBar.textContent = "20%";
@@ -154,8 +323,13 @@ createBtn.onclick = async () => {
     }
 
     const blob = await response.blob();
-    outputUrl = URL.createObjectURL(blob);
 
+    if(!blob || blob.size < 100){
+      alert("PDF creation failed");
+      return;
+    }
+
+    outputUrl = URL.createObjectURL(blob);
     progressBar.style.width = "100%";
     progressBar.textContent = "100%";
 
