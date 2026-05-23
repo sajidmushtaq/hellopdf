@@ -19215,3 +19215,301 @@ body {
 .menu-icon.sky{background:#0ea5e9}
 .menu-icon.teal{background:#14b8a6}
 .menu-icon.pink{background:#ec4899}
+
+/* =========================
+   OCR PDF TOOL
+========================= */
+
+.ocr-page{
+  min-height:calc(100vh - 72px);
+  background:#f5f6fa;
+  overflow-x:hidden;
+}
+
+.ocr-start-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
+
+.ocr-start-content{
+  width:100%;
+  max-width:900px;
+  text-align:center;
+}
+
+.ocr-start-content h1{
+  font-size:64px;
+  font-weight:900;
+  color:#111827;
+  margin-bottom:20px;
+}
+
+.ocr-start-content p{
+  font-size:20px;
+  color:#64748b;
+  margin-bottom:35px;
+}
+
+.ocr-upload-area{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+
+.ocr-select-btn{
+  height:74px;
+  padding:0 44px;
+  border:none;
+  border-radius:18px;
+  background:#ef4444;
+  color:#fff;
+  font-size:24px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 15px 35px rgba(239,68,68,.25);
+}
+
+.ocr-drop-text{
+  margin-top:18px;
+  color:#64748b;
+  font-size:17px;
+}
+
+.ocr-preview-screen{
+  min-height:calc(100vh - 72px);
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:22px;
+  padding:24px 350px 24px 24px;
+}
+
+.ocr-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.ocr-topbar h1{
+  font-size:40px;
+  font-weight:900;
+  color:#111827;
+}
+
+.ocr-topbar p{
+  color:#64748b;
+}
+
+.ocr-add-btn{
+  width:66px;
+  height:66px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.ocr-file-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:18px;
+}
+
+.ocr-file-card{
+  position:relative;
+  background:#fff;
+  border-radius:22px;
+  padding:16px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 12px 30px rgba(0,0,0,.06);
+}
+
+.ocr-file-preview{
+  width:100%;
+  height:260px;
+  overflow:hidden;
+  border-radius:18px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ocr-file-preview img,
+.ocr-pdf-embed{
+  width:100%;
+  height:100%;
+  border:none;
+  object-fit:contain;
+}
+
+.ocr-file-card h3{
+  margin-top:14px;
+  font-size:15px;
+  word-break:break-word;
+  color:#111827;
+}
+
+.ocr-action-panel{
+  width:310px;
+  position:fixed;
+  right:18px;
+  top:120px;
+  bottom:18px;
+  background:#fff;
+  border-radius:24px;
+  padding:28px 20px;
+  border:1px solid #e5e7eb;
+}
+
+.ocr-action-panel h2{
+  font-size:38px;
+  margin-bottom:20px;
+  color:#111827;
+}
+
+.ocr-action-panel p{
+  color:#64748b;
+  line-height:1.8;
+  margin-bottom:24px;
+}
+
+.ocr-label{
+  display:block;
+  font-weight:900;
+  margin-bottom:10px;
+  color:#111827;
+}
+
+.ocr-select{
+  width:100%;
+  height:54px;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:0 14px;
+  margin-bottom:20px;
+  font-size:16px;
+}
+
+.ocr-main-btn{
+  width:100%;
+  height:66px;
+  border:none;
+  border-radius:18px;
+  background:#ef4444;
+  color:#fff;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.ocr-progress{
+  width:100%;
+  height:24px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:18px;
+}
+
+.ocr-progress-bar{
+  width:0%;
+  height:100%;
+  background:#ef4444;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
+}
+
+.ocr-success-screen{
+  min-height:calc(100vh - 72px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.ocr-success-box{
+  width:100%;
+  max-width:700px;
+  background:#fff;
+  border-radius:28px;
+  padding:60px 30px;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.08);
+}
+
+.ocr-success-icon{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#22c55e;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  margin:0 auto 26px;
+}
+
+.ocr-success-box h1{
+  font-size:52px;
+  margin-bottom:14px;
+  color:#111827;
+}
+
+.ocr-success-box p{
+  font-size:20px;
+  color:#64748b;
+  margin-bottom:30px;
+}
+
+.ocr-download-btn{
+  height:70px;
+  padding:0 40px;
+  border:none;
+  border-radius:18px;
+  background:#ef4444;
+  color:#fff;
+  font-size:24px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+@media(max-width:980px){
+  .ocr-preview-screen{
+    grid-template-columns:1fr;
+    padding:16px 16px 170px;
+  }
+
+  .ocr-action-panel{
+    width:100%;
+    left:0;
+    right:0;
+    top:auto;
+    bottom:0;
+    border-radius:20px 20px 0 0;
+    position:fixed;
+  }
+}
+
+@media(max-width:768px){
+  .ocr-start-content h1{font-size:38px}
+  .ocr-start-content p{font-size:15px}
+  .ocr-select-btn{width:100%;font-size:20px;height:68px}
+  .ocr-upload-area{flex-direction:column}
+  .ocr-file-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .ocr-file-preview{height:150px}
+  .ocr-file-card{padding:12px}
+  .ocr-success-box h1{font-size:30px}
+}

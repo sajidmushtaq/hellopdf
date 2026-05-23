@@ -890,46 +890,102 @@ app.post("/excel-to-pdf", upload.single("excelFile"), async (req, res) => {
   }
 });
 
-app.post("/ocr-pdf", upload.single("pdfFile"), async (req, res) => {
-  let inputPath = null;
+app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
+  let uploadedPaths = [];
 
   try {
-    if (!req.file) {
-      return res.status(400).send("No file uploaded");
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("No files uploaded");
     }
 
-    inputPath = req.file.path;
+    uploadedPaths = req.files.map((file) => file.path);
 
+    const language = req.body.language || "eng";
     const { createWorker } = require("tesseract.js");
-    const worker = await createWorker("eng");
 
-    const {
-      data: { text }
-    } = await worker.recognize(inputPath);
+    let finalText = "";
 
-    await worker.terminate();
+    for (const file of req.files) {
+      const ext = path.extname(file.originalname).toLowerCase();
 
-    if (!text || !text.trim()) {
-      fs.unlinkSync(inputPath);
+      if (ext === ".pdf") {
+        try {
+          const pdfBuffer = fs.readFileSync(file.path);
+          const data = await pdfParse(pdfBuffer);
+
+          if (data.text && data.text.trim()) {
+            finalText += `\n\n--- ${file.originalname} ---\n\n`;
+            finalText += data.text.trim();
+          } else {
+            finalText += `\n\n--- ${file.originalname} ---\n\n`;
+            finalText += "No readable text found in this PDF. For scanned PDFs, please use scanned page images for best OCR results.";
+          }
+        } catch (pdfErr) {
+          finalText += `\n\n--- ${file.originalname} ---\n\n`;
+          finalText += "Could not read text from this PDF.";
+        }
+      } else {
+        const worker = await createWorker(language);
+
+        const {
+          data: { text }
+        } = await worker.recognize(file.path);
+
+        await worker.terminate();
+
+        finalText += `\n\n--- ${file.originalname} ---\n\n`;
+        finalText += text && text.trim() ? text.trim() : "No text detected.";
+      }
+    }
+
+    if (!finalText.trim()) {
       return res.status(400).send("No readable text found");
     }
 
-    res.setHeader("Content-Type", "text/plain");
-    res.setHeader("Content-Disposition", "attachment; filename=ocr.txt");
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=ocr-output.pdf");
 
-    res.send(text);
+    const doc = new PDFKit({
+      size: "A4",
+      margin: 50
+    });
 
-    if (fs.existsSync(inputPath)) {
-      fs.unlinkSync(inputPath);
-    }
+    doc.pipe(res);
+
+    doc.fontSize(22).text("HelloPDF OCR Result", {
+      align: "center"
+    });
+
+    doc.moveDown();
+
+    const lines = finalText.split(/\r?\n/);
+
+    lines.forEach((line) => {
+      if (doc.y > 760) {
+        doc.addPage();
+      }
+
+      doc.fontSize(11).text(line || " ", {
+        lineGap: 4
+      });
+    });
+
+    doc.end();
+
+    res.on("finish", () => {
+      uploadedPaths.forEach((filePath) => {
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      });
+    });
+
   } catch (err) {
-    console.error("OCR ERROR:", err);
+    console.error("OCR PDF ERROR:", err);
 
-    if (inputPath && fs.existsSync(inputPath)) {
-      fs.unlinkSync(inputPath);
-    }
+    uploadedPaths.forEach((filePath) => {
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    });
 
-    return res.status(500).send("OCR failed");
+    return res.status(500).send("OCR PDF failed");
   }
 });
 

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OCR PDF - HelloPDF</title>
+<link rel="stylesheet" href="/css/style.css?v=9100">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+.hidden-screen{display:none!important}
+#previewScreen.active-screen{display:grid!important}
+#successScreen.active-screen{display:flex!important}
+</style>
+</head>
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/index.html#convert-tools">Tools</a>
+  </nav>
+</header>
+
+<main class="ocr-page">
+  <section class="ocr-start-screen" id="startScreen">
+    <div class="ocr-start-content">
+      <h1>OCR PDF</h1>
+      <p>Extract readable text from scanned PDFs and images, then download it as a clean PDF.</p>
+
+      <div class="ocr-upload-area" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf,image/*" multiple hidden>
+        <button class="ocr-select-btn" type="button">Select PDF or Images</button>
+        <div class="cloud-buttons">
+          <button type="button"><i class="fa-brands fa-google-drive"></i></button>
+          <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+        </div>
+      </div>
+
+      <div class="ocr-drop-text">or drop files here</div>
+    </div>
+  </section>
+
+  <section class="ocr-preview-screen hidden-screen" id="previewScreen">
+    <div class="ocr-preview-left">
+      <div class="ocr-topbar">
+        <div>
+          <h1>OCR PDF</h1>
+          <p id="fileCounter">0 files selected</p>
+        </div>
+        <button class="ocr-add-btn" id="addMoreBtn" type="button">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="ocr-file-grid" id="fileList"></div>
+    </div>
+
+    <aside class="ocr-action-panel">
+      <h2>OCR PDF</h2>
+      <p>Choose language and convert scanned content into a readable PDF.</p>
+
+      <label class="ocr-label">OCR Language</label>
+      <select class="ocr-select" id="ocrLanguage">
+        <option value="eng">English</option>
+        <option value="urd">Urdu</option>
+        <option value="ara">Arabic</option>
+        <option value="hin">Hindi</option>
+      </select>
+
+      <button class="ocr-main-btn" id="convertBtn" type="button">Start OCR</button>
+
+      <div class="ocr-progress">
+        <div class="ocr-progress-bar" id="progressBar">0%</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="ocr-success-screen hidden-screen" id="successScreen">
+    <div class="ocr-success-box">
+      <div class="ocr-success-icon"><i class="fa-solid fa-check"></i></div>
+      <h1>OCR Completed</h1>
+      <p>Your OCR PDF is ready to download.</p>
+      <button class="ocr-download-btn" id="downloadBtn" type="button">Download PDF</button>
+    </div>
+  </section>
+</main>
+
+<script src="/js/ocr-pdf.js?v=9100"></script>
+</body>
+</html>
