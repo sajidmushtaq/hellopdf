@@ -394,26 +394,6 @@
 
   checkUserSession();
 </script>
-const categoryButtons = document.querySelectorAll(".category-filter");
-const toolSections = document.querySelectorAll(".tools-section");
-
-function showToolCategory(targetId) {
-  toolSections.forEach((section) => {
-    section.style.display = section.id === targetId ? "block" : "none";
-  });
-
-  categoryButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.target === targetId);
-  });
-}
-
-categoryButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    showToolCategory(button.dataset.target);
-  });
-});
-
-showToolCategory("convert-tools");
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const categoryButtons = document.querySelectorAll(".category-filter");
@@ -421,7 +401,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showToolCategory(targetId) {
     toolSections.forEach(function (section) {
-      section.style.display = section.id === targetId ? "block" : "none";
+      if (section.id === targetId) {
+        section.style.display = "block";
+      } else {
+        section.style.display = "none";
+      }
     });
 
     categoryButtons.forEach(function (button) {
@@ -433,7 +417,6 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function (e) {
       e.preventDefault();
       showToolCategory(button.dataset.target);
-      window.scrollTo({ top: 0, behavior: "instant" });
     });
   });
 
