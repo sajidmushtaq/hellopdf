@@ -42,64 +42,55 @@
 <header class="desktop-header">
   <a href="/index.html" class="logo">HelloPDF</a>
 
-  <nav>
-    <nav class="desktop-nav">
+  <nav class="desktop-nav">
+    <div class="nav-dropdown">
+      <button type="button">Convert PDF</button>
+      <div class="dropdown-menu">
+        <a href="/image-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-images"></i></span> Image to PDF</a>
+        <a href="/pdf-to-image.html"><span class="menu-icon orange"><i class="fa-solid fa-file-image"></i></span> PDF to Image</a>
+        <a href="/pdf-to-word.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> PDF to Word</a>
+        <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
+        <a href="/pdf-to-excel.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> PDF to Excel</a>
+        <a href="/excel-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> Excel to PDF</a>
+        <a href="/pdf-to-pdfa.html"><span class="menu-icon purple"><i class="fa-solid fa-box-archive"></i></span> PDF to PDF/A</a>
+      </div>
+    </div>
 
-  <div class="nav-dropdown">
-    <button type="button">Convert PDF</button>
-<div class="dropdown-menu">
-  <a href="/image-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-images"></i></span> Image to PDF</a>
-  <a href="/pdf-to-image.html"><span class="menu-icon orange"><i class="fa-solid fa-file-image"></i></span> PDF to Image</a>
-  <a href="/pdf-to-word.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> PDF to Word</a>
-  <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
-  <a href="/pdf-to-excel.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> PDF to Excel</a>
-  <a href="/excel-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> Excel to PDF</a>
-  <a href="/pdf-to-pdfa.html"><span class="menu-icon purple"><i class="fa-solid fa-box-archive"></i></span> PDF to PDF/A</a>
-</div>
-  </div>
+    <div class="nav-dropdown">
+      <button type="button">Organize PDF</button>
+      <div class="dropdown-menu">
+        <a href="/merge.html"><span class="menu-icon red"><i class="fa-solid fa-object-group"></i></span> Merge PDF</a>
+        <a href="/split.html"><span class="menu-icon orange"><i class="fa-solid fa-scissors"></i></span> Split PDF</a>
+        <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
+        <a href="/remove.html"><span class="menu-icon red"><i class="fa-solid fa-trash"></i></span> Remove Pages</a>
+        <a href="/extract.html"><span class="menu-icon orange"><i class="fa-solid fa-copy"></i></span> Extract Pages</a>
+        <a href="/reorder.html"><span class="menu-icon purple"><i class="fa-solid fa-arrows-up-down"></i></span> Reorder Pages</a>
+        <a href="/rotate.html"><span class="menu-icon sky"><i class="fa-solid fa-rotate-right"></i></span> Rotate PDF</a>
+        <a href="/crop-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-crop-simple"></i></span> Crop PDF</a>
+        <a href="/scan-to-pdf.html"><span class="menu-icon sky"><i class="fa-solid fa-camera"></i></span> Scan to PDF</a>
+      </div>
+    </div>
 
-  <div class="nav-dropdown">
-  <button type="button">Organize PDF</button>
+    <div class="nav-dropdown">
+      <button type="button">Edit PDF</button>
+      <div class="dropdown-menu">
+        <a href="/watermark.html"><span class="menu-icon purple"><i class="fa-solid fa-stamp"></i></span> Watermark PDF</a>
+        <a href="/page-numbers.html"><span class="menu-icon sky"><i class="fa-solid fa-hashtag"></i></span> Page Numbers</a>
+        <a href="/compare-pdf.html"><span class="menu-icon purple"><i class="fa-solid fa-code-compare"></i></span> Compare PDF</a>
+        <a href="/redact-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-user-secret"></i></span> Redact PDF</a>
+        <a href="/flatten-pdf.html"><span class="menu-icon orange"><i class="fa-solid fa-layer-group"></i></span> Flatten PDF</a>
+        <a href="/sign-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-signature"></i></span> Sign PDF</a>
+      </div>
+    </div>
 
-  <div class="dropdown-menu">
-    <a href="/merge.html"><span class="menu-icon red"><i class="fa-solid fa-object-group"></i></span> Merge PDF</a>
-    <a href="/split.html"><span class="menu-icon orange"><i class="fa-solid fa-scissors"></i></span> Split PDF</a>
-    <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
-    <a href="/remove.html"><span class="menu-icon red"><i class="fa-solid fa-trash"></i></span> Remove Pages</a>
-    <a href="/extract.html"><span class="menu-icon orange"><i class="fa-solid fa-copy"></i></span> Extract Pages</a>
-    <a href="/reorder.html"><span class="menu-icon purple"><i class="fa-solid fa-arrows-up-down"></i></span> Reorder Pages</a>
-    <a href="/rotate.html"><span class="menu-icon sky"><i class="fa-solid fa-rotate-right"></i></span> Rotate PDF</a>
-    <a href="/crop-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-crop-simple"></i></span> Crop PDF</a>
-    <a href="/scan-to-pdf.html"><span class="menu-icon sky"><i class="fa-solid fa-camera"></i></span> Scan to PDF</a>
-  </div>
-</div>
-
-<div class="nav-dropdown">
-  <button type="button">Edit PDF</button>
-
-  <div class="dropdown-menu">
-    <a href="/watermark.html"><span class="menu-icon purple"><i class="fa-solid fa-stamp"></i></span> Watermark PDF</a>
-    <a href="/page-numbers.html"><span class="menu-icon sky"><i class="fa-solid fa-hashtag"></i></span> Page Numbers</a>
-    <a href="/compare-pdf.html"><span class="menu-icon purple"><i class="fa-solid fa-code-compare"></i></span> Compare PDF</a>
-    <a href="/redact-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-user-secret"></i></span> Redact PDF</a>
-    <a href="/flatten-pdf.html"><span class="menu-icon orange"><i class="fa-solid fa-layer-group"></i></span> Flatten PDF</a>
-  </div>
-</div>
-
-<div class="nav-dropdown">
-  <button type="button">Security</button>
-
-  <div class="dropdown-menu">
-    <a href="/protect.html"><span class="menu-icon teal"><i class="fa-solid fa-lock"></i></span> Protect PDF</a>
-    <a href="/unlock.html"><span class="menu-icon pink"><i class="fa-solid fa-unlock"></i></span> Unlock PDF</a>
-    <a href="/repair-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-screwdriver-wrench"></i></span> Repair PDF</a>
-<a href="/sign-pdf.html">
-  <span class="menu-icon red">✍️</span>
-  Sign PDF
-</a>
-  </div>
-
-</nav>
+    <div class="nav-dropdown">
+      <button type="button">Security</button>
+      <div class="dropdown-menu">
+        <a href="/protect.html"><span class="menu-icon teal"><i class="fa-solid fa-lock"></i></span> Protect PDF</a>
+        <a href="/unlock.html"><span class="menu-icon pink"><i class="fa-solid fa-unlock"></i></span> Unlock PDF</a>
+        <a href="/repair-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-screwdriver-wrench"></i></span> Repair PDF</a>
+      </div>
+    </div>
   </nav>
 
   <div class="auth-buttons" id="desktopAuthButtons">
@@ -162,8 +153,8 @@
     <a href="/powerpoint-to-pdf.html">📊 PowerPoint to PDF</a>
     <a href="/excel-to-pdf.html">📗 Excel to PDF</a>
     <a href="/html-to-pdf.html">🌐 HTML to PDF</a>
-<a href="/pdf-to-pdfa.html">🗄️ PDF to PDF/A</a>
-<a href="/ocr-pdf.html"><span class="menu-icon purple"><i class="fa-solid fa-file-lines"></i></span> OCR PDF</a>
+    <a href="/pdf-to-pdfa.html">🗄️ PDF to PDF/A</a>
+    <a href="/ocr-pdf.html">📄 OCR PDF</a>
   </div>
 
   <div class="drawer-category">
@@ -175,7 +166,7 @@
     <a href="/pdf-to-jpg.html">🖼️ PDF to JPG</a>
     <a href="/pdf-to-png.html">🖼️ PDF to PNG</a>
     <a href="/pdf-to-text.html">📝 PDF to Text</a>
-<a href="/scan-to-pdf.html">📷 Scan to PDF</a>
+    <a href="/scan-to-pdf.html">📷 Scan to PDF</a>
   </div>
 
   <div class="drawer-category">
@@ -184,15 +175,15 @@
     <a href="/compare-pdf.html">🔍 Compare PDF</a>
     <a href="/redact-pdf.html">🕵️ Redact PDF</a>
     <a href="/flatten-pdf.html">📚 Flatten PDF</a>
+    <a href="/sign-pdf.html">✍️ Sign PDF</a>
   </div>
 
   <div class="drawer-category">
-  <h4>PDF SECURITY</h4>
-
-  <a href="/protect.html">🔒 Protect PDF</a>
-  <a href="/unlock.html">🔓 Unlock PDF</a>
-  <a href="/repair-pdf.html">🛠️ Repair PDF</a>
-  <a href="/sign-pdf.html">✍️ Sign PDF</a>
+    <h4>PDF SECURITY</h4>
+    <a href="/protect.html">🔒 Protect PDF</a>
+    <a href="/unlock.html">🔓 Unlock PDF</a>
+    <a href="/repair-pdf.html">🛠️ Repair PDF</a>
+  </div>
 </div>
 
 <div class="main-drawer" id="mainDrawer">
@@ -251,9 +242,10 @@
   <button class="category-filter" data-target="security-tools" type="button">
     <i class="fa-solid fa-shield-halved"></i> Security
   </button>
-<button class="category-filter" data-target="all-tools" type="button">
-  <i class="fa-solid fa-border-all"></i> All Tools
-</button>
+
+  <button class="category-filter" data-target="all-tools" type="button">
+    <i class="fa-solid fa-border-all"></i> All Tools
+  </button>
 </section>
 
 <section id="convert-tools" class="tools-section">
@@ -274,28 +266,9 @@
     <a class="tool-card" href="/pdf-to-png.html"><div class="icon-file sky"><i class="fa-solid fa-file-image"></i></div><h3>PDF to PNG</h3><p>Convert PDF pages to PNG</p></a>
     <a class="tool-card" href="/html-to-pdf.html"><div class="icon-file purple"><i class="fa-solid fa-code"></i></div><h3>HTML to PDF</h3><p>Convert HTML code to PDF</p></a>
     <a class="tool-card" href="/pdf-to-text.html"><div class="icon-file sky"><i class="fa-solid fa-file-lines"></i></div><h3>PDF to Text</h3><p>Extract text from PDF</p></a>
-<a class="tool-card" href="/pdf-to-pdfa.html">
-  <div class="icon-file purple">
-    <i class="fa-solid fa-box-archive"></i>
-  </div>
-  <h3>PDF to PDF/A</h3>
-  <p>Convert PDF to archive format</p>
-</a>
-
-<a class="tool-card" href="/scan-to-pdf.html">
-  <div class="icon-file sky">
-    <i class="fa-solid fa-camera"></i>
-  </div>
-  <h3>Scan to PDF</h3>
-  <p>Convert scanned images to PDF</p>
-</a>
-<a class="tool-card" href="/ocr-pdf.html">
-  <div class="icon-file purple">
-    <i class="fa-solid fa-file-lines"></i>
-  </div>
-  <h3>OCR PDF</h3>
-  <p>Extract text from scanned PDFs</p>
-</a>
+    <a class="tool-card" href="/pdf-to-pdfa.html"><div class="icon-file purple"><i class="fa-solid fa-box-archive"></i></div><h3>PDF to PDF/A</h3><p>Convert PDF to archive format</p></a>
+    <a class="tool-card" href="/scan-to-pdf.html"><div class="icon-file sky"><i class="fa-solid fa-camera"></i></div><h3>Scan to PDF</h3><p>Convert scanned images to PDF</p></a>
+    <a class="tool-card" href="/ocr-pdf.html"><div class="icon-file purple"><i class="fa-solid fa-file-lines"></i></div><h3>OCR PDF</h3><p>Extract text from scanned PDFs</p></a>
   </div>
 </section>
 
@@ -325,6 +298,7 @@
     <a class="tool-card" href="/compare-pdf.html"><div class="icon-file purple"><i class="fa-solid fa-code-compare"></i></div><h3>Compare PDF</h3><p>Compare two PDF files</p></a>
     <a class="tool-card" href="/redact-pdf.html"><div class="icon-file red"><i class="fa-solid fa-user-secret"></i></div><h3>Redact PDF</h3><p>Hide sensitive information</p></a>
     <a class="tool-card" href="/flatten-pdf.html"><div class="icon-file orange"><i class="fa-solid fa-layer-group"></i></div><h3>Flatten PDF</h3><p>Flatten forms and annotations</p></a>
+    <a class="tool-card" href="/sign-pdf.html"><div class="icon-file red"><i class="fa-solid fa-signature"></i></div><h3>Sign PDF</h3><p>Sign your PDF document online</p></a>
   </div>
 </section>
 
@@ -336,11 +310,6 @@
     <a class="tool-card" href="/protect.html"><div class="icon-file teal"><i class="fa-solid fa-lock"></i></div><h3>Protect PDF</h3><p>Secure PDF with password</p></a>
     <a class="tool-card" href="/unlock.html"><div class="icon-file pink"><i class="fa-solid fa-unlock"></i></div><h3>Unlock PDF</h3><p>Remove PDF password</p></a>
     <a class="tool-card" href="/repair-pdf.html"><div class="icon-file red"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Repair PDF</h3><p>Repair damaged PDF files</p></a>
-    <a href="/sign-pdf.html" class="tool-card" data-category="edit-pdf">
-  <div class="tool-icon red">✍️</div>
-  <h3>Sign PDF</h3>
-  <p>Sign your PDF document online.</p>
-</a>
   </div>
 </section>
 
@@ -466,35 +435,7 @@
 
   checkUserSession();
 </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const categoryButtons = document.querySelectorAll(".category-filter");
-  const toolSections = document.querySelectorAll(".tools-section");
 
-  function showToolCategory(targetId) {
-    toolSections.forEach(function (section) {
-      if (section.id === targetId) {
-        section.style.display = "block";
-      } else {
-        section.style.display = "none";
-      }
-    });
-
-    categoryButtons.forEach(function (button) {
-      button.classList.toggle("active", button.dataset.target === targetId);
-    });
-  }
-
-  categoryButtons.forEach(function (button) {
-    button.addEventListener("click", function (e) {
-      e.preventDefault();
-      showToolCategory(button.dataset.target);
-    });
-  });
-
-  showToolCategory("convert-tools");
-});
-</script>
 <script>
 (function () {
   function ready(fn) {
@@ -513,25 +454,21 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function showOnly(id) {
-  Object.keys(sections).forEach(function (key) {
-    if (sections[key]) {
-      sections[key].setAttribute(
-        "style",
-        id === "all-tools" || key === id
-          ? "display:block !important;"
-          : "display:none !important;"
-      );
-    }
-  });
+      Object.keys(sections).forEach(function (key) {
+        if (sections[key]) {
+          sections[key].setAttribute(
+            "style",
+            id === "all-tools" || key === id
+              ? "display:block !important;"
+              : "display:none !important;"
+          );
+        }
+      });
 
-  buttons.forEach(function (btn) {
-    if (btn.dataset.target === id) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
+      buttons.forEach(function (btn) {
+        btn.classList.toggle("active", btn.dataset.target === id);
+      });
     }
-  });
-}
 
     buttons.forEach(function (btn) {
       btn.onclick = function (e) {
@@ -546,5 +483,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })();
 </script>
+
 </body>
 </html>
