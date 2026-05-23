@@ -4,82 +4,150 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1037" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
+
 <body>
-<div id="headerContainer"></div>
-  <div class="tool-page sign-pdf-page">
-    <section id="startScreen" class="sign-start-screen">
-      <div class="tool-start-card">
-        <h1>Sign PDF</h1>
-        <p>Add your signature to a PDF document.</p>
 
-        <input type="file" id="pdfInput" accept="application/pdf" hidden />
+<header class="mobile-header">
+  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+</header>
 
-        <button id="selectPdfBtn" class="main-red-btn">Select PDF file</button>
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
 
-        <div class="cloud-buttons">
-          <button type="button" title="Google Drive">
-            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
-          </button>
-          <button type="button" title="Dropbox">
-            <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
-          </button>
-        </div>
+  <nav class="desktop-nav">
+    <div class="nav-dropdown">
+      <button type="button">Convert PDF</button>
+      <div class="dropdown-menu">
+        <a href="/image-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-images"></i></span> Image to PDF</a>
+        <a href="/pdf-to-image.html"><span class="menu-icon orange"><i class="fa-solid fa-file-image"></i></span> PDF to Image</a>
+        <a href="/pdf-to-word.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> PDF to Word</a>
+        <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
+        <a href="/pdf-to-excel.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> PDF to Excel</a>
+        <a href="/excel-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> Excel to PDF</a>
+        <a href="/pdf-to-pdfa.html"><span class="menu-icon purple"><i class="fa-solid fa-box-archive"></i></span> PDF to PDF/A</a>
+        <a href="/ocr-pdf.html"><span class="menu-icon purple"><i class="fa-solid fa-file-lines"></i></span> OCR PDF</a>
       </div>
-    </section>
+    </div>
 
-    <section id="previewScreen" class="sign-preview-screen hidden-screen">
-      <div class="sign-preview-area">
-        <div id="pdfCanvasWrap" class="pdf-canvas-wrap"></div>
+    <div class="nav-dropdown">
+      <button type="button">Organize PDF</button>
+      <div class="dropdown-menu">
+        <a href="/merge.html"><span class="menu-icon red"><i class="fa-solid fa-object-group"></i></span> Merge PDF</a>
+        <a href="/split.html"><span class="menu-icon orange"><i class="fa-solid fa-scissors"></i></span> Split PDF</a>
+        <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
+        <a href="/remove.html"><span class="menu-icon red"><i class="fa-solid fa-trash"></i></span> Remove Pages</a>
+        <a href="/extract.html"><span class="menu-icon orange"><i class="fa-solid fa-copy"></i></span> Extract Pages</a>
+        <a href="/reorder.html"><span class="menu-icon purple"><i class="fa-solid fa-arrows-up-down"></i></span> Reorder Pages</a>
+        <a href="/rotate.html"><span class="menu-icon sky"><i class="fa-solid fa-rotate-right"></i></span> Rotate PDF</a>
+        <a href="/crop-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-crop-simple"></i></span> Crop PDF</a>
+        <a href="/scan-to-pdf.html"><span class="menu-icon sky"><i class="fa-solid fa-camera"></i></span> Scan to PDF</a>
       </div>
+    </div>
 
-      <aside class="sign-side-panel">
-        <h2>Sign PDF</h2>
-        <p>Create your signature, then place it on the PDF.</p>
-
-        <div class="signature-tabs">
-          <button class="sig-tab active" data-tab="draw">Draw</button>
-          <button class="sig-tab" data-tab="text">Text</button>
-          <button class="sig-tab" data-tab="upload">Upload</button>
-        </div>
-
-        <div id="drawTab" class="signature-box">
-          <canvas id="drawCanvas" width="320" height="140"></canvas>
-          <button id="clearDrawBtn" class="small-light-btn">Clear</button>
-        </div>
-
-        <div id="textTab" class="signature-box hidden-screen">
-          <input type="text" id="textSignature" placeholder="Type your signature" />
-        </div>
-
-        <div id="uploadTab" class="signature-box hidden-screen">
-          <input type="file" id="signatureUpload" accept="image/png,image/jpeg" />
-        </div>
-
-        <button id="addSignatureBtn" class="main-red-btn">Add signature</button>
-
-        <div class="progress-wrap hidden-screen" id="progressWrap">
-          <div id="progressBar"></div>
-        </div>
-
-        <button id="applySignBtn" class="main-red-btn">Sign PDF</button>
-        <button id="backBtn" class="small-light-btn">Choose another file</button>
-      </aside>
-    </section>
-
-    <section id="successScreen" class="sign-success-screen hidden-screen">
-      <div class="success-card">
-        <h1>PDF signed successfully</h1>
-        <p>Your signed PDF is ready to download.</p>
-        <a id="downloadBtn" class="main-red-btn" download>Download signed PDF</a>
-        <button id="newFileBtn" class="small-light-btn">Sign another PDF</button>
+    <div class="nav-dropdown">
+      <button type="button">Edit PDF</button>
+      <div class="dropdown-menu">
+        <a href="/watermark.html"><span class="menu-icon purple"><i class="fa-solid fa-stamp"></i></span> Watermark PDF</a>
+        <a href="/page-numbers.html"><span class="menu-icon sky"><i class="fa-solid fa-hashtag"></i></span> Page Numbers</a>
+        <a href="/compare-pdf.html"><span class="menu-icon purple"><i class="fa-solid fa-code-compare"></i></span> Compare PDF</a>
+        <a href="/redact-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-user-secret"></i></span> Redact PDF</a>
+        <a href="/flatten-pdf.html"><span class="menu-icon orange"><i class="fa-solid fa-layer-group"></i></span> Flatten PDF</a>
+        <a href="/sign-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-signature"></i></span> Sign PDF</a>
       </div>
-    </section>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Security</button>
+      <div class="dropdown-menu">
+        <a href="/protect.html"><span class="menu-icon teal"><i class="fa-solid fa-lock"></i></span> Protect PDF</a>
+        <a href="/unlock.html"><span class="menu-icon pink"><i class="fa-solid fa-unlock"></i></span> Unlock PDF</a>
+        <a href="/repair-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-screwdriver-wrench"></i></span> Repair PDF</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
   </div>
+</header>
 
-  <script src="/js/sign-pdf.js?v=signpdf1"></script>
-<script src="/js/header.js?v=1"></script>
+<div class="tool-page sign-pdf-page">
+  <section id="startScreen" class="sign-start-screen">
+    <div class="tool-start-card">
+      <h1>Sign PDF</h1>
+      <p>Add your signature to a PDF document.</p>
+
+      <input type="file" id="pdfInput" accept="application/pdf" hidden />
+      <button id="selectPdfBtn" class="main-red-btn">Select PDF file</button>
+
+      <div class="cloud-buttons">
+        <button type="button" title="Google Drive">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
+        </button>
+        <button type="button" title="Dropbox">
+          <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="previewScreen" class="sign-preview-screen hidden-screen">
+    <div class="sign-preview-area">
+      <div id="pdfCanvasWrap" class="pdf-canvas-wrap"></div>
+    </div>
+
+    <aside class="sign-side-panel">
+      <h2>Sign PDF</h2>
+      <p>Create your signature, then place it on the PDF.</p>
+
+      <div class="signature-tabs">
+        <button class="sig-tab active" data-tab="draw" type="button">Draw</button>
+        <button class="sig-tab" data-tab="text" type="button">Text</button>
+        <button class="sig-tab" data-tab="upload" type="button">Upload</button>
+      </div>
+
+      <div id="drawTab" class="signature-box">
+        <canvas id="drawCanvas" width="320" height="140"></canvas>
+        <button id="clearDrawBtn" class="small-light-btn" type="button">Clear</button>
+      </div>
+
+      <div id="textTab" class="signature-box hidden-screen">
+        <input type="text" id="textSignature" placeholder="Type your signature" />
+      </div>
+
+      <div id="uploadTab" class="signature-box hidden-screen">
+        <input type="file" id="signatureUpload" accept="image/png,image/jpeg" />
+      </div>
+
+      <button id="addSignatureBtn" class="main-red-btn" type="button">Add signature</button>
+
+      <div class="progress-wrap hidden-screen" id="progressWrap">
+        <div id="progressBar"></div>
+      </div>
+
+      <button id="applySignBtn" class="main-red-btn" type="button">Sign PDF</button>
+      <button id="backBtn" class="small-light-btn" type="button">Choose another file</button>
+    </aside>
+  </section>
+
+  <section id="successScreen" class="sign-success-screen hidden-screen">
+    <div class="success-card">
+      <h1>PDF signed successfully</h1>
+      <p>Your signed PDF is ready to download.</p>
+      <a id="downloadBtn" class="main-red-btn" download>Download signed PDF</a>
+      <button id="newFileBtn" class="small-light-btn" type="button">Sign another PDF</button>
+    </div>
+  </section>
+</div>
+
+<script src="/js/sign-pdf.js?v=signpdf1"></script>
 </body>
 </html>
