@@ -247,6 +247,9 @@
   <button class="category-filter" data-target="security-tools" type="button">
     <i class="fa-solid fa-shield-halved"></i> Security
   </button>
+<button class="category-filter" data-target="all-tools" type="button">
+  <i class="fa-solid fa-border-all"></i> All Tools
+</button>
 </section>
 
 <section id="convert-tools" class="tools-section">
@@ -494,20 +497,25 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function showOnly(id) {
-      Object.keys(sections).forEach(function (key) {
-        if (sections[key]) {
-          sections[key].setAttribute("style", key === id ? "display:block !important;" : "display:none !important;");
-        }
-      });
-
-      buttons.forEach(function (btn) {
-        if (btn.dataset.target === id) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
-      });
+  Object.keys(sections).forEach(function (key) {
+    if (sections[key]) {
+      sections[key].setAttribute(
+        "style",
+        id === "all-tools" || key === id
+          ? "display:block !important;"
+          : "display:none !important;"
+      );
     }
+  });
+
+  buttons.forEach(function (btn) {
+    if (btn.dataset.target === id) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+}
 
     buttons.forEach(function (btn) {
       btn.onclick = function (e) {
