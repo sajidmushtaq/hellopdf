@@ -414,5 +414,31 @@ categoryButtons.forEach((button) => {
 });
 
 showToolCategory("convert-tools");
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const categoryButtons = document.querySelectorAll(".category-filter");
+  const toolSections = document.querySelectorAll(".tools-section");
+
+  function showToolCategory(targetId) {
+    toolSections.forEach(function (section) {
+      section.style.display = section.id === targetId ? "block" : "none";
+    });
+
+    categoryButtons.forEach(function (button) {
+      button.classList.toggle("active", button.dataset.target === targetId);
+    });
+  }
+
+  categoryButtons.forEach(function (button) {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      showToolCategory(button.dataset.target);
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+  });
+
+  showToolCategory("convert-tools");
+});
+</script>
 </body>
 </html>
