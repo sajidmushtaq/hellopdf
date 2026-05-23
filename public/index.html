@@ -178,11 +178,22 @@
   </p>
 </section>
 
-<section class="category-nav">
-  <a href="#convert-tools"><i class="fa-solid fa-repeat"></i> Convert PDF</a>
-  <a href="#organize-tools"><i class="fa-solid fa-layer-group"></i> Organize PDF</a>
-  <a href="#edit-tools"><i class="fa-solid fa-pen-to-square"></i> Edit PDF</a>
-  <a href="#security-tools"><i class="fa-solid fa-shield-halved"></i> Security</a>
+<section class="category-nav category-filter-nav">
+  <button class="category-filter active" data-target="convert-tools" type="button">
+    <i class="fa-solid fa-repeat"></i> Convert PDF
+  </button>
+
+  <button class="category-filter" data-target="organize-tools" type="button">
+    <i class="fa-solid fa-layer-group"></i> Organize PDF
+  </button>
+
+  <button class="category-filter" data-target="edit-tools" type="button">
+    <i class="fa-solid fa-pen-to-square"></i> Edit PDF
+  </button>
+
+  <button class="category-filter" data-target="security-tools" type="button">
+    <i class="fa-solid fa-shield-halved"></i> Security
+  </button>
 </section>
 
 <section id="convert-tools" class="tools-section">
@@ -383,6 +394,25 @@
 
   checkUserSession();
 </script>
+const categoryButtons = document.querySelectorAll(".category-filter");
+const toolSections = document.querySelectorAll(".tools-section");
 
+function showToolCategory(targetId) {
+  toolSections.forEach((section) => {
+    section.style.display = section.id === targetId ? "block" : "none";
+  });
+
+  categoryButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.target === targetId);
+  });
+}
+
+categoryButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    showToolCategory(button.dataset.target);
+  });
+});
+
+showToolCategory("convert-tools");
 </body>
 </html>
