@@ -18,12 +18,15 @@ h1{text-align:center;font-size:32px;font-weight:900;margin-bottom:8px}
 .editor.active{display:block}
 .canvas-wrap{position:relative;width:100%;height:360px;background:#111827;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 canvas{max-width:100%;max-height:100%}
-.crop-box{position:absolute;border:3px dashed #ef4444;border-radius:10px;pointer-events:none}
+.crop-box{position:absolute;border:3px dashed #ef4444;border-radius:10px;touch-action:none}
+.crop-handle{position:absolute;width:24px;height:24px;background:#ef4444;border:3px solid #fff;border-radius:50%}
+.crop-handle.tl{top:-13px;left:-13px}
+.crop-handle.tr{top:-13px;right:-13px}
+.crop-handle.bl{bottom:-13px;left:-13px}
+.crop-handle.br{bottom:-13px;right:-13px}
 .slider-box{margin-top:14px;background:#f8fafc;border-radius:14px;padding:12px}
 .slider-box label{display:flex;justify-content:space-between;font-weight:900;font-size:14px;color:#111827;margin-bottom:8px}
 .slider-box input{width:100%}
-.crop-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-.crop-controls button{height:42px;border:none;border-radius:12px;background:#eef2f7;color:#111827;font-weight:900;font-size:14px}
 .editor-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 .editor-tools button{height:48px;border:none;border-radius:12px;background:#f1f5f9;color:#111827;font-weight:900}
 .editor-tools .red{background:#ef4444;color:#fff}
@@ -49,7 +52,7 @@ canvas{max-width:100%;max-height:100%}
 
 <main class="page" id="page">
   <h1>Scan to PDF</h1>
-  <p class="subtitle">Capture, crop, enhance and convert document photos into a clean PDF.</p>
+  <p class="subtitle">Capture, drag crop, enhance and convert document photos into a clean PDF.</p>
 
   <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
   <input type="file" id="galleryInput" accept="image/*" hidden>
@@ -62,7 +65,13 @@ canvas{max-width:100%;max-height:100%}
   <section class="editor" id="editor">
     <div class="canvas-wrap" id="canvasWrap">
       <canvas id="scanCanvas"></canvas>
-      <div class="crop-box" id="cropBox"></div>
+
+      <div class="crop-box" id="cropBox">
+        <div class="crop-handle tl"></div>
+        <div class="crop-handle tr"></div>
+        <div class="crop-handle bl"></div>
+        <div class="crop-handle br"></div>
+      </div>
     </div>
 
     <div class="slider-box">
@@ -71,17 +80,6 @@ canvas{max-width:100%;max-height:100%}
         <span id="enhanceValue">0%</span>
       </label>
       <input type="range" id="enhanceSlider" min="0" max="100" value="0">
-    </div>
-
-    <div class="crop-controls">
-      <button id="cropUp" type="button">↑</button>
-      <button id="cropDown" type="button">↓</button>
-      <button id="cropLeft" type="button">←</button>
-      <button id="cropRight" type="button">→</button>
-      <button id="cropSmaller" type="button">− Crop</button>
-      <button id="cropBigger" type="button">+ Crop</button>
-      <button id="cropTall" type="button">Tall</button>
-      <button id="cropWide" type="button">Wide</button>
     </div>
 
     <div class="editor-tools">
@@ -139,15 +137,6 @@ const fullCropBtn = document.getElementById("fullCropBtn");
 const enhanceSlider = document.getElementById("enhanceSlider");
 const enhanceValue = document.getElementById("enhanceValue");
 
-const cropUp = document.getElementById("cropUp");
-const cropDown = document.getElementById("cropDown");
-const cropLeft = document.getElementById("cropLeft");
-const cropRight = document.getElementById("cropRight");
-const cropSmaller = document.getElementById("cropSmaller");
-const cropBigger = document.getElementById("cropBigger");
-const cropTall = document.getElementById("cropTall");
-const cropWide = document.getElementById("cropWide");
-
 const imageList = document.getElementById("imageList");
 const emptyText = document.getElementById("emptyText");
 const createBtn = document.getElementById("createBtn");
@@ -158,11 +147,16 @@ let currentImage = null;
 let rotation = 0;
 let bwMode = false;
 let enhanceAmount = 0;
-
 let crop = { x:8, y:8, w:84, h:84 };
 
 let scannedFiles = [];
 let outputUrl = null;
+
+let dragging = false;
+let resizing = false;
+let resizeCorner = "";
+let startX = 0;
+let startY = 0;
 
 cameraBtn.onclick = () => cameraInput.click();
 galleryBtn.onclick = () => galleryInput.click();
@@ -189,9 +183,11 @@ function loadImage(file){
       enhanceSlider.value = 0;
       enhanceValue.textContent = "0%";
       crop = { x:8, y:8, w:84, h:84 };
+
       editor.classList.add("active");
       drawImage();
       updateCropBox();
+
       window.scrollTo({top:0,behavior:"smooth"});
     };
 
@@ -265,16 +261,101 @@ function updateCropBox(){
   cropBox.style.height = crop.h + "%";
 }
 
-function moveCrop(dx,dy){
-  crop.x = Math.max(0, Math.min(100 - crop.w, crop.x + dx));
-  crop.y = Math.max(0, Math.min(100 - crop.h, crop.y + dy));
+cropBox.addEventListener("touchstart", startCropDrag, { passive:false });
+cropBox.addEventListener("mousedown", startCropDrag);
+
+document.addEventListener("touchmove", dragCrop, { passive:false });
+document.addEventListener("mousemove", dragCrop);
+
+document.addEventListener("touchend", stopCropDrag);
+document.addEventListener("mouseup", stopCropDrag);
+
+function getPoint(e){
+  if(e.touches && e.touches[0]){
+    return { x:e.touches[0].clientX, y:e.touches[0].clientY };
+  }
+
+  return { x:e.clientX, y:e.clientY };
+}
+
+function startCropDrag(e){
+  e.preventDefault();
+
+  const point = getPoint(e);
+
+  startX = point.x;
+  startY = point.y;
+
+  const handle = e.target.closest(".crop-handle");
+
+  if(handle){
+    resizing = true;
+
+    if(handle.classList.contains("tl")) resizeCorner = "tl";
+    if(handle.classList.contains("tr")) resizeCorner = "tr";
+    if(handle.classList.contains("bl")) resizeCorner = "bl";
+    if(handle.classList.contains("br")) resizeCorner = "br";
+  }else{
+    dragging = true;
+  }
+}
+
+function dragCrop(e){
+  if(!dragging && !resizing) return;
+
+  e.preventDefault();
+
+  const point = getPoint(e);
+
+  const dx = ((point.x - startX) / canvasWrap.offsetWidth) * 100;
+  const dy = ((point.y - startY) / canvasWrap.offsetHeight) * 100;
+
+  startX = point.x;
+  startY = point.y;
+
+  if(dragging){
+    crop.x += dx;
+    crop.y += dy;
+  }
+
+  if(resizing){
+    if(resizeCorner === "tl"){
+      crop.x += dx;
+      crop.y += dy;
+      crop.w -= dx;
+      crop.h -= dy;
+    }
+
+    if(resizeCorner === "tr"){
+      crop.y += dy;
+      crop.w += dx;
+      crop.h -= dy;
+    }
+
+    if(resizeCorner === "bl"){
+      crop.x += dx;
+      crop.w -= dx;
+      crop.h += dy;
+    }
+
+    if(resizeCorner === "br"){
+      crop.w += dx;
+      crop.h += dy;
+    }
+  }
+
+  crop.w = Math.max(20, crop.w);
+  crop.h = Math.max(20, crop.h);
+  crop.x = Math.max(0, Math.min(100 - crop.w, crop.x));
+  crop.y = Math.max(0, Math.min(100 - crop.h, crop.y));
+
   updateCropBox();
 }
 
-function resizeCrop(dw,dh){
-  crop.w = Math.max(25, Math.min(100 - crop.x, crop.w + dw));
-  crop.h = Math.max(25, Math.min(100 - crop.y, crop.h + dh));
-  updateCropBox();
+function stopCropDrag(){
+  dragging = false;
+  resizing = false;
+  resizeCorner = "";
 }
 
 enhanceSlider.oninput = () => {
@@ -313,15 +394,6 @@ fullCropBtn.onclick = () => {
   updateCropBox();
 };
 
-cropUp.onclick = () => moveCrop(0,-4);
-cropDown.onclick = () => moveCrop(0,4);
-cropLeft.onclick = () => moveCrop(-4,0);
-cropRight.onclick = () => moveCrop(4,0);
-cropSmaller.onclick = () => resizeCrop(-6,-6);
-cropBigger.onclick = () => resizeCrop(6,6);
-cropTall.onclick = () => resizeCrop(-4,8);
-cropWide.onclick = () => resizeCrop(8,-4);
-
 addPageBtn.onclick = () => {
   if(!currentImage) return;
 
@@ -349,17 +421,7 @@ addPageBtn.onclick = () => {
   croppedCanvas.width = Math.max(1, sw);
   croppedCanvas.height = Math.max(1, sh);
 
-  croppedCtx.drawImage(
-    canvas,
-    sx,
-    sy,
-    sw,
-    sh,
-    0,
-    0,
-    croppedCanvas.width,
-    croppedCanvas.height
-  );
+  croppedCtx.drawImage(canvas, sx, sy, sw, sh, 0, 0, croppedCanvas.width, croppedCanvas.height);
 
   croppedCanvas.toBlob(blob => {
     const file = new File([blob], `scan-page-${Date.now()}.jpg`, {

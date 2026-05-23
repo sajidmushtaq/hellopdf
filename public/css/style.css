@@ -18885,3 +18885,36 @@ body {
   .scan-file-card{padding:12px}
   .scan-success-box h1{font-size:30px}
 }
+
+.crop-box{
+  touch-action:none;
+}
+
+.crop-handle{
+  position:absolute;
+  width:22px;
+  height:22px;
+  background:#ef4444;
+  border:3px solid #fff;
+  border-radius:50%;
+}
+
+.crop-handle.tl{
+  top:-12px;
+  left:-12px;
+}
+
+.crop-handle.tr{
+  top:-12px;
+  right:-12px;
+}
+
+.crop-handle.bl{
+  bottom:-12px;
+  left:-12px;
+}
+
+.crop-handle.br{
+  bottom:-12px;
+  right:-12px;
+}
