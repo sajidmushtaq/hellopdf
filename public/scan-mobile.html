@@ -8,7 +8,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#f5f6fa;color:#111827}
-.page{min-height:100vh;padding:22px 14px 135px}
+.page{min-height:100vh;padding:22px 14px 145px}
 h1{text-align:center;font-size:32px;font-weight:900;margin-bottom:8px}
 .subtitle{text-align:center;color:#64748b;font-size:14px;line-height:1.5;margin-bottom:18px}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
@@ -18,7 +18,12 @@ h1{text-align:center;font-size:32px;font-weight:900;margin-bottom:8px}
 .editor.active{display:block}
 .canvas-wrap{position:relative;width:100%;height:360px;background:#111827;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 canvas{max-width:100%;max-height:100%}
-.crop-box{position:absolute;left:8%;top:8%;width:84%;height:84%;border:3px dashed #ef4444;border-radius:10px;pointer-events:none}
+.crop-box{position:absolute;border:3px dashed #ef4444;border-radius:10px;pointer-events:none}
+.slider-box{margin-top:14px;background:#f8fafc;border-radius:14px;padding:12px}
+.slider-box label{display:flex;justify-content:space-between;font-weight:900;font-size:14px;color:#111827;margin-bottom:8px}
+.slider-box input{width:100%}
+.crop-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.crop-controls button{height:42px;border:none;border-radius:12px;background:#eef2f7;color:#111827;font-weight:900;font-size:14px}
 .editor-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 .editor-tools button{height:48px;border:none;border-radius:12px;background:#f1f5f9;color:#111827;font-weight:900}
 .editor-tools .red{background:#ef4444;color:#fff}
@@ -55,18 +60,37 @@ canvas{max-width:100%;max-height:100%}
   </div>
 
   <section class="editor" id="editor">
-    <div class="canvas-wrap">
+    <div class="canvas-wrap" id="canvasWrap">
       <canvas id="scanCanvas"></canvas>
-      <div class="crop-box"></div>
+      <div class="crop-box" id="cropBox"></div>
+    </div>
+
+    <div class="slider-box">
+      <label>
+        <span>Enhancement</span>
+        <span id="enhanceValue">0%</span>
+      </label>
+      <input type="range" id="enhanceSlider" min="0" max="100" value="0">
+    </div>
+
+    <div class="crop-controls">
+      <button id="cropUp" type="button">↑</button>
+      <button id="cropDown" type="button">↓</button>
+      <button id="cropLeft" type="button">←</button>
+      <button id="cropRight" type="button">→</button>
+      <button id="cropSmaller" type="button">− Crop</button>
+      <button id="cropBigger" type="button">+ Crop</button>
+      <button id="cropTall" type="button">Tall</button>
+      <button id="cropWide" type="button">Wide</button>
     </div>
 
     <div class="editor-tools">
       <button id="rotateBtn" type="button">Rotate</button>
-      <button id="enhanceBtn" type="button">Enhance</button>
       <button id="bwBtn" type="button">B/W</button>
       <button id="resetBtn" type="button">Reset</button>
       <button id="addPageBtn" class="red" type="button">Add Page</button>
       <button id="cancelBtn" type="button">Cancel</button>
+      <button id="fullCropBtn" type="button">Full Crop</button>
     </div>
   </section>
 
@@ -100,15 +124,29 @@ const cameraBtn = document.getElementById("cameraBtn");
 const galleryBtn = document.getElementById("galleryBtn");
 
 const editor = document.getElementById("editor");
+const canvasWrap = document.getElementById("canvasWrap");
 const canvas = document.getElementById("scanCanvas");
 const ctx = canvas.getContext("2d");
+const cropBox = document.getElementById("cropBox");
 
 const rotateBtn = document.getElementById("rotateBtn");
-const enhanceBtn = document.getElementById("enhanceBtn");
 const bwBtn = document.getElementById("bwBtn");
 const resetBtn = document.getElementById("resetBtn");
 const addPageBtn = document.getElementById("addPageBtn");
 const cancelBtn = document.getElementById("cancelBtn");
+const fullCropBtn = document.getElementById("fullCropBtn");
+
+const enhanceSlider = document.getElementById("enhanceSlider");
+const enhanceValue = document.getElementById("enhanceValue");
+
+const cropUp = document.getElementById("cropUp");
+const cropDown = document.getElementById("cropDown");
+const cropLeft = document.getElementById("cropLeft");
+const cropRight = document.getElementById("cropRight");
+const cropSmaller = document.getElementById("cropSmaller");
+const cropBigger = document.getElementById("cropBigger");
+const cropTall = document.getElementById("cropTall");
+const cropWide = document.getElementById("cropWide");
 
 const imageList = document.getElementById("imageList");
 const emptyText = document.getElementById("emptyText");
@@ -117,10 +155,12 @@ const progressBar = document.getElementById("progressBar");
 const downloadBtn = document.getElementById("downloadBtn");
 
 let currentImage = null;
-let originalImage = null;
 let rotation = 0;
-let enhanceMode = false;
 let bwMode = false;
+let enhanceAmount = 0;
+
+let crop = { x:8, y:8, w:84, h:84 };
+
 let scannedFiles = [];
 let outputUrl = null;
 
@@ -137,20 +177,27 @@ function loadImage(file){
   }
 
   const reader = new FileReader();
+
   reader.onload = () => {
     const img = new Image();
+
     img.onload = () => {
-      originalImage = img;
       currentImage = img;
       rotation = 0;
-      enhanceMode = false;
       bwMode = false;
+      enhanceAmount = 0;
+      enhanceSlider.value = 0;
+      enhanceValue.textContent = "0%";
+      crop = { x:8, y:8, w:84, h:84 };
       editor.classList.add("active");
       drawImage();
+      updateCropBox();
       window.scrollTo({top:0,behavior:"smooth"});
     };
+
     img.src = reader.result;
   };
+
   reader.readAsDataURL(file);
 
   cameraInput.value = "";
@@ -160,7 +207,7 @@ function loadImage(file){
 function drawImage(){
   if(!currentImage) return;
 
-  const maxW = 1000;
+  const maxW = 1200;
   const scale = Math.min(1, maxW / currentImage.width);
   let w = currentImage.width * scale;
   let h = currentImage.height * scale;
@@ -184,39 +231,60 @@ function drawImage(){
 }
 
 function applyFilters(){
-  let imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
-  let data = imageData.data;
+  const imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+  const data = imageData.data;
+
+  const contrast = 1 + (enhanceAmount / 100) * 1.4;
+  const brightness = enhanceAmount * 0.8;
 
   for(let i=0;i<data.length;i+=4){
     let r=data[i], g=data[i+1], b=data[i+2];
 
-    if(enhanceMode){
-      r = Math.min(255, (r - 20) * 1.25);
-      g = Math.min(255, (g - 20) * 1.25);
-      b = Math.min(255, (b - 20) * 1.25);
-    }
+    r = ((r - 128) * contrast) + 128 + brightness;
+    g = ((g - 128) * contrast) + 128 + brightness;
+    b = ((b - 128) * contrast) + 128 + brightness;
 
     if(bwMode){
       const gray = 0.299*r + 0.587*g + 0.114*b;
-      const bw = gray > 145 ? 255 : 0;
+      const bw = gray > 150 ? 255 : 0;
       r = g = b = bw;
     }
 
-    data[i]=r;
-    data[i+1]=g;
-    data[i+2]=b;
+    data[i] = Math.max(0, Math.min(255, r));
+    data[i+1] = Math.max(0, Math.min(255, g));
+    data[i+2] = Math.max(0, Math.min(255, b));
   }
 
   ctx.putImageData(imageData,0,0);
 }
 
-rotateBtn.onclick = () => {
-  rotation = (rotation + 90) % 360;
+function updateCropBox(){
+  cropBox.style.left = crop.x + "%";
+  cropBox.style.top = crop.y + "%";
+  cropBox.style.width = crop.w + "%";
+  cropBox.style.height = crop.h + "%";
+}
+
+function moveCrop(dx,dy){
+  crop.x = Math.max(0, Math.min(100 - crop.w, crop.x + dx));
+  crop.y = Math.max(0, Math.min(100 - crop.h, crop.y + dy));
+  updateCropBox();
+}
+
+function resizeCrop(dw,dh){
+  crop.w = Math.max(25, Math.min(100 - crop.x, crop.w + dw));
+  crop.h = Math.max(25, Math.min(100 - crop.y, crop.h + dh));
+  updateCropBox();
+}
+
+enhanceSlider.oninput = () => {
+  enhanceAmount = parseInt(enhanceSlider.value,10);
+  enhanceValue.textContent = enhanceAmount + "%";
   drawImage();
 };
 
-enhanceBtn.onclick = () => {
-  enhanceMode = !enhanceMode;
+rotateBtn.onclick = () => {
+  rotation = (rotation + 90) % 360;
   drawImage();
 };
 
@@ -227,39 +295,70 @@ bwBtn.onclick = () => {
 
 resetBtn.onclick = () => {
   rotation = 0;
-  enhanceMode = false;
   bwMode = false;
+  enhanceAmount = 0;
+  enhanceSlider.value = 0;
+  enhanceValue.textContent = "0%";
+  crop = { x:8, y:8, w:84, h:84 };
   drawImage();
+  updateCropBox();
 };
 
 cancelBtn.onclick = () => {
   editor.classList.remove("active");
 };
 
+fullCropBtn.onclick = () => {
+  crop = { x:0, y:0, w:100, h:100 };
+  updateCropBox();
+};
+
+cropUp.onclick = () => moveCrop(0,-4);
+cropDown.onclick = () => moveCrop(0,4);
+cropLeft.onclick = () => moveCrop(-4,0);
+cropRight.onclick = () => moveCrop(4,0);
+cropSmaller.onclick = () => resizeCrop(-6,-6);
+cropBigger.onclick = () => resizeCrop(6,6);
+cropTall.onclick = () => resizeCrop(-4,8);
+cropWide.onclick = () => resizeCrop(8,-4);
+
 addPageBtn.onclick = () => {
   if(!currentImage) return;
+
+  const wrapRect = canvasWrap.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+
+  const visibleX = canvasRect.left - wrapRect.left;
+  const visibleY = canvasRect.top - wrapRect.top;
+  const visibleW = canvasRect.width;
+  const visibleH = canvasRect.height;
+
+  const cropPixelX = ((crop.x / 100) * wrapRect.width - visibleX) / visibleW * canvas.width;
+  const cropPixelY = ((crop.y / 100) * wrapRect.height - visibleY) / visibleH * canvas.height;
+  const cropPixelW = (crop.w / 100) * wrapRect.width / visibleW * canvas.width;
+  const cropPixelH = (crop.h / 100) * wrapRect.height / visibleH * canvas.height;
+
+  const sx = Math.max(0, cropPixelX);
+  const sy = Math.max(0, cropPixelY);
+  const sw = Math.min(canvas.width - sx, cropPixelW);
+  const sh = Math.min(canvas.height - sy, cropPixelH);
 
   const croppedCanvas = document.createElement("canvas");
   const croppedCtx = croppedCanvas.getContext("2d");
 
-  const cropX = canvas.width * 0.08;
-  const cropY = canvas.height * 0.08;
-  const cropW = canvas.width * 0.84;
-  const cropH = canvas.height * 0.84;
-
-  croppedCanvas.width = cropW;
-  croppedCanvas.height = cropH;
+  croppedCanvas.width = Math.max(1, sw);
+  croppedCanvas.height = Math.max(1, sh);
 
   croppedCtx.drawImage(
     canvas,
-    cropX,
-    cropY,
-    cropW,
-    cropH,
+    sx,
+    sy,
+    sw,
+    sh,
     0,
     0,
-    cropW,
-    cropH
+    croppedCanvas.width,
+    croppedCanvas.height
   );
 
   croppedCanvas.toBlob(blob => {
@@ -281,6 +380,7 @@ function renderPages(){
     const url = URL.createObjectURL(file);
     const card = document.createElement("div");
     card.className = "card";
+
     card.innerHTML = `
       <button class="remove" type="button">×</button>
       <img src="${url}">
