@@ -423,5 +423,77 @@ document.addEventListener("DOMContentLoaded", function () {
   showToolCategory("convert-tools");
 });
 </script>
+<script>
+(function () {
+  function initCategoryFilter() {
+    const buttons = document.querySelectorAll(".category-filter");
+    const sections = document.querySelectorAll(".tools-section");
+
+    if (!buttons.length || !sections.length) return;
+
+    function showCategory(targetId) {
+      sections.forEach(function (section) {
+        section.style.display = section.id === targetId ? "block" : "none";
+      });
+
+      buttons.forEach(function (button) {
+        button.classList.toggle("active", button.dataset.target === targetId);
+      });
+    }
+
+    buttons.forEach(function (button) {
+      button.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        showCategory(button.dataset.target);
+      };
+    });
+
+    showCategory("convert-tools");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCategoryFilter);
+  } else {
+    initCategoryFilter();
+  }
+})();
+</script>
+<script>
+(function () {
+  function initCategoryFilter() {
+    const buttons = document.querySelectorAll(".category-filter");
+    const sections = document.querySelectorAll(".tools-section");
+
+    if (!buttons.length || !sections.length) return;
+
+    function showCategory(targetId) {
+      sections.forEach(function (section) {
+        section.style.display = section.id === targetId ? "block" : "none";
+      });
+
+      buttons.forEach(function (button) {
+        button.classList.toggle("active", button.dataset.target === targetId);
+      });
+    }
+
+    buttons.forEach(function (button) {
+      button.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        showCategory(button.dataset.target);
+      };
+    });
+
+    showCategory("convert-tools");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCategoryFilter);
+  } else {
+    initCategoryFilter();
+  }
+})();
+</script>
 </body>
 </html>
