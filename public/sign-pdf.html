@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1037" />
+  <link rel="stylesheet" href="/css/style.css?v=1038" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -13,9 +13,9 @@
 <body>
 
 <header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
+  <button class="mobile-menu-btn" type="button">☰</button>
   <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+  <button class="mobile-grid-btn" type="button">⠿</button>
 </header>
 
 <header class="desktop-header">
@@ -31,8 +31,6 @@
         <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
         <a href="/pdf-to-excel.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> PDF to Excel</a>
         <a href="/excel-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> Excel to PDF</a>
-        <a href="/pdf-to-pdfa.html"><span class="menu-icon purple"><i class="fa-solid fa-box-archive"></i></span> PDF to PDF/A</a>
-        <a href="/ocr-pdf.html"><span class="menu-icon purple"><i class="fa-solid fa-file-lines"></i></span> OCR PDF</a>
       </div>
     </div>
 
@@ -44,10 +42,7 @@
         <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
         <a href="/remove.html"><span class="menu-icon red"><i class="fa-solid fa-trash"></i></span> Remove Pages</a>
         <a href="/extract.html"><span class="menu-icon orange"><i class="fa-solid fa-copy"></i></span> Extract Pages</a>
-        <a href="/reorder.html"><span class="menu-icon purple"><i class="fa-solid fa-arrows-up-down"></i></span> Reorder Pages</a>
         <a href="/rotate.html"><span class="menu-icon sky"><i class="fa-solid fa-rotate-right"></i></span> Rotate PDF</a>
-        <a href="/crop-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-crop-simple"></i></span> Crop PDF</a>
-        <a href="/scan-to-pdf.html"><span class="menu-icon sky"><i class="fa-solid fa-camera"></i></span> Scan to PDF</a>
       </div>
     </div>
 
@@ -80,13 +75,14 @@
 </header>
 
 <div class="tool-page sign-pdf-page">
+
   <section id="startScreen" class="sign-start-screen">
     <div class="tool-start-card">
       <h1>Sign PDF</h1>
-      <p>Add your signature to a PDF document.</p>
+      <p>Sign your PDF document online.</p>
 
       <input type="file" id="pdfInput" accept="application/pdf" hidden />
-      <button id="selectPdfBtn" class="main-red-btn">Select PDF file</button>
+      <button id="selectPdfBtn" class="main-red-btn" type="button">Select PDF file</button>
 
       <div class="cloud-buttons">
         <button type="button" title="Google Drive">
@@ -99,42 +95,57 @@
     </div>
   </section>
 
-  <section id="previewScreen" class="sign-preview-screen hidden-screen">
-    <div class="sign-preview-area">
-      <div id="pdfCanvasWrap" class="pdf-canvas-wrap"></div>
-    </div>
+  <section id="previewScreen" class="hp-sign-editor hidden-screen">
+    <aside class="hp-page-thumbs" id="pageThumbs"></aside>
 
-    <aside class="sign-side-panel">
-      <h2>Sign PDF</h2>
-      <p>Create your signature, then place it on the PDF.</p>
-
-      <div class="signature-tabs">
-        <button class="sig-tab active" data-tab="draw" type="button">Draw</button>
-        <button class="sig-tab" data-tab="text" type="button">Text</button>
-        <button class="sig-tab" data-tab="upload" type="button">Upload</button>
+    <main class="hp-sign-workspace">
+      <div class="hp-sign-topbar">
+        <button id="prevPageBtn" type="button">⌃</button>
+        <button id="nextPageBtn" type="button">⌄</button>
+        <input id="pageNumberInput" value="1" readonly />
+        <span id="totalPagesText">/ 1</span>
+        <span id="fileNameText"></span>
       </div>
 
-      <div id="drawTab" class="signature-box">
-        <canvas id="drawCanvas" width="320" height="140"></canvas>
-        <button id="clearDrawBtn" class="small-light-btn" type="button">Clear</button>
+      <div class="hp-pdf-scroll">
+        <div id="pdfCanvasWrap" class="pdf-canvas-wrap"></div>
+      </div>
+    </main>
+
+    <aside class="hp-sign-panel">
+      <h2>Signing options</h2>
+
+      <h3>Type</h3>
+      <div class="hp-sign-type-row">
+        <button class="hp-type-card active" type="button">
+          <i class="fa-solid fa-pen-nib"></i>
+          <span>Simple Signature</span>
+        </button>
+
+        <button class="hp-type-card disabled" type="button">
+          <i class="fa-solid fa-signature"></i>
+          <span>Digital Signature</span>
+          <small>👑</small>
+        </button>
       </div>
 
-      <div id="textTab" class="signature-box hidden-screen">
-        <input type="text" id="textSignature" placeholder="Type your signature" />
-      </div>
+      <h3>Required fields</h3>
+      <div id="requiredFields" class="hp-field-list"></div>
 
-      <div id="uploadTab" class="signature-box hidden-screen">
-        <input type="file" id="signatureUpload" accept="image/png,image/jpeg" />
+      <h3>Optional fields</h3>
+      <div id="optionalFields" class="hp-field-list">
+        <button class="hp-field-btn" data-field="initials" type="button"><i class="fa-solid fa-font"></i> Initials</button>
+        <button class="hp-field-btn" data-field="name" type="button"><i class="fa-regular fa-id-badge"></i> Name</button>
+        <button class="hp-field-btn" data-field="date" type="button"><i class="fa-regular fa-calendar-days"></i> Date</button>
+        <button class="hp-field-btn" data-field="text" type="button"><i class="fa-solid fa-t"></i> Text</button>
+        <button class="hp-field-btn" data-field="stamp" type="button"><i class="fa-solid fa-stamp"></i> Company Stamp</button>
       </div>
-
-      <button id="addSignatureBtn" class="main-red-btn" type="button">Add signature</button>
 
       <div class="progress-wrap hidden-screen" id="progressWrap">
         <div id="progressBar"></div>
       </div>
 
-      <button id="applySignBtn" class="main-red-btn" type="button">Sign PDF</button>
-      <button id="backBtn" class="small-light-btn" type="button">Choose another file</button>
+      <button id="applySignBtn" class="hp-sign-final-btn" type="button">Sign</button>
     </aside>
   </section>
 
@@ -148,6 +159,77 @@
   </section>
 </div>
 
-<script src="/js/sign-pdf.js?v=signpdf1"></script>
+<div id="signatureModal" class="hp-sign-modal hidden-screen">
+  <div class="hp-sign-modal-card">
+    <div class="hp-modal-head">
+      <h2>Set your signature details</h2>
+      <a href="/login.html" class="hp-modal-login">Login</a>
+    </div>
+
+    <div class="hp-modal-body">
+      <div class="hp-user-row">
+        <div class="hp-user-icon"><i class="fa-regular fa-user"></i></div>
+
+        <label>
+          Full name:
+          <input id="fullNameInput" type="text" placeholder="Your name" />
+        </label>
+
+        <label>
+          Initials:
+          <input id="initialsInput" type="text" placeholder="Your initials" />
+        </label>
+      </div>
+
+      <div class="hp-sign-tabs">
+        <button class="hp-sign-tab active" data-tab="signature" type="button">
+          <i class="fa-solid fa-pen-nib"></i> Signature
+        </button>
+        <button class="hp-sign-tab" data-tab="initials" type="button">
+          <i class="fa-solid fa-font"></i> Initials
+        </button>
+        <button class="hp-sign-tab" data-tab="stamp" type="button">
+          <i class="fa-solid fa-stamp"></i> Company Stamp
+        </button>
+      </div>
+
+      <div id="signatureTab" class="hp-tab-panel">
+        <div class="hp-left-tools">
+          <button class="active" type="button"><i class="fa-solid fa-t"></i></button>
+          <button type="button"><i class="fa-solid fa-signature"></i></button>
+          <button type="button"><i class="fa-solid fa-upload"></i></button>
+        </div>
+
+        <div class="hp-signature-list" id="signatureStyleList">
+          <label><input type="radio" name="sigStyle" value="cursive1" checked> <span class="sig-font cursive1">Signature</span></label>
+          <label><input type="radio" name="sigStyle" value="cursive2"> <span class="sig-font cursive2">Signature</span></label>
+          <label><input type="radio" name="sigStyle" value="simple"> <span class="sig-font simple">Signature</span></label>
+          <label><input type="radio" name="sigStyle" value="hand"> <span class="sig-font hand">Signature</span></label>
+        </div>
+      </div>
+
+      <div id="initialsTab" class="hp-tab-panel hidden-screen">
+        <div class="hp-signature-list">
+          <label><input type="radio" name="initialStyle" value="cursive1" checked> <span class="sig-font cursive1">PJ</span></label>
+          <label><input type="radio" name="initialStyle" value="simple"> <span class="sig-font simple">PJ</span></label>
+          <label><input type="radio" name="initialStyle" value="hand"> <span class="sig-font hand">PJ</span></label>
+        </div>
+      </div>
+
+      <div id="stampTab" class="hp-tab-panel hidden-screen">
+        <label class="hp-stamp-label">
+          Company Stamp:
+          <input id="stampInput" type="text" placeholder="Company name / stamp text" />
+        </label>
+      </div>
+    </div>
+
+    <div class="hp-modal-footer">
+      <button id="modalApplyBtn" class="main-red-btn" type="button">Apply</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/sign-pdf.js?v=signpdf2"></script>
 </body>
 </html>

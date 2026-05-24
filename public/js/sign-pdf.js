@@ -8,33 +8,96 @@ const successScreen = document.getElementById("successScreen");
 const pdfInput = document.getElementById("pdfInput");
 const selectPdfBtn = document.getElementById("selectPdfBtn");
 const pdfCanvasWrap = document.getElementById("pdfCanvasWrap");
+const pageThumbs = document.getElementById("pageThumbs");
+const pageNumberInput = document.getElementById("pageNumberInput");
+const totalPagesText = document.getElementById("totalPagesText");
+const fileNameText = document.getElementById("fileNameText");
 
-const drawCanvas = document.getElementById("drawCanvas");
-const clearDrawBtn = document.getElementById("clearDrawBtn");
-const textSignature = document.getElementById("textSignature");
-const signatureUpload = document.getElementById("signatureUpload");
+const signatureModal = document.getElementById("signatureModal");
+const modalApplyBtn = document.getElementById("modalApplyBtn");
+const fullNameInput = document.getElementById("fullNameInput");
+const initialsInput = document.getElementById("initialsInput");
+const stampInput = document.getElementById("stampInput");
 
-const addSignatureBtn = document.getElementById("addSignatureBtn");
+const requiredFields = document.getElementById("requiredFields");
+const optionalFields = document.getElementById("optionalFields");
+
 const applySignBtn = document.getElementById("applySignBtn");
-const backBtn = document.getElementById("backBtn");
-const newFileBtn = document.getElementById("newFileBtn");
-const downloadBtn = document.getElementById("downloadBtn");
-
 const progressWrap = document.getElementById("progressWrap");
 const progressBar = document.getElementById("progressBar");
+const downloadBtn = document.getElementById("downloadBtn");
+const newFileBtn = document.getElementById("newFileBtn");
 
 let selectedPdfFile = null;
-let activeSignatureData = null;
+let pdfDocObj = null;
+let totalPages = 0;
+let signatureData = {
+  fullName: "",
+  initials: "",
+  stamp: "",
+  sigStyle: "cursive1",
+  initialStyle: "cursive1"
+};
+
 let placements = [];
-let currentTab = "draw";
+let currentPage = 1;
 
 selectPdfBtn.addEventListener("click", () => pdfInput.click());
 
 pdfInput.addEventListener("change", async () => {
   if (!pdfInput.files[0]) return;
+
   selectedPdfFile = pdfInput.files[0];
-  await showPreview(selectedPdfFile);
+  fileNameText.textContent = selectedPdfFile.name.length > 28
+    ? selectedPdfFile.name.slice(0, 28) + "..."
+    : selectedPdfFile.name;
+
+  openSignatureModal();
 });
+
+function openSignatureModal() {
+  signatureModal.classList.remove("hidden-screen");
+  fullNameInput.focus();
+}
+
+document.querySelectorAll(".hp-sign-tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".hp-sign-tab").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    document.getElementById("signatureTab").classList.toggle("hidden-screen", btn.dataset.tab !== "signature");
+    document.getElementById("initialsTab").classList.toggle("hidden-screen", btn.dataset.tab !== "initials");
+    document.getElementById("stampTab").classList.toggle("hidden-screen", btn.dataset.tab !== "stamp");
+  });
+});
+
+modalApplyBtn.addEventListener("click", async () => {
+  signatureData.fullName = fullNameInput.value.trim() || "Signature";
+  signatureData.initials = initialsInput.value.trim() || getInitials(signatureData.fullName);
+  signatureData.stamp = stampInput.value.trim() || "Company Stamp";
+
+  const sigRadio = document.querySelector("input[name='sigStyle']:checked");
+  const initialRadio = document.querySelector("input[name='initialStyle']:checked");
+
+  signatureData.sigStyle = sigRadio ? sigRadio.value : "cursive1";
+  signatureData.initialStyle = initialRadio ? initialRadio.value : "cursive1";
+
+  signatureModal.classList.add("hidden-screen");
+
+  await showPreview(selectedPdfFile);
+  addRequiredSignature();
+  addOptionalInitials();
+});
+
+function getInitials(name) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((p) => p[0])
+    .join("")
+    .slice(0, 3)
+    .toUpperCase() || "S";
+}
 
 async function showPreview(file) {
   startScreen.classList.add("hidden-screen");
@@ -42,14 +105,20 @@ async function showPreview(file) {
   previewScreen.classList.remove("hidden-screen");
 
   pdfCanvasWrap.innerHTML = "";
+  pageThumbs.innerHTML = "";
   placements = [];
 
   const buffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+  pdfDocObj = await pdfjsLib.getDocument({ data: buffer }).promise;
+  totalPages = pdfDocObj.numPages;
 
-  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum);
-    const viewport = page.getViewport({ scale: 1.35 });
+  totalPagesText.textContent = `/ ${totalPages}`;
+  pageNumberInput.value = "1";
+  currentPage = 1;
+
+  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+    const page = await pdfDocObj.getPage(pageNum);
+    const viewport = page.getViewport({ scale: 1.2 });
 
     const pageBox = document.createElement("div");
     pageBox.className = "sign-page-box";
@@ -68,163 +137,251 @@ async function showPreview(file) {
 
     pageBox.appendChild(canvas);
     pdfCanvasWrap.appendChild(pageBox);
+
+    await createThumbnail(page, pageNum);
   }
 }
 
-document.querySelectorAll(".sig-tab").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".sig-tab").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentTab = btn.dataset.tab;
+async function createThumbnail(page, pageNum) {
+  const viewport = page.getViewport({ scale: 0.18 });
 
-    document.getElementById("drawTab").classList.toggle("hidden-screen", currentTab !== "draw");
-    document.getElementById("textTab").classList.toggle("hidden-screen", currentTab !== "text");
-    document.getElementById("uploadTab").classList.toggle("hidden-screen", currentTab !== "upload");
+  const thumb = document.createElement("button");
+  thumb.className = "hp-thumb" + (pageNum === 1 ? " active" : "");
+  thumb.type = "button";
+  thumb.dataset.page = pageNum;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({
+    canvasContext: canvas.getContext("2d"),
+    viewport
+  }).promise;
+
+  const span = document.createElement("span");
+  span.textContent = pageNum;
+
+  thumb.appendChild(canvas);
+  thumb.appendChild(span);
+  pageThumbs.appendChild(thumb);
+
+  thumb.addEventListener("click", () => {
+    const pageBox = document.querySelector(`.sign-page-box[data-page="${pageNum}"]`);
+    if (pageBox) pageBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    setActivePage(pageNum);
+  });
+}
+
+function setActivePage(pageNum) {
+  currentPage = pageNum;
+  pageNumberInput.value = pageNum;
+
+  document.querySelectorAll(".hp-thumb").forEach((thumb) => {
+    thumb.classList.toggle("active", Number(thumb.dataset.page) === pageNum);
+  });
+}
+
+function addRequiredSignature() {
+  const dataUrl = createTextImage(signatureData.fullName, signatureData.sigStyle, "signature");
+  const firstPage = document.querySelector(".sign-page-box[data-page='1']");
+  if (!firstPage) return;
+
+  const placement = createPlacement(firstPage, {
+    type: "signature",
+    label: "Signature",
+    dataUrl,
+    x: firstPage.offsetWidth - 245,
+    y: 55,
+    width: 190,
+    height: 72
+  });
+
+  renderFieldCard(requiredFields, placement);
+}
+
+function addOptionalInitials() {
+  const dataUrl = createTextImage(signatureData.initials, signatureData.initialStyle, "initials");
+  const cardPlacement = {
+    id: "optional-initials",
+    type: "initials",
+    label: "Initials",
+    dataUrl,
+    page: 1
+  };
+
+  renderFieldCard(requiredFields.nextElementSibling ? null : requiredFields, cardPlacement);
+  renderOptionalPreviewInitials(dataUrl);
+}
+
+function renderOptionalPreviewInitials(dataUrl) {
+  const list = document.getElementById("optionalFields");
+  const preview = document.createElement("div");
+  preview.className = "hp-field-card";
+  preview.innerHTML = `
+    <span class="drag-dots">⠿</span>
+    <span class="field-icon">AC</span>
+    <div class="field-preview">
+      <small>Initials</small>
+      <img src="${dataUrl}" alt="Initials">
+    </div>
+    <button type="button" class="field-edit">✎</button>
+  `;
+  list.prepend(preview);
+}
+
+optionalFields.addEventListener("click", (e) => {
+  const btn = e.target.closest(".hp-field-btn");
+  if (!btn) return;
+
+  const pageBox = document.querySelector(`.sign-page-box[data-page="${currentPage}"]`);
+  if (!pageBox) return;
+
+  const field = btn.dataset.field;
+  let text = "";
+  let style = "simple";
+  let label = "";
+
+  if (field === "initials") {
+    text = signatureData.initials;
+    style = signatureData.initialStyle;
+    label = "Initials";
+  }
+
+  if (field === "name") {
+    text = signatureData.fullName;
+    label = "Name";
+  }
+
+  if (field === "date") {
+    text = new Date().toLocaleDateString();
+    label = "Date";
+  }
+
+  if (field === "text") {
+    text = "Text";
+    label = "Text";
+  }
+
+  if (field === "stamp") {
+    text = signatureData.stamp;
+    label = "Company Stamp";
+  }
+
+  const dataUrl = createTextImage(text, style, field);
+
+  createPlacement(pageBox, {
+    type: field,
+    label,
+    dataUrl,
+    x: 85,
+    y: 90,
+    width: field === "date" ? 150 : 190,
+    height: 62
   });
 });
 
-const drawCtx = drawCanvas.getContext("2d");
-drawCtx.lineWidth = 3;
-drawCtx.lineCap = "round";
-drawCtx.strokeStyle = "#111827";
+function renderFieldCard(container, placement) {
+  if (!container) return;
 
-let drawing = false;
+  const card = document.createElement("div");
+  card.className = "hp-field-card";
+  card.dataset.id = placement.id;
 
-function drawPosition(e) {
-  const rect = drawCanvas.getBoundingClientRect();
-  const touch = e.touches ? e.touches[0] : e;
-  return {
-    x: touch.clientX - rect.left,
-    y: touch.clientY - rect.top
-  };
+  card.innerHTML = `
+    <span class="drag-dots">⠿</span>
+    <span class="field-icon">${placement.type === "signature" ? "✍" : "AC"}</span>
+    <div class="field-preview">
+      <small>${placement.label}</small>
+      <img src="${placement.dataUrl}" alt="${placement.label}">
+    </div>
+    <button type="button" class="field-edit">✎</button>
+  `;
+
+  container.appendChild(card);
 }
 
-drawCanvas.addEventListener("mousedown", e => {
-  drawing = true;
-  const p = drawPosition(e);
-  drawCtx.beginPath();
-  drawCtx.moveTo(p.x, p.y);
-});
+function createTextImage(text, style, type) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 520;
+  canvas.height = 180;
 
-drawCanvas.addEventListener("mousemove", e => {
-  if (!drawing) return;
-  const p = drawPosition(e);
-  drawCtx.lineTo(p.x, p.y);
-  drawCtx.stroke();
-});
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-window.addEventListener("mouseup", () => drawing = false);
+  let font = "52px cursive";
+  if (style === "simple") font = "48px Arial";
+  if (style === "hand") font = "48px Comic Sans MS";
+  if (type === "stamp") font = "42px Arial";
+  if (type === "date") font = "38px Arial";
+  if (type === "name") font = "42px Arial";
+  if (type === "text") font = "42px Arial";
 
-drawCanvas.addEventListener("touchstart", e => {
-  e.preventDefault();
-  drawing = true;
-  const p = drawPosition(e);
-  drawCtx.beginPath();
-  drawCtx.moveTo(p.x, p.y);
-});
+  ctx.font = font;
+  ctx.fillStyle = "#555";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 30, 90);
 
-drawCanvas.addEventListener("touchmove", e => {
-  e.preventDefault();
-  if (!drawing) return;
-  const p = drawPosition(e);
-  drawCtx.lineTo(p.x, p.y);
-  drawCtx.stroke();
-});
-
-drawCanvas.addEventListener("touchend", () => drawing = false);
-
-clearDrawBtn.addEventListener("click", () => {
-  drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-});
-
-addSignatureBtn.addEventListener("click", async () => {
-  activeSignatureData = await getSignatureData();
-  if (!activeSignatureData) {
-    alert("Please create or upload a signature first.");
-    return;
-  }
-
-  const firstPage = document.querySelector(".sign-page-box");
-  if (!firstPage) return;
-
-  createSignatureElement(firstPage, activeSignatureData);
-});
-
-async function getSignatureData() {
-  if (currentTab === "draw") {
-    return drawCanvas.toDataURL("image/png");
-  }
-
-  if (currentTab === "text") {
-    const text = textSignature.value.trim();
-    if (!text) return null;
-
-    const canvas = document.createElement("canvas");
-    canvas.width = 420;
-    canvas.height = 150;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "transparent";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = "54px cursive";
-    ctx.fillStyle = "#111827";
-    ctx.fillText(text, 30, 90);
-    return canvas.toDataURL("image/png");
-  }
-
-  if (currentTab === "upload") {
-    const file = signatureUpload.files[0];
-    if (!file) return null;
-
-    return new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(file);
-    });
-  }
-
-  return null;
+  return canvas.toDataURL("image/png");
 }
 
-function createSignatureElement(pageBox, dataUrl) {
-  const sig = document.createElement("div");
-  sig.className = "signature-placement";
-  sig.style.left = "80px";
-  sig.style.top = "80px";
-  sig.style.width = "180px";
-  sig.style.height = "70px";
-
-  const img = document.createElement("img");
-  img.src = dataUrl;
-
-  const remove = document.createElement("button");
-  remove.className = "sig-remove";
-  remove.innerHTML = "×";
-
-  sig.appendChild(img);
-  sig.appendChild(remove);
-  pageBox.appendChild(sig);
-
+function createPlacement(pageBox, options) {
   const placement = {
     id: Date.now() + Math.random(),
     page: Number(pageBox.dataset.page),
-    dataUrl,
-    x: 80,
-    y: 80,
-    width: 180,
-    height: 70,
+    type: options.type,
+    label: options.label,
+    dataUrl: options.dataUrl,
+    x: options.x,
+    y: options.y,
+    width: options.width,
+    height: options.height,
     pageWidth: pageBox.offsetWidth,
     pageHeight: pageBox.offsetHeight
   };
 
-  sig.dataset.id = placement.id;
   placements.push(placement);
 
-  remove.addEventListener("click", () => {
-    placements = placements.filter(p => String(p.id) !== String(sig.dataset.id));
-    sig.remove();
+  const el = document.createElement("div");
+  el.className = "signature-placement";
+  el.dataset.id = placement.id;
+  el.style.left = `${placement.x}px`;
+  el.style.top = `${placement.y}px`;
+  el.style.width = `${placement.width}px`;
+  el.style.height = `${placement.height}px`;
+
+  el.innerHTML = `
+    <img src="${placement.dataUrl}" alt="${placement.label}">
+    <button type="button" class="sig-copy">⧉</button>
+    <button type="button" class="sig-remove">×</button>
+  `;
+
+  pageBox.appendChild(el);
+
+  const removeBtn = el.querySelector(".sig-remove");
+  removeBtn.addEventListener("click", () => {
+    placements = placements.filter((p) => String(p.id) !== String(placement.id));
+    el.remove();
+    document.querySelectorAll(`.hp-field-card[data-id="${placement.id}"]`).forEach((c) => c.remove());
   });
 
-  makeDraggable(sig, pageBox);
+  const copyBtn = el.querySelector(".sig-copy");
+  copyBtn.addEventListener("click", () => {
+    createPlacement(pageBox, {
+      type: placement.type,
+      label: placement.label,
+      dataUrl: placement.dataUrl,
+      x: placement.x + 20,
+      y: placement.y + 20,
+      width: placement.width,
+      height: placement.height
+    });
+  });
+
+  makeDraggable(el, pageBox);
+  makeResizable(el, pageBox);
+
+  return placement;
 }
 
 function makeDraggable(el, parent) {
@@ -238,7 +395,7 @@ function makeDraggable(el, parent) {
   el.addEventListener("touchstart", startDrag, { passive: false });
 
   function startDrag(e) {
-    if (e.target.classList.contains("sig-remove")) return;
+    if (e.target.tagName === "BUTTON") return;
     e.preventDefault();
 
     dragging = true;
@@ -280,8 +437,13 @@ function makeDraggable(el, parent) {
   }
 }
 
+function makeResizable(el, parent) {
+  const observer = new ResizeObserver(() => updatePlacement(el, parent));
+  observer.observe(el);
+}
+
 function updatePlacement(el, parent) {
-  const item = placements.find(p => String(p.id) === String(el.dataset.id));
+  const item = placements.find((p) => String(p.id) === String(el.dataset.id));
   if (!item) return;
 
   item.x = el.offsetLeft;
@@ -294,7 +456,7 @@ function updatePlacement(el, parent) {
 
 applySignBtn.addEventListener("click", async () => {
   if (!selectedPdfFile) return alert("Please select a PDF first.");
-  if (!placements.length) return alert("Please add a signature first.");
+  if (!placements.length) return alert("Please add at least one signature field.");
 
   progressWrap.classList.remove("hidden-screen");
   progressBar.style.width = "35%";
@@ -327,27 +489,13 @@ applySignBtn.addEventListener("click", async () => {
     setTimeout(() => {
       previewScreen.classList.add("hidden-screen");
       successScreen.classList.remove("hidden-screen");
-    }, 400);
+    }, 350);
   } catch (err) {
     alert("Error: " + err.message);
     progressWrap.classList.add("hidden-screen");
   }
 });
 
-backBtn.addEventListener("click", () => {
-  previewScreen.classList.add("hidden-screen");
-  startScreen.classList.remove("hidden-screen");
-  pdfInput.value = "";
-  selectedPdfFile = null;
-  placements = [];
-});
-
 newFileBtn.addEventListener("click", () => {
-  successScreen.classList.add("hidden-screen");
-  startScreen.classList.remove("hidden-screen");
-  pdfInput.value = "";
-  selectedPdfFile = null;
-  placements = [];
-  progressWrap.classList.add("hidden-screen");
-  progressBar.style.width = "0%";
+  window.location.reload();
 });
