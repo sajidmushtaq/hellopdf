@@ -2223,7 +2223,7 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
 
     const outputBytes = await pdfDoc.save();
     const outputFileName = `filled-signed-${Date.now()}.pdf`;
-    const outputPath = path.join(outputDir, outputFileName);
+    const outputPath = path.join(outputsDir || outputDir, outputFileName);
 
     fs.writeFileSync(outputPath, outputBytes);
     fs.unlink(inputPath, () => {});
