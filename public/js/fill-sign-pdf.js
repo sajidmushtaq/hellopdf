@@ -148,7 +148,7 @@ function setActivePage(pageNum) {
 
 function addField(pageBox, event) {
   const rect = pageBox.getBoundingClientRect();
-  const text = getFieldText();
+  const text = getFieldText(dataUrl: createFieldImage(text, activeTool, fontSize),);
   const fontSize = Number(fontSizeInput.value || 24);
 
   const x = event.clientX - rect.left;
@@ -325,6 +325,28 @@ downloadPdfBtn.addEventListener("click", async () => {
     progressWrap.classList.add("hidden-screen");
   }
 });
+
+function createFieldImage(text, type, fontSize) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 520;
+  canvas.height = 160;
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#111827";
+  ctx.textBaseline = "middle";
+
+  if (type === "signature") {
+    ctx.font = `${fontSize * 2}px Brush Script MT, Segoe Script, cursive`;
+  } else {
+    ctx.font = `${fontSize * 2}px Arial`;
+  }
+
+  ctx.fillText(text, 30, 80);
+
+  return canvas.toDataURL("image/png");
+}
 
 newFileBtn.addEventListener("click", () => window.location.reload());
 againBtn.addEventListener("click", () => window.location.reload());

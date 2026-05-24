@@ -2196,46 +2196,28 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
     for (const field of fields) {
       const pageIndex = Number(field.page) - 1;
       if (pageIndex < 0 || pageIndex >= pages.length) continue;
+      if (!field.dataUrl) continue;
 
       const page = pages[pageIndex];
       const { width: pdfWidth, height: pdfHeight } = page.getSize();
 
+      const base64Data = field.dataUrl.split(",")[1];
+      const imageBytes = Buffer.from(base64Data, "base64");
+      const image = await pdfDoc.embedPng(imageBytes);
+
       const scaleX = pdfWidth / Number(field.pageWidth);
       const scaleY = pdfHeight / Number(field.pageHeight);
 
-      const x = Number(field.x) * scaleX;
-      const y = pdfHeight - (Number(field.y) * scaleY) - (Number(field.height) * scaleY);
-      const fontSize = Math.max(8, Number(field.fontSize || 24) * scaleY);
+      const drawX = Number(field.x) * scaleX;
+      const drawWidth = Number(field.width) * scaleX;
+      const drawHeight = Number(field.height) * scaleY;
+      const drawY = pdfHeight - (Number(field.y) * scaleY) - drawHeight;
 
-      if (field.type === "check") {
-        const size = Math.max(14, Number(field.height || 44) * scaleY * 0.75);
-
-        page.drawLine({
-          start: { x: x + size * 0.15, y: y + size * 0.45 },
-          end: { x: x + size * 0.38, y: y + size * 0.18 },
-          thickness: 3,
-          color: rgb(0.05, 0.05, 0.05)
-        });
-
-        page.drawLine({
-          start: { x: x + size * 0.38, y: y + size * 0.18 },
-          end: { x: x + size * 0.85, y: y + size * 0.78 },
-          thickness: 3,
-          color: rgb(0.05, 0.05, 0.05)
-        });
-
-        continue;
-      }
-
-      const safeText = String(field.text || "")
-        .replace(/[^\x20-\x7E]/g, "")
-        .trim();
-
-      page.drawText(safeText || "Text", {
-        x,
-        y,
-        size: fontSize,
-        color: rgb(0.05, 0.05, 0.05)
+      page.drawImage(image, {
+        x: drawX,
+        y: drawY,
+        width: drawWidth,
+        height: drawHeight
       });
     }
 
@@ -2254,7 +2236,6 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
     res.status(500).send("Failed to fill and sign PDF.");
   }
 });
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
