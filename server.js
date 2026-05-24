@@ -2231,11 +2231,21 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
     res.download(outputPath, "filled-signed-pdf.pdf", () => {
       fs.unlink(outputPath, () => {});
     });
-  } catch (error) {
-    console.error("FILL SIGN PDF ERROR:", error);
-    res.status(500).send("Failed to fill and sign PDF.");
+    console.log("FILL FIELD DEBUG:", {
+  type: field.type,
+  hasDataUrl: !!field.dataUrl,
+  dataUrlStart: field.dataUrl ? field.dataUrl.slice(0, 30) : null,
+  pageWidth: field.pageWidth,
+  pageHeight: field.pageHeight
+});
+    } catch (error) {
+    console.error("FILL SIGN PDF ERROR MESSAGE:", error.message);
+    console.error("FILL SIGN PDF FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to fill and sign PDF.");
   }
 });
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
