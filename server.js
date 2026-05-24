@@ -2255,6 +2255,79 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
   }
 });
 
+app.post("/pdf-forms", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
+
+    const fields = JSON.parse(req.body.fields || "[]");
+
+    if (!fields.length) {
+      return res.status(400).send("No form fields found.");
+    }
+
+    const inputPath = req.file.path;
+    const pdfBytes = fs.readFileSync(inputPath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    for (const field of fields) {
+      const pageIndex = Number(field.page) - 1;
+
+      if (pageIndex < 0 || pageIndex >= pages.length) continue;
+      if (!field.dataUrl || !field.dataUrl.includes(",")) continue;
+
+      const page = pages[pageIndex];
+      const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+      const base64Data = field.dataUrl.split(",")[1];
+      const imageBytes = Buffer.from(base64Data, "base64");
+      const image = await pdfDoc.embedPng(imageBytes);
+
+      const scaleX = pdfWidth / Number(field.pageWidth || pdfWidth);
+      const scaleY = pdfHeight / Number(field.pageHeight || pdfHeight);
+
+      const drawX = Number(field.x || 0) * scaleX;
+      const drawWidth = Number(field.width || 150) * scaleX;
+      const drawHeight = Number(field.height || 40) * scaleY;
+      const drawY = pdfHeight - (Number(field.y || 0) * scaleY) - drawHeight;
+
+      page.drawImage(image, {
+        x: drawX,
+        y: drawY,
+        width: drawWidth,
+        height: drawHeight
+      });
+    }
+
+    const outputBytes = await pdfDoc.save();
+
+    const finalOutputDir =
+      typeof outputDir !== "undefined"
+        ? outputDir
+        : path.join(__dirname, "outputs");
+
+    if (!fs.existsSync(finalOutputDir)) {
+      fs.mkdirSync(finalOutputDir, { recursive: true });
+    }
+
+    const outputFileName = `pdf-forms-${Date.now()}.pdf`;
+    const outputPath = path.join(finalOutputDir, outputFileName);
+
+    fs.writeFileSync(outputPath, outputBytes);
+    fs.unlink(inputPath, () => {});
+
+    res.download(outputPath, "pdf-form-completed.pdf", () => {
+      fs.unlink(outputPath, () => {});
+    });
+  } catch (error) {
+    console.error("PDF FORMS ERROR MESSAGE:", error.message);
+    console.error("PDF FORMS FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to process PDF forms.");
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Forms - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1042" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav class="desktop-nav">
+    <div class="nav-dropdown">
+      <button type="button">Convert PDF</button>
+      <div class="dropdown-menu">
+        <a href="/image-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-images"></i></span> Image to PDF</a>
+        <a href="/pdf-to-image.html"><span class="menu-icon orange"><i class="fa-solid fa-file-image"></i></span> PDF to Image</a>
+        <a href="/pdf-to-word.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> PDF to Word</a>
+        <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Organize PDF</button>
+      <div class="dropdown-menu">
+        <a href="/merge.html"><span class="menu-icon red"><i class="fa-solid fa-object-group"></i></span> Merge PDF</a>
+        <a href="/split.html"><span class="menu-icon orange"><i class="fa-solid fa-scissors"></i></span> Split PDF</a>
+        <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Edit PDF</button>
+      <div class="dropdown-menu">
+        <a href="/watermark.html"><span class="menu-icon purple"><i class="fa-solid fa-stamp"></i></span> Watermark PDF</a>
+        <a href="/sign-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-signature"></i></span> Sign PDF</a>
+        <a href="/pdf-forms.html"><span class="menu-icon blue"><i class="fa-solid fa-list-check"></i></span> PDF Forms</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Security</button>
+      <div class="dropdown-menu">
+        <a href="/protect.html"><span class="menu-icon teal"><i class="fa-solid fa-lock"></i></span> Protect PDF</a>
+        <a href="/unlock.html"><span class="menu-icon pink"><i class="fa-solid fa-unlock"></i></span> Unlock PDF</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="pdf-forms-page">
+
+  <section id="startScreen" class="forms-start-screen">
+    <div class="forms-hero-box">
+      <h1>PDF Forms</h1>
+      <p>Fill, edit and add form fields to your PDF documents.</p>
+
+      <div class="forms-upload-row">
+        <input type="file" id="pdfInput" accept="application/pdf" hidden />
+
+        <button id="selectPdfBtn" class="forms-big-upload-btn" type="button">
+          Select PDF file
+        </button>
+
+        <div class="forms-cloud-side">
+          <button type="button" title="Google Drive">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
+          </button>
+
+          <button type="button" title="Dropbox">
+            <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <span class="forms-drop-text">or drop PDF here</span>
+    </div>
+  </section>
+
+  <section id="editorScreen" class="forms-editor hidden-screen">
+    <div class="forms-top-modebar">
+      <button class="forms-mode active" type="button">
+        <i class="fa-solid fa-pen"></i> Fill Form
+      </button>
+      <button class="forms-mode" type="button">
+        <i class="fa-solid fa-sliders"></i> Edit Form
+      </button>
+      <button id="togglePanelBtn" class="forms-toggle-panel" type="button">
+        <i class="fa-solid fa-table-columns"></i>
+      </button>
+    </div>
+
+    <div class="forms-tool-strip">
+      <button class="forms-tool active" data-tool="signature" title="Signature" type="button"><i class="fa-solid fa-signature"></i></button>
+      <button class="forms-tool" data-tool="text" title="Text field" type="button"><i class="fa-solid fa-t"></i></button>
+      <button class="forms-tool" data-tool="checkbox" title="Checkbox" type="button"><i class="fa-regular fa-square-check"></i></button>
+      <button class="forms-tool" data-tool="radio" title="Radio button" type="button"><i class="fa-regular fa-circle-dot"></i></button>
+      <button class="forms-tool" data-tool="textarea" title="Multiline text" type="button"><i class="fa-solid fa-keyboard"></i></button>
+      <button class="forms-tool" data-tool="dropdown" title="Dropdown" type="button"><i class="fa-solid fa-list"></i></button>
+      <button class="forms-tool" data-tool="date" title="Date" type="button"><i class="fa-regular fa-calendar-days"></i></button>
+      <button class="forms-tool" data-tool="stamp" title="Stamp" type="button"><i class="fa-solid fa-stamp"></i></button>
+    </div>
+
+    <div class="forms-main-grid">
+      <aside class="forms-thumbs" id="pageThumbs"></aside>
+
+      <main class="forms-workspace">
+        <div class="forms-pdf-scroll">
+          <div id="pdfCanvasWrap" class="forms-pdf-wrap"></div>
+        </div>
+
+        <div class="forms-bottom-bar">
+          <button id="prevPageBtn" type="button">⌃</button>
+          <button id="nextPageBtn" type="button">⌄</button>
+          <input id="pageNumberInput" value="1" readonly />
+          <span id="totalPagesText">/ 1</span>
+          <button id="zoomOutBtn" type="button">−</button>
+          <button id="zoomInBtn" type="button">+</button>
+          <input id="zoomText" value="60%" readonly />
+          <span id="fileNameText"></span>
+        </div>
+      </main>
+
+      <aside class="forms-right-panel" id="formsRightPanel">
+        <div class="forms-panel-head">
+          <h2>Form Field List (<span id="fieldCount">0</span>)</h2>
+          <button id="editFieldsBtn" type="button">Edit</button>
+        </div>
+
+        <div id="fieldListEmpty" class="forms-empty-list">
+          <i class="fa-regular fa-file-lines"></i>
+          <p>This document has no<br>form fields</p>
+        </div>
+
+        <div id="fieldList" class="forms-field-list"></div>
+
+        <div class="forms-field-options">
+          <label>
+            Field text / value
+            <input id="fieldValueInput" type="text" placeholder="Type value here" />
+          </label>
+
+          <label>
+            Font size
+            <input id="fieldFontInput" type="number" value="22" min="8" max="80" />
+          </label>
+        </div>
+
+        <div class="progress-wrap hidden-screen" id="progressWrap">
+          <div id="progressBar"></div>
+        </div>
+
+        <button id="downloadPdfBtn" class="forms-download-btn" type="button">
+          Download <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </aside>
+    </div>
+  </section>
+
+  <section id="successScreen" class="forms-success-screen hidden-screen">
+    <div class="success-card">
+      <h1>PDF form completed</h1>
+      <p>Your PDF form is ready to download.</p>
+      <a id="downloadBtn" class="main-red-btn" download>Download PDF</a>
+      <button id="againBtn" class="small-light-btn" type="button">Edit another PDF</button>
+    </div>
+  </section>
+</div>
+
+<div id="formsPopup" class="forms-popup hidden-screen">
+  <div class="forms-popup-card">
+    <h2>File does not contain fillable fields</h2>
+    <p>It may be a scanned or a flattened PDF. Choose an option below.</p>
+
+    <div class="forms-popup-actions">
+      <button id="detectBtn" class="detect-btn" type="button">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Detect automatically <span>👑</span>
+      </button>
+      <button id="manualBtn" class="manual-btn" type="button">
+        Edit/add manually
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/pdf-forms.js?v=1"></script>
+</body>
+</html>
