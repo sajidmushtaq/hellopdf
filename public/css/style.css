@@ -20481,3 +20481,62 @@ body {
     font-size: 16px !important;
   }
 }
+
+/* LAST FIX - Fill Sign mobile blank success screen */
+body.fill-success-active {
+  background: #f8fafc !important;
+  min-height: 100vh !important;
+  overflow: auto !important;
+}
+
+body.fill-success-active .fill-editor,
+body.fill-success-active #editorScreen,
+body.fill-success-active #startScreen {
+  display: none !important;
+}
+
+body.fill-success-active #successScreen,
+body.fill-success-active .fill-success-screen {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: calc(100vh - 90px) !important;
+  width: 100% !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  padding: 80px 16px 40px !important;
+  background: #f8fafc !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+body.fill-success-active .success-card {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  max-width: 380px !important;
+  background: #fff !important;
+  border-radius: 22px !important;
+  padding: 28px 18px !important;
+  text-align: center !important;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12) !important;
+}
+
+body.fill-success-active .success-card h1 {
+  font-size: 28px !important;
+  color: #111827 !important;
+  margin-bottom: 12px !important;
+}
+
+body.fill-success-active .success-card p {
+  font-size: 15px !important;
+  color: #64748b !important;
+}
+
+body.fill-success-active .success-card .main-red-btn,
+body.fill-success-active .success-card .small-light-btn {
+  width: 100% !important;
+  margin-top: 12px !important;
+  display: flex !important;
+}

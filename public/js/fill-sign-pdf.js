@@ -350,16 +350,18 @@ document.addEventListener("DOMContentLoaded", () => {
       progressBar.style.width = "100%";
 
       setTimeout(() => {
-  editorScreen.style.display = "none";
+  document.body.classList.add("fill-success-active");
+
+  startScreen.classList.add("hidden-screen");
   editorScreen.classList.add("hidden-screen");
+  editorScreen.style.display = "none";
 
   successScreen.classList.remove("hidden-screen");
   successScreen.style.display = "flex";
+  successScreen.style.visibility = "visible";
+  successScreen.style.opacity = "1";
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  window.scrollTo(0, 0);
 }, 350);
     } catch (err) {
       alert("Error: " + err.message);
