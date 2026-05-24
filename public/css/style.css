@@ -20058,24 +20058,101 @@ body {
 }
 
 /* ================================
-   SIGN PDF - iLovePDF STYLE FLOW
+   FILL & SIGN PDF TOOL
 ================================ */
 
-.hp-sign-editor {
+.fill-start-screen {
+  min-height: calc(100vh - 72px);
+  background: #f7f8fc;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.fill-hero-box {
+  width: 100%;
+  max-width: 920px;
+  text-align: center;
+}
+
+.fill-hero-box h1 {
+  font-size: 44px;
+  color: #071733;
+  margin: 0 0 16px;
+  font-weight: 900;
+}
+
+.fill-hero-box p {
+  font-size: 24px;
+  color: #475569;
+  margin: 0 0 34px;
+}
+
+.fill-upload-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.fill-big-upload-btn {
+  width: 330px;
+  height: 96px;
+  border: none;
+  border-radius: 10px;
+  background: #f43f46;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 18px 34px rgba(244, 63, 70, 0.22);
+}
+
+.fill-cloud-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fill-cloud-side button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #f43f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fill-cloud-side svg {
+  width: 22px;
+  height: 22px;
+}
+
+.fill-drop-text {
+  display: block;
+  margin-top: 18px;
+  color: #111827;
+  font-size: 16px;
+}
+
+.fill-editor {
   min-height: calc(100vh - 72px);
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr) 380px;
+  grid-template-columns: 180px minmax(0, 1fr) 360px;
   background: #f3f4f8;
 }
 
-.hp-page-thumbs {
+.fill-thumbs {
   background: #f4f5f9;
   border-right: 1px solid #d8dbe3;
   padding: 28px 18px;
   overflow-y: auto;
 }
 
-.hp-thumb {
+.fill-thumb {
   width: 104px;
   margin: 0 auto 22px;
   display: block;
@@ -20085,30 +20162,30 @@ body {
   text-align: center;
 }
 
-.hp-thumb canvas {
+.fill-thumb canvas {
   width: 94px;
   background: #fff;
   box-shadow: 0 5px 18px rgba(15, 23, 42, 0.18);
 }
 
-.hp-thumb.active canvas {
+.fill-thumb.active canvas {
   outline: 3px solid #1683ff;
 }
 
-.hp-thumb span {
+.fill-thumb span {
   display: block;
   margin-top: 8px;
   color: #374151;
   font-size: 14px;
 }
 
-.hp-sign-workspace {
+.fill-workspace {
   min-width: 0;
   display: flex;
   flex-direction: column;
 }
 
-.hp-sign-topbar {
+.fill-topbar {
   height: 54px;
   background: #fff;
   border-bottom: 1px solid #d8dbe3;
@@ -20118,7 +20195,7 @@ body {
   padding: 0 22px;
 }
 
-.hp-sign-topbar button {
+.fill-topbar button {
   width: 28px;
   height: 28px;
   border: 1px solid #9ca3af;
@@ -20136,11 +20213,6 @@ body {
   border-radius: 5px;
 }
 
-#totalPagesText {
-  color: #4b5563;
-  font-weight: 600;
-}
-
 #fileNameText {
   max-width: 260px;
   height: 32px;
@@ -20155,205 +20227,159 @@ body {
   margin-left: 12px;
 }
 
-.hp-pdf-scroll {
+.fill-pdf-scroll {
   flex: 1;
   overflow: auto;
   padding: 42px 34px;
 }
 
-.hp-pdf-scroll .pdf-canvas-wrap {
+.fill-pdf-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 34px;
 }
 
-.hp-pdf-scroll .sign-page-box {
+.fill-page-box {
   position: relative;
   background: #fff;
   box-shadow: 0 12px 34px rgba(15, 23, 42, 0.14);
-  overflow: visible;
 }
 
-.hp-pdf-scroll .sign-page-box canvas {
+.fill-page-box canvas {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.hp-sign-panel {
+.fill-panel {
   background: #fff;
   border-left: 1px solid #d8dbe3;
-  padding: 20px 16px;
+  padding: 24px 18px;
   overflow-y: auto;
 }
 
-.hp-sign-panel h2 {
+.fill-panel h2 {
   font-size: 30px;
-  margin: 0 0 18px;
-  color: #2f3340;
+  margin: 0 0 20px;
   text-align: center;
-  font-weight: 800;
+  color: #2f3340;
+  font-weight: 900;
 }
 
-.hp-sign-panel h3 {
-  font-size: 16px;
-  margin: 20px 0 10px;
-  color: #3f4450;
-  font-weight: 800;
-}
-
-.hp-sign-type-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.hp-type-card {
-  min-height: 88px;
-  border: 1px solid #e5e7eb;
-  background: #f5f6fa;
+.fill-tool-btn {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #d8dbe3;
+  background: #f8fafc;
+  color: #374151;
   border-radius: 8px;
-  color: #6b7280;
-  cursor: pointer;
+  margin-bottom: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.fill-tool-btn i {
+  width: 30px;
+  height: 30px;
+  background: #4c7fb5;
+  color: #fff;
+  border-radius: 6px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  position: relative;
 }
 
-.hp-type-card i {
-  font-size: 28px;
-}
-
-.hp-type-card.active {
-  border: 2px solid #ef2b2d;
+.fill-tool-btn.active {
+  border-color: #ef2b2d;
   background: #fff7f7;
   color: #ef2b2d;
 }
 
-.hp-type-card.disabled {
-  opacity: 0.68;
-  cursor: not-allowed;
-}
-
-.hp-type-card small {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.hp-field-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.hp-field-card {
-  min-height: 74px;
-  border: 1px solid #9fc7ff;
-  background: #f8fbff;
-  border-radius: 6px;
+.fill-options {
+  margin-top: 18px;
   display: grid;
-  grid-template-columns: 24px 36px 1fr 34px;
+  gap: 12px;
+}
+
+.fill-options label {
+  color: #374151;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.fill-options input {
+  width: 100%;
+  height: 42px;
+  margin-top: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 16px;
+}
+
+.fill-tip {
+  margin: 18px 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fill-field {
+  position: absolute;
+  z-index: 25;
+  border: 2px solid #1683ff;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: move;
+  resize: both;
+  overflow: visible;
+  min-width: 40px;
+  min-height: 30px;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.08);
-}
-
-.drag-dots {
+  padding: 4px 8px;
   color: #111827;
-  font-size: 22px;
-  line-height: 1;
+  font-weight: 700;
 }
 
-.field-icon {
-  width: 32px;
-  height: 32px;
-  background: #4c7fb5;
+.fill-field span {
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.fill-signature-font span {
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  color: #555;
+  font-weight: 400;
+}
+
+.fill-field-check {
+  justify-content: center;
+  padding: 0;
+  font-weight: 900;
+}
+
+.fill-remove {
+  position: absolute;
+  top: -14px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: #ef4444;
   color: #fff;
   border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-}
-
-.field-preview {
-  height: 56px;
-  border: 1px dashed #b7c1d4;
-  background: #fff;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.field-preview small {
-  position: absolute;
-  top: 4px;
-  left: 7px;
-  color: #4c7fb5;
-  font-size: 8px;
-  font-weight: 800;
-}
-
-.field-preview img {
-  max-width: 90%;
-  max-height: 42px;
-  object-fit: contain;
-}
-
-.field-edit {
-  width: 30px;
-  height: 30px;
-  border: none;
-  background: #eef2ff;
-  color: #3b73ad;
-  border-radius: 7px;
   cursor: pointer;
   font-weight: 900;
 }
 
-.hp-field-btn {
-  min-height: 42px;
-  border: 1px solid #9fc7ff;
-  background: #f8fbff;
-  color: #4b5563;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 12px;
-  font-weight: 800;
-  cursor: pointer;
-  text-align: left;
-}
-
-.hp-field-btn i {
-  width: 28px;
-  height: 28px;
-  background: #4c7fb5;
-  color: #fff;
-  border-radius: 5px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hp-field-btn:hover {
-  background: #eff6ff;
-}
-
-.hp-sign-final-btn {
+.fill-final-btn {
   width: 100%;
-  min-height: 64px;
-  margin-top: 26px;
+  min-height: 62px;
   border: none;
   background: #ef2b2d;
   color: #fff;
@@ -20361,375 +20387,27 @@ body {
   font-size: 22px;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 10px 18px rgba(239, 43, 45, 0.22);
 }
 
-.hp-sign-final-btn:hover {
-  background: #dc2626;
-}
-
-.hp-sign-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 200000;
-  background: rgba(0, 0, 0, 0.46);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.hp-sign-modal-card {
-  width: 800px;
-  max-width: 96vw;
-  height: 578px;
-  max-height: 92vh;
-  background: #fff;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.22);
-  display: flex;
-  flex-direction: column;
-}
-
-.hp-modal-head {
-  height: 80px;
-  border-bottom: 1px solid #d8dbe3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-}
-
-.hp-modal-head h2 {
-  margin: 0;
-  font-size: 29px;
-  color: #273043;
-  font-weight: 800;
-}
-
-.hp-modal-login {
-  border: 2px solid #ef2b2d;
-  color: #ef2b2d;
-  background: #fff;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.hp-modal-body {
-  flex: 1;
-  padding: 28px 62px 0;
-  overflow: auto;
-}
-
-.hp-user-row {
-  display: grid;
-  grid-template-columns: 42px 1fr 185px;
-  align-items: end;
-  gap: 18px;
-}
-
-.hp-user-icon {
-  width: 28px;
-  height: 28px;
-  border: 2px solid #ef2b2d;
-  color: #64748b;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-}
-
-.hp-user-row label,
-.hp-stamp-label {
-  color: #252b39;
-  font-weight: 800;
-  font-size: 15px;
-}
-
-.hp-user-row input,
-.hp-stamp-label input {
+.fill-light-btn {
   width: 100%;
-  height: 44px;
-  margin-top: 8px;
-  border: 1px solid #8b93a3;
-  border-radius: 4px;
-  padding: 0 13px;
-  font-size: 16px;
-}
-
-.hp-sign-tabs {
-  margin-top: 32px;
-  display: flex;
-  border-bottom: 1px solid #d8dbe3;
-}
-
-.hp-sign-tab {
-  height: 48px;
-  padding: 0 22px;
-  border: none;
-  background: #fff;
-  color: #111827;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  border-top: 3px solid transparent;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hp-sign-tab i {
-  color: #3b73ad;
-}
-
-.hp-sign-tab.active {
-  border-top-color: #ef2b2d;
-  color: #111827;
-}
-
-.hp-tab-panel {
+  min-height: 46px;
+  margin-top: 12px;
   border: 1px solid #d8dbe3;
-  border-top: none;
-  min-height: 220px;
-  display: grid;
-  grid-template-columns: 42px 1fr;
   background: #fff;
-}
-
-.hp-left-tools {
-  background: #ededf8;
-  padding-top: 26px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-.hp-left-tools button {
-  width: 28px;
-  height: 28px;
-  border: none;
-  background: transparent;
-  color: #3b73ad;
-  font-size: 18px;
+  color: #374151;
+  border-radius: 10px;
+  font-weight: 800;
   cursor: pointer;
 }
 
-.hp-left-tools button.active {
-  background: #fff;
-  border-radius: 4px;
-  color: #2563eb;
-}
-
-.hp-signature-list {
-  max-height: 220px;
-  overflow-y: auto;
-}
-
-.hp-signature-list label {
-  height: 47px;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 0 24px;
-  cursor: pointer;
-}
-
-.hp-signature-list input {
-  width: 22px;
-  height: 22px;
-  accent-color: #35c48d;
-}
-
-.sig-font {
-  font-size: 28px;
-  color: #555;
-}
-
-.sig-font.cursive1 {
-  font-family: "Brush Script MT", "Segoe Script", cursive;
-}
-
-.sig-font.cursive2 {
-  font-family: "Lucida Handwriting", "Segoe Script", cursive;
-}
-
-.sig-font.simple {
-  font-family: Arial, sans-serif;
-}
-
-.sig-font.hand {
-  font-family: "Comic Sans MS", cursive;
-}
-
-#stampTab {
-  display: block;
-  padding: 28px;
-}
-
-.hp-modal-footer {
-  height: 88px;
-  border-top: 1px solid #d8dbe3;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 24px;
-}
-
-.signature-placement {
-  position: absolute;
-  z-index: 20;
-  border: 2px solid #1683ff;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: move;
-  resize: both;
-  overflow: visible;
-  min-width: 90px;
-  min-height: 38px;
-}
-
-.signature-placement img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-.sig-copy,
-.sig-remove {
-  position: absolute;
-  top: -13px;
-  width: 20px;
-  height: 20px;
-  border: none;
-  background: #4c7fb5;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.sig-copy {
-  right: 24px;
-}
-
-.sig-remove {
-  right: 0;
-}
-
-.sign-start-screen,
-.sign-success-screen {
+.fill-success-screen {
   min-height: calc(100vh - 72px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 18px;
   background: #f8fafc;
-}
-
-.tool-start-card,
-.success-card {
-  width: 100%;
-  max-width: 520px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 24px;
-  padding: 44px 30px;
-  text-align: center;
-  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
-}
-
-.tool-start-card h1,
-.success-card h1 {
-  font-size: 42px;
-  margin-bottom: 12px;
-  color: #111827;
-}
-
-.tool-start-card p,
-.success-card p {
-  color: #6b7280;
-  font-size: 17px;
-  margin-bottom: 26px;
-}
-
-.main-red-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  min-height: 52px;
-  padding: 0 28px;
-  border-radius: 14px;
-  font-size: 17px;
-  font-weight: 800;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.main-red-btn:hover {
-  background: #dc2626;
-}
-
-.small-light-btn {
-  min-height: 42px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  color: #374151;
-  border-radius: 12px;
-  padding: 0 18px;
-  font-weight: 800;
-  cursor: pointer;
-  margin-top: 14px;
-}
-
-.cloud-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.cloud-buttons button {
-  width: 68px;
-  height: 48px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.cloud-buttons svg {
-  width: 30px;
-  height: 30px;
-}
-
-.progress-wrap {
-  width: 100%;
-  height: 9px;
-  background: #fee2e2;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 18px;
-}
-
-#progressBar {
-  height: 100%;
-  width: 0%;
-  background: #ef4444;
-  border-radius: 999px;
-  transition: width 0.3s ease;
+  padding: 40px 18px;
 }
 
 .hidden-screen {
@@ -20737,137 +20415,28 @@ body {
 }
 
 @media (max-width: 980px) {
-  .hp-sign-editor {
+  .fill-editor {
     grid-template-columns: 1fr;
   }
 
-  .hp-page-thumbs {
+  .fill-thumbs {
     display: none;
   }
 
-  .hp-sign-panel {
+  .fill-panel {
     border-left: none;
     border-top: 1px solid #d8dbe3;
   }
 
-  .hp-sign-modal-card {
-    height: auto;
-  }
-
-  .hp-modal-body {
-    padding: 20px;
-  }
-
-  .hp-user-row {
-    grid-template-columns: 1fr;
-  }
-
-  .hp-user-icon {
-    display: none;
-  }
-
-  .hp-tab-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .hp-left-tools {
-    display: none;
-  }
-}
-
-/* SIGN PDF START SCREEN FIX */
-.sign-start-screen {
-  min-height: calc(100vh - 72px) !important;
-  background: #f7f8fc !important;
-  display: flex !important;
-  align-items: flex-start !important;
-  justify-content: center !important;
-  padding: 60px 20px !important;
-}
-
-.sign-hero-box {
-  width: 100%;
-  max-width: 860px;
-  text-align: center;
-}
-
-.sign-hero-box h1 {
-  font-size: 44px;
-  line-height: 1.15;
-  color: #071733;
-  margin: 0 0 16px;
-  font-weight: 900;
-}
-
-.sign-hero-box p {
-  font-size: 24px;
-  color: #475569;
-  margin: 0 0 34px;
-}
-
-.sign-upload-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.sign-big-upload-btn {
-  width: 330px;
-  height: 96px;
-  border: none;
-  border-radius: 10px;
-  background: #f43f46;
-  color: #fff;
-  font-size: 30px;
-  font-weight: 900;
-  cursor: pointer;
-  box-shadow: 0 18px 34px rgba(244, 63, 70, 0.22);
-}
-
-.sign-big-upload-btn:hover {
-  background: #ef2b2d;
-}
-
-.sign-cloud-side {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sign-cloud-side button {
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: 50%;
-  background: #f43f46;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.sign-cloud-side svg {
-  width: 22px;
-  height: 22px;
-}
-
-.sign-drop-text {
-  display: block;
-  margin-top: 18px;
-  color: #111827;
-  font-size: 16px;
-}
-
-@media (max-width: 700px) {
-  .sign-hero-box h1 {
+  .fill-hero-box h1 {
     font-size: 34px;
   }
 
-  .sign-hero-box p {
+  .fill-hero-box p {
     font-size: 18px;
   }
 
-  .sign-big-upload-btn {
+  .fill-big-upload-btn {
     width: 250px;
     height: 78px;
     font-size: 24px;

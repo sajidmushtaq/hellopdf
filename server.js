@@ -2181,6 +2181,61 @@ app.post("/sign-pdf", upload.single("file"), async (req, res) => {
   }
 });
 
+app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
+
+    const fields = JSON.parse(req.body.fields || "[]");
+
+    if (!fields.length) {
+      return res.status(400).send("No fields found.");
+    }
+
+    const inputPath = req.file.path;
+    const pdfBytes = fs.readFileSync(inputPath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    for (const field of fields) {
+      const pageIndex = Number(field.page) - 1;
+      if (pageIndex < 0 || pageIndex >= pages.length) continue;
+
+      const page = pages[pageIndex];
+      const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+      const scaleX = pdfWidth / Number(field.pageWidth);
+      const scaleY = pdfHeight / Number(field.pageHeight);
+
+      const x = Number(field.x) * scaleX;
+      const y = pdfHeight - (Number(field.y) * scaleY) - (Number(field.height) * scaleY);
+      const fontSize = Math.max(8, Number(field.fontSize || 24) * scaleY);
+
+      page.drawText(String(field.text || ""), {
+        x,
+        y,
+        size: fontSize,
+        color: rgb(0.05, 0.05, 0.05)
+      });
+    }
+
+    const outputBytes = await pdfDoc.save();
+    const outputFileName = `filled-signed-${Date.now()}.pdf`;
+    const outputPath = path.join(outputDir, outputFileName);
+
+    fs.writeFileSync(outputPath, outputBytes);
+    fs.unlink(inputPath, () => {});
+
+    res.download(outputPath, "filled-signed-pdf.pdf", () => {
+      fs.unlink(outputPath, () => {});
+    });
+  } catch (error) {
+    console.error("FILL SIGN PDF ERROR:", error);
+    res.status(500).send("Failed to fill and sign PDF.");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

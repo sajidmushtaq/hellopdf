@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fill & Sign PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1040" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+  <nav class="desktop-nav">
+    <div class="nav-dropdown"><button type="button">Convert PDF</button></div>
+    <div class="nav-dropdown"><button type="button">Organize PDF</button></div>
+    <div class="nav-dropdown"><button type="button">Edit PDF</button></div>
+    <div class="nav-dropdown"><button type="button">Security</button></div>
+  </nav>
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="tool-page fill-sign-page">
+
+  <section id="startScreen" class="fill-start-screen">
+    <div class="fill-hero-box">
+      <h1>Fill & Sign PDF</h1>
+      <p>Fill PDF forms, add text, dates, checkmarks and signatures.</p>
+
+      <div class="fill-upload-row">
+        <input type="file" id="pdfInput" accept="application/pdf" hidden />
+
+        <button id="selectPdfBtn" class="fill-big-upload-btn" type="button">
+          Select PDF file
+        </button>
+
+        <div class="fill-cloud-side">
+          <button type="button" title="Google Drive">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
+          </button>
+
+          <button type="button" title="Dropbox">
+            <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <span class="fill-drop-text">or drop PDF here</span>
+    </div>
+  </section>
+
+  <section id="editorScreen" class="fill-editor hidden-screen">
+    <aside class="fill-thumbs" id="pageThumbs"></aside>
+
+    <main class="fill-workspace">
+      <div class="fill-topbar">
+        <button id="prevPageBtn" type="button">⌃</button>
+        <button id="nextPageBtn" type="button">⌄</button>
+        <input id="pageNumberInput" value="1" readonly />
+        <span id="totalPagesText">/ 1</span>
+        <span id="fileNameText"></span>
+      </div>
+
+      <div class="fill-pdf-scroll">
+        <div id="pdfCanvasWrap" class="fill-pdf-wrap"></div>
+      </div>
+    </main>
+
+    <aside class="fill-panel">
+      <h2>Fill & Sign</h2>
+
+      <button class="fill-tool-btn active" data-tool="text" type="button">
+        <i class="fa-solid fa-font"></i> Add text
+      </button>
+
+      <button class="fill-tool-btn" data-tool="date" type="button">
+        <i class="fa-regular fa-calendar-days"></i> Add date
+      </button>
+
+      <button class="fill-tool-btn" data-tool="check" type="button">
+        <i class="fa-solid fa-check"></i> Add checkmark
+      </button>
+
+      <button class="fill-tool-btn" data-tool="signature" type="button">
+        <i class="fa-solid fa-signature"></i> Add signature
+      </button>
+
+      <div class="fill-options">
+        <label>
+          Text / Signature:
+          <input id="fieldTextInput" type="text" placeholder="Type text here" />
+        </label>
+
+        <label>
+          Font size:
+          <input id="fontSizeInput" type="number" value="24" min="10" max="80" />
+        </label>
+      </div>
+
+      <p class="fill-tip">Select a tool, then click on the PDF page to place it. Drag fields to move them.</p>
+
+      <div class="progress-wrap hidden-screen" id="progressWrap">
+        <div id="progressBar"></div>
+      </div>
+
+      <button id="downloadPdfBtn" class="fill-final-btn" type="button">Download PDF</button>
+      <button id="newFileBtn" class="fill-light-btn" type="button">Choose another file</button>
+    </aside>
+  </section>
+
+  <section id="successScreen" class="fill-success-screen hidden-screen">
+    <div class="success-card">
+      <h1>PDF completed successfully</h1>
+      <p>Your filled PDF is ready to download.</p>
+      <a id="downloadBtn" class="main-red-btn" download>Download PDF</a>
+      <button id="againBtn" class="small-light-btn" type="button">Fill another PDF</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="/js/fill-sign-pdf.js?v=1"></script>
+</body>
+</html>
