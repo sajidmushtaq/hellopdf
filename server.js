@@ -2183,10 +2183,15 @@ app.post("/sign-pdf", upload.single("file"), async (req, res) => {
 
 app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
   try {
-    if (!req.file) return res.status(400).send("No PDF file uploaded.");
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
 
     const fields = JSON.parse(req.body.fields || "[]");
-    if (!fields.length) return res.status(400).send("No fields found.");
+
+    if (!fields.length) {
+      return res.status(400).send("No fields found.");
+    }
 
     const inputPath = req.file.path;
     const pdfBytes = fs.readFileSync(inputPath);
@@ -2195,8 +2200,9 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
 
     for (const field of fields) {
       const pageIndex = Number(field.page) - 1;
+
       if (pageIndex < 0 || pageIndex >= pages.length) continue;
-      if (!field.dataUrl) continue;
+      if (!field.dataUrl || !field.dataUrl.includes(",")) continue;
 
       const page = pages[pageIndex];
       const { width: pdfWidth, height: pdfHeight } = page.getSize();
@@ -2205,13 +2211,13 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
       const imageBytes = Buffer.from(base64Data, "base64");
       const image = await pdfDoc.embedPng(imageBytes);
 
-      const scaleX = pdfWidth / Number(field.pageWidth);
-      const scaleY = pdfHeight / Number(field.pageHeight);
+      const scaleX = pdfWidth / Number(field.pageWidth || pdfWidth);
+      const scaleY = pdfHeight / Number(field.pageHeight || pdfHeight);
 
-      const drawX = Number(field.x) * scaleX;
-      const drawWidth = Number(field.width) * scaleX;
-      const drawHeight = Number(field.height) * scaleY;
-      const drawY = pdfHeight - (Number(field.y) * scaleY) - drawHeight;
+      const drawX = Number(field.x || 0) * scaleX;
+      const drawWidth = Number(field.width || 150) * scaleX;
+      const drawHeight = Number(field.height || 40) * scaleY;
+      const drawY = pdfHeight - (Number(field.y || 0) * scaleY) - drawHeight;
 
       page.drawImage(image, {
         x: drawX,
@@ -2222,23 +2228,27 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
     }
 
     const outputBytes = await pdfDoc.save();
+
+    const finalOutputDir =
+      typeof outputDir !== "undefined"
+        ? outputDir
+        : path.join(__dirname, "outputs");
+
+    if (!fs.existsSync(finalOutputDir)) {
+      fs.mkdirSync(finalOutputDir, { recursive: true });
+    }
+
     const outputFileName = `filled-signed-${Date.now()}.pdf`;
-    const outputPath = path.join(outputsDir || outputDir, outputFileName);
+    const outputPath = path.join(finalOutputDir, outputFileName);
 
     fs.writeFileSync(outputPath, outputBytes);
+
     fs.unlink(inputPath, () => {});
 
     res.download(outputPath, "filled-signed-pdf.pdf", () => {
       fs.unlink(outputPath, () => {});
     });
-    console.log("FILL FIELD DEBUG:", {
-  type: field.type,
-  hasDataUrl: !!field.dataUrl,
-  dataUrlStart: field.dataUrl ? field.dataUrl.slice(0, 30) : null,
-  pageWidth: field.pageWidth,
-  pageHeight: field.pageHeight
-});
-    } catch (error) {
+  } catch (error) {
     console.error("FILL SIGN PDF ERROR MESSAGE:", error.message);
     console.error("FILL SIGN PDF FULL ERROR:", error);
     res.status(500).send(error.message || "Failed to fill and sign PDF.");
