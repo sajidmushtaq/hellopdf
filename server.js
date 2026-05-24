@@ -2183,15 +2183,10 @@ app.post("/sign-pdf", upload.single("file"), async (req, res) => {
 
 app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).send("No PDF file uploaded.");
-    }
+    if (!req.file) return res.status(400).send("No PDF file uploaded.");
 
     const fields = JSON.parse(req.body.fields || "[]");
-
-    if (!fields.length) {
-      return res.status(400).send("No fields found.");
-    }
+    if (!fields.length) return res.status(400).send("No fields found.");
 
     const inputPath = req.file.path;
     const pdfBytes = fs.readFileSync(inputPath);
@@ -2212,7 +2207,31 @@ app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
       const y = pdfHeight - (Number(field.y) * scaleY) - (Number(field.height) * scaleY);
       const fontSize = Math.max(8, Number(field.fontSize || 24) * scaleY);
 
-      page.drawText(String(field.text || ""), {
+      if (field.type === "check") {
+        const size = Math.max(14, Number(field.height || 44) * scaleY * 0.75);
+
+        page.drawLine({
+          start: { x: x + size * 0.15, y: y + size * 0.45 },
+          end: { x: x + size * 0.38, y: y + size * 0.18 },
+          thickness: 3,
+          color: rgb(0.05, 0.05, 0.05)
+        });
+
+        page.drawLine({
+          start: { x: x + size * 0.38, y: y + size * 0.18 },
+          end: { x: x + size * 0.85, y: y + size * 0.78 },
+          thickness: 3,
+          color: rgb(0.05, 0.05, 0.05)
+        });
+
+        continue;
+      }
+
+      const safeText = String(field.text || "")
+        .replace(/[^\x20-\x7E]/g, "")
+        .trim();
+
+      page.drawText(safeText || "Text", {
         x,
         y,
         size: fontSize,
