@@ -21139,3 +21139,16 @@ body.forms-success-active #successScreen {
   border-color: #ef2b2d;
   box-shadow: 0 0 0 4px rgba(239, 43, 45, 0.14);
 }
+
+@media (max-width: 980px) {
+  .forms-editable-text {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    touch-action: manipulation !important;
+    cursor: text !important;
+  }
+
+  .forms-field {
+    touch-action: none;
+  }
+}

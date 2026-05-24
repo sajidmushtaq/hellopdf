@@ -261,13 +261,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (editableTypes.includes(field.type)) {
     textSpan.addEventListener("mousedown", (e) => e.stopPropagation());
-    textSpan.addEventListener("touchstart", (e) => e.stopPropagation());
 
-    textSpan.addEventListener("input", () => {
-      field.value = textSpan.innerText.trim() || "Text";
+textSpan.addEventListener("touchstart", (e) => {
+  e.stopPropagation();
+}, { passive: true });
+
+textSpan.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  if (window.innerWidth <= 980) {
+    const newValue = prompt("Enter field text:", field.value || "");
+
+    if (newValue !== null) {
+      field.value = newValue.trim() || "Text";
+      textSpan.innerText = field.value;
       field.dataUrl = createFieldImage(field.value, field.type, field.fontSize);
       renderFieldList();
-    });
+    }
+  }
+});
+
+textSpan.addEventListener("input", () => {
+  field.value = textSpan.innerText.trim() || "Text";
+  field.dataUrl = createFieldImage(field.value, field.type, field.fontSize);
+  renderFieldList();
+});
 
     textSpan.addEventListener("blur", () => {
       field.value = textSpan.innerText.trim() || "Text";
