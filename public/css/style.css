@@ -20442,3 +20442,42 @@ body {
     font-size: 24px;
   }
 }
+
+/* Fill & Sign mobile success/download screen fix */
+@media (max-width: 980px) {
+  .fill-success-screen {
+    min-height: calc(100vh - 64px) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: 90px 18px 40px !important;
+    background: #f8fafc !important;
+  }
+
+  .fill-success-screen.hidden-screen {
+    display: none !important;
+  }
+
+  .fill-success-screen .success-card {
+    width: 100% !important;
+    max-width: 360px !important;
+    padding: 28px 18px !important;
+    border-radius: 20px !important;
+  }
+
+  .fill-success-screen .success-card h1 {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  .fill-success-screen .success-card p {
+    font-size: 15px !important;
+  }
+
+  .fill-success-screen .main-red-btn,
+  .fill-success-screen .small-light-btn {
+    width: 100% !important;
+    min-height: 48px !important;
+    font-size: 16px !important;
+  }
+}
