@@ -350,9 +350,17 @@ document.addEventListener("DOMContentLoaded", () => {
       progressBar.style.width = "100%";
 
       setTimeout(() => {
-        editorScreen.classList.add("hidden-screen");
-        successScreen.classList.remove("hidden-screen");
-      }, 350);
+  editorScreen.style.display = "none";
+  editorScreen.classList.add("hidden-screen");
+
+  successScreen.classList.remove("hidden-screen");
+  successScreen.style.display = "flex";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}, 350);
     } catch (err) {
       alert("Error: " + err.message);
       progressWrap.classList.add("hidden-screen");
@@ -360,5 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (newFileBtn) newFileBtn.addEventListener("click", () => window.location.reload());
-  if (againBtn) againBtn.addEventListener("click", () => window.location.reload());
+  if (againBtn) {
+  againBtn.addEventListener("click", () => window.location.reload());
+}
 });
