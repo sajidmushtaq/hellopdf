@@ -21152,3 +21152,378 @@ body.forms-success-active #successScreen {
     touch-action: none;
   }
 }
+
+/* EDIT PDF TOOL */
+.editpdf-start-screen {
+  min-height: calc(100vh - 72px);
+  background: #f7f8fc;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.editpdf-hero-box {
+  width: 100%;
+  max-width: 920px;
+  text-align: center;
+}
+
+.editpdf-hero-box h1 {
+  font-size: 44px;
+  color: #071733;
+  margin: 0 0 16px;
+  font-weight: 900;
+}
+
+.editpdf-hero-box p {
+  font-size: 24px;
+  color: #475569;
+  margin: 0 0 34px;
+}
+
+.editpdf-upload-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.editpdf-big-upload-btn {
+  width: 330px;
+  height: 96px;
+  border: none;
+  border-radius: 10px;
+  background: #f43f46;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 18px 34px rgba(244, 63, 70, 0.22);
+}
+
+.editpdf-cloud-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editpdf-cloud-side button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #f43f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editpdf-cloud-side svg {
+  width: 22px;
+  height: 22px;
+}
+
+.editpdf-drop-text {
+  display: block;
+  margin-top: 18px;
+  color: #111827;
+}
+
+.editpdf-editor {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 340px;
+  background: #eef1f4;
+}
+
+.editpdf-thumbs {
+  background: #eef1f4;
+  border-right: 1px solid #d8dbe3;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+
+.editpdf-thumb {
+  width: 110px;
+  margin: 0 auto 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.editpdf-thumb canvas {
+  width: 98px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.16);
+}
+
+.editpdf-thumb.active canvas {
+  outline: 3px solid #1683ff;
+}
+
+.editpdf-workspace {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editpdf-topbar {
+  height: 54px;
+  background: #fff;
+  border-bottom: 1px solid #d8dbe3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+}
+
+.editpdf-topbar button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #9ca3af;
+  background: #f8fafc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.editpdf-topbar input {
+  height: 30px;
+  border: 1px solid #9ca3af;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#pageNumberInput {
+  width: 48px;
+}
+
+#zoomText {
+  width: 70px;
+}
+
+#fileNameText {
+  max-width: 230px;
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.editpdf-pdf-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 40px 34px;
+}
+
+.editpdf-pdf-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+}
+
+.editpdf-page-box {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+.editpdf-page-box canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.editpdf-panel {
+  background: #fff;
+  border-left: 1px solid #d8dbe3;
+  padding: 24px 18px;
+  overflow-y: auto;
+}
+
+.editpdf-panel h2 {
+  font-size: 30px;
+  text-align: center;
+  margin: 0 0 20px;
+  color: #2f3340;
+  font-weight: 900;
+}
+
+.editpdf-tool {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #d8dbe3;
+  background: #f8fafc;
+  color: #374151;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.editpdf-tool i {
+  width: 30px;
+  height: 30px;
+  background: #4c7fb5;
+  color: #fff;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editpdf-tool.active {
+  border-color: #ef2b2d;
+  background: #fff7f7;
+  color: #ef2b2d;
+}
+
+.editpdf-options {
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.editpdf-options label {
+  color: #374151;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.editpdf-options input {
+  width: 100%;
+  height: 42px;
+  margin-top: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+.editpdf-tip {
+  margin: 18px 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.editpdf-element {
+  position: absolute;
+  z-index: 25;
+  border: 2px solid #1683ff;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: move;
+  resize: both;
+  overflow: visible;
+  min-width: 40px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+}
+
+.editpdf-element img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.editpdf-editable {
+  outline: none;
+  min-width: 30px;
+  min-height: 20px;
+  cursor: text;
+}
+
+.editpdf-remove {
+  position: absolute;
+  top: -14px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.editpdf-final-btn {
+  width: 100%;
+  min-height: 62px;
+  border: none;
+  background: #ef2b2d;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.editpdf-light-btn {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 12px;
+  border: 1px solid #d8dbe3;
+  background: #fff;
+  color: #374151;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.editpdf-success-screen {
+  min-height: calc(100vh - 72px);
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 18px;
+}
+
+.hidden-screen {
+  display: none !important;
+}
+
+body.editpdf-success-active #editorScreen,
+body.editpdf-success-active #startScreen {
+  display: none !important;
+}
+
+body.editpdf-success-active #successScreen {
+  display: flex !important;
+}
+
+@media (max-width: 980px) {
+  .editpdf-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .editpdf-thumbs {
+    display: none;
+  }
+
+  .editpdf-panel {
+    border-left: none;
+    border-top: 1px solid #d8dbe3;
+  }
+
+  .editpdf-hero-box h1 {
+    font-size: 34px;
+  }
+
+  .editpdf-hero-box p {
+    font-size: 18px;
+  }
+
+  .editpdf-big-upload-btn {
+    width: 250px;
+    height: 78px;
+    font-size: 24px;
+  }
+}

@@ -2328,6 +2328,85 @@ app.post("/pdf-forms", upload.single("file"), async (req, res) => {
   }
 });
 
+app.post("/edit-pdf", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
+
+    const elements = JSON.parse(req.body.elements || "[]");
+
+    if (!elements.length) {
+      return res.status(400).send("No edits found.");
+    }
+
+    const inputPath = req.file.path;
+    const pdfBytes = fs.readFileSync(inputPath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    for (const item of elements) {
+      const pageIndex = Number(item.page) - 1;
+
+      if (pageIndex < 0 || pageIndex >= pages.length) continue;
+      if (!item.dataUrl || !item.dataUrl.includes(",")) continue;
+
+      const page = pages[pageIndex];
+      const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+      const base64Data = item.dataUrl.split(",")[1];
+      const imageBytes = Buffer.from(base64Data, "base64");
+
+      let image;
+      if (item.dataUrl.includes("image/jpeg") || item.dataUrl.includes("image/jpg")) {
+        image = await pdfDoc.embedJpg(imageBytes);
+      } else {
+        image = await pdfDoc.embedPng(imageBytes);
+      }
+
+      const scaleX = pdfWidth / Number(item.pageWidth || pdfWidth);
+      const scaleY = pdfHeight / Number(item.pageHeight || pdfHeight);
+
+      const drawX = Number(item.x || 0) * scaleX;
+      const drawWidth = Number(item.width || 150) * scaleX;
+      const drawHeight = Number(item.height || 40) * scaleY;
+      const drawY = pdfHeight - (Number(item.y || 0) * scaleY) - drawHeight;
+
+      page.drawImage(image, {
+        x: drawX,
+        y: drawY,
+        width: drawWidth,
+        height: drawHeight
+      });
+    }
+
+    const outputBytes = await pdfDoc.save();
+
+    const finalOutputDir =
+      typeof outputDir !== "undefined"
+        ? outputDir
+        : path.join(__dirname, "outputs");
+
+    if (!fs.existsSync(finalOutputDir)) {
+      fs.mkdirSync(finalOutputDir, { recursive: true });
+    }
+
+    const outputFileName = `edited-${Date.now()}.pdf`;
+    const outputPath = path.join(finalOutputDir, outputFileName);
+
+    fs.writeFileSync(outputPath, outputBytes);
+    fs.unlink(inputPath, () => {});
+
+    res.download(outputPath, "edited-pdf.pdf", () => {
+      fs.unlink(outputPath, () => {});
+    });
+  } catch (error) {
+    console.error("EDIT PDF ERROR MESSAGE:", error.message);
+    console.error("EDIT PDF FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to edit PDF.");
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 

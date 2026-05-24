@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1045" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav class="desktop-nav">
+    <div class="nav-dropdown">
+      <button type="button">Convert PDF</button>
+      <div class="dropdown-menu">
+        <a href="/image-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-images"></i></span> Image to PDF</a>
+        <a href="/pdf-to-image.html"><span class="menu-icon orange"><i class="fa-solid fa-file-image"></i></span> PDF to Image</a>
+        <a href="/pdf-to-word.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> PDF to Word</a>
+        <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Organize PDF</button>
+      <div class="dropdown-menu">
+        <a href="/merge.html"><span class="menu-icon red"><i class="fa-solid fa-object-group"></i></span> Merge PDF</a>
+        <a href="/split.html"><span class="menu-icon orange"><i class="fa-solid fa-scissors"></i></span> Split PDF</a>
+        <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Edit PDF</button>
+      <div class="dropdown-menu">
+        <a href="/edit-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-pen-to-square"></i></span> Edit PDF</a>
+        <a href="/watermark.html"><span class="menu-icon purple"><i class="fa-solid fa-stamp"></i></span> Watermark PDF</a>
+        <a href="/sign-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-signature"></i></span> Sign PDF</a>
+        <a href="/pdf-forms.html"><span class="menu-icon blue"><i class="fa-solid fa-list-check"></i></span> PDF Forms</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Security</button>
+      <div class="dropdown-menu">
+        <a href="/protect.html"><span class="menu-icon teal"><i class="fa-solid fa-lock"></i></span> Protect PDF</a>
+        <a href="/unlock.html"><span class="menu-icon pink"><i class="fa-solid fa-unlock"></i></span> Unlock PDF</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="edit-pdf-page">
+  <section id="startScreen" class="editpdf-start-screen">
+    <div class="editpdf-hero-box">
+      <h1>Edit PDF</h1>
+      <p>Add text, shapes, highlights and images to your PDF.</p>
+
+      <div class="editpdf-upload-row">
+        <input type="file" id="pdfInput" accept="application/pdf" hidden />
+        <input type="file" id="imageInput" accept="image/png,image/jpeg" hidden />
+
+        <button id="selectPdfBtn" class="editpdf-big-upload-btn" type="button">
+          Select PDF file
+        </button>
+
+        <div class="editpdf-cloud-side">
+          <button type="button" title="Google Drive">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
+          </button>
+          <button type="button" title="Dropbox">
+            <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <span class="editpdf-drop-text">or drop PDF here</span>
+    </div>
+  </section>
+
+  <section id="editorScreen" class="editpdf-editor hidden-screen">
+    <aside class="editpdf-thumbs" id="pageThumbs"></aside>
+
+    <main class="editpdf-workspace">
+      <div class="editpdf-topbar">
+        <button id="prevPageBtn" type="button">⌃</button>
+        <button id="nextPageBtn" type="button">⌄</button>
+        <input id="pageNumberInput" value="1" readonly />
+        <span id="totalPagesText">/ 1</span>
+        <button id="zoomOutBtn" type="button">−</button>
+        <button id="zoomInBtn" type="button">+</button>
+        <input id="zoomText" value="100%" readonly />
+        <span id="fileNameText"></span>
+      </div>
+
+      <div class="editpdf-pdf-scroll">
+        <div id="pdfCanvasWrap" class="editpdf-pdf-wrap"></div>
+      </div>
+    </main>
+
+    <aside class="editpdf-panel">
+      <h2>Edit PDF</h2>
+
+      <button class="editpdf-tool active" data-tool="text" type="button">
+        <i class="fa-solid fa-font"></i> Add text
+      </button>
+
+      <button class="editpdf-tool" data-tool="highlight" type="button">
+        <i class="fa-solid fa-highlighter"></i> Highlight
+      </button>
+
+      <button class="editpdf-tool" data-tool="rectangle" type="button">
+        <i class="fa-regular fa-square"></i> Rectangle
+      </button>
+
+      <button class="editpdf-tool" data-tool="circle" type="button">
+        <i class="fa-regular fa-circle"></i> Circle
+      </button>
+
+      <button class="editpdf-tool" data-tool="image" type="button">
+        <i class="fa-regular fa-image"></i> Add image
+      </button>
+
+      <div class="editpdf-options">
+        <label>
+          Text:
+          <input id="textInput" type="text" placeholder="Type text here" />
+        </label>
+
+        <label>
+          Font size:
+          <input id="fontSizeInput" type="number" value="24" min="8" max="80" />
+        </label>
+
+        <label>
+          Color:
+          <input id="colorInput" type="color" value="#111827" />
+        </label>
+      </div>
+
+      <p class="editpdf-tip">Select a tool, then click on the PDF. Drag or resize any added item.</p>
+
+      <div class="progress-wrap hidden-screen" id="progressWrap">
+        <div id="progressBar"></div>
+      </div>
+
+      <button id="downloadPdfBtn" class="editpdf-final-btn" type="button">Download PDF</button>
+      <button id="newFileBtn" class="editpdf-light-btn" type="button">Choose another file</button>
+    </aside>
+  </section>
+
+  <section id="successScreen" class="editpdf-success-screen hidden-screen">
+    <div class="success-card">
+      <h1>PDF edited successfully</h1>
+      <p>Your edited PDF is ready to download.</p>
+      <a id="downloadBtn" class="main-red-btn" download>Download PDF</a>
+      <button id="againBtn" class="small-light-btn" type="button">Edit another PDF</button>
+    </div>
+  </section>
+</div>
+
+<script src="/js/edit-pdf.js?v=1"></script>
+</body>
+</html>
