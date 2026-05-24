@@ -77,23 +77,31 @@
 <div class="tool-page sign-pdf-page">
 
   <section id="startScreen" class="sign-start-screen">
-    <div class="tool-start-card">
-      <h1>Sign PDF</h1>
-      <p>Sign your PDF document online.</p>
+  <div class="sign-hero-box">
+    <h1>Sign PDF</h1>
+    <p>Sign your PDF document online quickly and securely.</p>
 
+    <div class="sign-upload-row">
       <input type="file" id="pdfInput" accept="application/pdf" hidden />
-      <button id="selectPdfBtn" class="main-red-btn" type="button">Select PDF file</button>
 
-      <div class="cloud-buttons">
+      <button id="selectPdfBtn" class="sign-big-upload-btn" type="button">
+        Select PDF file
+      </button>
+
+      <div class="sign-cloud-side">
         <button type="button" title="Google Drive">
           <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
         </button>
+
         <button type="button" title="Dropbox">
           <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
         </button>
       </div>
     </div>
-  </section>
+
+    <span class="sign-drop-text">or drop PDF here</span>
+  </div>
+</section>
 
   <section id="previewScreen" class="hp-sign-editor hidden-screen">
     <aside class="hp-page-thumbs" id="pageThumbs"></aside>
