@@ -232,35 +232,58 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderFieldElement(pageBox, field) {
-    const el = document.createElement("div");
-    el.className = `forms-field forms-field-${field.type}`;
-    el.dataset.id = field.id;
+  const el = document.createElement("div");
+  el.className = `forms-field forms-field-${field.type}`;
+  el.dataset.id = field.id;
 
-    el.style.left = `${field.x}px`;
-    el.style.top = `${field.y}px`;
-    el.style.width = `${field.width}px`;
-    el.style.height = `${field.height}px`;
-    el.style.fontSize = `${field.fontSize}px`;
+  el.style.left = `${field.x}px`;
+  el.style.top = `${field.y}px`;
+  el.style.width = `${field.width}px`;
+  el.style.height = `${field.height}px`;
+  el.style.fontSize = `${field.fontSize}px`;
 
-    if (field.type === "signature") el.classList.add("forms-signature-font");
-    if (field.type === "stamp") el.classList.add("forms-stamp-field");
+  if (field.type === "signature") el.classList.add("forms-signature-font");
+  if (field.type === "stamp") el.classList.add("forms-stamp-field");
 
-    el.innerHTML = `
-      <span>${escapeHtml(field.value)}</span>
-      <button class="forms-field-remove" type="button">×</button>
-    `;
+  const editableTypes = ["text", "textarea", "date", "signature", "dropdown", "stamp"];
 
-    pageBox.appendChild(el);
+  el.innerHTML = `
+    <span
+      class="forms-editable-text"
+      ${editableTypes.includes(field.type) ? 'contenteditable="true"' : ""}
+    >${escapeHtml(field.value)}</span>
+    <button class="forms-field-remove" type="button">×</button>
+  `;
 
-    el.querySelector(".forms-field-remove").addEventListener("click", () => {
-      fields = fields.filter((f) => String(f.id) !== String(field.id));
-      el.remove();
+  pageBox.appendChild(el);
+
+  const textSpan = el.querySelector(".forms-editable-text");
+
+  if (editableTypes.includes(field.type)) {
+    textSpan.addEventListener("mousedown", (e) => e.stopPropagation());
+    textSpan.addEventListener("touchstart", (e) => e.stopPropagation());
+
+    textSpan.addEventListener("input", () => {
+      field.value = textSpan.innerText.trim() || "Text";
+      field.dataUrl = createFieldImage(field.value, field.type, field.fontSize);
       renderFieldList();
     });
 
-    makeDraggable(el, pageBox);
-    makeResizable(el, pageBox);
+    textSpan.addEventListener("blur", () => {
+      field.value = textSpan.innerText.trim() || "Text";
+      field.dataUrl = createFieldImage(field.value, field.type, field.fontSize);
+    });
   }
+
+  el.querySelector(".forms-field-remove").addEventListener("click", () => {
+    fields = fields.filter((f) => String(f.id) !== String(field.id));
+    el.remove();
+    renderFieldList();
+  });
+
+  makeDraggable(el, pageBox);
+  makeResizable(el, pageBox);
+}
 
   function makeDraggable(el, parent) {
     let dragging = false;

@@ -21125,3 +21125,17 @@ body.forms-success-active #successScreen {
     overflow-x: auto;
   }
 }
+
+.forms-editable-text {
+  outline: none;
+  min-width: 30px;
+  min-height: 20px;
+  display: inline-block;
+  cursor: text;
+  pointer-events: auto !important;
+}
+
+.forms-field:focus-within {
+  border-color: #ef2b2d;
+  box-shadow: 0 0 0 4px rgba(239, 43, 45, 0.14);
+}
