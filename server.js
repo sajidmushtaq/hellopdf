@@ -2407,6 +2407,51 @@ app.post("/edit-pdf", upload.single("file"), async (req, res) => {
   }
 });
 
+app.post("/pdf-summarizer", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
+
+    const inputPath = req.file.path;
+    const length = String(req.body.length || "2");
+
+    const dataBuffer = fs.readFileSync(inputPath);
+    const parsed = await pdfParse(dataBuffer);
+
+    const text = String(parsed.text || "").replace(/\s+/g, " ").trim();
+
+    if (!text) {
+      fs.unlink(inputPath, () => {});
+      return res.status(400).send("Could not extract readable text from this PDF.");
+    }
+
+    const sentences = text
+      .split(/(?<=[.!?])\s+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 25);
+
+    const count = length === "1" ? 4 : 9;
+
+    const summaryLines = sentences
+      .slice(0, count)
+      .map((s) => `• ${s}`);
+
+    const summary = summaryLines.join("\n");
+
+    fs.unlink(inputPath, () => {});
+
+    res.json({
+      text,
+      summary
+    });
+  } catch (error) {
+    console.error("PDF SUMMARIZER ERROR MESSAGE:", error.message);
+    console.error("PDF SUMMARIZER FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to summarize PDF.");
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,0 +1,214 @@
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const pdfInput = document.getElementById("pdfInput");
+  const selectPdfBtn = document.getElementById("selectPdfBtn");
+  const settingsPopup = document.getElementById("settingsPopup");
+  const continueSummaryBtn = document.getElementById("continueSummaryBtn");
+
+  const startScreen = document.getElementById("startScreen");
+  const summaryEditor = document.getElementById("summaryEditor");
+  const summaryLength = document.getElementById("summaryLength");
+  const summaryResult = document.getElementById("summaryResult");
+
+  const pdfCanvas = document.getElementById("pdfCanvas");
+  const prevPageBtn = document.getElementById("prevPageBtn");
+  const nextPageBtn = document.getElementById("nextPageBtn");
+  const pageNumberInput = document.getElementById("pageNumberInput");
+  const totalPagesText = document.getElementById("totalPagesText");
+  const fileNameText = document.getElementById("fileNameText");
+
+  const copySummaryBtn = document.getElementById("copySummaryBtn");
+  const downloadSummaryBtn = document.getElementById("downloadSummaryBtn");
+  const askInput = document.getElementById("askInput");
+  const askBtn = document.getElementById("askBtn");
+
+  let selectedPdf = null;
+  let pdfDocObj = null;
+  let currentPage = 1;
+  let totalPages = 1;
+  let extractedText = "";
+  let finalSummary = "";
+  let summaryMode = "standard";
+
+  selectPdfBtn.addEventListener("click", () => pdfInput.click());
+
+  pdfInput.addEventListener("change", () => {
+    if (!pdfInput.files || !pdfInput.files[0]) return;
+    selectedPdf = pdfInput.files[0];
+    settingsPopup.classList.remove("hidden-screen");
+  });
+
+  document.querySelectorAll(".process-option").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("locked")) {
+        alert("Advanced AI is available in upgrade plan.");
+        return;
+      }
+
+      document.querySelectorAll(".process-option").forEach((b) => {
+        b.classList.remove("active");
+        const radio = b.querySelector(".process-radio");
+        if (radio) radio.classList.remove("active");
+      });
+
+      btn.classList.add("active");
+      const radio = btn.querySelector(".process-radio");
+      if (radio) radio.classList.add("active");
+
+      summaryMode = btn.dataset.mode || "standard";
+    });
+  });
+
+  summaryLength.addEventListener("input", () => {
+    if (Number(summaryLength.value) === 3) {
+      alert("Long summary is available in upgrade plan.");
+      summaryLength.value = 2;
+    }
+  });
+
+  continueSummaryBtn.addEventListener("click", async () => {
+    if (!selectedPdf) return;
+
+    settingsPopup.classList.add("hidden-screen");
+    startScreen.classList.add("hidden-screen");
+    summaryEditor.classList.remove("hidden-screen");
+
+    fileNameText.textContent =
+      selectedPdf.name.length > 32 ? selectedPdf.name.slice(0, 32) + "..." : selectedPdf.name;
+
+    await loadPdfPreview();
+    await generateSummary();
+  });
+
+  async function loadPdfPreview() {
+    const fileData = await selectedPdf.arrayBuffer();
+    pdfDocObj = await pdfjsLib.getDocument({ data: fileData }).promise;
+    totalPages = pdfDocObj.numPages;
+    currentPage = 1;
+    totalPagesText.textContent = `/ ${totalPages}`;
+    pageNumberInput.value = currentPage;
+    await renderPage(currentPage);
+  }
+
+  async function renderPage(pageNum) {
+    const page = await pdfDocObj.getPage(pageNum);
+    const viewport = page.getViewport({ scale: window.innerWidth <= 980 ? 0.8 : 1.35 });
+
+    const ctx = pdfCanvas.getContext("2d");
+    pdfCanvas.width = viewport.width;
+    pdfCanvas.height = viewport.height;
+
+    await page.render({
+      canvasContext: ctx,
+      viewport
+    }).promise;
+
+    pageNumberInput.value = pageNum;
+  }
+
+  prevPageBtn.addEventListener("click", async () => {
+    currentPage = Math.max(1, currentPage - 1);
+    await renderPage(currentPage);
+  });
+
+  nextPageBtn.addEventListener("click", async () => {
+    currentPage = Math.min(totalPages, currentPage + 1);
+    await renderPage(currentPage);
+  });
+
+  async function generateSummary() {
+    summaryResult.innerHTML = `<div class="summary-loading">Generating AI summary...</div>`;
+
+    const formData = new FormData();
+    formData.append("file", selectedPdf);
+    formData.append("length", summaryLength.value);
+    formData.append("mode", summaryMode);
+
+    try {
+      const res = await fetch("/pdf-summarizer", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to summarize PDF.");
+      }
+
+      const data = await res.json();
+      extractedText = data.text || "";
+      finalSummary = data.summary || "";
+
+      renderSummary(finalSummary);
+    } catch (err) {
+      summaryResult.innerHTML = `<div class="summary-error">Error: ${err.message}</div>`;
+    }
+  }
+
+  function renderSummary(text) {
+    const lines = String(text || "")
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
+
+    summaryResult.innerHTML = `
+      <h3>${escapeHtml(selectedPdf.name.replace(/\.pdf$/i, ""))}</h3>
+      <ul>
+        ${lines.map((line) => `<li>${escapeHtml(line.replace(/^[-•]\s*/, ""))}</li>`).join("")}
+      </ul>
+    `;
+  }
+
+  askBtn.addEventListener("click", () => {
+    const q = askInput.value.trim();
+    if (!q) return;
+
+    const answer = answerQuestion(q, extractedText);
+    summaryResult.innerHTML += `
+      <div class="summary-answer">
+        <strong>Question:</strong> ${escapeHtml(q)}
+        <p><strong>Answer:</strong> ${escapeHtml(answer)}</p>
+      </div>
+    `;
+    askInput.value = "";
+  });
+
+  function answerQuestion(question, text) {
+    const qWords = question.toLowerCase().split(/\s+/).filter((w) => w.length > 3);
+    const sentences = text.replace(/\s+/g, " ").split(/(?<=[.!?])\s+/);
+
+    const matched = sentences.filter((s) =>
+      qWords.some((w) => s.toLowerCase().includes(w))
+    );
+
+    return matched.slice(0, 3).join(" ") || "I could not find a clear answer in this PDF text.";
+  }
+
+  copySummaryBtn.addEventListener("click", async () => {
+    await navigator.clipboard.writeText(summaryResult.innerText);
+    alert("Summary copied.");
+  });
+
+  downloadSummaryBtn.addEventListener("click", () => {
+    const blob = new Blob([summaryResult.innerText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "pdf-summary.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  });
+
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+});

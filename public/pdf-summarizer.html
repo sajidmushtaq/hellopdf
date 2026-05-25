@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Summarizer - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1047" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn" type="button">☰</button>
+  <a href="/index.html" class="mobile-logo">HelloPDF</a>
+  <button class="mobile-grid-btn" type="button">⠿</button>
+</header>
+
+<header class="desktop-header">
+  <a href="/index.html" class="logo">HelloPDF</a>
+
+  <nav class="desktop-nav">
+    <div class="nav-dropdown">
+      <button type="button">Convert PDF</button>
+      <div class="dropdown-menu">
+        <a href="/image-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-images"></i></span> Image to PDF</a>
+        <a href="/pdf-to-image.html"><span class="menu-icon orange"><i class="fa-solid fa-file-image"></i></span> PDF to Image</a>
+        <a href="/pdf-to-word.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> PDF to Word</a>
+        <a href="/word-to-pdf.html"><span class="menu-icon blue"><i class="fa-solid fa-file-word"></i></span> Word to PDF</a>
+        <a href="/pdf-to-excel.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> PDF to Excel</a>
+        <a href="/excel-to-pdf.html"><span class="menu-icon green"><i class="fa-solid fa-file-excel"></i></span> Excel to PDF</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Organize PDF</button>
+      <div class="dropdown-menu">
+        <a href="/merge.html"><span class="menu-icon red"><i class="fa-solid fa-object-group"></i></span> Merge PDF</a>
+        <a href="/split.html"><span class="menu-icon orange"><i class="fa-solid fa-scissors"></i></span> Split PDF</a>
+        <a href="/compress.html"><span class="menu-icon green"><i class="fa-solid fa-compress"></i></span> Compress PDF</a>
+        <a href="/remove.html"><span class="menu-icon red"><i class="fa-solid fa-trash"></i></span> Remove Pages</a>
+        <a href="/extract.html"><span class="menu-icon orange"><i class="fa-solid fa-copy"></i></span> Extract Pages</a>
+        <a href="/rotate.html"><span class="menu-icon sky"><i class="fa-solid fa-rotate-right"></i></span> Rotate PDF</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Edit PDF</button>
+      <div class="dropdown-menu">
+        <a href="/edit-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-pen-to-square"></i></span> Edit PDF</a>
+        <a href="/watermark.html"><span class="menu-icon purple"><i class="fa-solid fa-stamp"></i></span> Watermark PDF</a>
+        <a href="/sign-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-signature"></i></span> Sign PDF</a>
+        <a href="/pdf-forms.html"><span class="menu-icon blue"><i class="fa-solid fa-list-check"></i></span> PDF Forms</a>
+        <a href="/pdf-summarizer.html"><span class="menu-icon purple"><i class="fa-solid fa-wand-magic-sparkles"></i></span> PDF Summarizer</a>
+      </div>
+    </div>
+
+    <div class="nav-dropdown">
+      <button type="button">Security</button>
+      <div class="dropdown-menu">
+        <a href="/protect.html"><span class="menu-icon teal"><i class="fa-solid fa-lock"></i></span> Protect PDF</a>
+        <a href="/unlock.html"><span class="menu-icon pink"><i class="fa-solid fa-unlock"></i></span> Unlock PDF</a>
+        <a href="/repair-pdf.html"><span class="menu-icon red"><i class="fa-solid fa-screwdriver-wrench"></i></span> Repair PDF</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+</header>
+
+<div class="pdf-summary-page">
+  <section id="startScreen" class="summary-start-screen">
+    <div class="summary-hero-box">
+      <h1>PDF Summarizer</h1>
+      <p>Generate smart AI-style summaries from PDF documents.</p>
+
+      <div class="summary-upload-row">
+        <input type="file" id="pdfInput" accept="application/pdf" hidden />
+
+        <button id="selectPdfBtn" class="summary-big-upload-btn" type="button">
+          Select PDF file
+        </button>
+
+        <div class="summary-cloud-side">
+          <button type="button" title="Google Drive">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M8.7 3h6.6l6.7 11.6-3.3 5.8L12 8.8z"/><path fill="#34A853" d="M2 14.6 8.7 3 12 8.8 5.3 20.4z"/><path fill="#FBBC04" d="M5.3 20.4h13.4L22 14.6H8.6z"/></svg>
+          </button>
+
+          <button type="button" title="Dropbox">
+            <svg viewBox="0 0 24 24"><path fill="#0061ff" d="M6.5 3 12 6.4 6.5 9.8 1 6.4zM17.5 3 23 6.4l-5.5 3.4L12 6.4zM1 13.2l5.5-3.4 5.5 3.4-5.5 3.4zM23 13.2l-5.5-3.4-5.5 3.4 5.5 3.4zM6.5 17.8 12 14.4l5.5 3.4L12 21z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <span class="summary-drop-text">or drop PDF here</span>
+    </div>
+  </section>
+
+  <section id="summaryEditor" class="summary-editor hidden-screen">
+    <main class="summary-left">
+      <div class="summary-pdf-toolbar">
+        <button id="prevPageBtn" type="button">⌃</button>
+        <button id="nextPageBtn" type="button">⌄</button>
+        <input id="pageNumberInput" value="1" readonly />
+        <span id="totalPagesText">/ 1</span>
+        <span id="fileNameText"></span>
+      </div>
+
+      <div class="summary-pdf-scroll">
+        <div class="summary-pdf-viewer">
+          <canvas id="pdfCanvas"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <aside class="summary-right">
+      <div class="summary-heading-wrap">
+        <div class="summary-ai-badge">✨ AI</div>
+        <h2>Summarize</h2>
+      </div>
+
+      <div class="summary-result-box" id="summaryResult">
+        <div class="summary-loading">Your summary will appear here...</div>
+      </div>
+
+      <div class="summary-question-box">
+        <input id="askInput" type="text" placeholder="Ask anything..." />
+        <button id="askBtn" type="button">↑</button>
+      </div>
+
+      <div class="summary-actions">
+        <button id="copySummaryBtn" class="summary-copy-btn" type="button">
+          Copy
+        </button>
+
+        <button id="downloadSummaryBtn" class="summary-download-btn" type="button">
+          Download
+        </button>
+      </div>
+    </aside>
+  </section>
+</div>
+
+<div class="ai-popup-overlay hidden-screen" id="settingsPopup">
+  <div class="ai-popup-box">
+    <div class="ai-popup-content">
+      <h2>Settings</h2>
+
+      <h3>Length</h3>
+
+      <div class="summary-slider-wrap">
+        <input type="range" id="summaryLength" min="1" max="3" value="2" />
+
+        <div class="slider-labels">
+          <span>Short</span>
+          <span>Medium</span>
+          <span>Long 🔒</span>
+        </div>
+      </div>
+
+      <h3>Processing mode</h3>
+
+      <div class="processing-grid">
+        <button class="process-option active" data-mode="standard" type="button">
+          <div class="process-radio active"></div>
+          <span>Standard AI</span>
+          <i class="fa-regular fa-circle-question"></i>
+        </button>
+
+        <button class="process-option locked" data-mode="advanced" type="button">
+          <div class="process-radio"></div>
+          <span>Advanced AI</span>
+          <i class="fa-regular fa-circle-question"></i>
+          <strong>👑</strong>
+        </button>
+      </div>
+
+      <p class="summary-limit-note">
+        Free plan includes Short and Medium summaries with Standard AI. Long and Advanced AI require upgrade.
+      </p>
+    </div>
+
+    <div class="popup-footer">
+      <button id="continueSummaryBtn" class="continue-summary-btn" type="button">
+        Continue <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/pdf-summarizer.js?v=2"></script>
+</body>
+</html>
