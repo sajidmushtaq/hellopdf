@@ -140,7 +140,9 @@
       successCard.style.display = "block";
 
       setTimeout(() => {
-        window.location.href = "/index.html";
+        const afterLogin = localStorage.getItem("hellopdf_after_login") || "/index.html";
+localStorage.removeItem("hellopdf_after_login");
+window.location.href = afterLogin;
       }, 1800);
     });
 const googleLoginBtn = document.getElementById("googleLoginBtn");
