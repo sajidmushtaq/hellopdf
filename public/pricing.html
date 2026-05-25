@@ -381,20 +381,58 @@
   const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+  const authButtons = document.querySelector(".auth-buttons");
   const premiumUpgradeBtn = document.getElementById("premiumUpgradeBtn");
 
-  premiumUpgradeBtn.addEventListener("click", async (e) => {
-    e.preventDefault();
-
+  async function checkPricingUser() {
     const { data } = await supabaseClient.auth.getUser();
 
     if (data && data.user) {
-      alert("Premium payment system coming soon. You are already logged in.");
-    } else {
-      localStorage.setItem("hellopdf_after_login", "/pricing.html");
-      window.location.href = "/login.html";
+      const user = data.user;
+      const name =
+        user.user_metadata?.full_name ||
+        localStorage.getItem("hellopdf_user_name") ||
+        user.email.split("@")[0];
+
+      if (authButtons) {
+        authButtons.innerHTML = `
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-weight:800;color:#111827;">Hi ${name}</span>
+            <button id="pricingLogoutBtn" style="background:#ef4444;color:white;border:none;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer;">
+              Logout
+            </button>
+          </div>
+        `;
+      }
+
+      const logoutBtn = document.getElementById("pricingLogoutBtn");
+      if (logoutBtn) {
+        logoutBtn.onclick = async () => {
+          await supabaseClient.auth.signOut();
+          localStorage.removeItem("hellopdf_user_email");
+          localStorage.removeItem("hellopdf_user_name");
+          window.location.href = "/index.html";
+        };
+      }
     }
-  });
+  }
+
+  if (premiumUpgradeBtn) {
+    premiumUpgradeBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      const { data } = await supabaseClient.auth.getUser();
+
+      if (data && data.user) {
+        alert("Premium payment system coming soon. You are already logged in.");
+      } else {
+        localStorage.setItem("hellopdf_after_login", "/pricing.html");
+        window.location.href = "/login.html";
+      }
+    });
+  }
+
+  checkPricingUser();
 </script>
 </body>
 </html>
