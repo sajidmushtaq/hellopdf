@@ -461,6 +461,27 @@
   }
 
 }
+
+/* FIX DOUBLE HEADER ON MOBILE */
+@media(max-width:768px){
+  .desktop-header{
+    display:none !important;
+  }
+
+  .mobile-header{
+    display:flex !important;
+  }
+}
+
+@media(min-width:769px){
+  .mobile-header{
+    display:none !important;
+  }
+
+  .desktop-header{
+    display:grid !important;
+  }
+}
   </style>
 </head>
 
