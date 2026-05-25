@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Translate PDF - HelloPDF</title>
+
+  <link rel="stylesheet" href="/css/style.css?v=1055"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+
+<header class="mobile-header">
+  <button class="mobile-menu-btn">☰</button>
+
+  <a href="/index.html" class="mobile-logo">
+    HelloPDF
+  </a>
+
+  <button class="mobile-grid-btn">⠿</button>
+</header>
+
+<header class="desktop-header">
+
+  <a href="/index.html" class="logo">
+    HelloPDF
+  </a>
+
+  <nav class="desktop-nav">
+
+    <a href="/merge.html">Merge PDF</a>
+    <a href="/split.html">Split PDF</a>
+    <a href="/compress.html">Compress PDF</a>
+    <a href="/translate-pdf.html">Translate PDF</a>
+
+  </nav>
+
+  <div class="auth-buttons">
+    <a href="/login.html" class="login-btn">Login</a>
+    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+
+</header>
+
+<!-- START SCREEN -->
+
+<section id="translateStartScreen" class="translate-start-screen">
+
+  <div class="translate-upload-box">
+
+    <h1>Translate PDF</h1>
+
+    <p>
+      Translate PDF documents into another language instantly.
+    </p>
+
+    <input type="file" id="translatePdfInput" accept="application/pdf" hidden>
+
+    <div class="translate-upload-row">
+
+      <button id="translateSelectBtn" class="translate-upload-btn">
+        Select PDF file
+      </button>
+
+      <div class="translate-cloud-buttons">
+
+        <button type="button">
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button type="button">
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+    <span class="translate-drop-text">
+      or drop PDF here
+    </span>
+
+  </div>
+
+</section>
+
+<!-- SETTINGS POPUP -->
+
+<div id="translateSettingsPopup" class="translate-popup-overlay hidden-screen">
+
+  <div class="translate-popup-box">
+
+    <div class="translate-popup-content">
+
+      <h2>Translation Settings</h2>
+
+      <div class="translate-language-grid">
+
+        <div class="translate-field">
+
+          <label>From</label>
+
+          <select id="translateFromLang">
+
+            <option value="auto">Detect language</option>
+            <option value="english">English</option>
+            <option value="urdu">Urdu</option>
+            <option value="arabic">Arabic</option>
+            <option value="french">French</option>
+
+          </select>
+
+        </div>
+
+        <div class="translate-field">
+
+          <label>To</label>
+
+          <select id="translateToLang">
+
+            <option value="urdu">Urdu</option>
+            <option value="english">English</option>
+            <option value="arabic">Arabic</option>
+            <option value="french">French</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class="translate-mode-box">
+
+        <button class="translate-mode-btn active">
+          Standard Translation
+        </button>
+
+        <button class="translate-mode-btn locked">
+          AI Translation 🔒
+        </button>
+
+      </div>
+
+      <p class="translate-note">
+        AI Translation available in upgrade plan.
+      </p>
+
+    </div>
+
+    <div class="translate-popup-footer">
+
+      <button id="continueTranslateBtn" class="translate-continue-btn">
+        Continue →
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- EDITOR -->
+
+<section id="translateEditor" class="translate-editor hidden-screen">
+
+  <!-- LEFT -->
+
+  <div class="translate-left">
+
+    <div class="translate-toolbar">
+
+      <button id="translatePrevPage">⌃</button>
+
+      <button id="translateNextPage">⌄</button>
+
+      <input id="translatePageNumber" value="1" readonly>
+
+      <span id="translateTotalPages">/ 1</span>
+
+      <span id="translateFileName"></span>
+
+    </div>
+
+    <div class="translate-pdf-scroll">
+
+      <div class="translate-pdf-viewer">
+
+        <canvas id="translatePdfCanvas"></canvas>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="translate-right">
+
+    <div class="translate-ai-badge">
+      🌐 Translate
+    </div>
+
+    <h2>Translated Text</h2>
+
+    <div id="translatedTextBox" class="translated-text-box">
+
+      <div class="translate-loading">
+        Translating PDF...
+      </div>
+
+    </div>
+
+    <div class="translate-actions">
+
+      <button id="copyTranslatedBtn" class="translate-copy-btn">
+        Copy
+      </button>
+
+      <button id="downloadTranslatedBtn" class="translate-download-btn">
+        Download
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script src="/js/translate-pdf.js?v=1"></script>
+
+</body>
+</html>

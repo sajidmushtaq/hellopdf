@@ -2452,6 +2452,84 @@ app.post("/pdf-summarizer", upload.single("file"), async (req, res) => {
   }
 });
 
+app.post("/translate-pdf", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded.");
+    }
+
+    const inputPath = req.file.path;
+    const fromLang = String(req.body.fromLang || "auto");
+    const toLang = String(req.body.toLang || "english");
+
+    const dataBuffer = fs.readFileSync(inputPath);
+    const parsed = await pdfParse(dataBuffer);
+
+    const originalText = String(parsed.text || "").replace(/\s+/g, " ").trim();
+
+    fs.unlink(inputPath, () => {});
+
+    if (!originalText) {
+      return res.status(400).send("Could not extract readable text from this PDF.");
+    }
+
+    const translated = makeDemoTranslation(originalText, fromLang, toLang);
+
+    res.json({
+      original: originalText,
+      translated
+    });
+  } catch (error) {
+    console.error("TRANSLATE PDF ERROR MESSAGE:", error.message);
+    console.error("TRANSLATE PDF FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to translate PDF.");
+  }
+});
+
+function makeDemoTranslation(text, fromLang, toLang) {
+  const cleanText = String(text || "").trim();
+
+  const header = `Translated PDF\nFrom: ${fromLang}\nTo: ${toLang}\n\n`;
+
+  if (toLang === "urdu") {
+    return (
+      header +
+      "Demo translation mode:\n\n" +
+      "Is PDF ka text successfully extract ho gaya hai. Real Urdu translation ke liye Google Translate, DeepL, ya OpenAI API connect karni hogi.\n\n" +
+      "Original extracted text:\n\n" +
+      cleanText.slice(0, 6000)
+    );
+  }
+
+  if (toLang === "arabic") {
+    return (
+      header +
+      "Demo translation mode:\n\n" +
+      "تم استخراج نص ملف PDF بنجاح. للحصول على ترجمة عربية حقيقية، يجب ربط Google Translate أو DeepL أو OpenAI API.\n\n" +
+      "Original extracted text:\n\n" +
+      cleanText.slice(0, 6000)
+    );
+  }
+
+  if (toLang === "french") {
+    return (
+      header +
+      "Mode de traduction démo:\n\n" +
+      "Le texte du PDF a été extrait avec succès. Pour une vraie traduction française, connectez Google Translate, DeepL ou OpenAI API.\n\n" +
+      "Original extracted text:\n\n" +
+      cleanText.slice(0, 6000)
+    );
+  }
+
+  return (
+    header +
+    "Demo translation mode:\n\n" +
+    "The PDF text was extracted successfully. For real translation, connect Google Translate, DeepL, or OpenAI API.\n\n" +
+    "Original extracted text:\n\n" +
+    cleanText.slice(0, 6000)
+  );
+}
+
 
 const PORT = process.env.PORT || 3000;
 
