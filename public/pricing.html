@@ -3,237 +3,253 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Pricing - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=911" />
+  <link rel="stylesheet" href="/css/style.css?v=1037" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    body {
-      background: #f6f8fb;
+    body{background:#f6f8fb}
+
+    .pricing-hero{
+      text-align:center;
+      padding:80px 20px 42px;
     }
 
-    .pricing-hero {
-      text-align: center;
-      padding: 90px 20px 40px;
+    .pricing-hero h1{
+      font-size:52px;
+      line-height:1.1;
+      color:#111827;
+      margin:0 0 18px;
+      font-weight:900;
     }
 
-    .pricing-hero h1 {
-      font-size: 52px;
-      line-height: 1.1;
-      color: #111827;
-      margin-bottom: 18px;
-      font-weight: 900;
+    .pricing-hero p{
+      max-width:780px;
+      margin:auto;
+      color:#64748b;
+      font-size:18px;
+      line-height:1.8;
     }
 
-    .pricing-hero p {
-      max-width: 760px;
-      margin: auto;
-      color: #64748b;
-      font-size: 18px;
-      line-height: 1.8;
+    .pricing-wrapper{
+      max-width:1180px;
+      margin:0 auto 80px;
+      padding:0 20px;
     }
 
-    .pricing-wrapper {
-      max-width: 1200px;
-      margin: 0 auto 80px;
-      padding: 0 20px;
+    .pricing-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:30px;
+      align-items:stretch;
     }
 
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
-      align-items: stretch;
+    .pricing-card{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:28px;
+      padding:36px;
+      position:relative;
+      box-shadow:0 20px 60px rgba(15,23,42,.06);
+      display:flex;
+      flex-direction:column;
     }
 
-    .pricing-card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 28px;
-      padding: 34px;
-      position: relative;
-      box-shadow: 0 20px 60px rgba(15,23,42,0.06);
-      display: flex;
-      flex-direction: column;
+    .pricing-card.popular{
+      border:2px solid #ef4444;
+      box-shadow:0 28px 80px rgba(239,68,68,.14);
+      transform:translateY(-8px);
     }
 
-    .pricing-card.popular {
-      border: 2px solid #2563eb;
-      transform: scale(1.03);
+    .popular-badge{
+      position:absolute;
+      top:-15px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#ef4444;
+      color:#fff;
+      padding:8px 20px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.4px;
     }
 
-    .popular-badge {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #2563eb;
-      color: white;
-      padding: 8px 18px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 0.3px;
+    .plan-name{
+      font-size:30px;
+      font-weight:900;
+      color:#111827;
+      margin-bottom:10px;
     }
 
-    .plan-name {
-      font-size: 28px;
-      font-weight: 900;
-      color: #111827;
-      margin-bottom: 10px;
+    .plan-description{
+      color:#64748b;
+      line-height:1.7;
+      margin:0 0 24px;
+      min-height:54px;
     }
 
-    .plan-description {
-      color: #64748b;
-      line-height: 1.7;
-      margin-bottom: 24px;
-      min-height: 54px;
+    .plan-price{
+      display:flex;
+      align-items:flex-end;
+      gap:7px;
+      margin-bottom:26px;
     }
 
-    .plan-price {
-      display: flex;
-      align-items: flex-end;
-      gap: 6px;
-      margin-bottom: 24px;
+    .amount{
+      font-size:58px;
+      font-weight:900;
+      line-height:1;
+      color:#111827;
     }
 
-    .plan-price .amount {
-      font-size: 56px;
-      font-weight: 900;
-      line-height: 1;
-      color: #111827;
+    .duration{
+      color:#64748b;
+      font-size:16px;
+      margin-bottom:8px;
+      font-weight:800;
     }
 
-    .plan-price .duration {
-      color: #64748b;
-      font-size: 16px;
-      margin-bottom: 8px;
-      font-weight: 700;
+    .plan-features{
+      margin:0 0 34px;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      flex:1;
     }
 
-    .plan-features {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 34px;
-      flex: 1;
+    .plan-features li{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      color:#334155;
+      line-height:1.6;
+      font-weight:650;
     }
 
-    .plan-features li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      color: #334155;
-      line-height: 1.6;
-      font-weight: 600;
+    .plan-features i{
+      color:#16a34a;
+      margin-top:4px;
     }
 
-    .plan-features i {
-      color: #16a34a;
-      margin-top: 3px;
+    .plan-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      text-decoration:none;
+      padding:16px 20px;
+      border-radius:16px;
+      font-weight:900;
+      font-size:16px;
+      transition:.25s ease;
     }
 
-    .plan-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      padding: 15px 20px;
-      border-radius: 16px;
-      font-weight: 900;
-      font-size: 16px;
-      transition: 0.25s ease;
+    .plan-btn.free{
+      background:#f3f4f6;
+      color:#111827;
     }
 
-    .plan-btn.free {
-      background: #f3f4f6;
-      color: #111827;
+    .plan-btn.free:hover{background:#e5e7eb}
+
+    .plan-btn.premium{
+      background:#ef4444;
+      color:#fff;
+      box-shadow:0 16px 40px rgba(239,68,68,.25);
     }
 
-    .plan-btn.free:hover {
-      background: #e5e7eb;
+    .plan-btn.premium:hover{
+      transform:translateY(-2px);
+      background:#dc2626;
     }
 
-    .plan-btn.premium {
-      background: #2563eb;
-      color: white;
-      box-shadow: 0 16px 40px rgba(37,99,235,0.25);
+    .pricing-note{
+      margin-top:45px;
+      text-align:center;
+      color:#64748b;
+      font-size:15px;
+      line-height:1.8;
     }
 
-    .plan-btn.premium:hover {
-      transform: translateY(-2px);
-      background: #1d4ed8;
+    .faq-section{
+      max-width:950px;
+      margin:80px auto 70px;
+      padding:0 20px;
     }
 
-    .pricing-note {
-      margin-top: 50px;
-      text-align: center;
-      color: #64748b;
-      font-size: 15px;
-      line-height: 1.8;
+    .faq-section h2{
+      text-align:center;
+      font-size:38px;
+      margin:0 0 38px;
+      color:#111827;
     }
 
-    .faq-section {
-      max-width: 950px;
-      margin: 90px auto 70px;
-      padding: 0 20px;
+    .faq-grid{
+      display:grid;
+      gap:18px;
     }
 
-    .faq-section h2 {
-      text-align: center;
-      font-size: 38px;
-      margin-bottom: 40px;
-      color: #111827;
+    .faq-card{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 14px 40px rgba(15,23,42,.05);
     }
 
-    .faq-grid {
-      display: grid;
-      gap: 18px;
+    .faq-card h3{
+      margin:0 0 10px;
+      color:#111827;
+      font-size:18px;
     }
 
-    .faq-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 14px 40px rgba(15,23,42,0.05);
+    .faq-card p{
+      color:#64748b;
+      line-height:1.8;
+      margin:0;
     }
 
-    .faq-card h3 {
-      margin-bottom: 10px;
-      color: #111827;
-      font-size: 18px;
-    }
-
-    .faq-card p {
-      color: #64748b;
-      line-height: 1.8;
-    }
-
-    @media (max-width: 768px) {
-      .pricing-hero {
-        padding-top: 60px;
+    @media(max-width:768px){
+      .pricing-hero{
+        padding:55px 18px 30px;
       }
 
-      .pricing-hero h1 {
-        font-size: 38px;
+      .pricing-hero h1{
+        font-size:36px;
       }
 
-      .pricing-card.popular {
-        transform: none;
+      .pricing-hero p{
+        font-size:16px;
       }
 
-      .plan-price .amount {
-        font-size: 46px;
+      .pricing-grid{
+        grid-template-columns:1fr;
+        gap:24px;
+      }
+
+      .pricing-card{
+        padding:28px 22px;
+        border-radius:24px;
+      }
+
+      .pricing-card.popular{
+        transform:none;
+      }
+
+      .amount{
+        font-size:48px;
+      }
+
+      .faq-section h2{
+        font-size:30px;
       }
     }
   </style>
 </head>
+
 <body>
 
 <header class="desktop-header">
@@ -253,7 +269,6 @@
 
 <section class="pricing-hero">
   <h1>Simple pricing for everyone</h1>
-
   <p>
     Start free and upgrade anytime. HelloPDF gives you fast, secure, and easy PDF tools
     for personal and professional work.
@@ -261,7 +276,6 @@
 </section>
 
 <section class="pricing-wrapper">
-
   <div class="pricing-grid">
 
     <div class="pricing-card">
@@ -290,55 +304,58 @@
     </div>
 
     <div class="pricing-card popular">
-
-      <div class="popular-badge">
-        MOST POPULAR
-      </div>
+      <div class="popular-badge">MOST POPULAR</div>
 
       <div class="plan-name">Premium</div>
 
       <p class="plan-description">
-        For professionals, teams, and heavy PDF users.
+        Best for professionals, teams, students, and heavy PDF users.
       </p>
 
       <div class="plan-price">
-        <div class="amount">$9</div>
+        <div class="amount">$5</div>
         <div class="duration">/ month</div>
       </div>
 
       <ul class="plan-features">
-        <li><i class="fa-solid fa-check"></i> Unlimited PDF usage</li>
+        <li><i class="fa-solid fa-check"></i> Unlimited PDF tools usage</li>
+        <li><i class="fa-solid fa-check"></i> No ads and cleaner workspace</li>
         <li><i class="fa-solid fa-check"></i> Faster processing speed</li>
         <li><i class="fa-solid fa-check"></i> Larger file uploads</li>
         <li><i class="fa-solid fa-check"></i> Batch file processing</li>
-        <li><i class="fa-solid fa-check"></i> OCR & AI tools (coming soon)</li>
-        <li><i class="fa-solid fa-check"></i> Priority support</li>
+        <li><i class="fa-solid fa-check"></i> OCR, PDF Summarizer and Translate PDF</li>
+        <li><i class="fa-solid fa-check"></i> Premium support</li>
       </ul>
 
-      <a href="#" class="plan-btn premium">
-        Upgrade to Premium
+      <a href="/signup.html" class="plan-btn premium">
+        <i class="fa-solid fa-crown"></i> Get Premium - $5/month
       </a>
     </div>
 
   </div>
 
   <div class="pricing-note">
-    No hidden fees. Cancel anytime. Stripe payments and premium activation
-    will be added in a future update.
+    No hidden fees. Cancel anytime. Stripe payments and automatic premium activation
+    will be added in the next update.
   </div>
-
 </section>
 
 <section class="faq-section">
-
   <h2>Frequently Asked Questions</h2>
 
   <div class="faq-grid">
-
     <div class="faq-card">
       <h3>Can I use HelloPDF for free?</h3>
       <p>
         Yes. You can use most PDF tools for free with daily usage limits.
+      </p>
+    </div>
+
+    <div class="faq-card">
+      <h3>What do I get with Premium?</h3>
+      <p>
+        Premium gives you unlimited usage, faster processing, larger uploads, OCR,
+        PDF Summarizer, Translate PDF, batch tools, and priority support.
       </p>
     </div>
 
@@ -350,14 +367,12 @@
     </div>
 
     <div class="faq-card">
-      <h3>When will premium features launch?</h3>
+      <h3>When will online payment launch?</h3>
       <p>
-        Premium subscriptions, OCR, AI tools, and advanced workflows are planned for future updates.
+        Stripe payment integration and automatic premium activation will be added in a future update.
       </p>
     </div>
-
   </div>
-
 </section>
 
 </body>
