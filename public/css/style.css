@@ -22018,11 +22018,22 @@ body.editpdf-success-active #successScreen {
   color: #ef4444 !important;
 }
 
-.summary-result-box,
-.summary-result-box h3,
-.summary-result-box li,
+.summary-result-box {
+  color: #4c1d95 !important;
+}
+
+.summary-result-box h3 {
+  color: #4c1d95 !important;
+}
+
+.summary-result-box li {
+  color: #4c1d95 !important;
+}
+
 .summary-answer {
-  color: #111827 !important;
+  background: #fff1f2 !important;
+  color: #4c1d95 !important;
+}
 }
 
 .process-option.active {
