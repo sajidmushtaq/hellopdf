@@ -28,6 +28,42 @@
     .hp-mobile-profile a,.hp-mobile-profile button{display:block;width:100%;padding:12px;margin-top:8px;border-radius:12px;text-align:center;font-weight:800;text-decoration:none;border:none;cursor:pointer}
     .hp-mobile-profile a{background:#fff;color:#111827;border:1px solid #e5e7eb}
     .hp-mobile-profile button{background:#ef4444;color:#fff}
+    /* ONLY HOMEPAGE SPACING FIX */
+.hero{
+  padding: 35px 20px 22px !important;
+  margin: 0 auto !important;
+}
+
+.hero h1{
+  margin-bottom: 14px !important;
+}
+
+.hero p{
+  margin-bottom: 0 !important;
+}
+
+.category-nav{
+  margin: 18px auto 38px !important;
+  padding: 0 !important;
+}
+
+.tools-section{
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.tools-section h2{
+  margin-top: 0 !important;
+  margin-bottom: 12px !important;
+}
+
+.section-subtitle{
+  margin-bottom: 28px !important;
+}
+
+.tools-grid{
+  margin-top: 0 !important;
+}
   </style>
 </head>
 
@@ -239,6 +275,10 @@
 </section>
 
 <section class="category-nav category-filter-nav">
+  <button class="category-filter" data-target="all-tools" type="button">
+    <i class="fa-solid fa-border-all"></i> All Tools
+  </button>
+
   <button class="category-filter active" data-target="convert-tools" type="button">
     <i class="fa-solid fa-repeat"></i> Convert PDF
   </button>
@@ -255,9 +295,6 @@
     <i class="fa-solid fa-shield-halved"></i> Security
   </button>
 
-  <button class="category-filter" data-target="all-tools" type="button">
-    <i class="fa-solid fa-border-all"></i> All Tools
-  </button>
 </section>
 
 <section id="convert-tools" class="tools-section">
