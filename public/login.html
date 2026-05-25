@@ -6,7 +6,7 @@
 
   <title>Login - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=501" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
@@ -17,7 +17,21 @@
 
       <h1>Welcome back</h1>
       <p>Login to continue using your PDF tools.</p>
+      <div class="social-auth">
+  <button type="button" class="social-btn google-btn" id="googleLoginBtn">
+    <i class="fa-brands fa-google"></i>
+    Continue with Google
+  </button>
 
+  <button type="button" class="social-btn facebook-btn" id="facebookLoginBtn">
+    <i class="fa-brands fa-facebook-f"></i>
+    Continue with Facebook
+  </button>
+
+  <div class="auth-divider">
+    <span>OR</span>
+  </div>
+</div>
       <form class="auth-form" id="loginForm">
         <input type="email" id="loginEmail" placeholder="Email address" required />
         <input type="password" id="loginPassword" placeholder="Password" required />
@@ -129,6 +143,30 @@
         window.location.href = "/index.html";
       }, 1800);
     });
+const googleLoginBtn = document.getElementById("googleLoginBtn");
+const facebookLoginBtn = document.getElementById("facebookLoginBtn");
+
+googleLoginBtn.addEventListener("click", async () => {
+
+  await supabaseClient.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin + "/index.html"
+    }
+  });
+
+});
+
+facebookLoginBtn.addEventListener("click", async () => {
+
+  await supabaseClient.auth.signInWithOAuth({
+    provider: "facebook",
+    options: {
+      redirectTo: window.location.origin + "/index.html"
+    }
+  });
+
+});
   </script>
 
 </body>

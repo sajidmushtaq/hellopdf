@@ -16,7 +16,21 @@
 
       <h1>Create account</h1>
       <p>Sign up to access your HelloPDF tools.</p>
+      <div class="social-auth">
+  <button type="button" class="social-btn google-btn" id="googleSignupBtn">
+    <i class="fa-brands fa-google"></i>
+    Continue with Google
+  </button>
 
+  <button type="button" class="social-btn facebook-btn" id="facebookSignupBtn">
+    <i class="fa-brands fa-facebook-f"></i>
+    Continue with Facebook
+  </button>
+
+  <div class="auth-divider">
+    <span>OR</span>
+  </div>
+</div>
       <form class="auth-form" id="signupForm">
         <input type="text" id="fullName" placeholder="Full name" required />
         <input type="email" id="signupEmail" placeholder="Email address" required />
@@ -120,6 +134,30 @@
       signupCard.style.display = "none";
       successCard.style.display = "block";
     });
+const googleSignupBtn = document.getElementById("googleSignupBtn");
+const facebookSignupBtn = document.getElementById("facebookSignupBtn");
+
+googleSignupBtn.addEventListener("click", async () => {
+
+  await supabaseClient.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin + "/index.html"
+    }
+  });
+
+});
+
+facebookSignupBtn.addEventListener("click", async () => {
+
+  await supabaseClient.auth.signInWithOAuth({
+    provider: "facebook",
+    options: {
+      redirectTo: window.location.origin + "/index.html"
+    }
+  });
+
+});
   </script>
 
 </body>
