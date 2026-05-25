@@ -74,6 +74,22 @@
   margin-left:auto !important;
   margin-right:auto !important;
 }
+
+/* HEADER CENTER FIX ONLY */
+.desktop-header{
+  display: grid !important;
+  grid-template-columns: 170px 1fr 190px !important;
+  align-items: center !important;
+}
+
+.desktop-nav{
+  justify-self: center !important;
+  margin: 0 !important;
+}
+
+.auth-buttons{
+  justify-self: end !important;
+}
   </style>
 </head>
 
@@ -89,7 +105,6 @@
   <a href="/index.html" class="logo">HelloPDF</a>
 
   <nav class="desktop-nav">
-  <nav class="desktop-nav" style="margin:0 auto;">
     <div class="nav-dropdown">
       <button type="button">Convert PDF</button>
       <div class="dropdown-menu">
