@@ -21975,3 +21975,68 @@ body.editpdf-success-active #successScreen {
     font-size: 24px;
   }
 }
+
+/* PDF Summarizer desktop half-half + red theme fix */
+@media (min-width: 981px) {
+  .summary-editor {
+    grid-template-columns: 50% 50% !important;
+  }
+
+  .summary-left,
+  .summary-right {
+    width: 100% !important;
+  }
+
+  .summary-pdf-scroll {
+    padding: 34px 26px !important;
+  }
+
+  .summary-pdf-viewer canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Replace purple with HelloPDF red */
+.summary-big-upload-btn,
+.continue-summary-btn,
+.summary-question-box button,
+.summary-download-btn {
+  background: #ef4444 !important;
+}
+
+.summary-big-upload-btn {
+  box-shadow: 0 18px 34px rgba(239, 68, 68, 0.22) !important;
+}
+
+.summary-cloud-side button {
+  background: #ef4444 !important;
+}
+
+.summary-ai-badge {
+  background: #fee2e2 !important;
+  color: #ef4444 !important;
+}
+
+.summary-result-box,
+.summary-result-box h3,
+.summary-result-box li,
+.summary-answer {
+  color: #111827 !important;
+}
+
+.process-option.active {
+  border-color: #ef4444 !important;
+}
+
+.summary-slider-wrap input {
+  accent-color: #ef4444 !important;
+}
+
+.summary-question-box input {
+  border-color: #ef4444 !important;
+}
+
+.summary-answer {
+  background: #fff1f2 !important;
+}
