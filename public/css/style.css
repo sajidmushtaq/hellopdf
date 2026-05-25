@@ -22454,3 +22454,47 @@ body.editpdf-success-active #successScreen {
 header{
     height: 78px !important;
 }
+
+/* HELLOPDF STYLISH LOGO */
+.hp-brand-logo{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:2px !important;
+  font-size:28px !important;
+  font-weight:900 !important;
+  text-decoration:none !important;
+  color:#111827 !important;
+  letter-spacing:-1px !important;
+}
+
+.hp-brand-logo .hp-logo-mark{
+  width:34px;
+  height:34px;
+  margin:0 1px;
+  border-radius:9px;
+  background:#ef4444;
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  transform:rotate(-8deg);
+  box-shadow:0 8px 18px rgba(239,68,68,.22);
+}
+
+.hp-brand-logo .hp-logo-mark i{
+  transform:rotate(8deg);
+}
+
+@media(max-width:768px){
+  .hp-brand-logo{
+    font-size:38px !important;
+    color:#ef4444 !important;
+  }
+
+  .hp-brand-logo .hp-logo-mark{
+    width:40px;
+    height:40px;
+    font-size:20px;
+  }
+}
