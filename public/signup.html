@@ -133,6 +133,12 @@
       welcomeText.textContent = "Welcome to HelloPDF, " + fullName + "!";
       signupCard.style.display = "none";
       successCard.style.display = "block";
+localStorage.setItem("hellopdf_user_email", email);
+localStorage.setItem("hellopdf_user_name", fullName);
+
+setTimeout(() => {
+  window.location.href = "/index.html";
+}, 1800);
     });
 const googleSignupBtn = document.getElementById("googleSignupBtn");
 const facebookSignupBtn = document.getElementById("facebookSignupBtn");
