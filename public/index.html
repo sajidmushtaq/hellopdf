@@ -90,6 +90,295 @@
 .auth-buttons{
   justify-self: end !important;
 }
+
+/* PREMIUM + TRUST + FOOTER */
+
+.hp-premium-banner{
+  max-width:1300px;
+  margin:70px auto 90px;
+  padding:80px 90px;
+  border-radius:26px;
+  background:linear-gradient(120deg,#fff2c9,#fff7df);
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:50px;
+  overflow:hidden;
+}
+
+.hp-premium-left h2{
+  font-size:44px;
+  margin:0 0 36px;
+  color:#272938;
+}
+
+.hp-premium-left p{
+  font-size:18px;
+  color:#333747;
+  margin:0 0 22px;
+  line-height:1.5;
+}
+
+.hp-premium-left p i{
+  color:#16a34a;
+  margin-right:12px;
+}
+
+.hp-premium-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  margin-top:40px;
+  background:#ffc02d;
+  color:#1f2937;
+  text-decoration:none;
+  padding:16px 30px;
+  border-radius:9px;
+  font-weight:900;
+}
+
+.hp-premium-right{
+  position:relative;
+  min-height:380px;
+}
+
+.hp-doc-card{
+  width:310px;
+  height:380px;
+  background:#fff;
+  padding:32px;
+  box-shadow:0 30px 80px rgba(0,0,0,.12);
+  position:absolute;
+  right:60px;
+  top:0;
+}
+
+.hp-doc-line{
+  width:65px;
+  height:5px;
+  background:#ef4444;
+  margin-bottom:18px;
+}
+
+.hp-doc-card h3{
+  font-size:22px;
+  color:#111827;
+  margin:0 0 24px;
+}
+
+.hp-doc-text{
+  height:8px;
+  background:#e5e7eb;
+  border-radius:99px;
+  margin-bottom:12px;
+}
+
+.hp-doc-text.short{
+  width:65%;
+}
+
+.hp-doc-box{
+  height:120px;
+  background:#f3f4f6;
+  margin-top:25px;
+  border-radius:12px;
+}
+
+.hp-signature{
+  font-size:34px;
+  color:#4b5563;
+  font-style:italic;
+  margin-top:18px;
+}
+
+.hp-aa-box{
+  position:absolute;
+  right:0;
+  top:230px;
+  background:#fff;
+  padding:20px 30px;
+  border-radius:12px;
+  font-size:56px;
+  color:#6b7280;
+  box-shadow:0 20px 50px rgba(0,0,0,.12);
+}
+
+.hp-crown-bubble{
+  position:absolute;
+  left:20px;
+  bottom:15px;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:#ffe8a3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#f59e0b;
+  font-size:28px;
+}
+
+.hp-trust-section{
+  max-width:1050px;
+  margin:0 auto 100px;
+  text-align:center;
+  padding:20px;
+}
+
+.hp-trust-section h2{
+  font-size:42px;
+  color:#272938;
+  margin-bottom:24px;
+}
+
+.hp-trust-section p{
+  font-size:22px;
+  color:#374151;
+  line-height:1.45;
+  max-width:930px;
+  margin:0 auto 70px;
+}
+
+.hp-trust-icons{
+  display:flex;
+  justify-content:center;
+  gap:110px;
+  align-items:center;
+  color:#3f414c;
+}
+
+.hp-trust-icons div{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.hp-trust-icons i{
+  font-size:34px;
+}
+
+.hp-trust-icons strong{
+  font-size:24px;
+  font-weight:900;
+}
+
+.hp-trust-icons span{
+  font-size:12px;
+  font-weight:800;
+}
+
+.hp-footer{
+  background:#292a33;
+  color:#fff;
+  padding:70px 90px 35px;
+}
+
+.hp-footer-grid{
+  max-width:1150px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr) 170px;
+  gap:45px;
+}
+
+.hp-footer h4{
+  font-size:16px;
+  margin:0 0 22px;
+}
+
+.hp-footer a{
+  display:block;
+  color:#f1f5f9;
+  text-decoration:none;
+  margin-bottom:18px;
+  font-size:15px;
+}
+
+.hp-store-buttons a{
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:8px;
+  padding:10px 14px;
+  margin-bottom:14px;
+  font-weight:700;
+}
+
+.hp-footer-bottom{
+  max-width:1150px;
+  margin:70px auto 0;
+  padding-top:25px;
+  border-top:1px solid rgba(255,255,255,.55);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:25px;
+}
+
+.hp-footer-bottom button{
+  background:transparent;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:6px;
+  padding:12px 18px;
+  font-weight:800;
+}
+
+.hp-socials{
+  display:flex;
+  gap:28px;
+  font-size:22px;
+  color:#d1d5db;
+}
+
+.hp-footer-bottom p{
+  margin:0;
+  color:#e5e7eb;
+}
+
+@media(max-width:900px){
+  .hp-premium-banner{
+    margin:45px 16px 60px;
+    padding:42px 24px;
+    grid-template-columns:1fr;
+  }
+
+  .hp-premium-left h2{
+    font-size:34px;
+  }
+
+  .hp-premium-right{
+    display:none;
+  }
+
+  .hp-trust-section{
+    margin-bottom:60px;
+  }
+
+  .hp-trust-section h2{
+    font-size:30px;
+  }
+
+  .hp-trust-section p{
+    font-size:17px;
+    margin-bottom:35px;
+  }
+
+  .hp-trust-icons{
+    gap:25px;
+    flex-wrap:wrap;
+  }
+
+  .hp-footer{
+    padding:45px 24px 30px;
+  }
+
+  .hp-footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hp-footer-bottom{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
   </style>
 </head>
 
@@ -441,6 +730,117 @@
     <a class="tool-card" href="/repair-pdf.html"><div class="icon-file red"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3>Repair PDF</h3><p>Repair damaged PDF files</p></a>
   </div>
 </section>
+
+<!-- PREMIUM BANNER -->
+<section class="hp-premium-banner">
+  <div class="hp-premium-left">
+    <h2>Get more with Premium</h2>
+
+    <p><i class="fa-solid fa-circle-check"></i> Get full access to HelloPDF and work faster with advanced tools</p>
+    <p><i class="fa-solid fa-circle-check"></i> Edit PDFs, use OCR for scanned documents and secure e-Signatures</p>
+    <p><i class="fa-solid fa-circle-check"></i> Connect tools and create custom PDF workflows</p>
+
+    <a href="/pricing.html" class="hp-premium-btn">
+      <i class="fa-solid fa-crown"></i> Get Premium
+    </a>
+  </div>
+
+  <div class="hp-premium-right">
+    <div class="hp-doc-card">
+      <div class="hp-doc-line red"></div>
+      <h3>PDF Project<br>Brief Approval</h3>
+      <div class="hp-doc-text"></div>
+      <div class="hp-doc-text short"></div>
+      <div class="hp-doc-box"></div>
+      <div class="hp-signature">Sajid</div>
+    </div>
+
+    <div class="hp-aa-box">Aa</div>
+    <div class="hp-crown-bubble"><i class="fa-solid fa-crown"></i></div>
+  </div>
+</section>
+
+<!-- TRUST SECTION -->
+<section class="hp-trust-section">
+  <h2>The PDF software trusted by millions of users</h2>
+  <p>
+    HelloPDF is your simple web app for editing PDF with ease. Enjoy all the tools you need
+    to work efficiently with your digital documents while keeping your data safe and secure.
+  </p>
+
+  <div class="hp-trust-icons">
+    <div><i class="fa-solid fa-certificate"></i><strong>ISO</strong><span>27001</span></div>
+    <div><i class="fa-solid fa-lock"></i><strong>SECURE</strong><span>SSL Encryption</span></div>
+    <div><i class="fa-solid fa-file-pdf"></i><strong>PDF</strong><span>Association</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="hp-footer">
+  <div class="hp-footer-grid">
+    <div>
+      <h4>PRODUCT</h4>
+      <a href="/index.html">Home</a>
+      <a href="#">Features</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/index.html">Tools</a>
+      <a href="#">FAQ</a>
+    </div>
+
+    <div>
+      <h4>RESOURCES</h4>
+      <a href="#">HelloPDF Desktop</a>
+      <a href="#">HelloPDF Mobile</a>
+      <a href="#">HelloSign</a>
+      <a href="#">HelloAPI</a>
+      <a href="#">HelloIMG</a>
+    </div>
+
+    <div>
+      <h4>SOLUTIONS</h4>
+      <a href="#">Business</a>
+      <a href="#">Education</a>
+    </div>
+
+    <div>
+      <h4>LEGAL</h4>
+      <a href="#">Security</a>
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms & conditions</a>
+      <a href="#">Cookies</a>
+    </div>
+
+    <div>
+      <h4>COMPANY</h4>
+      <a href="#">About us</a>
+      <a href="#">Contact us</a>
+      <a href="#">Blog</a>
+      <a href="#">Press</a>
+    </div>
+
+    <div class="hp-store-buttons">
+      <a href="#"><i class="fa-brands fa-google-play"></i> Google Play</a>
+      <a href="#"><i class="fa-brands fa-apple"></i> App Store</a>
+      <a href="#"><i class="fa-brands fa-apple"></i> Mac App Store</a>
+      <a href="#"><i class="fa-brands fa-microsoft"></i> Microsoft Store</a>
+    </div>
+  </div>
+
+  <div class="hp-footer-bottom">
+    <button><i class="fa-solid fa-globe"></i> English <i class="fa-solid fa-chevron-down"></i></button>
+
+    <div class="hp-socials">
+      <i class="fa-brands fa-x-twitter"></i>
+      <i class="fa-brands fa-facebook"></i>
+      <i class="fa-brands fa-linkedin"></i>
+      <i class="fa-brands fa-instagram"></i>
+      <i class="fa-brands fa-tiktok"></i>
+      <i class="fa-brands fa-reddit"></i>
+    </div>
+
+    <p>© HelloPDF 2026 - Your PDF Editor</p>
+  </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
