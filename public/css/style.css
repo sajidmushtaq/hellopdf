@@ -22425,3 +22425,32 @@ body.editpdf-success-active #successScreen {
 .summary-answer {
   background: #fff1f2 !important;
 }
+
+/* HOMEPAGE SPACING FIX */
+
+.hero-section{
+    padding-top: 40px !important;
+    padding-bottom: 20px !important;
+}
+
+.home-categories{
+    margin-top: 15px !important;
+    margin-bottom: 35px !important;
+    gap: 12px !important;
+}
+
+.tools-section{
+    padding-top: 10px !important;
+}
+
+.tools-section h2{
+    margin-bottom: 10px !important;
+}
+
+.tools-grid{
+    margin-top: 10px !important;
+}
+
+header{
+    height: 78px !important;
+}
