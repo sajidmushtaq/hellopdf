@@ -5,247 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1037" />
+  <link rel="stylesheet" href="/css/style.css?v=1038" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
     body{background:#f6f8fb}
 
-    .pricing-hero{
-      text-align:center;
-      padding:80px 20px 42px;
-    }
+    .pricing-hero{text-align:center;padding:80px 20px 42px}
+    .pricing-hero h1{font-size:52px;line-height:1.1;color:#111827;margin:0 0 18px;font-weight:900}
+    .pricing-hero p{max-width:780px;margin:auto;color:#64748b;font-size:18px;line-height:1.8}
 
-    .pricing-hero h1{
-      font-size:52px;
-      line-height:1.1;
-      color:#111827;
-      margin:0 0 18px;
-      font-weight:900;
-    }
+    .pricing-wrapper{max-width:1180px;margin:0 auto 80px;padding:0 20px}
+    .pricing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;align-items:stretch}
 
-    .pricing-hero p{
-      max-width:780px;
-      margin:auto;
-      color:#64748b;
-      font-size:18px;
-      line-height:1.8;
-    }
+    .pricing-card{background:#fff;border:1px solid #e5e7eb;border-radius:28px;padding:36px;position:relative;box-shadow:0 20px 60px rgba(15,23,42,.06);display:flex;flex-direction:column}
+    .pricing-card.popular{border:2px solid #ef4444;box-shadow:0 28px 80px rgba(239,68,68,.14);transform:translateY(-8px)}
 
-    .pricing-wrapper{
-      max-width:1180px;
-      margin:0 auto 80px;
-      padding:0 20px;
-    }
+    .popular-badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;padding:8px 20px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:.4px}
 
-    .pricing-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:30px;
-      align-items:stretch;
-    }
+    .plan-name{font-size:30px;font-weight:900;color:#111827;margin-bottom:10px}
+    .plan-description{color:#64748b;line-height:1.7;margin:0 0 24px;min-height:54px}
+    .plan-price{display:flex;align-items:flex-end;gap:7px;margin-bottom:26px}
+    .amount{font-size:58px;font-weight:900;line-height:1;color:#111827}
+    .duration{color:#64748b;font-size:16px;margin-bottom:8px;font-weight:800}
 
-    .pricing-card{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:28px;
-      padding:36px;
-      position:relative;
-      box-shadow:0 20px 60px rgba(15,23,42,.06);
-      display:flex;
-      flex-direction:column;
-    }
+    .plan-features{margin:0 0 34px;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;flex:1}
+    .plan-features li{display:flex;align-items:flex-start;gap:12px;color:#334155;line-height:1.6;font-weight:650}
+    .plan-features i{color:#16a34a;margin-top:4px}
 
-    .pricing-card.popular{
-      border:2px solid #ef4444;
-      box-shadow:0 28px 80px rgba(239,68,68,.14);
-      transform:translateY(-8px);
-    }
-
-    .popular-badge{
-      position:absolute;
-      top:-15px;
-      left:50%;
-      transform:translateX(-50%);
-      background:#ef4444;
-      color:#fff;
-      padding:8px 20px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.4px;
-    }
-
-    .plan-name{
-      font-size:30px;
-      font-weight:900;
-      color:#111827;
-      margin-bottom:10px;
-    }
-
-    .plan-description{
-      color:#64748b;
-      line-height:1.7;
-      margin:0 0 24px;
-      min-height:54px;
-    }
-
-    .plan-price{
-      display:flex;
-      align-items:flex-end;
-      gap:7px;
-      margin-bottom:26px;
-    }
-
-    .amount{
-      font-size:58px;
-      font-weight:900;
-      line-height:1;
-      color:#111827;
-    }
-
-    .duration{
-      color:#64748b;
-      font-size:16px;
-      margin-bottom:8px;
-      font-weight:800;
-    }
-
-    .plan-features{
-      margin:0 0 34px;
-      padding:0;
-      list-style:none;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      flex:1;
-    }
-
-    .plan-features li{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      color:#334155;
-      line-height:1.6;
-      font-weight:650;
-    }
-
-    .plan-features i{
-      color:#16a34a;
-      margin-top:4px;
-    }
-
-    .plan-btn{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      text-decoration:none;
-      padding:16px 20px;
-      border-radius:16px;
-      font-weight:900;
-      font-size:16px;
-      transition:.25s ease;
-    }
-
-    .plan-btn.free{
-      background:#f3f4f6;
-      color:#111827;
-    }
-
+    .plan-btn{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;padding:16px 20px;border-radius:16px;font-weight:900;font-size:16px;transition:.25s ease}
+    .plan-btn.free{background:#f3f4f6;color:#111827}
     .plan-btn.free:hover{background:#e5e7eb}
+    .plan-btn.premium{background:#ef4444;color:#fff;box-shadow:0 16px 40px rgba(239,68,68,.25)}
+    .plan-btn.premium:hover{transform:translateY(-2px);background:#dc2626}
 
-    .plan-btn.premium{
-      background:#ef4444;
-      color:#fff;
-      box-shadow:0 16px 40px rgba(239,68,68,.25);
-    }
+    .pricing-note{margin-top:45px;text-align:center;color:#64748b;font-size:15px;line-height:1.8}
 
-    .plan-btn.premium:hover{
-      transform:translateY(-2px);
-      background:#dc2626;
-    }
+    .faq-section{max-width:950px;margin:80px auto 70px;padding:0 20px}
+    .faq-section h2{text-align:center;font-size:38px;margin:0 0 38px;color:#111827}
+    .faq-grid{display:grid;gap:18px}
+    .faq-card{background:#fff;border:1px solid #e5e7eb;border-radius:20px;padding:24px;box-shadow:0 14px 40px rgba(15,23,42,.05)}
+    .faq-card h3{margin:0 0 10px;color:#111827;font-size:18px}
+    .faq-card p{color:#64748b;line-height:1.8;margin:0}
 
-    .pricing-note{
-      margin-top:45px;
-      text-align:center;
-      color:#64748b;
-      font-size:15px;
-      line-height:1.8;
-    }
-
-    .faq-section{
-      max-width:950px;
-      margin:80px auto 70px;
-      padding:0 20px;
-    }
-
-    .faq-section h2{
-      text-align:center;
-      font-size:38px;
-      margin:0 0 38px;
-      color:#111827;
-    }
-
-    .faq-grid{
-      display:grid;
-      gap:18px;
-    }
-
-    .faq-card{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:20px;
-      padding:24px;
-      box-shadow:0 14px 40px rgba(15,23,42,.05);
-    }
-
-    .faq-card h3{
-      margin:0 0 10px;
-      color:#111827;
-      font-size:18px;
-    }
-
-    .faq-card p{
-      color:#64748b;
-      line-height:1.8;
-      margin:0;
-    }
+    .hp-profile-wrap{display:none;position:relative;align-items:center}
+    .hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
+    .hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+    .hp-profile-menu{display:none;position:absolute;top:54px;right:0;width:300px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 25px 70px rgba(15,23,42,.16);padding:18px;z-index:999999}
+    .hp-profile-menu.active{display:block}
+    .hp-profile-head{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid #eef2f7}
+    .hp-profile-head strong{display:block;color:#111827;font-size:16px;margin-bottom:3px}
+    .hp-profile-head p{margin:0;color:#64748b;font-size:13px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .hp-profile-list{padding:14px 0}
+    .hp-profile-list a,.hp-profile-logout{width:100%;display:flex;align-items:center;gap:12px;padding:11px 8px;border-radius:10px;color:#334155;text-decoration:none;font-size:15px;font-weight:700;background:transparent;border:none;cursor:pointer;text-align:left}
+    .hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc;color:#111827}
+    .hp-premium-link{color:#2563eb!important}
+    .hp-profile-logout{border-top:1px solid #eef2f7;padding-top:15px;color:#ef4444}
 
     @media(max-width:768px){
-      .pricing-hero{
-        padding:55px 18px 30px;
-      }
-
-      .pricing-hero h1{
-        font-size:36px;
-      }
-
-      .pricing-hero p{
-        font-size:16px;
-      }
-
-      .pricing-grid{
-        grid-template-columns:1fr;
-        gap:24px;
-      }
-
-      .pricing-card{
-        padding:28px 22px;
-        border-radius:24px;
-      }
-
-      .pricing-card.popular{
-        transform:none;
-      }
-
-      .amount{
-        font-size:48px;
-      }
-
-      .faq-section h2{
-        font-size:30px;
-      }
+      .pricing-hero{padding:55px 18px 30px}
+      .pricing-hero h1{font-size:36px}
+      .pricing-hero p{font-size:16px}
+      .pricing-grid{grid-template-columns:1fr;gap:24px}
+      .pricing-card{padding:28px 22px;border-radius:24px}
+      .pricing-card.popular{transform:none}
+      .amount{font-size:48px}
+      .faq-section h2{font-size:30px}
     }
   </style>
 </head>
@@ -261,9 +86,36 @@
     <a href="/pricing.html">Pricing</a>
   </nav>
 
-  <div class="auth-buttons">
+  <div class="auth-buttons" id="desktopAuthButtons">
     <a href="/login.html" class="login-btn">Login</a>
     <a href="/signup.html" class="signup-btn">Sign Up</a>
+  </div>
+
+  <div class="hp-profile-wrap" id="desktopProfileBox">
+    <button class="hp-profile-btn" id="profileBtn" type="button">
+      <span class="hp-avatar" id="profileAvatar">U</span>
+      <span id="profileName">User</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    <div class="hp-profile-menu" id="profileMenu">
+      <div class="hp-profile-head">
+        <span class="hp-avatar" id="profileMenuAvatar">U</span>
+        <div>
+          <strong id="profileMenuName">User</strong>
+          <p id="profileMenuEmail">user@email.com</p>
+        </div>
+      </div>
+
+      <div class="hp-profile-list">
+        <a href="/account.html">⚙️ Account Settings</a>
+        <a href="/pricing.html" class="hp-premium-link">🚀 Upgrade to Premium</a>
+        <a href="#">👥 Team</a>
+        <a href="#">🔗 Workflows</a>
+      </div>
+
+      <button class="hp-profile-logout" id="logoutBtn" type="button">↪ Log out</button>
+    </div>
   </div>
 </header>
 
@@ -280,10 +132,7 @@
 
     <div class="pricing-card">
       <div class="plan-name">Free</div>
-
-      <p class="plan-description">
-        Perfect for casual PDF usage and basic document tasks.
-      </p>
+      <p class="plan-description">Perfect for casual PDF usage and basic document tasks.</p>
 
       <div class="plan-price">
         <div class="amount">$0</div>
@@ -298,19 +147,13 @@
         <li><i class="fa-solid fa-check"></i> Secure cloud processing</li>
       </ul>
 
-      <a href="/signup.html" class="plan-btn free">
-        Get Started Free
-      </a>
+      <a href="/signup.html" class="plan-btn free">Get Started Free</a>
     </div>
 
     <div class="pricing-card popular">
       <div class="popular-badge">MOST POPULAR</div>
-
       <div class="plan-name">Premium</div>
-
-      <p class="plan-description">
-        Best for professionals, teams, students, and heavy PDF users.
-      </p>
+      <p class="plan-description">Best for professionals, teams, students, and heavy PDF users.</p>
 
       <div class="plan-price">
         <div class="amount">$5</div>
@@ -346,34 +189,26 @@
   <div class="faq-grid">
     <div class="faq-card">
       <h3>Can I use HelloPDF for free?</h3>
-      <p>
-        Yes. You can use most PDF tools for free with daily usage limits.
-      </p>
+      <p>Yes. You can use most PDF tools for free with daily usage limits.</p>
     </div>
 
     <div class="faq-card">
       <h3>What do I get with Premium?</h3>
-      <p>
-        Premium gives you unlimited usage, faster processing, larger uploads, OCR,
-        PDF Summarizer, Translate PDF, batch tools, and priority support.
-      </p>
+      <p>Premium gives you unlimited usage, faster processing, larger uploads, OCR, PDF Summarizer, Translate PDF, batch tools, and priority support.</p>
     </div>
 
     <div class="faq-card">
       <h3>Will my uploaded files stay secure?</h3>
-      <p>
-        Yes. Your files are processed securely and temporary files are removed automatically.
-      </p>
+      <p>Yes. Your files are processed securely and temporary files are removed automatically.</p>
     </div>
 
     <div class="faq-card">
       <h3>When will online payment launch?</h3>
-      <p>
-        Stripe payment integration and automatic premium activation will be added in a future update.
-      </p>
+      <p>Stripe payment integration and automatic premium activation will be added in a future update.</p>
     </div>
   </div>
 </section>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -381,51 +216,70 @@
   const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const authButtons = document.querySelector(".auth-buttons");
+  const desktopAuthButtons = document.getElementById("desktopAuthButtons");
+  const desktopProfileBox = document.getElementById("desktopProfileBox");
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+  const logoutBtn = document.getElementById("logoutBtn");
   const premiumUpgradeBtn = document.getElementById("premiumUpgradeBtn");
 
-  async function checkPricingUser() {
+  function getUserName(user){
+    const email = user.email || "";
+    return user.user_metadata?.full_name || localStorage.getItem("hellopdf_user_name") || email.split("@")[0] || "User";
+  }
+
+  async function checkPricingUser(){
     const { data } = await supabaseClient.auth.getUser();
 
-    if (data && data.user) {
+    if(data && data.user){
       const user = data.user;
-      const name =
-        user.user_metadata?.full_name ||
-        localStorage.getItem("hellopdf_user_name") ||
-        user.email.split("@")[0];
+      const fullName = getUserName(user);
+      const firstLetter = fullName.charAt(0).toUpperCase();
 
-      if (authButtons) {
-        authButtons.innerHTML = `
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-weight:800;color:#111827;">Hi ${name}</span>
-            <button id="pricingLogoutBtn" style="background:#ef4444;color:white;border:none;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer;">
-              Logout
-            </button>
-          </div>
-        `;
-      }
+      desktopAuthButtons.style.display = "none";
+      desktopProfileBox.style.display = "flex";
 
-      const logoutBtn = document.getElementById("pricingLogoutBtn");
-      if (logoutBtn) {
-        logoutBtn.onclick = async () => {
-          await supabaseClient.auth.signOut();
-          localStorage.removeItem("hellopdf_user_email");
-          localStorage.removeItem("hellopdf_user_name");
-          window.location.href = "/index.html";
-        };
-      }
+      document.getElementById("profileAvatar").textContent = firstLetter;
+      document.getElementById("profileName").textContent = fullName;
+      document.getElementById("profileMenuAvatar").textContent = firstLetter;
+      document.getElementById("profileMenuName").textContent = fullName;
+      document.getElementById("profileMenuEmail").textContent = user.email || "";
+    }else{
+      desktopAuthButtons.style.display = "flex";
+      desktopProfileBox.style.display = "none";
     }
   }
 
-  if (premiumUpgradeBtn) {
-    premiumUpgradeBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
+  if(profileBtn){
+    profileBtn.addEventListener("click", function(e){
+      e.stopPropagation();
+      profileMenu.classList.toggle("active");
+    });
+  }
 
+  document.addEventListener("click", function(e){
+    if(desktopProfileBox && !desktopProfileBox.contains(e.target)){
+      profileMenu.classList.remove("active");
+    }
+  });
+
+  if(logoutBtn){
+    logoutBtn.addEventListener("click", async function(){
+      await supabaseClient.auth.signOut();
+      localStorage.removeItem("hellopdf_user_email");
+      localStorage.removeItem("hellopdf_user_name");
+      window.location.href = "/index.html";
+    });
+  }
+
+  if(premiumUpgradeBtn){
+    premiumUpgradeBtn.addEventListener("click", async function(e){
+      e.preventDefault();
       const { data } = await supabaseClient.auth.getUser();
 
-      if (data && data.user) {
+      if(data && data.user){
         alert("Premium payment system coming soon. You are already logged in.");
-      } else {
+      }else{
         localStorage.setItem("hellopdf_after_login", "/pricing.html");
         window.location.href = "/login.html";
       }
@@ -434,5 +288,6 @@
 
   checkPricingUser();
 </script>
+
 </body>
 </html>
