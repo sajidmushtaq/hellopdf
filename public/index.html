@@ -1127,6 +1127,25 @@
   });
 })();
 </script>
+ <script>
+  window.addEventListener("load", function () {
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "auto";
 
+    const overlay = document.getElementById("drawerOverlay");
+    if (overlay) {
+      overlay.classList.remove("active");
+      overlay.style.display = "none";
+      overlay.style.opacity = "0";
+      overlay.style.pointerEvents = "none";
+    }
+
+    const toolsDrawer = document.getElementById("toolsDrawer");
+    const mainDrawer = document.getElementById("mainDrawer");
+
+    if (toolsDrawer) toolsDrawer.classList.remove("active");
+    if (mainDrawer) mainDrawer.classList.remove("active");
+  });
+</script>
 </body>
 </html>

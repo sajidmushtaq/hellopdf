@@ -22520,3 +22520,15 @@ header{
   font-size:14px;
   font-weight:700;
 }
+
+.drawer-overlay{
+  display:none !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+.drawer-overlay.active{
+  display:block !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
