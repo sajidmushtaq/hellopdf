@@ -22546,3 +22546,38 @@ header{
     visibility:visible !important;
     pointer-events:auto !important;
 }
+
+/* FINAL OVERLAY FIX */
+.drawer-overlay,
+#drawerOverlay,
+.drawer-overlay.active,
+#drawerOverlay.active{
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+body.drawer-open #drawerOverlay.active{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+
+/* FINAL DRAWER OVERLAY FIX */
+#drawerOverlay,
+.drawer-overlay{
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+body.drawer-open #drawerOverlay.active,
+body.drawer-open .drawer-overlay.active{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}

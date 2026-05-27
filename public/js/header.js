@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
-
   const headerContainer = document.getElementById("headerContainer");
 
   if (headerContainer) {
     try {
-      const response = await fetch("/components/header.html?v=2");
+      const response = await fetch("/components/header.html?v=3");
       const headerHTML = await response.text();
       headerContainer.innerHTML = headerHTML;
     } catch (err) {
@@ -12,105 +11,64 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  document.body.classList.remove("modal-open");
-  document.body.style.overflow = "auto";
-
   const toolsBtn = document.getElementById("toolsMenuBtn");
   const mainBtn = document.getElementById("mainMenuBtn");
-
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
-
   const overlay = document.getElementById("drawerOverlay");
-
   const toolsClose = document.getElementById("toolsClose");
   const mainClose = document.getElementById("mainClose");
 
-  function closeDrawers() {
-
-    if (toolsDrawer) {
-      toolsDrawer.classList.remove("active");
-    }
-
-    if (mainDrawer) {
-      mainDrawer.classList.remove("active");
-    }
+  function forceHideOverlay() {
+    document.body.classList.remove("modal-open");
+    document.body.classList.remove("drawer-open");
+    document.body.style.overflow = "auto";
 
     if (overlay) {
       overlay.classList.remove("active");
-      overlay.style.display = "none";
-      overlay.style.opacity = "0";
-      overlay.style.visibility = "hidden";
-      overlay.style.pointerEvents = "none";
+      overlay.removeAttribute("style");
     }
-
-    document.body.style.overflow = "auto";
   }
 
-  if (toolsBtn && toolsDrawer && overlay) {
-
-    toolsBtn.addEventListener("click", () => {
-
-      closeDrawers();
-
-      toolsDrawer.classList.add("active");
-
-      overlay.classList.add("active");
-      overlay.style.display = "block";
-      overlay.style.opacity = "1";
-      overlay.style.visibility = "visible";
-      overlay.style.pointerEvents = "auto";
-
-      document.body.style.overflow = "hidden";
-    });
+  function closeDrawers() {
+    if (toolsDrawer) toolsDrawer.classList.remove("active");
+    if (mainDrawer) mainDrawer.classList.remove("active");
+    forceHideOverlay();
   }
 
-  if (mainBtn && mainDrawer && overlay) {
+  function openDrawer(drawer) {
+    closeDrawers();
 
-    mainBtn.addEventListener("click", () => {
+    if (drawer) drawer.classList.add("active");
+    if (overlay) overlay.classList.add("active");
 
-      closeDrawers();
-
-      mainDrawer.classList.add("active");
-
-      overlay.classList.add("active");
-      overlay.style.display = "block";
-      overlay.style.opacity = "1";
-      overlay.style.visibility = "visible";
-      overlay.style.pointerEvents = "auto";
-
-      document.body.style.overflow = "hidden";
-    });
+    document.body.classList.add("drawer-open");
+    document.body.style.overflow = "hidden";
   }
 
-  if (toolsClose) {
-    toolsClose.addEventListener("click", closeDrawers);
+  forceHideOverlay();
+
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => openDrawer(toolsDrawer));
   }
 
-  if (mainClose) {
-    mainClose.addEventListener("click", closeDrawers);
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => openDrawer(mainDrawer));
   }
 
-  if (overlay) {
-    overlay.addEventListener("click", closeDrawers);
-  }
+  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
+  if (mainClose) mainClose.addEventListener("click", closeDrawers);
+  if (overlay) overlay.addEventListener("click", closeDrawers);
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeDrawers();
-    }
+    if (e.key === "Escape") closeDrawers();
   });
 
   document.querySelectorAll(".upgrade-btn, .premium-upgrade-btn").forEach((btn) => {
-
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-
       closeDrawers();
-
       alert("Premium payment system coming soon.");
     });
-
   });
-
 });
