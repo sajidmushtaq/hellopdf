@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (overlay) overlay.classList.add("active");
 
     document.body.classList.add("drawer-open");
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "auto";
   }
 
   forceHideOverlay();
