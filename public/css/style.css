@@ -22551,3 +22551,23 @@ header{
   }
 
 }
+
+/* NUCLEAR DESKTOP OVERLAY FIX */
+@media (min-width: 769px){
+  #drawerOverlay,
+  .drawer-overlay,
+  #toolsDrawer,
+  #mainDrawer,
+  .tools-drawer,
+  .main-drawer{
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    background: transparent !important;
+  }
+
+  body{
+    overflow: auto !important;
+  }
+}
