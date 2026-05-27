@@ -22532,3 +22532,17 @@ header{
   opacity:1 !important;
   pointer-events:auto !important;
 }
+
+#drawerOverlay{
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+}
+
+#drawerOverlay.active{
+    display:block !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+}

@@ -42,119 +42,6 @@ const upload = multer({
   dest: uploadDir
 });
 
-// ===== HelloPDF Free Daily Limit System =====
-const usageFilePath = path.join(__dirname, "usage-limits.json");
-
-const HELLOPDF_FREE_LIMITS = {
-  merge: 30,
-  split: 3,
-  compress: 5,
-  imageToPdf: 25,
-  jpgToPdf: 25,
-  scanToPdf: 25,
-  pdfToImage: 5,
-  pdfToJpg: 5,
-  pdfToPng: 5,
-  pdfToText: 5,
-  wordToPdf: 3,
-  pdfToWord: 3,
-  pdfToExcel: 3,
-  excelToPdf: 3,
-  pdfToPowerpoint: 3,
-  powerpointToPdf: 3,
-  htmlToPdf: 3,
-  pdfToPdfa: 3,
-  removePages: 5,
-  extractPages: 5,
-  reorderPages: 5,
-  rotate: 25,
-  cropPdf: 5,
-  watermark: 5,
-  pageNumbers: 5,
-  protect: 5,
-  unlock: 5,
-  repairPdf: 3,
-  flattenPdf: 5,
-  comparePdf: 3,
-  redactPdf: 3,
-  editPdf: 3,
-  signPdf: 5,
-  fillSignPdf: 3,
-  pdfForms: 3,
-  summarize: 3,
-  translate: 3,
-  ocrPdf: 3,
-  default: 3
-};
-
-function getTodayKey() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function getClientId(req) {
-  const forwardedFor = req.headers["x-forwarded-for"];
-  const ip = Array.isArray(forwardedFor)
-    ? forwardedFor[0]
-    : forwardedFor?.split(",")[0]?.trim();
-
-  return ip || req.ip || req.socket.remoteAddress || "unknown";
-}
-
-function readUsageData() {
-  try {
-    if (!fs.existsSync(usageFilePath)) return {};
-    return JSON.parse(fs.readFileSync(usageFilePath, "utf8"));
-  } catch (err) {
-    console.error("USAGE READ ERROR:", err.message);
-    return {};
-  }
-}
-
-function saveUsageData(data) {
-  try {
-    fs.writeFileSync(usageFilePath, JSON.stringify(data, null, 2));
-  } catch (err) {
-    console.error("USAGE SAVE ERROR:", err.message);
-  }
-}
-
-function isPremiumRequest(req) {
-  // Future-ready: when paid system is added, send x-hellopdf-premium:true
-  // from a verified backend/session only. For now all users use free limits.
-  return req.headers["x-hellopdf-premium"] === "true";
-}
-
-function freeLimit(toolName) {
-  return function (req, res, next) {
-    if (isPremiumRequest(req)) return next();
-
-    const today = getTodayKey();
-    const clientId = getClientId(req);
-    const limit = HELLOPDF_FREE_LIMITS[toolName] || HELLOPDF_FREE_LIMITS.default;
-    const data = readUsageData();
-
-    if (!data[today]) data[today] = {};
-    if (!data[today][clientId]) data[today][clientId] = {};
-    if (!data[today][clientId][toolName]) data[today][clientId][toolName] = 0;
-
-    if (data[today][clientId][toolName] >= limit) {
-      return res.status(429).json({
-        success: false,
-        limitReached: true,
-        tool: toolName,
-        used: data[today][clientId][toolName],
-        limit,
-        message: `Free daily limit reached. You can use this tool ${limit} times per day. Premium launching soon.`
-      });
-    }
-
-    data[today][clientId][toolName] += 1;
-    saveUsageData(data);
-    next();
-  };
-}
-
-
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
@@ -171,7 +58,7 @@ app.get("/health", (req, res) => {
   res.send("Server Running");
 });
 
-app.post("/merge", freeLimit("merge"), upload.array("pdfs"), async (req, res) => {
+app.post("/merge", upload.array("pdfs"), async (req, res) => {
   try {
     if (!req.files || req.files.length < 2) {
       return res.status(400).send("Please upload at least 2 PDF files");
@@ -209,7 +96,7 @@ app.post("/merge", freeLimit("merge"), upload.array("pdfs"), async (req, res) =>
   }
 });
 
-app.post("/split", freeLimit("split"), upload.single("pdf"), async (req, res) => {
+app.post("/split", upload.single("pdf"), async (req, res) => {
   try {
     const bytes = fs.readFileSync(req.file.path);
     const pdfDoc = await PDFDocument.load(bytes);
@@ -243,7 +130,7 @@ app.post("/split", freeLimit("split"), upload.single("pdf"), async (req, res) =>
   }
 });
 
-app.post("/pdf-to-image", freeLimit("pdfToImage"), upload.single("pdf"), async (req, res) => {
+app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
   try {
     const bytes = fs.readFileSync(req.file.path);
     const pdfDoc = await PDFDocument.load(bytes);
@@ -277,7 +164,7 @@ app.post("/pdf-to-image", freeLimit("pdfToImage"), upload.single("pdf"), async (
   }
 });
 
-app.post("/remove-pages", freeLimit("removePages"), upload.single("pdf"), async (req, res) => {
+app.post("/remove-pages", upload.single("pdf"), async (req, res) => {
   try {
     const pagesToRemove = req.body.pages
       .split(",")
@@ -311,7 +198,7 @@ app.post("/remove-pages", freeLimit("removePages"), upload.single("pdf"), async 
   }
 });
 
-app.post("/rotate", freeLimit("rotate"), upload.single("pdf"), async (req, res) => {
+app.post("/rotate", upload.single("pdf"), async (req, res) => {
   try {
     const angle = parseInt(req.body.angle);
 
@@ -340,7 +227,7 @@ app.post("/rotate", freeLimit("rotate"), upload.single("pdf"), async (req, res) 
   }
 });
 
-app.post("/watermark", freeLimit("watermark"), upload.single("pdf"), async (req, res) => {
+app.post("/watermark", upload.single("pdf"), async (req, res) => {
   try {
     const { text, size, opacity } = req.body;
 
@@ -381,7 +268,7 @@ app.post("/watermark", freeLimit("watermark"), upload.single("pdf"), async (req,
 
 const gsPath = `"C:\\Program Files\\gs\\gs10.07.0\\bin\\gswin64c.exe"`;
 
-app.post("/compress", freeLimit("compress"), upload.single("pdf"), async (req, res) => {
+app.post("/compress", upload.single("pdf"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("Please upload a PDF file");
@@ -427,7 +314,7 @@ app.post("/compress", freeLimit("compress"), upload.single("pdf"), async (req, r
   }
 });
 
-app.post("/pdf-to-word", freeLimit("pdfToWord"), upload.single("pdf"), async (req, res) => {
+app.post("/pdf-to-word", upload.single("pdf"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
@@ -486,7 +373,7 @@ app.post("/pdf-to-word", freeLimit("pdfToWord"), upload.single("pdf"), async (re
   }
 });
 
-app.post("/word-to-pdf", freeLimit("wordToPdf"), upload.single("wordFile"), async (req, res) => {
+app.post("/word-to-pdf", upload.single("wordFile"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No file uploaded");
@@ -542,7 +429,7 @@ app.post("/word-to-pdf", freeLimit("wordToPdf"), upload.single("wordFile"), asyn
   }
 });
 
-app.post("/extract-pages", freeLimit("extractPages"), upload.single("pdfFile"), async (req, res) => {
+app.post("/extract-pages", upload.single("pdfFile"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
@@ -621,7 +508,7 @@ app.post("/extract-pages", freeLimit("extractPages"), upload.single("pdfFile"), 
   }
 });
 
-app.post("/reorder-pages", freeLimit("reorderPages"), upload.single("pdfFile"), async (req, res) => {
+app.post("/reorder-pages", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
 
   try {
@@ -678,7 +565,7 @@ app.post("/reorder-pages", freeLimit("reorderPages"), upload.single("pdfFile"), 
   }
 });
 
-app.post("/add-page-numbers", freeLimit("pageNumbers"), upload.single("pdfFile"), async (req, res) => {
+app.post("/add-page-numbers", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
 
   try {
@@ -726,7 +613,7 @@ app.post("/add-page-numbers", freeLimit("pageNumbers"), upload.single("pdfFile")
   }
 });
 
-app.post("/protect-pdf", freeLimit("protect"), upload.single("pdfFile"), async (req, res) => {
+app.post("/protect-pdf", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
   let outputPath = null;
 
@@ -800,7 +687,7 @@ app.post("/protect-pdf", freeLimit("protect"), upload.single("pdfFile"), async (
   }
 });
 
-app.post("/unlock-pdf", freeLimit("unlock"), upload.single("pdfFile"), async (req, res) => {
+app.post("/unlock-pdf", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
   let outputPath = null;
 
@@ -870,7 +757,7 @@ app.post("/unlock-pdf", freeLimit("unlock"), upload.single("pdfFile"), async (re
   }
 });
 
-app.post("/pdf-to-excel", freeLimit("pdfToExcel"), upload.single("pdfFile"), async (req, res) => {
+app.post("/pdf-to-excel", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
   let outputPath = null;
 
@@ -937,7 +824,7 @@ app.post("/pdf-to-excel", freeLimit("pdfToExcel"), upload.single("pdfFile"), asy
   }
 });
 
-app.post("/excel-to-pdf", freeLimit("excelToPdf"), upload.single("excelFile"), async (req, res) => {
+app.post("/excel-to-pdf", upload.single("excelFile"), async (req, res) => {
   let inputPath = null;
 
   try {
@@ -1003,7 +890,7 @@ app.post("/excel-to-pdf", freeLimit("excelToPdf"), upload.single("excelFile"), a
   }
 });
 
-app.post("/ocr-pdf", freeLimit("ocrPdf"), upload.array("files"), async (req, res) => {
+app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
   let uploadedPaths = [];
 
   try {
@@ -1102,7 +989,7 @@ app.post("/ocr-pdf", freeLimit("ocrPdf"), upload.array("files"), async (req, res
   }
 });
 
-app.post("/pdf-to-powerpoint", freeLimit("pdfToPowerpoint"), upload.single("pdfFile"), async (req, res) => {
+app.post("/pdf-to-powerpoint", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
   let outputPath = null;
 
@@ -1185,7 +1072,7 @@ app.post("/pdf-to-powerpoint", freeLimit("pdfToPowerpoint"), upload.single("pdfF
   }
 });
 
-app.post("/powerpoint-to-pdf", freeLimit("powerpointToPdf"), upload.single("pptFile"), async (req, res) => {
+app.post("/powerpoint-to-pdf", upload.single("pptFile"), async (req, res) => {
   let inputPath = null;
   let fixedInputPath = null;
   let finalPath = null;
@@ -1260,7 +1147,7 @@ app.post("/powerpoint-to-pdf", freeLimit("powerpointToPdf"), upload.single("pptF
   }
 });
 
-app.post("/pdf-to-jpg", freeLimit("pdfToJpg"), upload.single("pdfFile"), async (req, res) => {
+app.post("/pdf-to-jpg", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
   let outputDir = null;
   let zipPath = null;
@@ -1344,7 +1231,7 @@ app.post("/pdf-to-jpg", freeLimit("pdfToJpg"), upload.single("pdfFile"), async (
   }
 });
 
-app.post("/jpg-to-pdf", freeLimit("jpgToPdf"), upload.array("jpgFiles"), async (req, res) => {
+app.post("/jpg-to-pdf", upload.array("jpgFiles"), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("No JPG files uploaded");
@@ -1398,7 +1285,7 @@ app.post("/jpg-to-pdf", freeLimit("jpgToPdf"), upload.array("jpgFiles"), async (
   }
 });
 
-app.post("/pdf-to-png", freeLimit("pdfToPng"), upload.single("pdfFile"), async (req, res) => {
+app.post("/pdf-to-png", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
   let outputDir = null;
   let zipPath = null;
@@ -1484,7 +1371,7 @@ app.post("/pdf-to-png", freeLimit("pdfToPng"), upload.single("pdfFile"), async (
   }
 });
 
-app.post("/html-to-pdf", freeLimit("htmlToPdf"), async (req, res) => {
+app.post("/html-to-pdf", async (req, res) => {
   let browser = null;
 
   try {
@@ -1547,7 +1434,7 @@ app.post("/html-to-pdf", freeLimit("htmlToPdf"), async (req, res) => {
   }
 });
 
-app.post("/pdf-to-text", freeLimit("pdfToText"), upload.single("pdfFile"), async (req, res) => {
+app.post("/pdf-to-text", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
 
   try {
@@ -1584,7 +1471,7 @@ app.post("/pdf-to-text", freeLimit("pdfToText"), upload.single("pdfFile"), async
   }
 });
 
-app.post("/image-to-pdf", freeLimit("imageToPdf"), upload.array("images"), async (req, res) => {
+app.post("/image-to-pdf", upload.array("images"), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("No images uploaded");
@@ -1714,7 +1601,7 @@ app.get("/check-auth", (req, res) => {
   }
 });
 
-app.post("/repair-pdf", freeLimit("repairPdf"), upload.single("pdf"), async (req, res) => {
+app.post("/repair-pdf", upload.single("pdf"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
@@ -1756,7 +1643,7 @@ app.post("/repair-pdf", freeLimit("repairPdf"), upload.single("pdf"), async (req
   }
 });
 
-app.post("/crop-pdf", freeLimit("cropPdf"), upload.single("pdfFile"), async (req, res) => {
+app.post("/crop-pdf", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
 
   try {
@@ -1823,7 +1710,7 @@ app.post("/crop-pdf", freeLimit("cropPdf"), upload.single("pdfFile"), async (req
   }
 });
 
-app.post("/flatten-pdf", freeLimit("flattenPdf"), upload.single("pdfFile"), async (req, res) => {
+app.post("/flatten-pdf", upload.single("pdfFile"), async (req, res) => {
 
   let inputPath = null;
 
@@ -1878,7 +1765,6 @@ app.post("/flatten-pdf", freeLimit("flattenPdf"), upload.single("pdfFile"), asyn
 
 app.post(
   "/compare-pdf",
-  freeLimit("comparePdf"),
   upload.fields([
     { name: "pdfOne", maxCount: 1 },
     { name: "pdfTwo", maxCount: 1 }
@@ -2002,7 +1888,7 @@ app.post(
   }
 );
 
-app.post("/redact-pdf", freeLimit("redactPdf"), upload.single("pdfFile"), async (req, res) => {
+app.post("/redact-pdf", upload.single("pdfFile"), async (req, res) => {
 
   let inputPath = null;
 
@@ -2076,7 +1962,7 @@ app.post("/redact-pdf", freeLimit("redactPdf"), upload.single("pdfFile"), async 
   }
 });
 
-app.post("/pdf-to-pdfa", freeLimit("pdfToPdfa"), upload.single("pdf"), async (req, res) => {
+app.post("/pdf-to-pdfa", upload.single("pdf"), async (req, res) => {
   let inputPath = null;
   let outputPath = null;
 
@@ -2152,7 +2038,7 @@ app.post("/pdf-to-pdfa", freeLimit("pdfToPdfa"), upload.single("pdf"), async (re
   }
 });
 
-app.post("/scan-to-pdf", freeLimit("scanToPdf"), upload.array("images"), async (req, res) => {
+app.post("/scan-to-pdf", upload.array("images"), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("No images uploaded");
@@ -2228,7 +2114,7 @@ app.post("/scan-to-pdf", freeLimit("scanToPdf"), upload.array("images"), async (
   }
 });
 
-app.post("/sign-pdf", freeLimit("signPdf"), upload.single("file"), async (req, res) => {
+app.post("/sign-pdf", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
@@ -2280,7 +2166,7 @@ app.post("/sign-pdf", freeLimit("signPdf"), upload.single("file"), async (req, r
     const signedPdfBytes = await pdfDoc.save();
 
     const outputFileName = `signed-${Date.now()}.pdf`;
-    const outputPath = path.join(outputsDir, outputFileName);
+    const outputPath = path.join(outputDir, outputFileName);
 
     fs.writeFileSync(outputPath, signedPdfBytes);
 
@@ -2295,7 +2181,7 @@ app.post("/sign-pdf", freeLimit("signPdf"), upload.single("file"), async (req, r
   }
 });
 
-app.post("/fill-sign-pdf", freeLimit("fillSignPdf"), upload.single("file"), async (req, res) => {
+app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
@@ -2369,7 +2255,7 @@ app.post("/fill-sign-pdf", freeLimit("fillSignPdf"), upload.single("file"), asyn
   }
 });
 
-app.post("/pdf-forms", freeLimit("pdfForms"), upload.single("file"), async (req, res) => {
+app.post("/pdf-forms", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
@@ -2442,15 +2328,16 @@ app.post("/pdf-forms", freeLimit("pdfForms"), upload.single("file"), async (req,
   }
 });
 
-app.post("/edit-pdf", freeLimit("editPdf"), upload.single("file"), async (req, res) => {
+app.post("/edit-pdf", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
     }
 
-    const items = JSON.parse(req.body.items || "[]");
-    if (!items.length) {
-      return res.status(400).send("No edit items found.");
+    const elements = JSON.parse(req.body.elements || "[]");
+
+    if (!elements.length) {
+      return res.status(400).send("No edits found.");
     }
 
     const inputPath = req.file.path;
@@ -2458,8 +2345,9 @@ app.post("/edit-pdf", freeLimit("editPdf"), upload.single("file"), async (req, r
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const pages = pdfDoc.getPages();
 
-    for (const item of items) {
+    for (const item of elements) {
       const pageIndex = Number(item.page) - 1;
+
       if (pageIndex < 0 || pageIndex >= pages.length) continue;
       if (!item.dataUrl || !item.dataUrl.includes(",")) continue;
 
@@ -2468,13 +2356,19 @@ app.post("/edit-pdf", freeLimit("editPdf"), upload.single("file"), async (req, r
 
       const base64Data = item.dataUrl.split(",")[1];
       const imageBytes = Buffer.from(base64Data, "base64");
-      const image = await pdfDoc.embedPng(imageBytes);
+
+      let image;
+      if (item.dataUrl.includes("image/jpeg") || item.dataUrl.includes("image/jpg")) {
+        image = await pdfDoc.embedJpg(imageBytes);
+      } else {
+        image = await pdfDoc.embedPng(imageBytes);
+      }
 
       const scaleX = pdfWidth / Number(item.pageWidth || pdfWidth);
       const scaleY = pdfHeight / Number(item.pageHeight || pdfHeight);
 
       const drawX = Number(item.x || 0) * scaleX;
-      const drawWidth = Number(item.width || 100) * scaleX;
+      const drawWidth = Number(item.width || 150) * scaleX;
       const drawHeight = Number(item.height || 40) * scaleY;
       const drawY = pdfHeight - (Number(item.y || 0) * scaleY) - drawHeight;
 
@@ -2513,123 +2407,95 @@ app.post("/edit-pdf", freeLimit("editPdf"), upload.single("file"), async (req, r
   }
 });
 
-app.post("/pdf-summarizer", freeLimit("summarize"), upload.single("pdf"), async (req, res) => {
-  let inputPath = null;
-
+app.post("/pdf-summarizer", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ success: false, message: "No PDF file uploaded." });
+      return res.status(400).send("No PDF file uploaded.");
     }
 
-    inputPath = req.file.path;
-    const pdfBuffer = fs.readFileSync(inputPath);
-    const data = await pdfParse(pdfBuffer);
-    const text = (data.text || "").replace(/\s+/g, " ").trim();
+    const inputPath = req.file.path;
+    const length = String(req.body.length || "2");
+
+    const dataBuffer = fs.readFileSync(inputPath);
+    const parsed = await pdfParse(dataBuffer);
+
+    const text = String(parsed.text || "").replace(/\s+/g, " ").trim();
 
     if (!text) {
-      return res.status(400).json({
-        success: false,
-        message: "No readable text found in this PDF."
-      });
+      fs.unlink(inputPath, () => {});
+      return res.status(400).send("Could not extract readable text from this PDF.");
     }
 
-    const length = req.body.length || "medium";
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    const sentences = text
+      .split(/(?<=[.!?])\s+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 25);
 
-    const sentenceLimit = length === "short" ? 4 : length === "long" ? 12 : 7;
-    const selected = sentences.slice(0, sentenceLimit).map((s) => s.trim());
+    const count = length === "1" ? 4 : 9;
 
-    const summary = selected.join(" ");
+    const summaryLines = sentences
+      .slice(0, count)
+      .map((s) => `• ${s}`);
 
-    const keyPoints = selected.slice(0, 5).map((s) => s.replace(/^[\s•-]+/, ""));
+    const summary = summaryLines.join("\n");
 
-    if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    fs.unlink(inputPath, () => {});
 
-    return res.json({
-      success: true,
-      fileName: req.file.originalname,
-      wordCount: text.split(/\s+/).length,
-      summary,
-      keyPoints
+    res.json({
+      text,
+      summary
     });
   } catch (error) {
-    console.error("PDF SUMMARIZER ERROR:", error);
-
-    if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-
-    return res.status(500).json({
-      success: false,
-      message: "Failed to summarize PDF."
-    });
+    console.error("PDF SUMMARIZER ERROR MESSAGE:", error.message);
+    console.error("PDF SUMMARIZER FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to summarize PDF.");
   }
 });
 
-app.post("/translate-pdf", freeLimit("translate"), upload.single("pdf"), async (req, res) => {
-  let inputPath = null;
-
+app.post("/translate-pdf", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ success: false, message: "No PDF file uploaded." });
+      return res.status(400).send("No PDF file uploaded.");
     }
 
-    inputPath = req.file.path;
+    const inputPath = req.file.path;
+    const fromLang = String(req.body.fromLang || "auto");
+    const toLang = String(req.body.toLang || "english");
 
-    const targetLanguage = req.body.targetLanguage || "english";
-    const pdfBuffer = fs.readFileSync(inputPath);
-    const data = await pdfParse(pdfBuffer);
-    const extractedText = (data.text || "").trim();
+    const dataBuffer = fs.readFileSync(inputPath);
+    const parsed = await pdfParse(dataBuffer);
 
-    if (!extractedText) {
-      return res.status(400).json({
-        success: false,
-        message: "No readable text found in this PDF."
-      });
+    const originalText = String(parsed.text || "").replace(/\s+/g, " ").trim();
+
+    fs.unlink(inputPath, () => {});
+
+    if (!originalText) {
+      return res.status(400).send("Could not extract readable text from this PDF.");
     }
 
-    const translatedText = createDemoTranslation(extractedText, targetLanguage);
+    const translated = makeDemoTranslation(originalText, fromLang, toLang);
 
-    if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-
-    return res.json({
-      success: true,
-      fileName: req.file.originalname,
-      targetLanguage,
-      originalText: extractedText.slice(0, 8000),
-      translatedText
+    res.json({
+      original: originalText,
+      translated
     });
   } catch (error) {
-    console.error("TRANSLATE PDF ERROR:", error);
-
-    if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-
-    return res.status(500).json({
-      success: false,
-      message: "Failed to translate PDF."
-    });
+    console.error("TRANSLATE PDF ERROR MESSAGE:", error.message);
+    console.error("TRANSLATE PDF FULL ERROR:", error);
+    res.status(500).send(error.message || "Failed to translate PDF.");
   }
 });
 
-function createDemoTranslation(text, targetLanguage) {
-  const cleanText = text.replace(/\s+/g, " ").trim();
-  const toLang = String(targetLanguage || "english").toLowerCase();
+function makeDemoTranslation(text, fromLang, toLang) {
+  const cleanText = String(text || "").trim();
 
-  const header = `Target language: ${targetLanguage}\n\n`;
-
-  if (toLang === "spanish") {
-    return (
-      header +
-      "Modo de traducción demo:\n\n" +
-      "El texto del PDF se extrajo correctamente. Para una traducción real al español, conecta Google Translate, DeepL u OpenAI API.\n\n" +
-      "Original extracted text:\n\n" +
-      cleanText.slice(0, 6000)
-    );
-  }
+  const header = `Translated PDF\nFrom: ${fromLang}\nTo: ${toLang}\n\n`;
 
   if (toLang === "urdu") {
     return (
       header +
       "Demo translation mode:\n\n" +
-      "PDF ka text successfully extract ho gaya hai. Real Urdu translation ke liye Google Translate, DeepL, ya OpenAI API connect karni hogi.\n\n" +
+      "Is PDF ka text successfully extract ho gaya hai. Real Urdu translation ke liye Google Translate, DeepL, ya OpenAI API connect karni hogi.\n\n" +
       "Original extracted text:\n\n" +
       cleanText.slice(0, 6000)
     );
