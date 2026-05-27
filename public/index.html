@@ -1127,7 +1127,7 @@
   });
 })();
 </script>
- <script>
+<script>
   window.addEventListener("load", function () {
     document.body.classList.remove("modal-open");
     document.body.style.overflow = "auto";
@@ -1146,6 +1146,21 @@
     if (toolsDrawer) toolsDrawer.classList.remove("active");
     if (mainDrawer) mainDrawer.classList.remove("active");
   });
+/* DESKTOP DARK OVERLAY FIX */
+@media(min-width:769px){
+  #drawerOverlay,
+  .drawer-overlay{
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+
+  body.drawer-open #drawerOverlay.active,
+  body.drawer-open .drawer-overlay.active{
+    display:none !important;
+  }
+}
 </script>
 </body>
 </html>
