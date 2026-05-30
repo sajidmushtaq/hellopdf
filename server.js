@@ -10,6 +10,7 @@ const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
+const { createClient } = require("@supabase/supabase-js");
 
 
 
@@ -2532,7 +2533,12 @@ function makeDemoTranslation(text, fromLang, toLang) {
 
 
 const PORT = process.env.PORT || 3000;
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
+console.log("Supabase connected");
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
