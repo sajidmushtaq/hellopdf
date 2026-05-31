@@ -2540,31 +2540,9 @@ const supabase = createClient(
 );
 
 app.get("/test-supabase", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("usage_logs")
-      .insert([
-        {
-          user_id: null,
-          tool_name: "test",
-          usage_count: 1
-        }
-      ])
-      .select();
-
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    res.json({
-      success: true,
-      data
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: err.message
-    });
-  }
+  res.json({
+    url: process.env.SUPABASE_URL
+  });
 });
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
 console.log("Supabase connected");
