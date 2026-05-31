@@ -2562,6 +2562,21 @@ app.get("/test-supabase", async (req, res) => {
     });
   }
 });
+
+app.get("/dns-test", async (req, res) => {
+  const dns = require("dns");
+
+  dns.lookup("google.com", (err, address) => {
+    if (err) {
+      return res.json({ error: err.message });
+    }
+
+    res.json({
+      success: true,
+      address
+    });
+  });
+});
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
 console.log("Supabase connected");
 app.listen(PORT, () => {
