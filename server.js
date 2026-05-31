@@ -11,33 +11,7 @@ const puppeteer = require("puppeteer");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const { createClient } = require("@supabase/supabase-js");
-app.get("/test-supabase", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("usage_logs")
-      .insert([
-        {
-          user_id: null,
-          tool_name: "test",
-          usage_count: 1
-        }
-      ])
-      .select();
 
-    if (error) {
-      return res.status(500).json(error);
-    }
-
-    res.json({
-      success: true,
-      data
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: err.message
-    });
-  }
-});
 
 
 
@@ -2564,6 +2538,34 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
+
+app.get("/test-supabase", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("usage_logs")
+      .insert([
+        {
+          user_id: null,
+          tool_name: "test",
+          usage_count: 1
+        }
+      ])
+      .select();
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+
+    res.json({
+      success: true,
+      data
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
 
 console.log("Supabase connected");
 app.listen(PORT, () => {
