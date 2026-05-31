@@ -2566,7 +2566,7 @@ app.get("/test-supabase", async (req, res) => {
     });
   }
 });
-
+console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
 console.log("Supabase connected");
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
