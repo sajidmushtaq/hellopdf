@@ -2533,6 +2533,51 @@ function makeDemoTranslation(text, fromLang, toLang) {
 }
 
 
+const PORT = process.env.PORT || 3000;
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
+// DNS TEST ROUTE
+app.get("/dns-test", async (req, res) => {
+  const dns = require("dns");
+
+  dns.lookup("google.com", (err, address) => {
+    if (err) {
+      return res.json({
+        success: false,
+        error: err.message
+      });
+    }
+
+    return res.json({
+      success: true,
+      address
+    });
+  });
+});
+
+// SUPABASE HOST DNS TEST
+app.get("/supabase-host-test", async (req, res) => {
+  const dns = require("dns");
+
+  dns.lookup("vfpgxiepllmkfkdtjyws.supabase.co", (err, address) => {
+    if (err) {
+      return res.json({
+        success: false,
+        error: err.message
+      });
+    }
+
+    return res.json({
+      success: true,
+      address
+    });
+  });
+});
+
 // SUPABASE TEST ROUTE
 app.get("/test-supabase", async (req, res) => {
   try {
@@ -2562,4 +2607,11 @@ app.get("/test-supabase", async (req, res) => {
       cause: err.cause ? err.cause.message : null
     });
   }
+});
+
+console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
+console.log("Supabase connected");
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
