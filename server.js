@@ -2541,6 +2541,32 @@ const supabase = createClient(
 
 
 app.get("/dns-test", async (req, res) => {
+  app.get("/test-supabase", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .limit(1);
+
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        error: error.message
+      });
+    }
+
+    res.json({
+      success: true,
+      data
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+});
   const dns = require("dns");
 
   dns.lookup("google.com", (err, address) => {
