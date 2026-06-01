@@ -2597,12 +2597,15 @@ app.get("/test-supabase", async (req, res) => {
       data
     });
 
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: err.message
-    });
-  }
+ catch (err) {
+  console.error("FULL SUPABASE ERROR:", err);
+
+  return res.status(500).json({
+    success: false,
+    error: err.message,
+    cause: err.cause ? err.cause.message : null
+  });
+}
 });
 
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
