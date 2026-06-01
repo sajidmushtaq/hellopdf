@@ -2599,14 +2599,21 @@ app.get("/test-supabase", async (req, res) => {
     });
 
   } catch (err) {
-    console.error("FULL SUPABASE ERROR:", err);
+  console.error("FULL SUPABASE ERROR:", err);
 
-    return res.status(500).json({
-      success: false,
-      error: err.message,
-      cause: err.cause ? err.cause.message : null
-    });
-  }
+  return res.status(500).json({
+    success: false,
+    error: err.message,
+    stack: err.stack,
+    cause: err.cause
+      ? {
+          message: err.cause.message,
+          code: err.cause.code,
+          errno: err.cause.errno
+        }
+      : null
+  });
+}
 });
 
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
