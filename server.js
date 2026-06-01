@@ -2534,14 +2534,33 @@ function makeDemoTranslation(text, fromLang, toLang) {
 
 
 const PORT = process.env.PORT || 3000;
+
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-
+// DNS TEST ROUTE
 app.get("/dns-test", async (req, res) => {
-  app.get("/test-supabase", async (req, res) => {
+  const dns = require("dns");
+
+  dns.lookup("google.com", (err, address) => {
+    if (err) {
+      return res.json({
+        success: false,
+        error: err.message
+      });
+    }
+
+    return res.json({
+      success: true,
+      address
+    });
+  });
+});
+
+// SUPABASE TEST ROUTE
+app.get("/test-supabase", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("profiles")
@@ -2555,33 +2574,22 @@ app.get("/dns-test", async (req, res) => {
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
       data
     });
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: err.message
     });
   }
 });
-  const dns = require("dns");
 
-  dns.lookup("google.com", (err, address) => {
-    if (err) {
-      return res.json({ error: err.message });
-    }
-
-    res.json({
-      success: true,
-      address
-    });
-  });
-});
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
 console.log("Supabase connected");
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
