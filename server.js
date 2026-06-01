@@ -2558,6 +2558,24 @@ app.get("/dns-test", async (req, res) => {
     });
   });
 });
+ 
+app.get("/supabase-host-test", async (req, res) => {
+  const dns = require("dns");
+
+  dns.lookup("vfpgxiepllmkfkdtjyws.supabase.co", (err, address) => {
+    if (err) {
+      return res.json({
+        success: false,
+        error: err.message
+      });
+    }
+
+    return res.json({
+      success: true,
+      address
+    });
+  });
+});
 
 // SUPABASE TEST ROUTE
 app.get("/test-supabase", async (req, res) => {
