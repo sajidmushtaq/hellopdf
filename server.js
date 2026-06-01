@@ -2580,6 +2580,8 @@ app.get("/supabase-host-test", async (req, res) => {
 
 // SUPABASE TEST ROUTE
 app.get("/test-supabase", async (req, res) => {
+  
+  console.log("TEST-SUPABASE ROUTE HIT");
   try {
     const { data, error } = await supabase
       .from("profiles")
