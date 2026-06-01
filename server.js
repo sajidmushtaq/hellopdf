@@ -2589,6 +2589,8 @@ app.get("/test-supabase", async (req, res) => {
       .limit(1);
 
       console.log("AFTER SUPABASE QUERY");
+console.log("SUPABASE ERROR =", error);
+console.log("SUPABASE DATA =", data);
 
     if (error) {
       return res.status(500).json({
