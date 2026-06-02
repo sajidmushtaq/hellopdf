@@ -2599,6 +2599,41 @@ console.log("SUPABASE DATA =", data);
       });
     }
 
+    // USAGE LOG TEST ROUTE
+app.get("/test-log-usage", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("usage_logs")
+      .insert([
+        {
+          user_id: "00000000-0000-0000-0000-000000000000",
+          tool_name: "pdf_merge",
+          usage_date: new Date().toISOString().split("T")[0],
+          usage_count: 1
+        }
+      ])
+      .select();
+
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        error: error
+      });
+    }
+
+    return res.json({
+      success: true,
+      data
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+});
+
     return res.json({
       success: true,
       data
