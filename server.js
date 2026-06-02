@@ -2629,7 +2629,7 @@ app.get("/test-log-usage", async (req, res) => {
       .from("usage_logs")
       .insert([
         {
-          user_id: "00000000-0000-0000-0000-000000000000",
+          user_id: "78d49140-bf8d-4c7f-a9ec-6da1468533ce",
           tool_name: "pdf_merge",
           usage_date: new Date().toISOString().split("T")[0],
           usage_count: 1
