@@ -62,6 +62,13 @@ app.get("/health", (req, res) => {
 
 app.post("/merge", upload.array("pdfs"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("MERGE USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
     if (!req.files || req.files.length < 2) {
       return res.status(400).send("Please upload at least 2 PDF files");
     }
