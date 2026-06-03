@@ -173,9 +173,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData();
 
-    filesArray.forEach((file) => {
-      formData.append("pdfs", file);
-    });
+filesArray.forEach((file) => {
+  formData.append("pdfs", file);
+});
+
+// GET LOGGED-IN USER
+const { data } = await window.supabaseClient.auth.getUser();
+
+if (!data.user) {
+  alert("Please login first");
+  window.location.href = "/login.html";
+  return;
+}
+
+formData.append("user_id", data.user.id);
 
     startFakeProgress();
 
