@@ -69,6 +69,19 @@ console.log("MERGE USER ID =", userId);
 if (!userId) {
   return res.status(401).send("Please login first");
 }
+// CHECK TODAY USAGE
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_merge")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("USAGE DATA =", usageData);
+console.log("USAGE ERROR =", usageError);
     if (!req.files || req.files.length < 2) {
       return res.status(400).send("Please upload at least 2 PDF files");
     }
