@@ -107,7 +107,35 @@ console.log("USAGE ERROR =", usageError);
     }
 
     const pdfBytes = await mergedPdf.save();
+    // CREATE OR UPDATE USAGE LOG
 
+if (!usageData) {
+
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_merge",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("UPDATE ERROR =", updateError);
+
+}
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=merged.pdf");
 
