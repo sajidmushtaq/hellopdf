@@ -177,6 +177,52 @@ if (!usageData) {
 
 app.post("/split", upload.single("pdf"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("SPLIT USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("SPLIT PROFILE DATA =", profileData);
+console.log("SPLIT PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_split")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("SPLIT USAGE DATA =", usageData);
+console.log("SPLIT USAGE ERROR =", usageError);
+// FREE USER LIMIT CHECK
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF splits."
+    );
+
+  }
+
+}
     const bytes = fs.readFileSync(req.file.path);
     const pdfDoc = await PDFDocument.load(bytes);
 
@@ -200,13 +246,40 @@ app.post("/split", upload.single("pdf"), async (req, res) => {
     archive.directory(outputDir, false);
     await archive.finalize();
 
-    output.on("close", () => {
-      res.download(zipPath);
-    });
-  } catch (err) {
-    console.error("SPLIT ERROR:", err);
-    res.status(500).send("Split failed");
+    output.on("close", async () => {
+
+  // CREATE OR UPDATE USAGE LOG
+
+  if (!usageData) {
+
+    const { error: insertError } = await supabase
+      .from("usage_logs")
+      .insert([
+        {
+          user_id: userId,
+          tool_name: "pdf_split",
+          usage_date: today,
+          usage_count: 1
+        }
+      ]);
+
+    console.log("SPLIT INSERT ERROR =", insertError);
+
+  } else {
+
+    const { error: updateError } = await supabase
+      .from("usage_logs")
+      .update({
+        usage_count: usageData.usage_count + 1
+      })
+      .eq("id", usageData.id);
+
+    console.log("SPLIT UPDATE ERROR =", updateError);
+
   }
+
+  res.download(zipPath);
+
 });
 
 app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
