@@ -314,6 +314,13 @@
       ? new Date(user.created_at).toLocaleDateString()
       : "N/A";
 
+let currentPlan = "FREE PLAN";
+let currentPlanText = "Basic PDF tools access";
+
+if (user.is_premium) {
+  currentPlan = "PREMIUM PLAN";
+  currentPlanText = "Unlimited PDF tools access";
+}
     accountArea.innerHTML = `
       <main class="account-page">
         <section class="account-header">
@@ -359,8 +366,8 @@
 
               <div class="plan-box">
                 <div>
-                  <span class="plan-badge">FREE PLAN</span>
-                  <h3>Basic PDF tools access</h3>
+                  <span class="plan-badge">${currentPlan}</span>
+                  <h3>${currentPlanText}</h3>
                   <p class="muted" style="margin-bottom:0;">Upgrade later for more limits, batch tools, OCR, and premium features.</p>
                 </div>
 
@@ -423,17 +430,19 @@
   }
 
   async function initAccount() {
-    const { data } = await supabaseClient.auth.getUser();
+  const { data } = await supabaseClient.auth.getUser();
 
-    if (!data || !data.user) {
-      renderNotLoggedIn();
-      return;
-    }
-
-    renderAccount(data.user);
+  if (!data || !data.user) {
+    renderNotLoggedIn();
+    return;
   }
 
-  initAccount();
+  data.user.is_premium = false;
+
+  renderAccount(data.user);
+}
+
+initAccount();
 </script>
 
 </body>
