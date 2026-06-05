@@ -203,10 +203,26 @@ formData.append("user_id", data.user.id);
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        alert(errorText || "Merge failed");
-        return;
-      }
+
+  const errorText = await response.text();
+
+  if (errorText.includes("Daily free limit reached")) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "Merge failed");
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -261,4 +277,17 @@ formData.append("user_id", data.user.id);
     a.click();
     a.remove();
   });
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });
