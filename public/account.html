@@ -436,8 +436,13 @@ if (user.is_premium) {
     renderNotLoggedIn();
     return;
   }
+const { data: profileData } = await supabaseClient
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", data.user.id)
+  .single();
 
-  data.user.is_premium = false;
+  data.user.is_premium = profileData?.is_premium || false;
 
   renderAccount(data.user);
 }
