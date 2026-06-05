@@ -318,6 +318,9 @@ let currentPlan = "FREE PLAN";
 let currentPlanText = "Basic PDF tools access";
 let planDescription = "You are currently using the free HelloPDF plan.";
 
+let mergeUsage = user.mergeUsage || 0;
+let remainingUsage = Math.max(0, 8 - mergeUsage);
+
 if (user.is_premium) {
   currentPlan = "PREMIUM PLAN";
   currentPlanText = "Unlimited PDF tools access";
@@ -370,6 +373,13 @@ if (user.is_premium) {
                   <span class="plan-badge">${currentPlan}</span>
                   <h3>${currentPlanText}</h3>
                   <p class="muted" style="margin-bottom:0;">Upgrade later for more limits, batch tools, OCR, and premium features.</p>
+                  <div style="margin-top:12px;font-weight:700;color:#334155;">
+  Today's PDF Merge Usage: ${mergeUsage} / 8
+</div>
+
+<div style="margin-top:6px;font-weight:700;color:#2563eb;">
+  Remaining Today: ${remainingUsage}
+</div>
                 </div>
 
                 <a href="/pricing.html" class="upgrade-btn">Upgrade</a>
@@ -437,13 +447,25 @@ if (user.is_premium) {
     renderNotLoggedIn();
     return;
   }
-const { data: profileData } = await supabaseClient
-  .from("profiles")
-  .select("is_premium")
-  .eq("id", data.user.id)
-  .single();
+
+  const { data: profileData } = await supabaseClient
+    .from("profiles")
+    .select("is_premium")
+    .eq("id", data.user.id)
+    .single();
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const { data: usageData } = await supabaseClient
+    .from("usage_logs")
+    .select("usage_count")
+    .eq("user_id", data.user.id)
+    .eq("tool_name", "pdf_merge")
+    .eq("usage_date", today)
+    .maybeSingle();
 
   data.user.is_premium = profileData?.is_premium || false;
+  data.user.mergeUsage = usageData?.usage_count || 0;
 
   renderAccount(data.user);
 }
