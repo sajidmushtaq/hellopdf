@@ -69,6 +69,20 @@ console.log("MERGE USER ID =", userId);
 if (!userId) {
   return res.status(401).send("Please login first");
 }
+// CHECK PREMIUM STATUS
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("PROFILE DATA =", profileData);
+console.log("PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
 // CHECK TODAY USAGE
 const today = new Date().toISOString().split("T")[0];
 
@@ -85,6 +99,21 @@ console.log("USAGE ERROR =", usageError);
     if (!req.files || req.files.length < 2) {
       return res.status(400).send("Please upload at least 2 PDF files");
     }
+    // FREE USER LIMIT CHECK
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF merges."
+    );
+
+  }
+
+}
 
     const mergedPdf = await PDFDocument.create();
 
