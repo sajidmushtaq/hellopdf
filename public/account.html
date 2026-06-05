@@ -316,6 +316,7 @@
 
 let currentPlan = "FREE PLAN";
 let currentPlanText = "Basic PDF tools access";
+let planDescription = "You are currently using the free HelloPDF plan.";
 
 if (user.is_premium) {
   currentPlan = "PREMIUM PLAN";
@@ -362,8 +363,7 @@ if (user.is_premium) {
 
             <div class="account-card">
               <h2>Current Plan</h2>
-              <p class="muted">You are currently using the free HelloPDF plan.</p>
-
+              <p class="muted">${planDescription}</p>
               <div class="plan-box">
                 <div>
                   <span class="plan-badge">${currentPlan}</span>
