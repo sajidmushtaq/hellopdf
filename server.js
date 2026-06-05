@@ -176,7 +176,7 @@ if (!usageData) {
 });
 
 app.post("/split", upload.single("pdf"), async (req, res) => {
-  try {
+  try { 
     const userId = req.body.user_id;
 
 console.log("SPLIT USER ID =", userId);
@@ -280,6 +280,12 @@ if (!profileData.is_premium) {
 
   res.download(zipPath);
 
+});
+
+} catch (err) {
+  console.error("SPLIT ERROR:", err);
+  res.status(500).send("Split failed");
+}
 });
 
 app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
