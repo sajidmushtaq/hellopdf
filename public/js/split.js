@@ -233,6 +233,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     formData.append("pdf", selectedFile);
 
+    const { data } = await supabaseClient.auth.getUser();
+
+if (!data?.user) {
+  alert("Please login first");
+  return;
+}
+
+formData.append("user_id", data.user.id);
+
     startFakeProgress();
 
     splitBtn.disabled = true;
