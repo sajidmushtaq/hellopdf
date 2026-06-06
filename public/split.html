@@ -193,7 +193,17 @@
   </section>
 
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+
+window.supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 <script src="/js/split.js?v=1002"></script>
 
 <script>
