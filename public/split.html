@@ -13,6 +13,18 @@
     .hidden-screen {
       display: none !important;
     }
+.hp-profile-wrap{display:none;position:relative;align-items:center}
+.hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
+.hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.hp-profile-menu{display:none;position:absolute;top:54px;right:0;width:300px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 25px 70px rgba(15,23,42,.16);padding:18px;z-index:999999}
+.hp-profile-menu.active{display:block}
+.hp-profile-head{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid #eef2f7}
+.hp-profile-head strong{display:block;color:#111827;font-size:16px;margin-bottom:3px}
+.hp-profile-head p{margin:0;color:#64748b;font-size:13px}
+.hp-profile-list{padding:14px 0}
+.hp-profile-list a,.hp-profile-logout{width:100%;display:flex;align-items:center;gap:12px;padding:11px 8px;border-radius:10px;color:#334155;text-decoration:none;font-size:15px;font-weight:700;background:transparent;border:none;cursor:pointer;text-align:left}
+.hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc}
+.hp-mobile-profile{display:none;margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px}
 
     #splitPreviewScreen:not(.hidden-screen) {
       display: grid !important;
@@ -138,11 +150,24 @@
   <a href="#">💎 About us</a>
 
   <div class="drawer-bottom">
-    <a href="#">Help ›</a>
-    <a href="#">Language ›</a>
-    <a href="/login.html" class="drawer-login">Login</a>
-    <a href="/signup.html" class="drawer-signup">Sign up</a>
-  </div>
+  <a href="#">Help ›</a>
+  <a href="#">Language ›</a>
+
+  <a href="/login.html" class="drawer-login">Login</a>
+  <a href="/signup.html" class="drawer-signup">Sign up</a>
+</div>
+
+<div class="hp-mobile-profile" id="mobileProfileBox" style="display:none;">
+  <strong id="mobileProfileName">User</strong>
+  <p id="mobileProfileEmail">user@email.com</p>
+
+  <a href="/account.html">Account Settings</a>
+  <a href="/pricing.html">Upgrade to Premium</a>
+
+  <button id="mobileLogoutBtn" type="button">
+    Log out
+  </button>
+</div>
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
@@ -250,6 +275,12 @@ window.supabaseClient = supabase.createClient(
   const profileMenuEmail = document.getElementById("profileMenuEmail");
 
   const logoutBtn = document.getElementById("logoutBtn");
+const mobileProfileBox = document.getElementById("mobileProfileBox");
+const mobileProfileName = document.getElementById("mobileProfileName");
+const mobileProfileEmail = document.getElementById("mobileProfileEmail");
+const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
+
+const mobileAuthBox = document.querySelector(".drawer-bottom");
 
   const { data } = await window.supabaseClient.auth.getUser();
 
@@ -273,6 +304,11 @@ window.supabaseClient = supabase.createClient(
     profileMenuAvatar.textContent = firstLetter;
     profileMenuName.textContent = fullName;
     profileMenuEmail.textContent = user.email;
+mobileAuthBox.style.display = "none";
+mobileProfileBox.style.display = "block";
+
+mobileProfileName.textContent = fullName;
+mobileProfileEmail.textContent = user.email;
 
   } else {
 
@@ -293,6 +329,7 @@ window.supabaseClient = supabase.createClient(
   }
 
   if (logoutBtn) logoutBtn.addEventListener("click", logoutUser);
+if (mobileLogoutBtn) mobileLogoutBtn.addEventListener("click", logoutUser);
 
 })();
 </script>
