@@ -258,14 +258,27 @@ formData.append("user_id", data.user.id);
         body: formData
       });
 
-      if (!response.ok) {
+     if (!response.ok) {
 
-        const errorText = await response.text();
+  const errorText = await response.text();
 
-        alert(errorText || "Split failed");
+  if (errorText.includes("Daily free limit reached")) {
 
-        return;
-      }
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "Split failed");
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -342,7 +355,21 @@ formData.append("user_id", data.user.id);
     a.click();
 
     a.remove();
+    
 
   });
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 
 });

@@ -260,21 +260,25 @@ formData.append("user_id", data.user.id);
 
       if (!response.ok) {
 
-        const errorText = await response.text();
+  const errorText = await response.text();
 
-        alert(errorText || "Compression failed");
+  if (errorText.includes("Daily free limit reached")) {
 
-        return;
-      }
+    const upgradeModal =
+      document.getElementById("upgradeModal");
 
-      const blob = await response.blob();
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
 
-      if (!blob || blob.size < 100) {
+  } else {
 
-        alert("Compression failed");
+    alert(errorText || "Compression failed");
 
-        return;
-      }
+  }
+
+  return;
+}
 
       completeProgress();
 
