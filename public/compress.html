@@ -21,6 +21,18 @@
     #compressSuccessScreen:not(.hidden-screen) {
       display: flex !important;
     }
+.hp-profile-wrap{display:none;position:relative;align-items:center}
+.hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
+.hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.hp-profile-menu{display:none;position:absolute;top:54px;right:0;width:300px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 25px 70px rgba(15,23,42,.16);padding:18px;z-index:999999}
+.hp-profile-menu.active{display:block}
+.hp-profile-head{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid #eef2f7}
+.hp-profile-head strong{display:block;color:#111827;font-size:16px;margin-bottom:3px}
+.hp-profile-head p{margin:0;color:#64748b;font-size:13px}
+.hp-profile-list{padding:14px 0}
+.hp-profile-list a,.hp-profile-logout{width:100%;display:flex;align-items:center;gap:12px;padding:11px 8px;border-radius:10px;color:#334155;text-decoration:none;font-size:15px;font-weight:700;background:transparent;border:none;cursor:pointer;text-align:left}
+.hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc}
+.hp-mobile-profile{display:none;margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px}
   </style>
 </head>
 
@@ -43,10 +55,37 @@
     <a href="/index.html">All PDF Tools</a>
   </nav>
 
-  <div class="auth-buttons">
-    <a href="/login.html" class="login-btn">Login</a>
-    <a href="/signup.html" class="signup-btn">Sign Up</a>
+  <div class="auth-buttons" id="desktopAuthButtons">
+  <a href="/login.html" class="login-btn">Login</a>
+  <a href="/signup.html" class="signup-btn">Sign Up</a>
+</div>
+
+<div class="hp-profile-wrap" id="desktopProfileBox" style="display:none;">
+  <button class="hp-profile-btn" id="profileBtn" type="button">
+    <span class="hp-avatar" id="profileAvatar">U</span>
+    <span id="profileName">User</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+
+  <div class="hp-profile-menu" id="profileMenu">
+    <div class="hp-profile-head">
+      <span class="hp-avatar" id="profileMenuAvatar">U</span>
+      <div>
+        <strong id="profileMenuName">User</strong>
+        <p id="profileMenuEmail">user@email.com</p>
+      </div>
+    </div>
+
+    <div class="hp-profile-list">
+      <a href="/account.html">⚙️ Account Settings</a>
+      <a href="/pricing.html" class="hp-premium-link">🚀 Upgrade to Premium</a>
+    </div>
+
+    <button class="hp-profile-logout" id="logoutBtn" type="button">
+      ↪ Log out
+    </button>
   </div>
+</div>
 </header>
 
 <div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
@@ -116,6 +155,17 @@
     <a href="/login.html" class="drawer-login">Login</a>
     <a href="/signup.html" class="drawer-signup">Sign up</a>
   </div>
+<div class="hp-mobile-profile" id="mobileProfileBox" style="display:none;">
+  <strong id="mobileProfileName">User</strong>
+  <p id="mobileProfileEmail">user@email.com</p>
+
+  <a href="/account.html">Account Settings</a>
+  <a href="/pricing.html">Upgrade to Premium</a>
+
+  <button id="mobileLogoutBtn" type="button">
+    Log out
+  </button>
+</div>
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>

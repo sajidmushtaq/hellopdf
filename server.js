@@ -428,6 +428,53 @@ const gsPath = `"C:\\Program Files\\gs\\gs10.07.0\\bin\\gswin64c.exe"`;
 
 app.post("/compress", upload.single("pdf"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("COMPRESS USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("COMPRESS PROFILE DATA =", profileData);
+console.log("COMPRESS PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_compress")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("COMPRESS USAGE DATA =", usageData);
+console.log("COMPRESS USAGE ERROR =", usageError);
+
+// FREE USER LIMIT CHECK
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF compression."
+    );
+
+  }
+
+}
     if (!req.file) {
       return res.status(400).send("Please upload a PDF file");
     }
@@ -439,8 +486,37 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
 
     exec(gsCommand, async (gsErr) => {
       if (!gsErr && fs.existsSync(outputPath)) {
-        return res.download(outputPath, "compressed.pdf");
-      }
+
+  if (!usageData) {
+
+    const { error: insertError } = await supabase
+      .from("usage_logs")
+      .insert([
+        {
+          user_id: userId,
+          tool_name: "pdf_compress",
+          usage_date: today,
+          usage_count: 1
+        }
+      ]);
+
+    console.log("COMPRESS INSERT ERROR =", insertError);
+
+  } else {
+
+    const { error: updateError } = await supabase
+      .from("usage_logs")
+      .update({
+        usage_count: usageData.usage_count + 1
+      })
+      .eq("id", usageData.id);
+
+    console.log("COMPRESS UPDATE ERROR =", updateError);
+
+  }
+
+  return res.download(outputPath, "compressed.pdf");
+}
 
       console.log("Ghostscript not available, using fallback compression...");
 
@@ -457,7 +533,33 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
 
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", "attachment; filename=compressed.pdf");
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_compress",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("COMPRESS INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("COMPRESS UPDATE ERROR =", updateError);
+
+}
         return res.end(Buffer.from(compressedBytes));
 
       } catch (fallbackErr) {
