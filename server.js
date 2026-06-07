@@ -579,6 +579,53 @@ app.post("/pdf-to-word", upload.single("pdf"), async (req, res) => {
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
     }
+    const userId = req.body.user_id;
+
+console.log("PDF TO WORD USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("PDF TO WORD PROFILE DATA =", profileData);
+console.log("PDF TO WORD PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_to_word")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("PDF TO WORD USAGE DATA =", usageData);
+console.log("PDF TO WORD USAGE ERROR =", usageError);
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF to Word conversions."
+    );
+
+  }
+
+}
 
     const pdfBuffer = fs.readFileSync(req.file.path);
     const data = await pdfParse(pdfBuffer);
@@ -624,7 +671,33 @@ app.post("/pdf-to-word", upload.single("pdf"), async (req, res) => {
       "Content-Disposition",
       "attachment; filename=converted.docx"
     );
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_to_word",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("PDF TO WORD INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("PDF TO WORD UPDATE ERROR =", updateError);
+
+}
     return res.end(buffer);
   } catch (err) {
     console.error("PDF TO WORD ERROR MESSAGE:", err.message);
