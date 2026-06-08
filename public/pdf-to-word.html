@@ -55,14 +55,37 @@
     <a href="/index.html">All PDF Tools</a>
   </nav>
 
-  <div class="cloud-buttons">
-        <button type="button" aria-label="Upload from Google Drive">
-          <i class="fa-brands fa-google-drive"></i>
-        </button>
-        <button type="button" aria-label="Upload from Dropbox">
-          <i class="fa-brands fa-dropbox"></i>
-        </button>
+  <div class="auth-buttons" id="desktopAuthButtons">
+  <a href="/login.html" class="login-btn">Login</a>
+  <a href="/signup.html" class="signup-btn">Sign Up</a>
+</div>
+
+<div class="hp-profile-wrap" id="desktopProfileBox" style="display:none;">
+  <button class="hp-profile-btn" id="profileBtn" type="button">
+    <span class="hp-avatar" id="profileAvatar">U</span>
+    <span id="profileName">User</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+
+  <div class="hp-profile-menu" id="profileMenu">
+    <div class="hp-profile-head">
+      <span class="hp-avatar" id="profileMenuAvatar">U</span>
+      <div>
+        <strong id="profileMenuName">User</strong>
+        <p id="profileMenuEmail">user@email.com</p>
       </div>
+    </div>
+
+    <div class="hp-profile-list">
+      <a href="/account.html">⚙️ Account Settings</a>
+      <a href="/pricing.html" class="hp-premium-link">🚀 Upgrade to Premium</a>
+    </div>
+
+    <button class="hp-profile-logout" id="logoutBtn" type="button">
+      ↪ Log out
+    </button>
+  </div>
+</div>
 </header>
 
 <div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
