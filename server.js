@@ -370,14 +370,76 @@ app.post("/rotate", upload.single("pdf"), async (req, res) => {
     });
 
     const pdfBytes = await pdfDoc.save();
+const userId = req.body.user_id;
 
+console.log("REMOVE USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_remove_pages")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF tools."
+    );
+
+  }
+
+}
     if (fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
     }
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=rotated.pdf");
+if (!usageData) {
 
+  await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_remove_pages",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+} else {
+
+  await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+}
     return res.end(Buffer.from(pdfBytes));
   } catch (err) {
     console.error("ROTATE ERROR:", err);

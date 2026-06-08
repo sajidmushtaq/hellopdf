@@ -244,7 +244,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     formData.append("pdf", selectedFile);
     formData.append("pages", pagesInput.value.trim());
+const { data } = await window.supabaseClient.auth.getUser();
 
+if (!data?.user) {
+  alert("Please login first");
+  return;
+}
+
+formData.append("user_id", data.user.id);
     startFakeProgress();
 
     removeBtn.disabled = true;
@@ -263,12 +270,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
 
-        const errorText = await response.text();
+  const errorText = await response.text();
 
-        alert(errorText || "Failed to remove pages");
+  if (errorText.includes("Daily free limit reached")) {
 
-        return;
-      }
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "Failed to remove pages");
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -347,5 +367,18 @@ document.addEventListener("DOMContentLoaded", () => {
     a.remove();
 
   });
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 
 });
