@@ -41,7 +41,10 @@ if (!fs.existsSync(usersFile)) {
 }
 
 const upload = multer({
-  dest: uploadDir
+  dest: uploadDir,
+  limits: {
+    fileSize: 25 * 1024 * 1024 // 25MB
+  }
 });
 
 app.use(express.static("public"));
