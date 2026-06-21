@@ -248,12 +248,25 @@ formData.append("user_id", data.user.id);
 
       if (!response.ok) {
 
-        const errorText = await response.text();
+  const errorText = await response.text();
 
-        alert(errorText || "Failed to rotate PDF");
+  if (errorText.includes("Daily free limit reached")) {
 
-        return;
-      }
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "Failed to rotate PDF");
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -330,5 +343,17 @@ formData.append("user_id", data.user.id);
     a.remove();
 
   });
+const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
 
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });
