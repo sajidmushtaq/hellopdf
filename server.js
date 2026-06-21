@@ -460,7 +460,7 @@ const { data: usageData } = await supabase
   .from("usage_logs")
   .select("*")
   .eq("user_id", userId)
-  .eq("tool_name", "pdf_remove_pages")
+  .eq("tool_name", "pdf_rotate")
   .eq("usage_date", today)
   .maybeSingle();
   
@@ -491,7 +491,7 @@ if (!usageData) {
     .insert([
       {
         user_id: userId,
-        tool_name: "pdf_remove_pages",
+        tool_name: "pdf_rotate",
         usage_date: today,
         usage_count: 1
       }
