@@ -21,22 +21,115 @@
 
   <style>
     .hidden-screen{
-      display:none !important;
+  display:none !important;
+}
 
-.hp-profile-wrap{display:none;position:relative;align-items:center}
-.hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
-.hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
-.hp-profile-menu{display:none;position:absolute;top:54px;right:0;width:300px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 25px 70px rgba(15,23,42,.16);padding:18px;z-index:999999}
-.hp-profile-menu.active{display:block}
-.hp-profile-head{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid #eef2f7}
-.hp-profile-head strong{display:block;color:#111827;font-size:16px;margin-bottom:3px}
-.hp-profile-head p{margin:0;color:#64748b;font-size:13px}
-.hp-profile-list{padding:14px 0}
-.hp-profile-list a,.hp-profile-logout{width:100%;display:flex;align-items:center;gap:12px;padding:11px 8px;border-radius:10px;color:#334155;text-decoration:none;font-size:15px;font-weight:700;background:transparent;border:none;cursor:pointer;text-align:left}
-.hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc}
-.hp-mobile-profile{display:none;margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px}
+.hp-profile-wrap{
+display:none;
+position:relative;
+align-items:center;
+}
 
-    }
+.hp-profile-btn{
+display:flex;
+align-items:center;
+gap:10px;
+border:1px solid #e5e7eb;
+background:#fff;
+color:#111827;
+padding:8px 14px;
+border-radius:999px;
+font-weight:800;
+cursor:pointer;
+}
+
+.hp-avatar{
+width:34px;
+height:34px;
+border-radius:50%;
+background:#2563eb;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:900;
+}
+
+.hp-profile-menu{
+display:none;
+position:absolute;
+top:54px;
+right:0;
+width:300px;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+box-shadow:0 25px 70px rgba(15,23,42,.16);
+padding:18px;
+z-index:999999;
+}
+
+.hp-profile-menu.active{
+display:block;
+}
+
+.hp-profile-head{
+display:flex;
+gap:14px;
+align-items:center;
+padding-bottom:16px;
+border-bottom:1px solid #eef2f7;
+}
+
+.hp-profile-head strong{
+display:block;
+color:#111827;
+font-size:16px;
+margin-bottom:3px;
+}
+
+.hp-profile-head p{
+margin:0;
+color:#64748b;
+font-size:13px;
+}
+
+.hp-profile-list{
+padding:14px 0;
+}
+
+.hp-profile-list a,
+.hp-profile-logout{
+width:100%;
+display:flex;
+align-items:center;
+gap:12px;
+padding:11px 8px;
+border-radius:10px;
+color:#334155;
+text-decoration:none;
+font-size:15px;
+font-weight:700;
+background:transparent;
+border:none;
+cursor:pointer;
+text-align:left;
+}
+
+.hp-profile-list a:hover,
+.hp-profile-logout:hover{
+background:#f8fafc;
+}
+
+.hp-mobile-profile{
+display:none;
+margin-top:20px;
+padding:16px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:16px;
+}
+    
 
     #extractPreviewScreen:not(.hidden-screen){
       display:grid !important;
