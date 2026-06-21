@@ -16,7 +16,7 @@
 
   <title>Rotate PDF - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=3003" />
+  <link rel="stylesheet" href="/css/style.css?v=3004" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -151,6 +151,17 @@
   </section>
 
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+window.supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 
 <script src="/js/rotate.js?v=3003"></script>
 

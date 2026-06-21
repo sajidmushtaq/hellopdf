@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     formData.append("pdf", selectedFile);
     formData.append("angle", angleInput.value);
-    const { data } = await supabaseClient.auth.getUser();
+    const { data } = await window.supabaseClient.auth.getUser();
 
 if (!data.user) {
   alert("Please login first");
