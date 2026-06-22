@@ -307,7 +307,6 @@ window.supabaseClient = supabase.createClient(
 <script src="/js/pdf-to-excel.js?v=1009"></script>
 
 <script>
-<script>
 (async function () {
 
   const desktopAuthButtons = document.getElementById("desktopAuthButtons");
@@ -412,34 +411,6 @@ window.supabaseClient = supabase.createClient(
       overlay.classList.add("active");
     });
   }
-
-  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
-  if (mainClose) mainClose.addEventListener("click", closeDrawers);
-  if (overlay) overlay.addEventListener("click", closeDrawers);
-</script>
-  const toolsBtn = document.getElementById("toolsMenuBtn");
-  const mainBtn = document.getElementById("mainMenuBtn");
-  const toolsDrawer = document.getElementById("toolsDrawer");
-  const mainDrawer = document.getElementById("mainDrawer");
-  const overlay = document.getElementById("drawerOverlay");
-  const toolsClose = document.getElementById("toolsClose");
-  const mainClose = document.getElementById("mainClose");
-
-  function closeDrawers() {
-    toolsDrawer.classList.remove("active");
-    mainDrawer.classList.remove("active");
-    overlay.classList.remove("active");
-  }
-
-  if (toolsBtn) toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  if (mainBtn) mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
 
   if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
   if (mainClose) mainClose.addEventListener("click", closeDrawers);
