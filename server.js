@@ -1509,6 +1509,50 @@ app.post("/pdf-to-excel", upload.single("pdfFile"), async (req, res) => {
   let outputPath = null;
 
   try {
+    const userId = req.body.user_id;
+
+console.log("PDF TO EXCEL USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("PDF TO EXCEL PROFILE DATA =", profileData);
+console.log("PDF TO EXCEL PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_to_excel")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("PDF TO EXCEL USAGE DATA =", usageData);
+console.log("PDF TO EXCEL USAGE ERROR =", usageError);
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF to Excel conversions."
+    );
+
+  }
+
+}
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
     }
@@ -1551,7 +1595,33 @@ app.post("/pdf-to-excel", upload.single("pdfFile"), async (req, res) => {
     await workbook.xlsx.writeFile(outputPath);
 
     if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_to_excel",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("PDF TO EXCEL INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("PDF TO EXCEL UPDATE ERROR =", updateError);
+
+}
     res.download(outputPath, "converted.xlsx", (err) => {
       if (outputPath && fs.existsSync(outputPath)) {
         fs.unlinkSync(outputPath);
