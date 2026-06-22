@@ -1224,7 +1224,7 @@ app.post("/add-page-numbers", upload.single("pdfFile"), async (req, res) => {
     const userId = req.body.user_id;
 
 console.log(
-  "REORDER USER ID =",
+  "pdf_page_numbers USER ID =",
   userId
 );
 
@@ -1266,7 +1266,7 @@ const {
   .eq("user_id", userId)
   .eq(
     "tool_name",
-    "pdf_reorder_pages"
+    "pdf_page_numbers"
   )
   .eq(
     "usage_date",
@@ -1324,7 +1324,7 @@ if (!profileData.is_premium) {
     .insert([
       {
         user_id: userId,
-        tool_name: "pdf_reorder_pages",
+        tool_name: "pdf_page_numbers",
         usage_date: today,
         usage_count: 1
       }
