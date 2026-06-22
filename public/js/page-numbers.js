@@ -223,6 +223,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     formData.append("pdfFile", selectedFile);
     formData.append("numberStyle", selectedStyle);
+    const { data } =
+  await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+
+  alert("Please login first");
+
+  return;
+
+}
+
+formData.append(
+  "user_id",
+  data.user.id
+);
 
     startFakeProgress();
 
@@ -242,12 +257,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
 
-        const errorText = await response.text();
+  const errorText = await response.text();
 
-        alert(errorText || "Failed to add page numbers");
+  if (
+    errorText.includes(
+      "Daily free limit reached"
+    )
+  ) {
 
-        return;
-      }
+    const upgradeModal =
+      document.getElementById(
+        "upgradeModal"
+      );
+
+    if (upgradeModal) {
+
+      upgradeModal.style.display =
+        "flex";
+
+    }
+
+  } else {
+
+    alert(
+      errorText ||
+      "Failed to reorder pages"
+    );
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -324,5 +364,23 @@ document.addEventListener("DOMContentLoaded", () => {
     a.remove();
 
   });
+const closeUpgradeModal =
+  document.getElementById(
+    "closeUpgradeModal"
+  );
 
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "upgradeModal"
+      ).style.display = "none";
+
+    }
+  );
+
+}
 });

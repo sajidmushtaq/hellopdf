@@ -371,5 +371,23 @@ formData.append(
     a.remove();
 
   });
+const closeUpgradeModal =
+  document.getElementById(
+    "closeUpgradeModal"
+  );
 
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "upgradeModal"
+      ).style.display = "none";
+
+    }
+  );
+
+}
 });
