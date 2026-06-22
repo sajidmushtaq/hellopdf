@@ -150,9 +150,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formData = new FormData();
-    formData.append("pdfFile", selectedFile);
+formData.append("pdfFile", selectedFile);
 
-    resetProgress();
+const { data } = await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+  alert("Please login first");
+  return;
+}
+
+formData.append("user_id", data.user.id);
+
+resetProgress();
     startFakeProgress();
 
     convertBtn.disabled = true;
@@ -168,10 +177,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        alert(errorText || "PDF to Excel conversion failed");
-        return;
-      }
+
+  const errorText = await response.text();
+
+  if (errorText.includes("Daily free limit reached")) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "PDF to Excel conversion failed");
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -220,4 +245,17 @@ document.addEventListener("DOMContentLoaded", () => {
     a.click();
     a.remove();
   });
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });
