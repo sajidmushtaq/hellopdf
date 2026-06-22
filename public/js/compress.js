@@ -281,6 +281,7 @@ formData.append("user_id", data.user.id);
 }
 
       completeProgress();
+      const blob = await response.blob();
 
       if (compressedPdfUrl) {
         URL.revokeObjectURL(compressedPdfUrl);
@@ -348,5 +349,17 @@ formData.append("user_id", data.user.id);
     a.remove();
 
   });
+const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
 
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });
