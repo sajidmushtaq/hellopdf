@@ -297,11 +297,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const formData = new FormData();
-    formData.append("pdfFile", selectedFile);
-    formData.append("cropData", JSON.stringify(cropData));
+formData.append("pdfFile", selectedFile);
+formData.append("cropData", JSON.stringify(cropData));
 
-    resetProgress();
-    startProgress();
+// GET LOGGED-IN USER
+const { data } = await window.supabaseClient.auth.getUser();
+
+if (!data.user) {
+  alert("Please login first");
+  window.location.href = "/login.html";
+  return;
+}
+
+formData.append("user_id", data.user.id);
+
+resetProgress();
+startProgress();
 
     cropBtn.disabled = true;
     cropBtn.innerHTML = `Cropping... <i class="fa-solid fa-spinner fa-spin"></i>`;
@@ -313,10 +324,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) {
-        const text = await response.text();
-        alert(text || "Crop failed");
-        return;
-      }
+
+  const errorText = await response.text();
+
+  if (errorText.includes("Daily free limit reached")) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "Crop failed");
+
+  }
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -343,18 +370,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   downloadBtn.addEventListener("click", () => {
-    if (!croppedUrl) {
-      alert("Cropped PDF is not ready yet");
-      return;
-    }
+  if (!croppedUrl) {
+    alert("Cropped PDF is not ready yet");
+    return;
+  }
 
-    const a = document.createElement("a");
-    a.href = croppedUrl;
-    a.download = "cropped.pdf";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+  const a = document.createElement("a");
+  a.href = croppedUrl;
+  a.download = "cropped.pdf";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
   });
 
-  showStart();
+}
+
+showStart();
 });
