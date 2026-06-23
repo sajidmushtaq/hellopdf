@@ -164,6 +164,14 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedFiles.forEach(item=>{
       formData.append("images", item.file);
     });
+    const { data } = await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+  alert("Please login first");
+  return;
+}
+
+formData.append("user_id", data.user.id);
 
     startFakeProgress();
 
@@ -175,12 +183,24 @@ document.addEventListener("DOMContentLoaded", () => {
         method:"POST",
         body:formData
       });
+if(!response.ok){
 
-      if(!response.ok){
-        const errorText = await response.text();
-        throw new Error(errorText || "Image to PDF failed");
-      }
+  const errorText = await response.text();
 
+  if(errorText.includes("Daily free limit reached")){
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if(upgradeModal){
+      upgradeModal.style.display = "flex";
+    }
+
+    return;
+  }
+
+  throw new Error(errorText || "Image to PDF failed");
+}
       const blob = await response.blob();
 
       if(!blob || blob.size < 100){
@@ -220,5 +240,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(a);
     a.click();
     a.remove();
+    
   });
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if(closeUpgradeModal){
+
+  closeUpgradeModal.addEventListener("click",()=>{
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });

@@ -329,6 +329,7 @@ window.supabaseClient = supabase.createClient(
   const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
 
   const mobileAuthBox = document.querySelector(".drawer-bottom");
+console.log("mobileAuthBox =", mobileAuthBox);
 
   const { data } = await window.supabaseClient.auth.getUser();
 
@@ -353,7 +354,9 @@ window.supabaseClient = supabase.createClient(
     profileMenuName.textContent = fullName;
     profileMenuEmail.textContent = user.email;
 
-    mobileAuthBox.style.display = "none";
+    if (mobileAuthBox) {
+  mobileAuthBox.style.display = "none";
+}
     mobileProfileBox.style.display = "block";
 
     mobileProfileName.textContent = fullName;
