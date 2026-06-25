@@ -293,6 +293,54 @@ if (!profileData.is_premium) {
 
 app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("PDF TO IMAGE USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("PDF TO IMAGE PROFILE DATA =", profileData);
+console.log("PDF TO IMAGE PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_to_image")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("PDF TO IMAGE USAGE DATA =", usageData);
+console.log("PDF TO IMAGE USAGE ERROR =", usageError);
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData
+    ? usageData.usage_count
+    : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF to Image conversions."
+    );
+
+  }
+
+}
     const bytes = fs.readFileSync(req.file.path);
     const pdfDoc = await PDFDocument.load(bytes);
 
@@ -316,9 +364,51 @@ app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
     archive.directory(outputDir, false);
     await archive.finalize();
 
-    output.on("close", () => {
-      res.download(zipPath);
-    });
+    output.on("close", async () => {
+
+  if (!usageData) {
+
+    const { error: insertError } =
+      await supabase
+        .from("usage_logs")
+        .insert([
+          {
+            user_id: userId,
+            tool_name: "pdf_to_image",
+            usage_date: today,
+            usage_count: 1
+          }
+        ]);
+
+    console.log(
+      "PDF TO IMAGE INSERT ERROR =",
+      insertError
+    );
+
+  } else {
+
+    const { error: updateError } =
+      await supabase
+        .from("usage_logs")
+        .update({
+          usage_count:
+            usageData.usage_count + 1
+        })
+        .eq("id", usageData.id);
+
+    console.log(
+      "PDF TO IMAGE UPDATE ERROR =",
+      updateError
+    );
+
+  }
+
+  return res.download(
+    zipPath,
+    "pdf-images.zip"
+  );
+
+});
   } catch (err) {
     console.error("PDF TO IMAGE ERROR:", err);
     res.status(500).send("Conversion failed");

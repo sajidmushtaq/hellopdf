@@ -126,77 +126,132 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFile(e.dataTransfer.files[0]);
   });
 
-  convertBtn.addEventListener("click", () => {
-    if (!selectedFile) {
-      alert("Please select PDF file first");
-      return;
+  convertBtn.addEventListener("click", async () => {
+
+  if (!selectedFile) {
+    alert("Please select PDF file first");
+    return;
+  }
+
+  const { data } = await window.supabaseClient.auth.getUser();
+
+  if (!data?.user) {
+    alert("Please login first");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("pdf", selectedFile);
+  formData.append("user_id", data.user.id);
+
+  convertBtn.disabled = true;
+  convertBtn.innerHTML =
+    `Converting... <i class="fa-solid fa-spinner fa-spin"></i>`;
+
+  progressBar.style.width = "15%";
+  progressBar.textContent = "15%";
+
+  let progress = 15;
+
+  const progressInterval = setInterval(() => {
+
+    if (progress < 90) {
+
+      progress += 5;
+
+      progressBar.style.width = progress + "%";
+      progressBar.textContent = progress + "%";
+
     }
 
-    const formData = new FormData();
-    formData.append("pdf", selectedFile);
+  }, 500);
 
-    convertBtn.disabled = true;
-    convertBtn.innerHTML = `Converting... <i class="fa-solid fa-spinner fa-spin"></i>`;
+  try {
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/pdf-to-image");
-    xhr.responseType = "blob";
+    const response = await fetch("/pdf-to-image", {
+      method: "POST",
+      body: formData
+    });
 
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percent = Math.round((e.loaded / e.total) * 100);
-        progressBar.style.width = percent + "%";
-        progressBar.textContent = percent + "%";
-      }
-    };
+    if (!response.ok) {
 
-    xhr.onload = () => {
-      convertBtn.disabled = false;
-      convertBtn.textContent = "Convert to Images";
+      clearInterval(progressInterval);
 
-      if (xhr.status !== 200) {
-        alert("Server error");
+      const errorText = await response.text();
+
+      if (errorText.includes("Daily free limit reached")) {
+
+        const upgradeModal =
+          document.getElementById("upgradeModal");
+
+        if (upgradeModal) {
+          upgradeModal.style.display = "flex";
+        }
+
+        convertBtn.disabled = false;
+        convertBtn.innerHTML = "Convert to Images";
+
         return;
       }
 
-      const blob = xhr.response;
-
-      if (!blob || blob.size < 1000) {
-        alert("Conversion failed");
-        return;
-      }
-
-      if (zipUrl) URL.revokeObjectURL(zipUrl);
-
-      zipUrl = URL.createObjectURL(blob);
-      progressBar.style.width = "100%";
-      progressBar.textContent = "100%";
-
-      setTimeout(showSuccess, 400);
-    };
-
-    xhr.onerror = () => {
-      convertBtn.disabled = false;
-      convertBtn.textContent = "Convert to Images";
-      alert("Conversion failed. Please try again.");
-    };
-
-    xhr.send(formData);
-  });
-
-  downloadBtn.addEventListener("click", () => {
-    if (!zipUrl) {
-      alert("ZIP file is not ready yet");
-      return;
+      throw new Error(errorText || "Conversion failed");
     }
 
-    const a = document.createElement("a");
-    a.href = zipUrl;
-    a.download = "pdf-images.zip";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const blob = await response.blob();
+
+    if (!blob || blob.size < 100) {
+      throw new Error("Conversion failed");
+    }
+
+    if (zipUrl) {
+      URL.revokeObjectURL(zipUrl);
+    }
+
+    zipUrl = URL.createObjectURL(blob);
+
+    clearInterval(progressInterval);
+
+    progressBar.style.width = "100%";
+    progressBar.textContent = "100%";
+
+    setTimeout(() => {
+
+      showSuccess();
+
+    }, 400);
+
+  } catch (error) {
+
+    clearInterval(progressInterval);
+
+    console.error(error);
+
+    alert(error.message || "Conversion failed");
+
+  } finally {
+
+    convertBtn.disabled = false;
+
+    convertBtn.innerHTML =
+      "Convert to Images";
+
+  }
+
+});
+
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
   });
+
+}
 
   showStart();
 });
