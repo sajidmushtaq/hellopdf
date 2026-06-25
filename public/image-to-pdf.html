@@ -289,7 +289,7 @@ window.supabaseClient = supabase.createClient(
 </script>
 <script src="/js/image-to-pdf.js?v=1010"></script>
 
-</script>
+<script>
 (async function () {
 
   const desktopAuthButtons = document.getElementById("desktopAuthButtons");
@@ -313,9 +313,13 @@ window.supabaseClient = supabase.createClient(
   const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
 
   const mobileAuthBox = document.querySelector(".drawer-bottom");
-console.log("mobileAuthBox =", mobileAuthBox);
+
 
   const { data } = await window.supabaseClient.auth.getUser();
+alert(data?.user ? "USER FOUND" : "USER NOT FOUND");
+if (!window.supabaseClient) {
+  console.error("Supabase client not found");
+}
 
   if (data && data.user) {
 
