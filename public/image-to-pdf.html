@@ -316,7 +316,7 @@ window.supabaseClient = supabase.createClient(
 
 
   const { data } = await window.supabaseClient.auth.getUser();
-alert(data?.user ? "USER FOUND" : "USER NOT FOUND");
+
 if (!window.supabaseClient) {
   console.error("Supabase client not found");
 }
