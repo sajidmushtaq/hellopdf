@@ -179,8 +179,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("wordFile", selectedFile);
+    const { data } = await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+  alert("Please login first");
+  return;
+}
+
+const formData = new FormData();
+
+formData.append("wordFile", selectedFile);
+formData.append("user_id", data.user.id);
 
     resetProgress();
     startFakeProgress();
@@ -198,11 +207,25 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        alert(errorText || "Word to PDF conversion failed");
-        return;
-      }
 
+  const errorText = await response.text();
+
+  if (errorText.includes("Daily free limit reached")) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+    return;
+  }
+
+  alert(errorText || "Word to PDF conversion failed");
+
+  return;
+}
       const blob = await response.blob();
 
       if (!blob || blob.size < 100 || blob.type !== "application/pdf") {
@@ -256,4 +279,17 @@ document.addEventListener("DOMContentLoaded", () => {
     a.click();
     a.remove();
   });
+  const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });

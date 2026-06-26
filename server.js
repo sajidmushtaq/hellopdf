@@ -927,10 +927,58 @@ if (!usageData) {
 
 app.post("/word-to-pdf", upload.single("wordFile"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("WORD TO PDF USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+console.log("WORD TO PDF PROFILE DATA =", profileData);
+console.log("WORD TO PDF PROFILE ERROR =", profileError);
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "word_to_pdf")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+console.log("WORD TO PDF USAGE DATA =", usageData);
+console.log("WORD TO PDF USAGE ERROR =", usageError);
     if (!req.file) {
       return res.status(400).send("No file uploaded");
     }
+  
+if (!profileData.is_premium) {
 
+  const currentUsage = usageData
+    ? usageData.usage_count
+    : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited Word to PDF conversions."
+    );
+
+  }
+
+}
     const inputPath = req.file.path;
     const ext = path.extname(req.file.originalname).toLowerCase();
 
@@ -970,11 +1018,48 @@ app.post("/word-to-pdf", upload.single("wordFile"), async (req, res) => {
 
     doc.end();
 
-    res.on("finish", () => {
-      if (fs.existsSync(inputPath)) {
-        fs.unlinkSync(inputPath);
-      }
-    });
+    res.on("finish", async () => {
+
+  if (!usageData) {
+
+    const { error: insertError } = await supabase
+      .from("usage_logs")
+      .insert([
+        {
+          user_id: userId,
+          tool_name: "word_to_pdf",
+          usage_date: today,
+          usage_count: 1
+        }
+      ]);
+
+    console.log(
+      "WORD TO PDF INSERT ERROR =",
+      insertError
+    );
+
+  } else {
+
+    const { error: updateError } = await supabase
+      .from("usage_logs")
+      .update({
+        usage_count:
+          usageData.usage_count + 1
+      })
+      .eq("id", usageData.id);
+
+    console.log(
+      "WORD TO PDF UPDATE ERROR =",
+      updateError
+    );
+
+  }
+
+  if (fs.existsSync(inputPath)) {
+    fs.unlinkSync(inputPath);
+  }
+
+});
   } catch (err) {
     console.error("WORD TO PDF FULL ERROR:", err);
     return res.status(500).send("Word to PDF failed");
