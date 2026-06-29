@@ -354,6 +354,7 @@ Log out
 
 <script>
   const toolsBtn = document.getElementById("toolsMenuBtn");
+const mobileAuthBox = document.querySelector(".drawer-bottom");
   const mainBtn = document.getElementById("mainMenuBtn");
   const toolsDrawer = document.getElementById("toolsDrawer");
   const mainDrawer = document.getElementById("mainDrawer");
@@ -568,7 +569,7 @@ Close
   if (mainClose) mainClose.addEventListener("click", closeDrawers);
   if (overlay) overlay.addEventListener("click", closeDrawers);
 </script>
-
+<script>
 const upgradeModal = document.getElementById("upgradeModal");
 const closeUpgradeModal = document.getElementById("closeUpgradeModal");
 
