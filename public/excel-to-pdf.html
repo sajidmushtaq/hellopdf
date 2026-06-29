@@ -329,72 +329,7 @@ Log out
   </section>
 
 </main>
-
-  <div class="upgrade-modal-content">
-
-    <h2>Daily limit reached</h2>
-
-    <p>
-      You have reached today's free limit.
-      Upgrade to Premium for unlimited conversions.
-    </p>
-
-    <a href="/pricing.html" class="upgrade-btn">
-      Upgrade Now
-    </a>
-
-    <button id="closeUpgradeModal" type="button">
-      Close
-    </button>
-
-  </div>
-
-</div>
-<script src="/js/excel-to-pdf.js?v=1010"></script>
-
-<script>
-  const toolsBtn = document.getElementById("toolsMenuBtn");
-const mobileAuthBox = document.querySelector(".drawer-bottom");
-  const mainBtn = document.getElementById("mainMenuBtn");
-  const toolsDrawer = document.getElementById("toolsDrawer");
-  const mainDrawer = document.getElementById("mainDrawer");
-  const overlay = document.getElementById("drawerOverlay");
-  const toolsClose = document.getElementById("toolsClose");
-  const mainClose = document.getElementById("mainClose");
-
-  function closeDrawers() {
-    toolsDrawer.classList.remove("active");
-    mainDrawer.classList.remove("active");
-    overlay.classList.remove("active");
-  }
-
-  if (toolsBtn) toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  if (mainBtn) mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
-
-  if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
-  if (mainClose) mainClose.addEventListener("click", closeDrawers);
-  if (overlay) overlay.addEventListener("click", closeDrawers);
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
-const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
-
-window.supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-</script>
-<div id="upgradeModal"
-style="
+<div id="upgradeModal" style="
 display:none;
 position:fixed;
 top:0;
@@ -404,62 +339,68 @@ height:100%;
 background:rgba(0,0,0,.6);
 z-index:999999;
 justify-content:center;
-align-items:center;">
+align-items:center;
+">
 
-<div
-style="
-background:#fff;
-width:90%;
-max-width:450px;
-border-radius:20px;
-padding:30px;
-text-align:center;">
+  <div style="
+  background:#fff;
+  width:90%;
+  max-width:450px;
+  border-radius:20px;
+  padding:30px;
+  text-align:center;
+  ">
 
-<h2>
-Free Limit Reached
-</h2>
+    <h2>Free Limit Reached</h2>
 
-<p>
-You have reached your daily free limit.
-Upgrade to Premium for unlimited Excel to PDF conversions.
-</p>
+    <p>
+      You have reached your daily free limit.
+      Upgrade to Premium for unlimited Excel to PDF conversions.
+    </p>
 
-<div style="margin-top:20px;">
+    <div style="margin-top:20px;">
 
-<a
-href="/pricing.html"
-style="
-display:inline-block;
-background:#d32f2f;
-color:#fff;
-padding:12px 24px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;">
+      <a href="/pricing.html"
+         style="
+         display:inline-block;
+         background:#d32f2f;
+         color:#fff;
+         padding:12px 24px;
+         border-radius:10px;
+         text-decoration:none;
+         font-weight:bold;
+         ">
+         Upgrade Now
+      </a>
 
-Upgrade Now
+      <button id="closeUpgradeModal"
+        style="
+        margin-left:10px;
+        padding:12px 24px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        ">
+        Close
+      </button>
 
-</a>
+    </div>
 
-<button
-id="closeUpgradeModal"
-style="
-margin-left:10px;
-padding:12px 24px;
-border:none;
-border-radius:10px;
-cursor:pointer;">
-
-Close
-
-</button>
-
-</div>
+  </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-</div>
-<script src="/js/profile.js?v=1010"></script>
+<script>
+const SUPABASE_URL = "https://vfpgxiepllmkfkdtyjws.supabase.co";
+const SUPABASE_KEY = "sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+
+window.supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
+<script src="/js/pdf-to-excel.js?v=1009"></script>
 <script>
 (async function () {
 
@@ -484,6 +425,7 @@ Close
   const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
 
   const mobileAuthBox = document.querySelector(".drawer-bottom");
+console.log("mobileAuthBox =", mobileAuthBox);
 
   const { data } = await window.supabaseClient.auth.getUser();
 
@@ -509,9 +451,8 @@ Close
     profileMenuEmail.textContent = user.email;
 
     if (mobileAuthBox) {
-      mobileAuthBox.style.display = "none";
-    }
-
+  mobileAuthBox.style.display = "none";
+}
     mobileProfileBox.style.display = "block";
 
     mobileProfileName.textContent = fullName;
@@ -555,33 +496,23 @@ Close
     overlay.classList.remove("active");
   }
 
-  if (toolsBtn) toolsBtn.addEventListener("click", () => {
-    toolsDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (toolsBtn) {
+    toolsBtn.addEventListener("click", () => {
+      toolsDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
-  if (mainBtn) mainBtn.addEventListener("click", () => {
-    mainDrawer.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (mainBtn) {
+    mainBtn.addEventListener("click", () => {
+      mainDrawer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  }
 
   if (toolsClose) toolsClose.addEventListener("click", closeDrawers);
   if (mainClose) mainClose.addEventListener("click", closeDrawers);
   if (overlay) overlay.addEventListener("click", closeDrawers);
-</script>
-<script>
-const upgradeModal = document.getElementById("upgradeModal");
-const closeUpgradeModal = document.getElementById("closeUpgradeModal");
-
-if (closeUpgradeModal) {
-    closeUpgradeModal.addEventListener("click", () => {
-        upgradeModal.style.display = "none";
-    });
-}
-
-window.showPremiumPopup = function () {
-    upgradeModal.style.display = "flex";
-};
 </script>
 
 </body>
