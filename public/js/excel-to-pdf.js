@@ -13,8 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadBtn = document.getElementById("downloadBtn");
 
   let selectedFile = null;
-  let convertedPdfUrl = null;
-  let progressInterval = null;
+let convertedPdfUrl = null;
+let progressInterval = null;
+
+let currentUser = null;
+let currentUserId = null;
 
   startScreen.style.display = "flex";
   previewScreen.classList.add("hidden-screen");
@@ -158,10 +161,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formData = new FormData();
-    formData.append("excelFile", selectedFile);
+formData.append("excelFile", selectedFile);
 
-    resetProgress();
-    startFakeProgress();
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+  alert("Please login first");
+  return;
+}
+
+formData.append("user_id", data.user.id);
+
+resetProgress();
+startFakeProgress();
 
     convertBtn.disabled = true;
     convertBtn.innerHTML = `
@@ -176,17 +189,33 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        alert(errorText || "Excel to PDF conversion failed");
-        return;
-      }
 
-      const blob = await response.blob();
+  const errorText = await response.text();
 
-      if (!blob || blob.size < 100 || blob.type !== "application/pdf") {
-        alert("Conversion failed. Please try another Excel file.");
-        return;
-      }
+  if (errorText.includes("Daily free limit reached")) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+  } else {
+
+    alert(errorText || "Excel to PDF conversion failed");
+
+  }
+
+  return;
+}
+
+     const blob = await response.blob();
+
+if (!blob || blob.size < 100) {
+  alert("Conversion failed. Please try another Excel file.");
+  return;
+}
 
       completeProgress();
 
@@ -228,4 +257,17 @@ document.addEventListener("DOMContentLoaded", () => {
     a.click();
     a.remove();
   });
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal")
+      .style.display = "none";
+
+  });
+
+}
 });
