@@ -36,8 +36,6 @@
 .hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc}
 .hp-mobile-profile{display:none;margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px}
   </style>
-</head>
-
 <body>
 
 <header class="mobile-header">
@@ -58,118 +56,38 @@
   </nav>
 
   <div class="auth-buttons" id="desktopAuthButtons">
-
-  <a href="/login.html" class="login-btn">
-    Login
-  </a>
-
-  <a href="/signup.html" class="signup-btn">
-    Sign Up
-  </a>
-
+  <a href="/login.html" class="login-btn">Login</a>
+  <a href="/signup.html" class="signup-btn">Sign Up</a>
 </div>
 
-<div
-class="hp-profile-wrap"
-id="desktopProfileBox"
-style="display:none;">
+<div class="hp-profile-wrap" id="desktopProfileBox" style="display:none;">
+  <button class="hp-profile-btn" id="profileBtn" type="button">
+    <span class="hp-avatar" id="profileAvatar">U</span>
+    <span id="profileName">User</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
 
-<button
-class="hp-profile-btn"
-id="profileBtn"
-type="button">
+  <div class="hp-profile-menu" id="profileMenu">
 
-<span
-class="hp-avatar"
-id="profileAvatar">
+    <div class="hp-profile-head">
+      <span class="hp-avatar" id="profileMenuAvatar">U</span>
+      <div>
+        <strong id="profileMenuName">User</strong>
+        <p id="profileMenuEmail">user@email.com</p>
+      </div>
+    </div>
 
-U
+    <div class="hp-profile-list">
+      <a href="/account.html">⚙️ Account Settings</a>
+      <a href="/pricing.html">🚀 Upgrade to Premium</a>
+    </div>
 
-</span>
+    <button class="hp-profile-logout" id="logoutBtn" type="button">
+      ↪ Log out
+    </button>
 
-<span id="profileName">
-
-User
-
-</span>
-
-<i class="fa-solid fa-chevron-down"></i>
-
-</button>
-
-<div
-class="hp-profile-menu"
-id="profileMenu">
-
-<div class="hp-profile-head">
-
-<span
-class="hp-avatar"
-id="profileMenuAvatar">
-
-U
-
-</span>
-
-<div>
-
-<strong id="profileMenuName">
-
-User
-
-</strong>
-
-<p id="profileMenuEmail">
-
-user@email.com
-
-</p>
-
+  </div>
 </div>
-
-</div>
-
-<div class="hp-profile-list">
-
-<a href="/account.html">
-
-⚙️ Account Settings
-
-</a>
-
-<a href="/pricing.html">
-
-🚀 Upgrade to Premium
-
-</a>
-
-</div>
-
-<div class="hp-profile-list">
-
-<a href="/account.html">
-⚙️ Account Settings
-</a>
-
-<a href="/pricing.html">
-🚀 Upgrade to Premium
-</a>
-
-</div>
-
-<button
-class="hp-profile-logout"
-id="logoutBtn"
-type="button">
-
-↪ Log out
-
-</button>
-
-</div>
-
-</div>
-
 </header>
 
 <div class="tools-drawer tools-catalog-drawer" id="toolsDrawer">
@@ -233,49 +151,31 @@ type="button">
   <a href="#">⚙️ Features</a>
   <a href="#">💎 About us</a>
 
- <div
-class="hp-mobile-profile"
-id="mobileProfileBox"
-style="display:none;">
+  <div class="hp-mobile-profile" id="mobileProfileBox" style="display:none;">
+  <strong id="mobileProfileName">User</strong>
+  <p id="mobileProfileEmail">user@email.com</p>
 
-<strong id="mobileProfileName">
-User
-</strong>
+  <a href="/account.html">Account Settings</a>
+  <a href="/pricing.html">Upgrade to Premium</a>
 
-<p id="mobileProfileEmail">
-user@email.com
-</p>
-
-<a href="/account.html">
-Account Settings
-</a>
-
-<a href="/pricing.html">
-Upgrade to Premium
-</a>
-
-<button
-id="mobileLogoutBtn"
-type="button">
-
-Log out
-
-</button>
-
+  <button id="mobileLogoutBtn" type="button">
+    Log out
+  </button>
+</div>
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <main class="excel-pdf-page">
 
-  <section class="excel-pdf-start-screen" id="startScreen">
-    <h1>Excel to PDF</h1>
-    <p>Convert your Excel spreadsheet into a clean PDF file.</p>
+  <section class="pdf-excel-start-screen" id="startScreen">
+    <h1>PDF to Excel</h1>
+    <p>Convert your PDF into an editable Excel spreadsheet.</p>
 
-    <div class="excel-pdf-select-row">
-      <div class="excel-pdf-upload-box" id="dropZone">
-        <input type="file" id="fileInput" accept=".xls,.xlsx" hidden />
-        <h2>Select Excel file</h2>
+    <div class="pdf-excel-select-row">
+      <div class="pdf-excel-upload-box" id="dropZone">
+        <input type="file" id="fileInput" accept="application/pdf" hidden />
+        <h2>Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -284,47 +184,47 @@ Log out
       </div>
     </div>
 
-    <div class="drop-text">or drop Excel file here</div>
+    <div class="drop-text">or drop PDF here</div>
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="excel-pdf-preview-screen hidden-screen" id="previewScreen">
-    <div class="excel-pdf-preview-left">
-      <div class="excel-pdf-topbar">
+  <section class="pdf-excel-preview-screen hidden-screen" id="previewScreen">
+    <div class="pdf-excel-preview-left">
+      <div class="pdf-excel-topbar">
         <div>
-          <h1>Excel to PDF</h1>
+          <h1>PDF to Excel</h1>
           <p id="fileCounter">0 file selected</p>
         </div>
 
-        <button class="excel-pdf-add-btn" id="addMoreBtn" type="button">
+        <button class="pdf-excel-add-btn" id="addMoreBtn" type="button">
           <i class="fa-solid fa-plus"></i>
           Add more files
         </button>
       </div>
 
-      <div class="excel-pdf-file-grid" id="fileList"></div>
+      <div class="pdf-excel-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="excel-pdf-action-panel">
-      <h2>Excel to PDF</h2>
-      <p>Convert your XLS or XLSX spreadsheet into PDF.</p>
+    <aside class="pdf-excel-action-panel">
+      <h2>PDF to Excel</h2>
+      <p>Convert your PDF text into an Excel XLSX file.</p>
 
-      <button class="excel-pdf-main-btn" id="convertBtn" type="button">
-        Convert to PDF
+      <button class="pdf-excel-main-btn" id="convertBtn" type="button">
+        Convert to Excel
       </button>
 
-      <div class="progress-container excel-pdf-progress">
+      <div class="progress-container pdf-excel-progress">
         <div class="progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="excel-pdf-success-screen hidden-screen" id="successScreen">
-    <h1>Excel has been converted!</h1>
-    <p>Your PDF file is ready to download.</p>
+   <section class="pdf-excel-success-screen hidden-screen" id="successScreen">
+    <h1>PDF has been converted!</h1>
+    <p>Your Excel file is ready to download.</p>
 
     <button class="download-result-btn" id="downloadBtn" type="button">
-      Download PDF file
+      Download Excel file
     </button>
   </section>
 
@@ -355,7 +255,7 @@ align-items:center;
 
     <p>
       You have reached your daily free limit.
-      Upgrade to Premium for unlimited Excel to PDF conversions.
+      Upgrade to Premium for unlimited PDF to Excel conversions.
     </p>
 
     <div style="margin-top:20px;">
