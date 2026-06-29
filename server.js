@@ -1820,6 +1820,54 @@ app.post("/excel-to-pdf", upload.single("excelFile"), async (req, res) => {
   let inputPath = null;
 
   try {
+
+    const userId = req.body.user_id;
+
+    console.log("EXCEL TO PDF USER ID =", userId);
+
+    if (!userId) {
+      return res.status(401).send("Please login first");
+    }
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .single();
+
+    console.log("EXCEL TO PDF PROFILE DATA =", profileData);
+    console.log("EXCEL TO PDF PROFILE ERROR =", profileError);
+
+    if (profileError) {
+      return res.status(500).send("Unable to verify account");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { data: usageData, error: usageError } = await supabase
+      .from("usage_logs")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("tool_name", "excel_to_pdf")
+      .eq("usage_date", today)
+      .maybeSingle();
+
+    console.log("EXCEL TO PDF USAGE DATA =", usageData);
+    console.log("EXCEL TO PDF USAGE ERROR =", usageError);
+
+    if (!profileData.is_premium) {
+
+      const currentUsage = usageData ? usageData.usage_count : 0;
+
+      if (currentUsage >= 8) {
+
+        return res.status(403).send(
+          "Daily free limit reached. Upgrade to Premium for unlimited Excel to PDF conversions."
+        );
+
+      }
+
+    }
     if (!req.file) {
       return res.status(400).send("No Excel file uploaded");
     }
@@ -1866,11 +1914,43 @@ app.post("/excel-to-pdf", upload.single("excelFile"), async (req, res) => {
 
     doc.end();
 
-    res.on("finish", () => {
-      if (fs.existsSync(inputPath)) {
-        fs.unlinkSync(inputPath);
+    if (fs.existsSync(inputPath)) {
+  fs.unlinkSync(inputPath);
+}
+
+if (!usageData) {
+
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "excel_to_pdf",
+        usage_date: today,
+        usage_count: 1
       }
-    });
+    ]);
+
+  console.log("EXCEL TO PDF INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("EXCEL TO PDF UPDATE ERROR =", updateError);
+
+}
+
+res.on("finish", () => {
+  if (fs.existsSync(inputPath)) {
+    fs.unlinkSync(inputPath);
+  }
+});
   } catch (err) {
     console.error("EXCEL TO PDF ERROR:", err);
 
