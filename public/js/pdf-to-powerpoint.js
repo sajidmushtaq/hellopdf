@@ -1,223 +1,451 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const startScreen = document.getElementById("startScreen");
-  const previewScreen = document.getElementById("previewScreen");
-  const successScreen = document.getElementById("successScreen");
 
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("fileInput");
-  const addMoreBtn = document.getElementById("addMoreBtn");
-  const fileList = document.getElementById("fileList");
-  const fileCounter = document.getElementById("fileCounter");
-  const convertBtn = document.getElementById("convertBtn");
-  const progressBar = document.getElementById("progressBar");
-  const downloadBtn = document.getElementById("downloadBtn");
+const startScreen =
+document.getElementById("startScreen");
 
-  let selectedFile = null;
-  let convertedPptUrl = null;
-  let progressInterval = null;
+const previewScreen =
+document.getElementById("previewScreen");
 
-  startScreen.style.display = "flex";
-  previewScreen.classList.add("hidden-screen");
-  successScreen.classList.add("hidden-screen");
-  previewScreen.style.display = "none";
-  successScreen.style.display = "none";
+const successScreen =
+document.getElementById("successScreen");
 
-  function resetProgress() {
-    if (progressInterval) clearInterval(progressInterval);
-    progressInterval = null;
-    progressBar.style.width = "0%";
-    progressBar.textContent = "0%";
-  }
+const dropZone =
+document.getElementById("dropZone");
 
-  function startFakeProgress() {
-    let progress = 15;
-    progressBar.style.width = "15%";
-    progressBar.textContent = "15%";
+const fileInput =
+document.getElementById("fileInput");
 
-    progressInterval = setInterval(() => {
-      if (progress < 90) {
-        progress += 5;
-        progressBar.style.width = progress + "%";
-        progressBar.textContent = progress + "%";
-      }
-    }, 700);
-  }
+const addMoreBtn =
+document.getElementById("addMoreBtn");
 
-  function completeProgress() {
-    if (progressInterval) clearInterval(progressInterval);
-    progressInterval = null;
-    progressBar.style.width = "100%";
-    progressBar.textContent = "100%";
-  }
+const fileList =
+document.getElementById("fileList");
 
-  function isPdf(file) {
-    return file && (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"));
-  }
+const fileCounter =
+document.getElementById("fileCounter");
 
-  function addFile(files) {
-    const file = Array.from(files || []).find(isPdf);
+const convertBtn =
+document.getElementById("convertBtn");
 
-    if (!file) {
-      alert("Please select PDF file only");
-      return;
-    }
+const progressBar =
+document.getElementById("progressBar");
 
-    if (selectedFile && selectedFile.previewUrl) {
-      URL.revokeObjectURL(selectedFile.previewUrl);
-    }
+const downloadBtn =
+document.getElementById("downloadBtn");
 
-    selectedFile = file;
-    selectedFile.previewUrl = URL.createObjectURL(file);
+let selectedFile = null;
 
-    renderFile();
-  }
+let convertedPptUrl = null;
 
-  function renderFile() {
-    fileList.innerHTML = "";
+let progressInterval = null;
 
-    if (!selectedFile) {
-      startScreen.style.display = "flex";
-      previewScreen.classList.add("hidden-screen");
-      successScreen.classList.add("hidden-screen");
-      previewScreen.style.display = "none";
-      successScreen.style.display = "none";
-      resetProgress();
-      return;
-    }
+let currentUser = null;
 
-    startScreen.style.display = "none";
-    previewScreen.classList.remove("hidden-screen");
-    previewScreen.style.display = "grid";
-    successScreen.classList.add("hidden-screen");
-    successScreen.style.display = "none";
+let currentUserId = null;
 
-    fileCounter.textContent = "1 file selected";
+startScreen.style.display = "flex";
 
-    const card = document.createElement("div");
-    card.className = "pdf-ppt-file-card";
+previewScreen.classList.add("hidden-screen");
+successScreen.classList.add("hidden-screen");
 
-    card.innerHTML = `
-      <button class="remove-file-btn" type="button">×</button>
+previewScreen.style.display = "none";
+successScreen.style.display = "none";
 
-      <div class="pdf-thumb-wrap">
-        <embed
-          src="${selectedFile.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
-          type="application/pdf"
-          class="pdf-thumb"
-        />
-      </div>
+function resetProgress(){
 
-      <h3>${selectedFile.name}</h3>
-      <span class="file-order-badge">1</span>
-    `;
+if(progressInterval)
+clearInterval(progressInterval);
 
-    card.querySelector(".remove-file-btn").addEventListener("click", () => {
-      if (selectedFile.previewUrl) URL.revokeObjectURL(selectedFile.previewUrl);
-      selectedFile = null;
-      renderFile();
-    });
+progressInterval = null;
 
-    fileList.appendChild(card);
-  }
+progressBar.style.width = "0%";
+progressBar.textContent = "0%";
+
+}
+
+function startFakeProgress(){
+
+let progress = 15;
+
+progressBar.style.width = "15%";
+progressBar.textContent = "15%";
+
+progressInterval = setInterval(()=>{
+
+if(progress < 90){
+
+progress += 5;
+
+progressBar.style.width =
+progress + "%";
+
+progressBar.textContent =
+progress + "%";
+
+}
+
+},700);
+
+}
+
+function completeProgress(){
+
+if(progressInterval)
+clearInterval(progressInterval);
+
+progressInterval = null;
+
+progressBar.style.width = "100%";
+progressBar.textContent = "100%";
+
+}
+
+function isPdf(file){
+
+return file && (
+
+file.type === "application/pdf" ||
+
+file.name.toLowerCase().endsWith(".pdf")
+
+);
+
+}
+
+function addFile(files){
+
+const file =
+Array.from(files || []).find(isPdf);
+
+if(!file){
+
+alert("Please select PDF file only");
+
+return;
+
+}
+
+if(selectedFile && selectedFile.previewUrl){
+
+URL.revokeObjectURL(
+selectedFile.previewUrl
+);
+
+}
+
+selectedFile = file;
+
+selectedFile.previewUrl =
+URL.createObjectURL(file);
+
+renderFile();
+
+}
+
+function renderFile(){
+
+fileList.innerHTML = "";
+
+if(!selectedFile){
+
+startScreen.style.display = "flex";
+
+previewScreen.classList.add("hidden-screen");
+successScreen.classList.add("hidden-screen");
+
+previewScreen.style.display = "none";
+successScreen.style.display = "none";
+
+resetProgress();
+
+return;
+
+}
+
+startScreen.style.display = "none";
+
+previewScreen.classList.remove("hidden-screen");
+previewScreen.style.display = "grid";
+
+successScreen.classList.add("hidden-screen");
+successScreen.style.display = "none";
+
+fileCounter.textContent =
+"1 file selected";
+
+const card =
+document.createElement("div");
+
+card.className =
+"pdf-ppt-file-card";
+
+card.innerHTML = `
+
+<button
+class="remove-file-btn"
+type="button">
+
+×
+
+</button>
+
+<div class="pdf-thumb-wrap">
+
+<embed
+
+src="${selectedFile.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+
+type="application/pdf"
+
+class="pdf-thumb"
+
+/>
+
+</div>
+
+<h3>
+
+${selectedFile.name}
+
+</h3>
+
+<span class="file-order-badge">
+
+1
+
+</span>
+
+`;
+
+card.querySelector(".remove-file-btn")
+
+.addEventListener("click",()=>{
+
+if(selectedFile.previewUrl){
+
+URL.revokeObjectURL(
+selectedFile.previewUrl
+);
+
+}
+
+selectedFile = null;
+
+renderFile();
+
+});
+
+fileList.appendChild(card);
+
+}
 
   dropZone.addEventListener("click", () => fileInput.click());
-  addMoreBtn?.addEventListener("click", () => fileInput.click());
 
-  fileInput.addEventListener("change", () => {
-    addFile(fileInput.files);
-    fileInput.value = "";
-  });
+addMoreBtn?.addEventListener("click", () => fileInput.click());
 
-  dropZone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZone.classList.add("drag-active");
-  });
+fileInput.addEventListener("change", () => {
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("drag-active");
-  });
+addFile(fileInput.files);
 
-  dropZone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZone.classList.remove("drag-active");
-    addFile(e.dataTransfer.files);
-  });
+fileInput.value = "";
 
-  convertBtn?.addEventListener("click", async () => {
-    if (!selectedFile) {
-      alert("Please select a PDF file first");
-      return;
-    }
+});
 
-    const formData = new FormData();
-    formData.append("pdfFile", selectedFile);
+dropZone.addEventListener("dragover", (e) => {
 
-    resetProgress();
-    startFakeProgress();
+e.preventDefault();
 
-    convertBtn.disabled = true;
-    convertBtn.innerHTML = `
-      Converting...
-      <i class="fa-solid fa-spinner fa-spin"></i>
-    `;
+dropZone.classList.add("drag-active");
 
-    try {
-      const response = await fetch("/pdf-to-powerpoint", {
-        method: "POST",
-        body: formData
-      });
+});
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        alert(errorText || "PDF to PowerPoint conversion failed");
-        return;
-      }
+dropZone.addEventListener("dragleave", () => {
 
-      const blob = await response.blob();
+dropZone.classList.remove("drag-active");
 
-      if (!blob || blob.size < 100) {
-        alert("Conversion failed. Please try another PDF file.");
-        return;
-      }
+});
 
-      completeProgress();
+dropZone.addEventListener("drop", (e) => {
 
-      if (convertedPptUrl) URL.revokeObjectURL(convertedPptUrl);
-      convertedPptUrl = URL.createObjectURL(blob);
+e.preventDefault();
 
-      setTimeout(() => {
-        previewScreen.classList.add("hidden-screen");
-        previewScreen.style.display = "none";
-        successScreen.classList.remove("hidden-screen");
-        successScreen.style.display = "flex";
-      }, 400);
+dropZone.classList.remove("drag-active");
 
-    } catch (error) {
-      console.error("PDF TO POWERPOINT ERROR:", error);
-      alert("Conversion failed. Please try again.");
-    } finally {
-      if (progressInterval) clearInterval(progressInterval);
-      progressInterval = null;
+addFile(e.dataTransfer.files);
 
-      convertBtn.disabled = false;
-      convertBtn.innerHTML = `
-        Convert to PowerPoint
-        <i class="fa-solid fa-arrow-right"></i>
-      `;
-    }
-  });
+});
 
-  downloadBtn?.addEventListener("click", () => {
-    if (!convertedPptUrl) {
-      alert("PowerPoint file is not ready yet");
-      return;
-    }
+convertBtn?.addEventListener("click", async () => {
 
-    const a = document.createElement("a");
-    a.href = convertedPptUrl;
-    a.download = "converted.pptx";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  });
+if (!selectedFile) {
+
+alert("Please select a PDF file first");
+
+return;
+
+}
+
+const formData = new FormData();
+
+formData.append("pdfFile", selectedFile);
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+
+alert("Please login first");
+
+return;
+
+}
+
+formData.append("user_id", data.user.id);
+
+resetProgress();
+
+startFakeProgress();
+
+convertBtn.disabled = true;
+
+convertBtn.innerHTML = `
+
+Converting...
+
+<i class="fa-solid fa-spinner fa-spin"></i>
+
+`;
+
+try {
+
+const response = await fetch("/pdf-to-powerpoint", {
+
+method: "POST",
+
+body: formData
+
+});
+
+if (!response.ok) {
+
+const errorText = await response.text();
+
+if (errorText.includes("Daily free limit reached")) {
+
+const upgradeModal =
+document.getElementById("upgradeModal");
+
+if (upgradeModal) {
+
+upgradeModal.style.display = "flex";
+
+}
+
+} else {
+
+alert(errorText || "PDF to PowerPoint conversion failed");
+
+}
+
+return;
+
+}
+
+const blob = await response.blob();
+
+if (!blob || blob.size < 100) {
+
+alert("Conversion failed. Please try another PDF file.");
+
+return;
+
+}
+
+completeProgress();
+
+if (convertedPptUrl) {
+
+URL.revokeObjectURL(convertedPptUrl);
+
+}
+
+convertedPptUrl =
+URL.createObjectURL(blob);
+
+setTimeout(() => {
+
+previewScreen.classList.add("hidden-screen");
+
+previewScreen.style.display = "none";
+
+successScreen.classList.remove("hidden-screen");
+
+successScreen.style.display = "flex";
+
+}, 400);
+
+} catch (error) {
+
+console.error("PDF TO POWERPOINT ERROR:", error);
+
+alert("Conversion failed. Please try again.");
+
+} finally {
+
+if (progressInterval)
+clearInterval(progressInterval);
+
+progressInterval = null;
+
+convertBtn.disabled = false;
+
+convertBtn.innerHTML = `
+
+Convert to PowerPoint
+
+<i class="fa-solid fa-arrow-right"></i>
+
+`;
+
+}
+
+});
+
+downloadBtn?.addEventListener("click", () => {
+
+if (!convertedPptUrl) {
+
+alert("PowerPoint file is not ready yet");
+
+return;
+
+}
+
+const a = document.createElement("a");
+
+a.href = convertedPptUrl;
+
+a.download = "converted.pptx";
+
+document.body.appendChild(a);
+
+a.click();
+
+a.remove();
+
+});
+
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
+
+if (closeUpgradeModal) {
+
+closeUpgradeModal.addEventListener("click", () => {
+
+document.getElementById("upgradeModal").style.display = "none";
+
+});
+
+}
+
 });
