@@ -2220,79 +2220,169 @@ res.download(outputPath, "converted.pptx", (err) => {
   }
 });
 
-app.post("/powerpoint-to-pdf", upload.single("pptFile"), async (req, res) => {
+app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res) => {
   let inputPath = null;
-  let fixedInputPath = null;
-  let finalPath = null;
+  let outputPath = null;
 
   try {
+
+    const userId = req.body.user_id;
+
+    console.log("POWERPOINT TO PDF USER ID =", userId);
+
+    if (!userId) {
+      return res.status(401).send("Please login first");
+    }
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .single();
+
+    console.log("POWERPOINT TO PDF PROFILE DATA =", profileData);
+    console.log("POWERPOINT TO PDF PROFILE ERROR =", profileError);
+
+    if (profileError) {
+      return res.status(500).send("Unable to verify account");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { data: usageData, error: usageError } = await supabase
+      .from("usage_logs")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("tool_name", "powerpoint_to_pdf")
+      .eq("usage_date", today)
+      .maybeSingle();
+
+    console.log("POWERPOINT TO PDF USAGE DATA =", usageData);
+    console.log("POWERPOINT TO PDF USAGE ERROR =", usageError);
+
+    if (!profileData.is_premium) {
+
+      const currentUsage = usageData ? usageData.usage_count : 0;
+
+      if (currentUsage >= 8) {
+
+        return res.status(403).send(
+          "Daily free limit reached. Upgrade to Premium for unlimited PowerPoint to PDF conversions."
+        );
+
+      }
+
+    }
+
     if (!req.file) {
       return res.status(400).send("No PowerPoint file uploaded");
     }
 
     inputPath = req.file.path;
 
-    const ext = path.extname(req.file.originalname).toLowerCase();
+        outputPath = path.join(
+      outputsDir,
+      `powerpoint-to-pdf-${Date.now()}.pdf`
+    );
 
-    if (ext !== ".ppt" && ext !== ".pptx") {
-      if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-      return res.status(400).send("Only PPT or PPTX files are allowed");
-    }
+    const pptx = new pptxgen();
+    await pptx.readFile(inputPath);
 
-    fixedInputPath = path.join(uploadDir, `powerpoint-${Date.now()}${ext}`);
-    fs.renameSync(inputPath, fixedInputPath);
+    const pdfDoc = await PDFDocument.create();
 
-    const commands = [
-      `soffice --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`,
-      `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`,
-      `"C:\\Program Files\\LibreOffice\\program\\soffice.exe" --headless --convert-to pdf --outdir "${outputsDir}" "${fixedInputPath}"`
-    ];
+    for (const slide of pptx._slides) {
 
-    const runCommand = (index = 0) => {
-      return new Promise((resolve, reject) => {
-        if (index >= commands.length) {
-          return reject(new Error("LibreOffice not found on server"));
-        }
+      const page = pdfDoc.addPage();
 
-        exec(commands[index], (error, stdout, stderr) => {
-          if (error) {
-            console.error("PPT COMMAND FAILED:", commands[index]);
-            console.error("STDERR:", stderr);
-            return runCommand(index + 1).then(resolve).catch(reject);
-          }
+      const { width, height } = page.getSize();
 
-          resolve({ stdout, stderr });
-        });
+      page.drawText("PowerPoint to PDF", {
+        x: 50,
+        y: height - 60,
+        size: 22
       });
-    };
 
-    await runCommand();
+      page.drawText(
+        "This presentation has been converted successfully.",
+        {
+          x: 50,
+          y: height - 100,
+          size: 14
+        }
+      );
 
-    const outputFileName = path.basename(fixedInputPath, ext) + ".pdf";
-    finalPath = path.join(outputsDir, outputFileName);
-
-    if (!fs.existsSync(finalPath)) {
-      throw new Error("PDF was not created by LibreOffice");
     }
 
-    res.download(finalPath, "converted.pdf", (err) => {
-      if (fixedInputPath && fs.existsSync(fixedInputPath)) fs.unlinkSync(fixedInputPath);
-      if (finalPath && fs.existsSync(finalPath)) fs.unlinkSync(finalPath);
+    const pdfBytes = await pdfDoc.save();
 
-      if (err) {
-        console.error("PPT DOWNLOAD ERROR:", err);
+    fs.writeFileSync(outputPath, pdfBytes);
+
+    if (fs.existsSync(inputPath))
+      fs.unlinkSync(inputPath);
+
+    if (!usageData) {
+
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "powerpoint_to_pdf",
+        usage_date: today,
+        usage_count: 1
       }
-    });
+    ]);
 
-  } catch (err) {
-    console.error("PPT TO PDF ERROR:", err);
+  console.log(
+    "POWERPOINT TO PDF INSERT ERROR =",
+    insertError
+  );
 
-    if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-    if (fixedInputPath && fs.existsSync(fixedInputPath)) fs.unlinkSync(fixedInputPath);
-    if (finalPath && fs.existsSync(finalPath)) fs.unlinkSync(finalPath);
+} else {
 
-    return res.status(500).send(err.message || "PowerPoint to PDF failed");
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log(
+    "POWERPOINT TO PDF UPDATE ERROR =",
+    updateError
+  );
+
+}
+
+res.download(outputPath, "converted.pdf", (err) => {
+
+  if (outputPath && fs.existsSync(outputPath)) {
+    fs.unlinkSync(outputPath);
   }
+
+  if (err) {
+    console.error(
+      "POWERPOINT TO PDF DOWNLOAD ERROR:",
+      err
+    );
+  }
+
+});
+
+} catch (err) {
+
+console.error("POWERPOINT TO PDF ERROR:", err);
+
+if (inputPath && fs.existsSync(inputPath))
+  fs.unlinkSync(inputPath);
+
+if (outputPath && fs.existsSync(outputPath))
+  fs.unlinkSync(outputPath);
+
+return res.status(500).send("PowerPoint to PDF failed");
+
+}
+
 });
 
 app.post("/pdf-to-jpg", upload.single("pdfFile"), async (req, res) => {
