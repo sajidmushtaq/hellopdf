@@ -302,6 +302,12 @@ return;
 
 formData.append("user_id", data.user.id);
 
+console.log("USER ID =", data.user.id);
+
+for (const pair of formData.entries()) {
+  console.log(pair[0], pair[1]);
+}
+
 resetProgress();
 
 startFakeProgress();
