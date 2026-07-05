@@ -2225,9 +2225,7 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
   let outputPath = null;
 
   try {
-console.log("BODY =", req.body);
-console.log("FILE =", req.file?.originalname);
-console.log("USER_ID =", req.body.user_id);
+
     const userId = req.body.user_id;
 
     console.log("POWERPOINT TO PDF USER ID =", userId);
