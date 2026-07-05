@@ -5,6 +5,9 @@ const path = require("path");
 const { PDFDocument, rgb, degrees } = require("pdf-lib");
 const archiver = require("archiver");
 const { exec } = require("child_process");
+const util = require("util");
+
+const execPromise = util.promisify(exec);
 const ExcelJS = require("exceljs");
 const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
@@ -2280,45 +2283,30 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
 
     inputPath = req.file.path;
 
-        outputPath = path.join(
-      outputsDir,
-      `powerpoint-to-pdf-${Date.now()}.pdf`
-    );
+        
 
-    const pptx = new pptxgen();
-    await pptx.readFile(inputPath);
+    await execPromise(
 
-    const pdfDoc = await PDFDocument.create();
+`libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
 
-    for (const slide of pptx._slides) {
+);
 
-      const page = pdfDoc.addPage();
+const convertedPdf = path.join(
 
-      const { width, height } = page.getSize();
+outputsDir,
 
-      page.drawText("PowerPoint to PDF", {
-        x: 50,
-        y: height - 60,
-        size: 22
-      });
+path.basename(inputPath, path.extname(inputPath)) + ".pdf"
 
-      page.drawText(
-        "This presentation has been converted successfully.",
-        {
-          x: 50,
-          y: height - 100,
-          size: 14
-        }
-      );
+);
 
-    }
+if (!fs.existsSync(convertedPdf)) {
 
-    const pdfBytes = await pdfDoc.save();
+throw new Error("LibreOffice failed to create PDF.");
 
-    fs.writeFileSync(outputPath, pdfBytes);
+}
 
-    if (fs.existsSync(inputPath))
-      fs.unlinkSync(inputPath);
+outputPath = convertedPdf;
+
 
     if (!usageData) {
 
@@ -2355,6 +2343,10 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
 }
 
 res.download(outputPath, "converted.pdf", (err) => {
+
+  if (inputPath && fs.existsSync(inputPath)) {
+    fs.unlinkSync(inputPath);
+  }
 
   if (outputPath && fs.existsSync(outputPath)) {
     fs.unlinkSync(outputPath);
