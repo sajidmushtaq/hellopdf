@@ -2286,13 +2286,14 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
         
 
     await execPromise(
-      console.log("LibreOffice conversion finished");
-console.log("Expected PDF =", convertedPdf);
-console.log("PDF Exists =", fs.existsSync(convertedPdf));
+      
 
 `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
 
 );
+console.log("LibreOffice conversion finished");
+console.log("Expected PDF =", convertedPdf);
+console.log("PDF Exists =", fs.existsSync(convertedPdf));
 
 const convertedPdf = path.join(
 
