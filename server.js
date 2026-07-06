@@ -2286,6 +2286,9 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
         
 
     await execPromise(
+      console.log("LibreOffice conversion finished");
+console.log("Expected PDF =", convertedPdf);
+console.log("PDF Exists =", fs.existsSync(convertedPdf));
 
 `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
 
@@ -2363,7 +2366,9 @@ res.download(outputPath, "converted.pdf", (err) => {
 
 } catch (err) {
 
-console.error("POWERPOINT TO PDF ERROR:", err);
+console.error("POWERPOINT TO PDF ERROR:");
+console.error(err);
+console.error(err.stack);
 
 if (inputPath && fs.existsSync(inputPath))
   fs.unlinkSync(inputPath);
