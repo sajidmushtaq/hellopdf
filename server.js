@@ -2224,6 +2224,7 @@ res.download(outputPath, "converted.pptx", (err) => {
 });
 
 app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res) => {
+console.log("=========== POWERPOINT ROUTE HIT ===========");
   let inputPath = null;
   let outputPath = null;
 
@@ -2285,12 +2286,15 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
 
         
 
-    await execPromise(
-      
-
-`libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
-
+    const { stdout, stderr } = await execPromise(
+  `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
 );
+
+console.log("========== LIBREOFFICE STDOUT ==========");
+console.log(stdout);
+
+console.log("========== LIBREOFFICE STDERR ==========");
+console.log(stderr);
 console.log("LibreOffice conversion finished");
 console.log("Expected PDF =", convertedPdf);
 console.log("PDF Exists =", fs.existsSync(convertedPdf));
@@ -2367,17 +2371,16 @@ res.download(outputPath, "converted.pdf", (err) => {
 
 } catch (err) {
 
-console.error("POWERPOINT TO PDF ERROR:");
-console.error(err);
-console.error(err.stack);
+  console.error("========== POWERPOINT FULL ERROR ==========");
+  console.error(err);
 
-if (inputPath && fs.existsSync(inputPath))
-  fs.unlinkSync(inputPath);
+  if (inputPath && fs.existsSync(inputPath))
+    fs.unlinkSync(inputPath);
 
-if (outputPath && fs.existsSync(outputPath))
-  fs.unlinkSync(outputPath);
+  if (outputPath && fs.existsSync(outputPath))
+    fs.unlinkSync(outputPath);
 
-return res.status(500).send("PowerPoint to PDF failed");
+  return res.status(500).send("PowerPoint to PDF failed");
 
 }
 
