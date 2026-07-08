@@ -2224,8 +2224,7 @@ res.download(outputPath, "converted.pptx", (err) => {
 });
 
 app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res) => {
-console.log("=========== POWERPOINT ROUTE HIT ===========");
-console.log("REQUEST URL =", req.originalUrl);
+
   let inputPath = null;
   let outputPath = null;
   try {
@@ -2295,15 +2294,6 @@ const convertedPdf = path.join(
   path.basename(inputPath, path.extname(inputPath)) + ".pdf"
 );
 
-console.log("========== LIBREOFFICE STDOUT ==========");
-console.log(stdout);
-
-console.log("========== LIBREOFFICE STDERR ==========");
-console.log(stderr);
-
-console.log("LibreOffice conversion finished");
-console.log("Expected PDF =", convertedPdf);
-console.log("PDF Exists =", fs.existsSync(convertedPdf));
 
 if (!fs.existsSync(convertedPdf)) {
 
@@ -4044,9 +4034,7 @@ app.get("/test-log-usage", async (req, res) => {
 
 console.log("SUPABASE_URL =", process.env.SUPABASE_URL);
 console.log("Supabase connected");
-app.get("/docker-test", (req, res) => {
-  res.send("THIS IS DOCKER TEST");
-});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
