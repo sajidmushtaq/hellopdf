@@ -2290,22 +2290,20 @@ console.log("REQUEST URL =", req.originalUrl);
   `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
 );
 
+const convertedPdf = path.join(
+  outputsDir,
+  path.basename(inputPath, path.extname(inputPath)) + ".pdf"
+);
+
 console.log("========== LIBREOFFICE STDOUT ==========");
 console.log(stdout);
 
 console.log("========== LIBREOFFICE STDERR ==========");
 console.log(stderr);
+
 console.log("LibreOffice conversion finished");
 console.log("Expected PDF =", convertedPdf);
 console.log("PDF Exists =", fs.existsSync(convertedPdf));
-
-const convertedPdf = path.join(
-
-outputsDir,
-
-path.basename(inputPath, path.extname(inputPath)) + ".pdf"
-
-);
 
 if (!fs.existsSync(convertedPdf)) {
 
