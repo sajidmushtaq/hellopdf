@@ -9,6 +9,7 @@ ENV PUPPETEER_CACHE_DIR=/root/.cache/puppeteer
 RUN apt-get update && apt-get install -y \
     libreoffice \
     libreoffice-impress \
+    ghostscript \
     fonts-dejavu \
     fonts-liberation \
     ca-certificates \
