@@ -216,6 +216,18 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedFiles.forEach(file=>{
       formData.append("pdfFile", file);
     });
+    const { data } =
+await window.supabaseClient.auth.getUser();
+
+if (!data?.user) {
+
+  alert("Please login first");
+
+  return;
+
+}
+
+formData.append("user_id", data.user.id);
 
     startFakeProgress();
 
@@ -233,9 +245,30 @@ document.addEventListener("DOMContentLoaded", () => {
         body:formData
       });
 
-      if(!response.ok){
-        throw new Error("PDF to JPG failed");
-      }
+      if (!response.ok) {
+
+  const errorText = await response.text();
+
+  if (errorText.includes("Daily free limit reached")) {
+
+    const upgradeModal =
+    document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+
+      upgradeModal.style.display = "flex";
+
+    }
+
+  } else {
+
+    alert(errorText || "PDF to JPG conversion failed");
+
+  }
+
+  return;
+
+}
 
       const blob = await response.blob();
 
