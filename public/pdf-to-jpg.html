@@ -293,7 +293,34 @@ type="button">
 </div>
 
 </header>
+<div
+class="hp-mobile-profile"
+id="mobileProfileBox"
+style="display:none;">
 
+<strong id="mobileProfileName">
+User
+</strong>
+
+<p id="mobileProfileEmail">
+user@email.com
+</p>
+
+<a href="/account.html">
+Account Settings
+</a>
+
+<a href="/pricing.html">
+Upgrade to Premium
+</a>
+
+<button
+id="mobileLogoutBtn"
+type="button">
+Log out
+</button>
+
+</div>
 <main class="pdf-jpg-page">
 
   <!-- START -->
@@ -530,6 +557,17 @@ document.getElementById("profileMenuEmail");
 
 const logoutBtn =
 document.getElementById("logoutBtn");
+const mobileProfileBox =
+document.getElementById("mobileProfileBox");
+
+const mobileProfileName =
+document.getElementById("mobileProfileName");
+
+const mobileProfileEmail =
+document.getElementById("mobileProfileEmail");
+
+const mobileLogoutBtn =
+document.getElementById("mobileLogoutBtn");
 
 const { data } =
 await window.supabaseClient.auth.getUser();
@@ -555,6 +593,11 @@ profileName.textContent = fullName;
 profileMenuAvatar.textContent = firstLetter;
 profileMenuName.textContent = fullName;
 profileMenuEmail.textContent = user.email;
+mobileProfileBox.style.display = "block";
+
+mobileProfileName.textContent = fullName;
+
+mobileProfileEmail.textContent = user.email;
 
 } else {
 
@@ -583,6 +626,8 @@ window.location.href = "/index.html";
 
 if (logoutBtn)
 logoutBtn.addEventListener("click", logoutUser);
+if (mobileLogoutBtn)
+mobileLogoutBtn.addEventListener("click", logoutUser);
 
 })();
 

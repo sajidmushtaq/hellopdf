@@ -20,6 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedFiles = [];
   let finalZipUrl = null;
+  function resetProgress(){
+
+  clearInterval(progressInterval);
+
+  progressBar.style.width = "0%";
+  progressBar.textContent = "0%";
+
+}
   let progressInterval = null;
 
   /* CLICK */
@@ -228,7 +236,7 @@ if (!data?.user) {
 }
 
 formData.append("user_id", data.user.id);
-
+resetProgress();
     startFakeProgress();
 
     convertBtn.disabled = true;
@@ -276,7 +284,13 @@ formData.append("user_id", data.user.id);
         throw new Error("PDF to JPG failed");
       }
 
-      finalZipUrl = URL.createObjectURL(blob);
+      if (finalZipUrl) {
+
+  URL.revokeObjectURL(finalZipUrl);
+
+}
+
+finalZipUrl = URL.createObjectURL(blob);
 
       completeProgress();
 
@@ -328,7 +342,25 @@ formData.append("user_id", data.user.id);
     a.click();
 
     a.remove();
+    setTimeout(()=>{
+
+  URL.revokeObjectURL(finalZipUrl);
+
+  finalZipUrl = null;
+
+},1000);
 
   });
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
 
+if (closeUpgradeModal) {
+
+closeUpgradeModal.addEventListener("click", () => {
+
+document.getElementById("upgradeModal").style.display = "none";
+
+});
+
+}
 });

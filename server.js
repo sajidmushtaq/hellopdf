@@ -2435,10 +2435,8 @@ if (!profileData.is_premium) {
     zipPath = path.join(outputsDir, `jpg-images-${Date.now()}.zip`);
 
     const commands = [
-      `gswin64c -dNOPAUSE -dBATCH -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${inputPath}"`,
-      `gswin32c -dNOPAUSE -dBATCH -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${inputPath}"`,
-      `gs -dNOPAUSE -dBATCH -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${inputPath}"`
-    ];
+  `gs -dNOPAUSE -dBATCH -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${inputPath}"`
+];
 
     const runGS = (index = 0) => {
       return new Promise((resolve, reject) => {
@@ -2455,6 +2453,8 @@ if (!profileData.is_premium) {
     };
 
     await runGS();
+    console.log("PDF TO JPG CONVERSION SUCCESS");
+console.log("OUTPUT DIRECTORY =", outputDir);
 
     const files = fs.readdirSync(outputDir).filter((file) => file.endsWith(".jpg"));
 
@@ -2512,7 +2512,8 @@ if (!usageData) {
       });
     });
   } catch (err) {
-    console.error("PDF TO JPG ERROR:", err);
+    console.error("========== PDF TO JPG FULL ERROR ==========");
+console.error(err);
 
     if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
     if (zipPath && fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
@@ -2522,7 +2523,7 @@ if (!usageData) {
 
     return res
       .status(500)
-      .send("PDF to JPG failed. Make sure Ghostscript is installed.");
+      .send("PDF to JPG failed");
   }
 });
 
