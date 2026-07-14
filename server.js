@@ -2549,6 +2549,49 @@ console.error(err);
 
 app.post("/jpg-to-pdf", upload.array("jpgFiles"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("JPG TO PDF USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "jpg_to_pdf")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (usageError) {
+  return res.status(500).send("Usage verification failed");
+}
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited JPG to PDF conversions."
+    );
+  }
+
+}
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("No JPG files uploaded");
     }
@@ -2577,18 +2620,48 @@ app.post("/jpg-to-pdf", upload.array("jpgFiles"), async (req, res) => {
         height: jpgImage.height
       });
     }
-
+console.log("JPG TO PDF CONVERSION SUCCESS");
+console.log("TOTAL IMAGES =", req.files.length);
     const pdfBytes = await pdfDoc.save();
+    if (!usageData) {
+
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "jpg_to_pdf",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("JPG TO PDF INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("JPG TO PDF UPDATE ERROR =", updateError);
+
+}
 
     req.files.forEach((file) => {
       if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
     });
-
+console.log("JPG TO PDF DOWNLOAD START");
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=jpg-to-pdf.pdf");
 
     return res.end(Buffer.from(pdfBytes));
   } catch (err) {
+    console.error("========== JPG TO PDF FULL ERROR ==========");
+console.error(err);
     console.error("JPG TO PDF ERROR:", err);
 
     if (req.files) {
