@@ -2778,47 +2778,63 @@ console.log("OUTPUT DIRECTORY =", outputDir);
       archive.file(path.join(outputDir, file), { name: file });
     });
 
-    await archive.finalize();
-    if (!usageData) {
+    output.on("close", async () => {
 
-  const { error: insertError } = await supabase
-    .from("usage_logs")
-    .insert([
-      {
-        user_id: userId,
-        tool_name: "pdf_to_png",
-        usage_date: today,
-        usage_count: 1
-      }
-    ]);
+  if (!usageData) {
 
-  console.log("PDF TO PNG INSERT ERROR =", insertError);
-
-} else {
-
-  const { error: updateError } = await supabase
-    .from("usage_logs")
-    .update({
-      usage_count: usageData.usage_count + 1
-    })
-    .eq("id", usageData.id);
-
-  console.log("PDF TO PNG UPDATE ERROR =", updateError);
-
-}
-console.log("PDF TO PNG DOWNLOAD START");
-    output.on("close", () => {
-      res.download(zipPath, "pdf-to-png.zip", (err) => {
-        if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-        if (zipPath && fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
-
-        if (outputDir && fs.existsSync(outputDir)) {
-          fs.rmSync(outputDir, { recursive: true, force: true });
+    const { error: insertError } = await supabase
+      .from("usage_logs")
+      .insert([
+        {
+          user_id: userId,
+          tool_name: "pdf_to_png",
+          usage_date: today,
+          usage_count: 1
         }
+      ]);
 
-        if (err) console.error("PDF TO PNG DOWNLOAD ERROR:", err);
+    console.log("PDF TO PNG INSERT ERROR =", insertError);
+
+  } else {
+
+    const { error: updateError } = await supabase
+      .from("usage_logs")
+      .update({
+        usage_count: usageData.usage_count + 1
+      })
+      .eq("id", usageData.id);
+
+    console.log("PDF TO PNG UPDATE ERROR =", updateError);
+
+  }
+
+  console.log("PDF TO PNG DOWNLOAD START");
+
+  res.download(zipPath, "pdf-to-png.zip", (err) => {
+
+    if (inputPath && fs.existsSync(inputPath))
+      fs.unlinkSync(inputPath);
+
+    if (zipPath && fs.existsSync(zipPath))
+      fs.unlinkSync(zipPath);
+
+    if (outputDir && fs.existsSync(outputDir)) {
+
+      fs.rmSync(outputDir, {
+        recursive: true,
+        force: true
       });
-    });
+
+    }
+
+    if (err)
+      console.error("PDF TO PNG DOWNLOAD ERROR:", err);
+
+  });
+
+});
+
+await archive.finalize();
   } catch (err) {
     console.error("========== PDF TO PNG FULL ERROR ==========");
 console.error(err);
