@@ -2680,6 +2680,51 @@ app.post("/pdf-to-png", upload.single("pdfFile"), async (req, res) => {
   let zipPath = null;
 
   try {
+    const userId = req.body.user_id;
+
+console.log("PDF TO PNG USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_to_png")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (usageError) {
+  return res.status(500).send("Usage verification failed");
+}
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF to PNG conversions."
+    );
+
+  }
+
+}
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
     }
@@ -2715,6 +2760,8 @@ app.post("/pdf-to-png", upload.single("pdfFile"), async (req, res) => {
     };
 
     await runGS();
+    console.log("PDF TO PNG CONVERSION SUCCESS");
+console.log("OUTPUT DIRECTORY =", outputDir);
 
     const files = fs.readdirSync(outputDir).filter((file) => file.endsWith(".png"));
 
@@ -2732,7 +2779,34 @@ app.post("/pdf-to-png", upload.single("pdfFile"), async (req, res) => {
     });
 
     await archive.finalize();
+    if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_to_png",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("PDF TO PNG INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("PDF TO PNG UPDATE ERROR =", updateError);
+
+}
+console.log("PDF TO PNG DOWNLOAD START");
     output.on("close", () => {
       res.download(zipPath, "pdf-to-png.zip", (err) => {
         if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
@@ -2746,6 +2820,8 @@ app.post("/pdf-to-png", upload.single("pdfFile"), async (req, res) => {
       });
     });
   } catch (err) {
+    console.error("========== PDF TO PNG FULL ERROR ==========");
+console.error(err);
     console.error("PDF TO PNG ERROR:", err);
 
     if (inputPath && fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
