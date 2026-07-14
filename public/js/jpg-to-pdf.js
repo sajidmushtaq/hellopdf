@@ -25,8 +25,6 @@ const drawerOverlay = document.getElementById("drawerOverlay");
   const progressBar = document.getElementById("progressBar");
   const downloadBtn = document.getElementById("downloadBtn");
 
-  const closeUpgradeModal =
-document.getElementById("closeUpgradeModal");
 
   let selectedFiles = [];
   let finalPdfUrl = null;
