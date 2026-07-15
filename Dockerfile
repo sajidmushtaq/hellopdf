@@ -45,7 +45,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-ENV PUPPETEER_EXECUTABLE_PATH=/root/.cache/puppeteer/chrome/linux-*/chrome-linux64/chrome
+
 
 ENV NODE_ENV=production
 
