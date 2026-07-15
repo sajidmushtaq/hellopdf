@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PUPPETEER_SKIP_DOWNLOAD=false
-ENV PUPPETEER_CACHE_DIR=/root/.cache/puppeteer
+ENV PUPPETEER_CACHE_DIR=/opt/render/project/src/.cache/puppeteer
 
 RUN apt-get update && apt-get install -y \
     libreoffice \
@@ -49,8 +49,8 @@ COPY . .
 
 ENV NODE_ENV=production
 
-RUN npx puppeteer browsers install chrome
-RUN ls -R /root/.cache/puppeteer || true
+RUN npx puppeteer browsers install chrome --path=/opt/render/project/src/.cache/puppeteer
+RUN ls -R /opt/render/project/src/.cache/puppeteer || true
 
 EXPOSE 10000
 
