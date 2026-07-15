@@ -2906,7 +2906,9 @@ if (!profileData.is_premium) {
     if (!htmlCode || !htmlCode.trim()) {
       return res.status(400).send("Please enter HTML code");
     }
-
+console.log("PUPPETEER CACHE =", process.env.PUPPETEER_CACHE_DIR);
+console.log("EXECUTABLE =", puppeteer.executablePath());
+console.log("NODE_ENV =", process.env.NODE_ENV);
     browser = await puppeteer.launch({
       headless: "new",
       args: [

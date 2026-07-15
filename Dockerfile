@@ -50,6 +50,7 @@ COPY . .
 ENV NODE_ENV=production
 
 RUN npx puppeteer browsers install chrome
+RUN ls -R /root/.cache/puppeteer || true
 
 EXPOSE 10000
 
