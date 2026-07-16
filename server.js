@@ -2996,6 +2996,51 @@ app.post("/pdf-to-text", upload.single("pdfFile"), async (req, res) => {
   let inputPath = null;
 
   try {
+    const userId = req.body.user_id;
+
+console.log("PDF TO TEXT USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "pdf_to_text")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (usageError) {
+  return res.status(500).send("Usage verification failed");
+}
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited PDF to Text conversions."
+    );
+
+  }
+
+}
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded");
     }
@@ -3006,19 +3051,49 @@ app.post("/pdf-to-text", upload.single("pdfFile"), async (req, res) => {
     const data = await pdfParse(pdfBuffer);
 
     const text = data.text || "";
+    console.log("PDF TO TEXT EXTRACTION SUCCESS");
+console.log("TEXT LENGTH =", text.length);
 
     if (!text.trim()) {
       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
       return res.status(400).send("No readable text found in this PDF");
     }
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "pdf_to_text",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("PDF TO TEXT INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("PDF TO TEXT UPDATE ERROR =", updateError);
+
+}
     if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-
+console.log("PDF TO TEXT DOWNLOAD START");
     res.setHeader("Content-Type", "text/plain");
     res.setHeader("Content-Disposition", "attachment; filename=pdf-text.txt");
 
     return res.send(text);
   } catch (err) {
+    console.error("========== PDF TO TEXT FULL ERROR ==========");
+console.error(err);
     console.error("PDF TO TEXT ERROR:", err);
 
     if (inputPath && fs.existsSync(inputPath)) {

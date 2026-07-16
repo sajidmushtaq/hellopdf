@@ -1,4 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
+  /* DRAWERS */
+
+const toolsMenuBtn =
+document.getElementById("toolsMenuBtn");
+
+const mainMenuBtn =
+document.getElementById("mainMenuBtn");
+
+const toolsDrawer =
+document.getElementById("toolsDrawer");
+
+const mainDrawer =
+document.getElementById("mainDrawer");
+
+const toolsClose =
+document.getElementById("toolsClose");
+
+const mainClose =
+document.getElementById("mainClose");
+
+const drawerOverlay =
+document.getElementById("drawerOverlay");
+
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
+
+let currentUser = null;
   const textStartScreen = document.getElementById("textStartScreen");
   const textPreviewScreen = document.getElementById("textPreviewScreen");
   const textSuccessScreen = document.getElementById("textSuccessScreen");
@@ -15,8 +42,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedFiles = [];
   let finalTxtUrl = null;
-  let progressInterval = null;
+  function resetProgress(){
 
+  if(progressInterval)
+    clearInterval(progressInterval);
+
+  progressInterval = null;
+
+  progressBar.style.width = "0%";
+  progressBar.textContent = "0%";
+
+}
+  let progressInterval = null;
+(async()=>{
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if(data && data.user){
+
+currentUser = data.user;
+
+}
+
+})();
   dropZone.addEventListener("click", () => textFileInput.click());
   addMoreBtn.addEventListener("click", () => addMoreInput.click());
 
@@ -123,7 +172,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function completeProgress(){
-    if(progressInterval) clearInterval(progressInterval);
+    if(progressInterval){
+
+  clearInterval(progressInterval);
+
+  progressInterval = null;
+
+}
     progressBar.style.width = "100%";
     progressBar.textContent = "100%";
   }
@@ -135,8 +190,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formData = new FormData();
-    formData.append("pdfFile", selectedFiles[0]);
+    if(currentUser){
 
+formData.append(
+"user_id",
+currentUser.id
+);
+
+}
+    formData.append("pdfFile", selectedFiles[0]);
+resetProgress();
     startFakeProgress();
 
     convertBtn.disabled = true;
@@ -149,9 +212,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if(!response.ok){
-        const errorText = await response.text();
-        throw new Error(errorText || "Extraction failed");
-      }
+
+const text =
+await response.text();
+
+if(response.status===403){
+
+document.getElementById(
+"upgradeModal"
+).style.display="flex";
+
+throw new Error("");
+
+}
+
+throw new Error(
+text ||
+"PDF to Text failed"
+);
+
+}
 
       const blob = await response.blob();
 
@@ -159,7 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error("Extraction failed");
       }
 
-      if(finalTxtUrl) URL.revokeObjectURL(finalTxtUrl);
+      if(finalTxtUrl){
+
+  URL.revokeObjectURL(finalTxtUrl);
+
+  finalTxtUrl = null;
+
+}
       finalTxtUrl = URL.createObjectURL(blob);
 
       completeProgress();
@@ -192,5 +278,65 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(a);
     a.click();
     a.remove();
+    setTimeout(()=>{
+
+  if(finalTxtUrl){
+
+    URL.revokeObjectURL(finalTxtUrl);
+
+    finalTxtUrl = null;
+
+  }
+
+},1000);
   });
+  /* MOBILE DRAWERS */
+
+function closeDrawers(){
+
+  toolsDrawer.classList.remove("active");
+  mainDrawer.classList.remove("active");
+  drawerOverlay.classList.remove("active");
+
+}
+
+if(toolsMenuBtn){
+
+  toolsMenuBtn.addEventListener("click",()=>{
+
+    toolsDrawer.classList.add("active");
+    drawerOverlay.classList.add("active");
+
+  });
+
+}
+
+if(mainMenuBtn){
+
+  mainMenuBtn.addEventListener("click",()=>{
+
+    mainDrawer.classList.add("active");
+    drawerOverlay.classList.add("active");
+
+  });
+
+}
+
+if(toolsClose)
+toolsClose.addEventListener("click",closeDrawers);
+
+if(mainClose)
+mainClose.addEventListener("click",closeDrawers);
+
+if(drawerOverlay)
+drawerOverlay.addEventListener("click",closeDrawers);
+if (closeUpgradeModal) {
+
+closeUpgradeModal.addEventListener("click", () => {
+
+document.getElementById("upgradeModal").style.display = "none";
+
+});
+
+}
 });
