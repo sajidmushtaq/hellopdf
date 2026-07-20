@@ -17,128 +17,131 @@
 
   <link rel="stylesheet" href="/css/style.css?v=5010"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <style>
-.hidden-screen{
+<style>
+    .hidden-screen{
 display:none!important;
 }
 
-#previewScreen.active-screen{
+#textPreviewScreen:not(.hidden-screen){
 display:grid!important;
 }
 
-#successScreen.active-screen{
+#textSuccessScreen:not(.hidden-screen){
 display:flex!important;
 }
 
-/* Desktop Profile */
-
-#desktopProfileBox{
+.hp-profile-wrap{
 display:none;
 position:relative;
 align-items:center;
 }
 
-.profile-btn{
+.hp-profile-btn{
 display:flex;
 align-items:center;
 gap:10px;
-background:#fff;
 border:1px solid #e5e7eb;
+background:#fff;
+color:#111827;
+padding:8px 14px;
 border-radius:999px;
-padding:6px 14px;
+font-weight:800;
 cursor:pointer;
-transition:.2s;
 }
 
-.profile-btn:hover{
-background:#f8fafc;
-}
-
-.profile-avatar{
-width:38px;
-height:38px;
+.hp-avatar{
+width:34px;
+height:34px;
 border-radius:50%;
 background:#2563eb;
 color:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:16px;
-font-weight:700;
+font-weight:900;
 }
 
-.profile-name{
-font-size:14px;
-font-weight:600;
-color:#111827;
-line-height:1.2;
-}
-
-.profile-email{
-font-size:12px;
-color:#6b7280;
-line-height:1.2;
-}
-
-.profile-dropdown{
-position:absolute;
-top:60px;
-right:0;
-width:240px;
-background:#fff;
-border-radius:14px;
-box-shadow:0 15px 40px rgba(0,0,0,.15);
-padding:10px 0;
+.hp-profile-menu{
 display:none;
-z-index:9999;
+position:absolute;
+top:54px;
+right:0;
+width:300px;
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+box-shadow:0 25px 70px rgba(15,23,42,.16);
+padding:18px;
+z-index:999999;
 }
 
-.profile-dropdown.show{
+.hp-profile-menu.active{
 display:block;
 }
 
-.profile-dropdown a,
-.profile-dropdown button{
+.hp-profile-head{
+display:flex;
+gap:14px;
+align-items:center;
+padding-bottom:16px;
+border-bottom:1px solid #eef2f7;
+}
+
+.hp-profile-head strong{
+display:block;
+color:#111827;
+font-size:16px;
+margin-bottom:3px;
+}
+
+.hp-profile-head p{
+margin:0;
+color:#64748b;
+font-size:13px;
+}
+
+.hp-profile-list{
+padding:14px 0;
+}
+
+.hp-profile-list a,
+.hp-profile-logout{
+
+width:100%;
 display:flex;
 align-items:center;
-gap:10px;
-width:100%;
-padding:12px 18px;
-border:none;
-background:none;
-cursor:pointer;
-font-size:14px;
+gap:12px;
+padding:11px 8px;
+border-radius:10px;
+color:#334155;
 text-decoration:none;
-color:#374151;
+font-size:15px;
+font-weight:700;
+background:transparent;
+border:none;
+cursor:pointer;
+text-align:left;
+
 }
 
-.profile-dropdown a:hover,
-.profile-dropdown button:hover{
-background:#f3f4f6;
+.hp-profile-list a:hover,
+.hp-profile-logout:hover{
+
+background:#f8fafc;
+
 }
 
-/* Mobile Profile */
+.hp-mobile-profile{
 
-#mobileProfileBox{
 display:none;
-padding:20px;
-border-bottom:1px solid #e5e7eb;
-}
-
-#mobileProfileBox .profile-btn{
-width:100%;
-justify-content:flex-start;
-}
-
-@media(max-width:768px){
-
-#desktopProfileBox{
-display:none!important;
-}
+margin-top:20px;
+padding:16px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+border-radius:16px;
 
 }
-</style>
+  </style>
 </head>
 
 <body>
