@@ -18366,7 +18366,7 @@ body {
 
 .pdfa-select-btn{
     width:100%;
-    max-width:560px;
+    max-width:330px;
     height:72px;
     border:none;
     border-radius:18px;
@@ -18385,21 +18385,36 @@ body {
 }
 
 .cloud-buttons{
-  display:flex;
-  gap:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    margin-top:18px;
 }
 
 .cloud-buttons button{
-  width:72px;
-  height:72px;
-  border:none;
-  border-radius:18px;
-  background:#fff;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#ef4444;
+    color:#fff;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 8px 18px rgba(239,68,68,.25);
+    transition:.25s ease;
+}
+
+.cloud-buttons button:hover{
+    transform:translateY(-2px);
+    background:#dc2626;
+}
+
+.cloud-buttons button i{
+    font-size:18px;
+    color:#fff;
 }
 
 .pdfa-drop-text{
