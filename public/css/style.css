@@ -18365,16 +18365,23 @@ body {
 }
 
 .pdfa-select-btn{
-  height:74px;
-  padding:0 44px;
-  border:none;
-  border-radius:18px;
-  background:#ef4444;
-  color:#fff;
-  font-size:24px;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 15px 35px rgba(239,68,68,.25);
+    width:100%;
+    max-width:560px;
+    height:72px;
+    border:none;
+    border-radius:18px;
+    background:#ef4444;
+    color:#fff;
+    font-size:22px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s ease;
+    box-shadow:0 10px 25px rgba(239,68,68,.20);
+}
+
+.pdfa-select-btn:hover{
+    background:#dc2626;
+    transform:translateY(-2px);
 }
 
 .cloud-buttons{
