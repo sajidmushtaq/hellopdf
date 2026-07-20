@@ -19605,28 +19605,35 @@ body {
   cursor: pointer;
 }
 
-.cloud-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 18px;
+.cloud-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-left:12px;
 }
 
-.cloud-buttons button {
-  width: 68px;
-  height: 48px;
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.cloud-buttons button{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#ef4444;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(239,68,68,.25);
+    transition:.25s;
 }
 
-.cloud-buttons svg {
-  width: 30px;
-  height: 30px;
+.cloud-buttons button:hover{
+    background:#dc2626;
+    transform:translateY(-2px);
+}
+
+.cloud-buttons button i{
+    font-size:18px;
+    color:#ffffff;
 }
 
 .sign-preview-screen {
