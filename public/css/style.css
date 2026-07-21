@@ -18941,13 +18941,39 @@ body {
 
 .scan-card .cloud-buttons{
   display:flex;
+  flex-direction:row;
   justify-content:center;
-  gap:15px;
-  margin-top:20px;
+  align-items:center;
+  gap:18px;
+  margin-top:22px;
+  flex-wrap:nowrap;
+}
+
+.scan-card .cloud-buttons button{
+  width:52px;
+  height:52px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:20px;
+  transition:.25s;
+}
+
+.scan-card .cloud-buttons button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 20px rgba(239,68,68,.25);
 }
 
 .scan-card .scan-drop-text{
-  margin-top:18px;
+  margin-top:20px;
+  text-align:center;
+  color:#64748b;
+  font-size:15px;
 }
 
 @media(max-width:900px){
