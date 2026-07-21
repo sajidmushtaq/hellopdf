@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
@@ -3898,6 +3899,70 @@ console.error(err);
   }
 });
 
+/* ===========================
+   SCAN QR SESSIONS
+=========================== */
+
+const scanSessions = new Map();
+
+/* Create Session */
+
+app.post("/scan-session", (req, res) => {
+
+  const sessionId = crypto.randomUUID();
+
+  scanSessions.set(sessionId, {
+    connected: false,
+    images: []
+  });
+
+  res.json({
+    sessionId
+  });
+
+});
+
+/* Check Status */
+
+app.get("/scan-session/:id", (req, res) => {
+
+  const session =
+    scanSessions.get(req.params.id);
+
+  if (!session) {
+
+    return res.status(404).json({
+      connected: false
+    });
+
+  }
+
+  res.json({
+    connected: session.connected
+  });
+
+});
+
+/* Mobile Connected */
+
+app.post("/scan-session/:id/connect", (req, res) => {
+
+  const session =
+    scanSessions.get(req.params.id);
+
+  if (!session) {
+
+    return res.sendStatus(404);
+
+  }
+
+  session.connected = true;
+
+  res.json({
+    success: true
+  });
+
+});
 app.post("/scan-to-pdf", upload.array("images"), async (req, res) => {
   try {
     const userId = req.body.user_id;
