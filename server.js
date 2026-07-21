@@ -3900,6 +3900,51 @@ console.error(err);
 
 app.post("/scan-to-pdf", upload.array("images"), async (req, res) => {
   try {
+    const userId = req.body.user_id;
+
+console.log("SCAN TO PDF USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "scan_to_pdf")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (usageError) {
+  return res.status(500).send("Usage verification failed");
+}
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited Scan to PDF conversions."
+    );
+
+  }
+
+}
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("No images uploaded");
     }
@@ -3955,7 +4000,33 @@ app.post("/scan-to-pdf", upload.array("images"), async (req, res) => {
     req.files.forEach((file) => {
       if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
     });
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "scan_to_pdf",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("SCAN TO PDF INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("SCAN TO PDF UPDATE ERROR =", updateError);
+
+}
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=scanned.pdf");
 
