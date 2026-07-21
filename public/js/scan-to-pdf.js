@@ -675,44 +675,86 @@ document.getElementById(
 
 showStart();
 
+const scannerStatus =
+document.getElementById("scannerStatus");
+
 const qrContainer =
 document.getElementById("qrContainer");
 
 const scannerStatus =
 document.getElementById("scannerStatus");
 
-const scanSessionId =
-crypto.randomUUID();
+let scanSessionId = null;
 
-const mobileScanUrl =
-`${window.location.origin}/mobile-scan.html?session=${scanSessionId}`;
+async function createScanSession() {
 
-QRCode.toCanvas(
-mobileScanUrl,
-{
-    width:220,
-    margin:2
-},
-(err,canvas)=>{
+  const response = await fetch("/scan-session", {
+    method: "POST"
+  });
 
-    if(err){
+  const data = await response.json();
 
+  scanSessionId = data.sessionId;
+
+  const mobileScanUrl =
+    `${window.location.origin}/mobile-scan.html?session=${scanSessionId}`;
+
+  QRCode.toCanvas(
+    mobileScanUrl,
+    {
+      width: 220,
+      margin: 2
+    },
+    (err, canvas) => {
+
+      if (err) {
         console.error(err);
-
-        scannerStatus.textContent =
-        "QR generation failed";
-
+        scannerStatus.textContent = "QR generation failed";
         return;
+      }
+
+      qrContainer.innerHTML = "";
+      qrContainer.appendChild(canvas);
+
+      scannerStatus.textContent = "Waiting for connection...";
+
+    }
+  );
+
+  startConnectionWatcher();
+
+}
+
+function startConnectionWatcher() {
+
+  setInterval(async () => {
+
+    if (!scanSessionId) return;
+
+    try {
+
+      const response =
+        await fetch(`/scan-session/${scanSessionId}`);
+
+      const data =
+        await response.json();
+
+      if (data.connected) {
+
+        scannerStatus.innerHTML =
+          `Connected <i class="fa-solid fa-circle-check"></i>`;
+
+      }
+
+    } catch (e) {
+
+      console.error(e);
 
     }
 
-    qrContainer.innerHTML="";
+  }, 2000);
 
-    qrContainer.appendChild(canvas);
+}
 
-    scannerStatus.textContent =
-    "Waiting for connection...";
-
-});
 
 });
