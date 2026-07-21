@@ -413,32 +413,39 @@ Convert JPG, JPEG and PNG images into one PDF document.
 
 <div class="scan-select-row">
 
-    <!-- STEP 1 -->
+    <!-- LEFT : SCAN -->
 
-    <div class="scan-upload-box">
+    <div class="scan-upload-box scan-card">
 
-        <h2>Step 1</h2>
+        <h2>📱 Scan</h2>
 
         <p>
-            Use your smartphone's camera to scan this QR code
+            Scan documents using your mobile phone.
         </p>
 
-        <div id="qrContainer">
-            <!-- QR Code yahan generate hoga -->
+        <div id="qrContainer"></div>
+
+        <div id="scannerStatus">
+
+            Waiting for connection...
+
         </div>
 
     </div>
 
-    <!-- STEP 2 -->
+
+    <!-- RIGHT : GALLERY -->
 
     <div
-    class="scan-upload-box"
+    class="scan-upload-box scan-card"
     id="dropZone">
 
-        <h2>Step 2</h2>
+        <h2>🖼 Gallery</h2>
 
-        <p id="scannerStatus">
-            Waiting for connection...
+        <p>
+
+            Select JPG, JPEG or PNG images.
+
         </p>
 
         <input
@@ -480,20 +487,12 @@ Convert JPG, JPEG and PNG images into one PDF document.
         </div>
 
         <div class="scan-drop-text">
+
             or drag images here
+
         </div>
 
     </div>
-
-</div>
-
-<div class="scan-drop-text">
-
-or drag images here
-
-</div>
-
-</div>
 
 </div>
 
