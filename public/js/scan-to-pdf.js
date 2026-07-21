@@ -1,225 +1,674 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const startScreen = document.getElementById("startScreen");
-  const previewScreen = document.getElementById("previewScreen");
-  const successScreen = document.getElementById("successScreen");
 
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("fileInput");
-  const addMoreBtn = document.getElementById("addMoreBtn");
-  const fileList = document.getElementById("fileList");
-  const fileCounter = document.getElementById("fileCounter");
-  const convertBtn = document.getElementById("convertBtn");
-  const progressBar = document.getElementById("progressBar");
-  const downloadBtn = document.getElementById("downloadBtn");
+/* ===========================
+   DRAWERS
+=========================== */
 
-  let selectedFiles = [];
-  let outputUrl = null;
-  let progressTimer = null;
+const toolsMenuBtn =
+document.getElementById("toolsMenuBtn");
 
-  function resetProgress() {
-    clearInterval(progressTimer);
-    progressBar.style.width = "0%";
-    progressBar.textContent = "0%";
-  }
+const mainMenuBtn =
+document.getElementById("mainMenuBtn");
 
-  function startProgress() {
-    let progress = 10;
-    progressBar.style.width = "10%";
-    progressBar.textContent = "10%";
+const toolsDrawer =
+document.getElementById("toolsDrawer");
 
-    progressTimer = setInterval(() => {
-      if (progress < 90) {
-        progress += 5;
-        progressBar.style.width = progress + "%";
-        progressBar.textContent = progress + "%";
-      }
-    }, 500);
-  }
+const mainDrawer =
+document.getElementById("mainDrawer");
 
-  function completeProgress() {
-    clearInterval(progressTimer);
-    progressBar.style.width = "100%";
-    progressBar.textContent = "100%";
-  }
+const toolsClose =
+document.getElementById("toolsClose");
 
-  function showStart() {
-    startScreen.classList.remove("hidden-screen");
-    previewScreen.classList.add("hidden-screen");
-    previewScreen.classList.remove("active-screen");
-    successScreen.classList.add("hidden-screen");
-    successScreen.classList.remove("active-screen");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+const mainClose =
+document.getElementById("mainClose");
 
-  function showPreview() {
-    startScreen.classList.add("hidden-screen");
-    previewScreen.classList.remove("hidden-screen");
-    previewScreen.classList.add("active-screen");
-    successScreen.classList.add("hidden-screen");
-    successScreen.classList.remove("active-screen");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+const drawerOverlay =
+document.getElementById("drawerOverlay");
 
-  function showSuccess() {
-    startScreen.classList.add("hidden-screen");
-    previewScreen.classList.add("hidden-screen");
-    previewScreen.classList.remove("active-screen");
-    successScreen.classList.remove("hidden-screen");
-    successScreen.classList.add("active-screen");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
 
-  function isImage(file) {
-    return file && (
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.name.toLowerCase().endsWith(".jpg") ||
-      file.name.toLowerCase().endsWith(".jpeg") ||
-      file.name.toLowerCase().endsWith(".png")
-    );
-  }
 
-  function handleFiles(files) {
-    const validFiles = Array.from(files || []).filter(isImage);
+/* ===========================
+   USER
+=========================== */
 
-    if (validFiles.length === 0) {
-      alert("Please select JPG, JPEG, or PNG images only");
-      return;
-    }
+let currentUser = null;
 
-    selectedFiles = selectedFiles.concat(validFiles);
-    resetProgress();
-    renderFiles();
-    showPreview();
-  }
 
-  function renderFiles() {
-    fileList.innerHTML = "";
-    fileCounter.textContent = `${selectedFiles.length} image${selectedFiles.length > 1 ? "s" : ""} selected`;
+/* ===========================
+   SCREENS
+=========================== */
 
-    selectedFiles.forEach((file, index) => {
-      const previewUrl = URL.createObjectURL(file);
-      const card = document.createElement("div");
-      card.className = "scan-file-card";
+const scanStartScreen =
+document.getElementById("scanStartScreen");
 
-      card.innerHTML = `
-        <button class="remove-file-btn" type="button">×</button>
+const scanPreviewScreen =
+document.getElementById("scanPreviewScreen");
 
-        <div class="scan-image-preview">
-          <img src="${previewUrl}" alt="${file.name}">
-        </div>
+const scanSuccessScreen =
+document.getElementById("scanSuccessScreen");
 
-        <h3>${file.name}</h3>
-        <div class="file-order-badge">${index + 1}</div>
-      `;
 
-      card.querySelector(".remove-file-btn").addEventListener("click", () => {
-        URL.revokeObjectURL(previewUrl);
-        selectedFiles.splice(index, 1);
+/* ===========================
+   UPLOAD
+=========================== */
 
-        if (selectedFiles.length === 0) {
-          showStart();
-          fileList.innerHTML = "";
-          return;
-        }
+const dropZone =
+document.getElementById("dropZone");
 
-        renderFiles();
-      });
+const fileInput =
+document.getElementById("fileInput");
 
-      fileList.appendChild(card);
-    });
-  }
+const addMoreInput =
+document.getElementById("addMoreInput");
 
-  dropZone.addEventListener("click", () => fileInput.click());
-  addMoreBtn.addEventListener("click", () => fileInput.click());
 
-  fileInput.addEventListener("change", (e) => {
-    handleFiles(e.target.files);
-    fileInput.value = "";
-  });
+/* ===========================
+   BUTTONS
+=========================== */
 
-  dropZone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZone.classList.add("drag-active");
-  });
+const addMoreBtn =
+document.getElementById("addMoreBtn");
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("drag-active");
-  });
+const convertBtn =
+document.getElementById("convertBtn");
 
-  dropZone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZone.classList.remove("drag-active");
-    handleFiles(e.dataTransfer.files);
-  });
+const downloadBtn =
+document.getElementById("downloadBtn");
 
-  convertBtn.addEventListener("click", async () => {
-    if (selectedFiles.length === 0) {
-      alert("Please select images first");
-      return;
-    }
 
-    const formData = new FormData();
+/* ===========================
+   UI
+=========================== */
 
-    selectedFiles.forEach((file) => {
-      formData.append("images", file);
-    });
+const fileList =
+document.getElementById("fileList");
 
-    resetProgress();
-    startProgress();
+const fileCounter =
+document.getElementById("fileCounter");
 
-    convertBtn.disabled = true;
-    convertBtn.innerHTML = `Creating PDF... <i class="fa-solid fa-spinner fa-spin"></i>`;
+const progressBar =
+document.getElementById("progressBar");
 
-    try {
-      const response = await fetch("/scan-to-pdf", {
-        method: "POST",
-        body: formData
-      });
 
-      if (!response.ok) {
-        const text = await response.text();
-        alert(text || "Scan to PDF failed");
-        return;
-      }
+/* ===========================
+   VARIABLES
+=========================== */
 
-      const blob = await response.blob();
+let selectedFiles = [];
 
-      if (!blob || blob.size < 100) {
-        alert("PDF creation failed. Please try again.");
-        return;
-      }
+let finalPdfUrl = null;
 
-      if (outputUrl) URL.revokeObjectURL(outputUrl);
+let progressInterval = null;
 
-      outputUrl = URL.createObjectURL(blob);
-      completeProgress();
 
-      setTimeout(showSuccess, 400);
+/* ===========================
+   RESET PROGRESS
+=========================== */
 
-    } catch (error) {
-      console.error("SCAN TO PDF ERROR:", error);
-      alert("Scan to PDF failed. Please try again.");
-    } finally {
-      clearInterval(progressTimer);
-      convertBtn.disabled = false;
-      convertBtn.textContent = "Create PDF";
-    }
-  });
+function resetProgress(){
 
-  downloadBtn.addEventListener("click", () => {
-    if (!outputUrl) {
-      alert("PDF file is not ready yet");
-      return;
-    }
+if(progressInterval){
 
-    const a = document.createElement("a");
-    a.href = outputUrl;
-    a.download = "scanned.pdf";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  });
+clearInterval(progressInterval);
 
-  showStart();
+progressInterval = null;
+
+}
+
+progressBar.style.width = "0%";
+
+progressBar.textContent = "0%";
+
+}
+
+
+/* ===========================
+   START PROGRESS
+=========================== */
+
+function startFakeProgress(){
+
+let progress = 15;
+
+progressBar.style.width = "15%";
+
+progressBar.textContent = "15%";
+
+progressInterval = setInterval(()=>{
+
+if(progress < 90){
+
+progress += 5;
+
+progressBar.style.width = progress + "%";
+
+progressBar.textContent = progress + "%";
+
+}
+
+},600);
+
+}
+
+
+/* ===========================
+   COMPLETE PROGRESS
+=========================== */
+
+function completeProgress(){
+
+if(progressInterval){
+
+clearInterval(progressInterval);
+
+progressInterval = null;
+
+}
+
+progressBar.style.width = "100%";
+
+progressBar.textContent = "100%";
+}
+
+/* ===========================
+   SUPABASE USER
+=========================== */
+
+(async()=>{
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if(data && data.user){
+
+currentUser = data.user;
+
+}
+
+})();
+
+
+/* ===========================
+   SCREEN FUNCTIONS
+=========================== */
+
+function showStart(){
+
+scanStartScreen.style.display = "flex";
+
+scanPreviewScreen.classList.add("hidden-screen");
+scanPreviewScreen.style.display = "none";
+
+scanSuccessScreen.classList.add("hidden-screen");
+scanSuccessScreen.style.display = "none";
+
+}
+
+function showPreview(){
+
+scanStartScreen.style.display = "none";
+
+scanPreviewScreen.classList.remove("hidden-screen");
+scanPreviewScreen.style.display = "grid";
+
+scanSuccessScreen.classList.add("hidden-screen");
+scanSuccessScreen.style.display = "none";
+
+}
+
+function showSuccess(){
+
+scanPreviewScreen.classList.add("hidden-screen");
+scanPreviewScreen.style.display = "none";
+
+scanSuccessScreen.classList.remove("hidden-screen");
+scanSuccessScreen.style.display = "flex";
+
+}
+
+
+/* ===========================
+   IMAGE VALIDATION
+=========================== */
+
+function isImage(file){
+
+return file && (
+
+file.type==="image/jpeg" ||
+file.type==="image/png" ||
+file.name.toLowerCase().endsWith(".jpg") ||
+file.name.toLowerCase().endsWith(".jpeg") ||
+file.name.toLowerCase().endsWith(".png")
+
+);
+
+}
+
+
+/* ===========================
+   HANDLE FILES
+=========================== */
+
+function handleFiles(files){
+
+const validFiles =
+Array.from(files).filter(isImage);
+
+if(!validFiles.length){
+
+alert("Please select JPG, JPEG or PNG images.");
+
+return;
+
+}
+
+selectedFiles = [
+...selectedFiles,
+...validFiles
+];
+
+renderPreview();
+
+}
+
+
+/* ===========================
+   PREVIEW
+=========================== */
+
+function renderPreview(){
+
+showPreview();
+
+fileList.innerHTML = "";
+
+fileCounter.textContent =
+`${selectedFiles.length} image${selectedFiles.length===1?"":"s"} selected`;
+
+selectedFiles.forEach((file,index)=>{
+
+const card =
+document.createElement("div");
+
+card.className =
+"scan-file-card";
+
+card.innerHTML = `
+
+<button
+class="remove-file-btn"
+data-index="${index}"
+type="button">
+
+×
+
+</button>
+
+<div class="scan-image-preview">
+
+<img
+src="${URL.createObjectURL(file)}"
+alt="${file.name}">
+
+</div>
+
+<h3>${file.name}</h3>
+
+<span class="file-order-badge">
+
+${index+1}
+
+</span>
+
+`;
+
+fileList.appendChild(card);
+
+});
+
+document.querySelectorAll(
+".remove-file-btn"
+).forEach(btn=>{
+
+btn.addEventListener("click",()=>{
+
+const index =
+Number(btn.dataset.index);
+
+selectedFiles.splice(index,1);
+
+if(!selectedFiles.length){
+
+showStart();
+
+fileList.innerHTML="";
+
+return;
+
+}
+
+renderPreview();
+
+});
+
+});
+
+}
+
+
+/* ===========================
+   EVENTS
+=========================== */
+
+dropZone.addEventListener("click",()=>{
+
+fileInput.click();
+
+});
+
+addMoreBtn.addEventListener("click",()=>{
+
+addMoreInput.click();
+
+});
+
+fileInput.addEventListener("change",(e)=>{
+
+handleFiles(e.target.files);
+
+fileInput.value="";
+
+});
+
+addMoreInput.addEventListener("change",(e)=>{
+
+handleFiles(e.target.files);
+
+addMoreInput.value="";
+
+});
+
+dropZone.addEventListener("dragover",(e)=>{
+
+e.preventDefault();
+
+dropZone.classList.add("drag-active");
+
+});
+
+dropZone.addEventListener("dragleave",()=>{
+
+dropZone.classList.remove("drag-active");
+
+});
+
+dropZone.addEventListener("drop",(e)=>{
+
+e.preventDefault();
+
+dropZone.classList.remove("drag-active");
+
+handleFiles(e.dataTransfer.files);
+});
+/* ===========================
+   CREATE PDF
+=========================== */
+
+convertBtn.addEventListener("click", async()=>{
+
+if(!selectedFiles.length){
+
+alert("Please select images.");
+
+return;
+
+}
+
+const formData = new FormData();
+
+if(currentUser){
+
+formData.append(
+"user_id",
+currentUser.id
+);
+
+}
+
+selectedFiles.forEach(file=>{
+
+formData.append(
+"images",
+file
+);
+
+});
+
+resetProgress();
+
+startFakeProgress();
+
+convertBtn.disabled = true;
+
+convertBtn.innerHTML =
+`Creating PDF <i class="fa-solid fa-spinner fa-spin"></i>`;
+
+try{
+
+const response =
+await fetch("/scan-to-pdf",{
+
+method:"POST",
+
+body:formData
+
+});
+
+if(!response.ok){
+
+const text =
+await response.text();
+
+if(response.status===403){
+
+document.getElementById(
+"upgradeModal"
+).style.display="flex";
+
+throw new Error("");
+
+}
+
+throw new Error(
+text ||
+"Scan to PDF failed"
+);
+
+}
+
+const blob =
+await response.blob();
+
+if(!blob || blob.size<100){
+
+throw new Error(
+"PDF creation failed"
+);
+
+}
+
+if(finalPdfUrl){
+
+URL.revokeObjectURL(
+finalPdfUrl
+);
+
+finalPdfUrl = null;
+
+}
+
+finalPdfUrl =
+URL.createObjectURL(blob);
+
+completeProgress();
+
+setTimeout(()=>{
+
+showSuccess();
+
+},400);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+error.message ||
+"Scan to PDF failed"
+);
+
+}finally{
+
+if(progressInterval){
+
+clearInterval(
+progressInterval
+);
+
+progressInterval = null;
+
+}
+
+convertBtn.disabled = false;
+
+convertBtn.innerHTML =
+`Create PDF <i class="fa-solid fa-arrow-right"></i>`;
+
+}
+
+});
+
+
+/* ===========================
+   DOWNLOAD
+=========================== */
+
+downloadBtn.addEventListener("click",()=>{
+
+if(!finalPdfUrl)
+return;
+
+const a =
+document.createElement("a");
+
+a.href = finalPdfUrl;
+
+a.download = "scanned.pdf";
+
+document.body.appendChild(a);
+
+a.click();
+
+a.remove();
+
+setTimeout(()=>{
+
+if(finalPdfUrl){
+
+URL.revokeObjectURL(
+finalPdfUrl
+);
+
+finalPdfUrl = null;
+
+}
+
+},1000);
+
+});
+
+
+/* ===========================
+   DRAWERS
+=========================== */
+
+function closeDrawers(){
+
+toolsDrawer.classList.remove("active");
+
+mainDrawer.classList.remove("active");
+
+drawerOverlay.classList.remove("active");
+
+}
+
+if(toolsMenuBtn){
+
+toolsMenuBtn.addEventListener("click",()=>{
+
+toolsDrawer.classList.add("active");
+
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(mainMenuBtn){
+
+mainMenuBtn.addEventListener("click",()=>{
+
+mainDrawer.classList.add("active");
+
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(toolsClose)
+toolsClose.addEventListener(
+"click",
+closeDrawers
+);
+
+if(mainClose)
+mainClose.addEventListener(
+"click",
+closeDrawers
+);
+
+if(drawerOverlay)
+drawerOverlay.addEventListener(
+"click",
+closeDrawers
+);
+
+
+/* ===========================
+   UPGRADE MODAL
+=========================== */
+
+if(closeUpgradeModal){
+
+closeUpgradeModal.addEventListener("click",()=>{
+
+document.getElementById(
+"upgradeModal"
+).style.display="none";
+
+});
+
+}
+
+
+/* ===========================
+   START SCREEN
+=========================== */
+
+showStart();
+
 });

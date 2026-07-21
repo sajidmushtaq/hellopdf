@@ -1,102 +1,758 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9032N5DLL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9032N5DLL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "G-J9032N5DLL");
+  </script>
 
-  gtag('config', 'G-J9032N5DLL');
-</script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Scan to PDF - HelloPDF</title>
-  <link rel="stylesheet" href="/css/style.css?v=5030"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="/css/style.css?v=8001" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    .scan-qr-page{min-height:calc(100vh - 72px);background:#f5f6fa;padding:40px 20px;text-align:center}
-    .scan-qr-title{font-size:46px;font-weight:900;color:#111827;margin:20px 0 10px}
-    .scan-qr-subtitle{font-size:21px;color:#64748b;margin-bottom:32px}
-    .scan-steps{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:760px;margin:0 auto}
-    .scan-step-card{background:#fff;border-radius:18px;padding:36px 28px;min-height:420px;box-shadow:0 18px 45px rgba(0,0,0,.06)}
-    .scan-step-card.disabled{opacity:.45}
-    .scan-step-card h2{font-size:30px;color:#111827;margin-bottom:14px}
-    .scan-step-card p{color:#64748b;font-size:16px;line-height:1.7}
-    .scan-qr-box{width:190px;height:190px;margin:30px auto 0;background:#fff;border:10px solid #fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-    .scan-qr-box img{width:100%;height:100%}
-    .scan-phone-icon{font-size:92px;color:#94a3b8;margin-top:70px}
-    .scan-upload-fallback{margin-top:35px}
-    .scan-upload-fallback a{display:inline-flex;align-items:center;gap:10px;background:#ef4444;color:#fff;text-decoration:none;padding:17px 28px;border-radius:16px;font-weight:900;font-size:18px}
-    @media(max-width:768px){
-      .scan-steps{grid-template-columns:1fr}
-      .scan-qr-title{font-size:36px}
-      .scan-qr-subtitle{font-size:17px}
+    .hidden-screen {
+      display: none !important;
+    }
+
+    #scanPreviewScreen:not(.hidden-screen) {
+      display: grid !important;
+    }
+
+    #scanSuccessScreen:not(.hidden-screen) {
+      display: flex !important;
+    }
+
+    .hp-profile-wrap {
+      display: none;
+      position: relative;
+      align-items: center;
+    }
+
+    .hp-profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: #111827;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .hp-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .hp-profile-menu {
+      display: none;
+      position: absolute;
+      top: 54px;
+      right: 0;
+      width: 300px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, .16);
+      padding: 18px;
+      z-index: 999999;
+    }
+
+    .hp-profile-menu.active {
+      display: block;
+    }
+
+    .hp-profile-head {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eef2f7;
+    }
+
+    .hp-profile-head strong {
+      display: block;
+      color: #111827;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    .hp-profile-head p {
+      margin: 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .hp-profile-list {
+      padding: 14px 0;
+    }
+
+    .hp-profile-list a,
+    .hp-profile-logout {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 8px;
+      border-radius: 10px;
+      color: #334155;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .hp-profile-list a:hover,
+    .hp-profile-logout:hover {
+      background: #f8fafc;
+    }
+
+    .hp-mobile-profile {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
     }
   </style>
+
 </head>
 
 <body>
 
 <header class="mobile-header">
-  <button class="mobile-menu-btn" id="toolsMenuBtn" type="button">☰</button>
-  <a href="/index.html" class="mobile-logo">HelloPDF</a>
-  <button class="mobile-grid-btn" id="mainMenuBtn" type="button">⠿</button>
+
+<button class="mobile-menu-btn"
+id="toolsMenuBtn"
+type="button">
+☰
+</button>
+
+<a href="/index.html"
+class="mobile-logo">
+HelloPDF
+</a>
+
+<button class="mobile-grid-btn"
+id="mainMenuBtn"
+type="button">
+⠿
+</button>
+
 </header>
 
 <header class="desktop-header">
-  <a href="/index.html" class="logo">HelloPDF</a>
-  <nav>
-    <a href="/merge.html">Merge PDF</a>
-    <a href="/split.html">Split PDF</a>
-    <a href="/compress.html">Compress PDF</a>
-    <a href="/index.html#convert-tools">Convert PDF</a>
-    <a href="/index.html">All PDF Tools</a>
-  </nav>
-  <div class="auth-buttons">
-    <a href="/login.html" class="login-btn">Login</a>
-    <a href="/signup.html" class="signup-btn">Sign Up</a>
-  </div>
+
+<a href="/index.html"
+class="logo">
+HelloPDF
+</a>
+
+<nav>
+
+<a href="/merge.html">Merge PDF</a>
+<a href="/split.html">Split PDF</a>
+<a href="/compress.html">Compress PDF</a>
+<a href="/index.html#convert-tools">Convert PDF</a>
+<a href="/index.html">All PDF Tools</a>
+
+</nav>
+
+<div class="auth-buttons"
+id="desktopAuthButtons">
+
+<a href="/login.html"
+class="login-btn">
+Login
+</a>
+
+<a href="/signup.html"
+class="signup-btn">
+Sign Up
+</a>
+
+</div>
+
+<div class="hp-profile-wrap"
+id="desktopProfileBox"
+style="display:none;">
+
+<button class="hp-profile-btn"
+id="profileBtn"
+type="button">
+
+<span class="hp-avatar"
+id="profileAvatar">
+U
+</span>
+
+<span id="profileName">
+User
+</span>
+
+<i class="fa-solid fa-chevron-down"></i>
+
+</button>
+
+<div class="hp-profile-menu"
+id="profileMenu">
+
+<div class="hp-profile-head">
+
+<span class="hp-avatar"
+id="profileMenuAvatar">
+U
+</span>
+
+<div>
+
+<strong id="profileMenuName">
+User
+</strong>
+
+<p id="profileMenuEmail">
+user@email.com
+</p>
+
+</div>
+
+</div>
+
+<div class="hp-profile-list">
+
+<a href="/account.html">
+⚙️ Account Settings
+</a>
+
+<a href="/pricing.html">
+🚀 Upgrade to Premium
+</a>
+
+</div>
+
+<button class="hp-profile-logout"
+id="logoutBtn"
+type="button">
+↪ Log out
+</button>
+
+</div>
+
+</div>
+
 </header>
 
-<main class="scan-qr-page">
-  <h1 class="scan-qr-title">Scan to PDF</h1>
-  <p class="scan-qr-subtitle">Scan documents from your smartphone to your browser</p>
+<div
+class="tools-drawer tools-catalog-drawer"
+id="toolsDrawer">
 
-  <div class="scan-steps">
-    <div class="scan-step-card">
-      <h2>Step 1</h2>
-      <p>Use your smartphone camera to scan this QR code.</p>
-      <div class="scan-qr-box">
-        <img id="qrImage" alt="Scan to PDF QR Code">
-      </div>
-    </div>
+<button
+class="drawer-close"
+id="toolsClose"
+type="button">
+×
+</button>
 
-    <div class="scan-step-card disabled">
-      <h2>Step 2</h2>
-      <p>Open the mobile scan page, capture or upload document photos, then create your PDF.</p>
-      <div class="scan-phone-icon">
-        <i class="fa-solid fa-mobile-screen-button"></i>
-      </div>
-    </div>
-  </div>
+<div class="drawer-category">
+<h4>ORGANIZE PDF</h4>
 
-  <div class="scan-upload-fallback">
-    <a href="/scan-mobile.html">
-      <i class="fa-solid fa-camera"></i>
-      Open scanner in this browser
-    </a>
-  </div>
+<a href="/merge.html">🔀 Merge PDF</a>
+<a href="/split.html">✂️ Split PDF</a>
+<a href="/remove.html">❌ Remove Pages</a>
+<a href="/extract.html">📤 Extract Pages</a>
+<a href="/rotate.html">🔄 Rotate PDF</a>
+<a href="/page-numbers.html">#️⃣ Page Numbers</a>
+
+</div>
+
+<div class="drawer-category">
+
+<h4>OPTIMIZE PDF</h4>
+
+<a href="/compress.html">🗜️ Compress PDF</a>
+
+</div>
+
+<div class="drawer-category">
+
+<h4>CONVERT TO PDF</h4>
+
+<a href="/jpg-to-pdf.html">🖼️ JPG to PDF</a>
+<a href="/image-to-pdf.html">🖼️ Image to PDF</a>
+<a href="/word-to-pdf.html">📄 Word to PDF</a>
+<a href="/powerpoint-to-pdf.html">📊 PowerPoint to PDF</a>
+<a href="/excel-to-pdf.html">📗 Excel to PDF</a>
+<a href="/html-to-pdf.html">🌐 HTML to PDF</a>
+
+</div>
+
+<div class="drawer-category">
+
+<h4>CONVERT FROM PDF</h4>
+
+<a href="/pdf-to-word.html">📄 PDF to Word</a>
+<a href="/pdf-to-excel.html">📗 PDF to Excel</a>
+<a href="/pdf-to-powerpoint.html">📊 PDF to PowerPoint</a>
+<a href="/pdf-to-image.html">🖼️ PDF to Image</a>
+<a href="/pdf-to-jpg.html">🖼️ PDF to JPG</a>
+<a href="/pdf-to-png.html">🖼️ PDF to PNG</a>
+<a href="/pdf-to-text.html">📝 PDF to Text</a>
+
+</div>
+
+<div class="drawer-category">
+
+<h4>PDF SECURITY</h4>
+
+<a href="/protect.html">🔒 Protect PDF</a>
+<a href="/unlock.html">🔓 Unlock PDF</a>
+<a href="/watermark.html">💧 Watermark PDF</a>
+
+</div>
+
+</div>
+
+<div
+class="main-drawer"
+id="mainDrawer">
+
+<button
+class="drawer-close"
+id="mainClose"
+type="button">
+×
+</button>
+
+<div class="drawer-section">
+
+<h4>OTHER PRODUCTS</h4>
+<h4>SOLUTIONS</h4>
+<h4>APPLICATIONS</h4>
+
+</div>
+
+<a href="/pricing.html">💳 Pricing</a>
+<a href="#">🔒 Security</a>
+<a href="#">⚙️ Features</a>
+<a href="#">💎 About us</a>
+
+<div
+class="hp-mobile-profile"
+id="mobileProfileBox"
+style="display:none;">
+
+<strong id="mobileProfileName">
+User
+</strong>
+
+<p id="mobileProfileEmail">
+user@email.com
+</p>
+
+<a href="/account.html">
+Account Settings
+</a>
+
+<a href="/pricing.html">
+Upgrade to Premium
+</a>
+
+<button
+id="mobileLogoutBtn"
+type="button">
+Log out
+</button>
+
+</div>
+
+</div>
+
+<div
+class="drawer-overlay"
+id="drawerOverlay">
+</div>
+
+<main class="scan-page">
+
+<section
+class="scan-start-screen"
+id="scanStartScreen">
+
+<h1>Scan to PDF</h1>
+
+<p>
+Convert JPG, JPEG and PNG images into one PDF document.
+</p>
+
+<div class="scan-select-row">
+
+<div
+class="scan-upload-box"
+id="dropZone">
+
+<input
+type="file"
+id="fileInput"
+accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+multiple
+hidden>
+
+<input
+type="file"
+id="addMoreInput"
+accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+multiple
+hidden>
+
+<h2>Select Images</h2>
+
+</div>
+
+<div class="cloud-buttons">
+
+<button type="button">
+<i class="fa-solid fa-camera"></i>
+</button>
+
+<button type="button">
+<i class="fa-brands fa-google-drive"></i>
+</button>
+
+<button type="button">
+<i class="fa-brands fa-dropbox"></i>
+</button>
+
+</div>
+
+</div>
+
+<div class="drop-text">
+or drop images here
+</div>
+
+</section>
+
+<section
+class="scan-preview-screen hidden-screen"
+id="scanPreviewScreen">
+
+<div class="scan-preview-left">
+
+<div
+class="scan-file-grid"
+id="fileList">
+</div>
+
+<button
+class="scan-floating-add-btn"
+id="addMoreBtn"
+type="button">
+
+<i class="fa-solid fa-plus"></i>
+
+</button>
+
+</div>
+
+<aside class="scan-action-panel">
+
+<h2>Scan to PDF</h2>
+
+<p>
+Create one PDF from your selected images.
+</p>
+
+<div
+class="scan-file-count"
+id="fileCounter">
+
+0 Images Selected
+
+</div>
+
+<button
+class="scan-main-btn"
+id="convertBtn"
+type="button">
+
+Create PDF
+
+<i class="fa-solid fa-arrow-right"></i>
+
+</button>
+
+<div class="progress-container">
+
+<div
+class="progress-bar"
+id="progressBar">
+
+0%
+
+</div>
+
+</div>
+
+</aside>
+
+</section>
+
+<section
+class="scan-success-screen hidden-screen"
+id="scanSuccessScreen">
+
+<h1>
+
+PDF Created Successfully!
+
+</h1>
+
+<p>
+
+Your PDF is ready to download.
+
+</p>
+
+<button
+id="downloadBtn">
+
+Download PDF
+
+</button>
+
+</section>
+
 </main>
 
+<div
+id="upgradeModal"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+z-index:999999;
+justify-content:center;
+align-items:center;
+">
+
+<div
+style="
+background:#fff;
+width:90%;
+max-width:450px;
+border-radius:20px;
+padding:30px;
+text-align:center;
+">
+
+<h2>
+Free Limit Reached
+</h2>
+
+<p>
+You have reached your daily free limit.
+
+Upgrade to Premium for unlimited Scan to PDF conversions.
+</p>
+
+<div style="margin-top:20px;">
+
+<a
+href="/pricing.html"
+style="
+display:inline-block;
+background:#d32f2f;
+color:#fff;
+padding:12px 24px;
+border-radius:10px;
+text-decoration:none;
+font-weight:bold;
+">
+Upgrade Now
+</a>
+
+<button
+id="closeUpgradeModal"
+style="
+margin-left:10px;
+padding:12px 24px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-  const mobileScanUrl = window.location.origin + "/scan-mobile.html";
-  const qrImage = document.getElementById("qrImage");
-  qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(mobileScanUrl);
+
+const SUPABASE_URL =
+"https://vfpgxiepllmkfkdtyjws.supabase.co";
+
+const SUPABASE_KEY =
+"YOUR_SUPABASE_ANON_KEY";
+
+window.supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY ="sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+);
+
 </script>
 
+<script src="/js/scan-to-pdf.js?v=8001"></script>
+
+<script src="/js/profile.js?v=1010"></script>
+<script src="/js/header.js?v=1010"></script>
+
+<script>
+(async function () {
+
+const desktopAuthButtons =
+document.getElementById("desktopAuthButtons");
+
+const desktopProfileBox =
+document.getElementById("desktopProfileBox");
+
+const profileBtn =
+document.getElementById("profileBtn");
+
+const profileMenu =
+document.getElementById("profileMenu");
+
+const profileAvatar =
+document.getElementById("profileAvatar");
+
+const profileName =
+document.getElementById("profileName");
+
+const profileMenuAvatar =
+document.getElementById("profileMenuAvatar");
+
+const profileMenuName =
+document.getElementById("profileMenuName");
+
+const profileMenuEmail =
+document.getElementById("profileMenuEmail");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const mobileProfileBox =
+document.getElementById("mobileProfileBox");
+
+const mobileProfileName =
+document.getElementById("mobileProfileName");
+
+const mobileProfileEmail =
+document.getElementById("mobileProfileEmail");
+
+const mobileLogoutBtn =
+document.getElementById("mobileLogoutBtn");
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if (data && data.user) {
+
+const user = data.user;
+
+const fullName =
+user.user_metadata?.full_name ||
+localStorage.getItem("hellopdf_user_name") ||
+user.email.split("@")[0];
+
+const firstLetter =
+fullName.charAt(0).toUpperCase();
+
+desktopAuthButtons.style.display = "none";
+desktopProfileBox.style.display = "flex";
+
+profileAvatar.textContent = firstLetter;
+profileName.textContent = fullName;
+
+profileMenuAvatar.textContent = firstLetter;
+profileMenuName.textContent = fullName;
+profileMenuEmail.textContent = user.email;
+
+if (mobileProfileBox) {
+
+mobileProfileBox.style.display = "block";
+
+mobileProfileName.textContent = fullName;
+mobileProfileEmail.textContent = user.email;
+
+}
+
+} else {
+
+desktopAuthButtons.style.display = "flex";
+desktopProfileBox.style.display = "none";
+
+}
+
+if (profileBtn) {
+
+profileBtn.addEventListener("click", () => {
+
+profileMenu.classList.toggle("active");
+
+});
+
+}
+
+async function logoutUser() {
+
+await window.supabaseClient.auth.signOut();
+
+window.location.href = "/index.html";
+
+}
+
+if (logoutBtn)
+logoutBtn.addEventListener("click", logoutUser);
+
+if (mobileLogoutBtn)
+mobileLogoutBtn.addEventListener("click", logoutUser);
+
+})();
+
+</script>
 </body>
 </html>
