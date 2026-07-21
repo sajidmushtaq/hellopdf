@@ -411,51 +411,79 @@ id="scanStartScreen">
 Convert JPG, JPEG and PNG images into one PDF document.
 </p>
 
-<div
-class="scan-upload-box"
-id="dropZone">
+<div class="scan-select-row">
 
-<input
-type="file"
-id="fileInput"
-accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-multiple
-hidden>
+    <!-- STEP 1 -->
 
-<input
-type="file"
-id="addMoreInput"
-accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-multiple
-hidden>
+    <div class="scan-upload-box">
 
-<h2>Select Images</h2>
+        <h2>Step 1</h2>
 
-<p style="margin:15px 0 25px;color:#64748b;">
-Choose JPG, JPEG or PNG images from your computer
-</p>
+        <p>
+            Use your smartphone's camera to scan this QR code
+        </p>
 
-<button
-class="scan-select-btn"
-type="button">
+        <div id="qrContainer">
+            <!-- QR Code yahan generate hoga -->
+        </div>
 
-Select Images
+    </div>
 
-</button>
+    <!-- STEP 2 -->
 
-<div class="cloud-buttons">
+    <div
+    class="scan-upload-box"
+    id="dropZone">
 
-<button type="button">
-<i class="fa-solid fa-camera"></i>
-</button>
+        <h2>Step 2</h2>
 
-<button type="button">
-<i class="fa-brands fa-google-drive"></i>
-</button>
+        <p id="scannerStatus">
+            Waiting for connection...
+        </p>
 
-<button type="button">
-<i class="fa-brands fa-dropbox"></i>
-</button>
+        <input
+        type="file"
+        id="fileInput"
+        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+        multiple
+        hidden>
+
+        <input
+        type="file"
+        id="addMoreInput"
+        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+        multiple
+        hidden>
+
+        <button
+        class="scan-select-btn"
+        type="button">
+
+            Select Images
+
+        </button>
+
+        <div class="cloud-buttons">
+
+            <button type="button">
+                <i class="fa-solid fa-camera"></i>
+            </button>
+
+            <button type="button">
+                <i class="fa-brands fa-google-drive"></i>
+            </button>
+
+            <button type="button">
+                <i class="fa-brands fa-dropbox"></i>
+            </button>
+
+        </div>
+
+        <div class="scan-drop-text">
+            or drag images here
+        </div>
+
+    </div>
 
 </div>
 
