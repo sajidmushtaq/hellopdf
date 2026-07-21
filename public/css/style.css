@@ -18908,6 +18908,45 @@ body {
   .scan-success-box h1{font-size:30px}
 }
 
+/* ===========================
+   SCAN TO PDF RESTORE PATCH 1
+=========================== */
+
+.scan-upload-box{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.cloud-buttons{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin:22px 0;
+}
+
+.cloud-buttons button{
+  width:52px;
+  height:52px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:#fff;
+  cursor:pointer;
+  font-size:18px;
+  box-shadow:0 8px 20px rgba(239,68,68,.25);
+}
+
+.cloud-buttons button:hover{
+  transform:translateY(-2px);
+}
+
+.scan-drop-text{
+  margin-top:18px;
+  color:#64748b;
+  font-size:18px;
+}
 .crop-box{
   touch-action:none;
 }
