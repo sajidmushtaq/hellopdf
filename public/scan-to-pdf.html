@@ -406,54 +406,100 @@ id="scanStartScreen">
 <h1>Scan to PDF</h1>
 
 <p>
-Convert JPG, JPEG and PNG images into one PDF document.
+Scan documents using your mobile phone or upload images directly from your gallery.
 </p>
 
 <div class="scan-select-row">
 
-<div
-class="scan-upload-box"
-id="dropZone">
+    <!-- LEFT PANEL -->
 
-<input
-type="file"
-id="fileInput"
-accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-multiple
-hidden>
+    <div class="scan-scanner-panel">
 
-<input
-type="file"
-id="addMoreInput"
-accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-multiple
-hidden>
+        <h2>📱 Mobile Scanner</h2>
 
-<h2>Select Images</h2>
+        <p>
+            Scan this QR code with your phone to start scanning documents.
+        </p>
+
+        <div id="qrContainer">
+
+            <!-- QR CODE WILL LOAD HERE -->
+
+        </div>
+
+        <div id="scannerStatus">
+
+            Waiting for mobile connection...
+
+        </div>
+
+    </div>
+
+
+
+    <!-- RIGHT PANEL -->
+
+    <div
+    class="scan-upload-box"
+    id="dropZone">
+
+        <input
+        type="file"
+        id="fileInput"
+        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+        multiple
+        hidden>
+
+        <input
+        type="file"
+        id="addMoreInput"
+        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+        multiple
+        hidden>
+
+        <h2>Upload Images</h2>
+
+        <p>
+            Select JPG, JPEG or PNG images
+            from your device.
+        </p>
+
+        <div class="cloud-buttons">
+
+            <button
+            type="button">
+
+                <i class="fa-solid fa-camera"></i>
+
+            </button>
+
+            <button
+            type="button">
+
+                <i class="fa-brands fa-google-drive"></i>
+
+            </button>
+
+            <button
+            type="button">
+
+                <i class="fa-brands fa-dropbox"></i>
+
+            </button>
+
+        </div>
+
+        <div class="drop-text">
+
+            or drag images here
+
+        </div>
+
+    </div>
 
 </div>
 
-<div class="cloud-buttons">
-
-<button type="button">
-<i class="fa-solid fa-camera"></i>
-</button>
-
-<button type="button">
-<i class="fa-brands fa-google-drive"></i>
-</button>
-
-<button type="button">
-<i class="fa-brands fa-dropbox"></i>
-</button>
-
-</div>
-
-</div>
-
-<div class="drop-text">
-or drop images here
-</div>
+</section>
 
 </section>
 
@@ -626,14 +672,13 @@ const SUPABASE_URL =
 "https://vfpgxiepllmkfkdtyjws.supabase.co";
 
 const SUPABASE_KEY =
-"YOUR_SUPABASE_ANON_KEY";
+"sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
 
 window.supabaseClient =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY ="sb_publishable_0NR6JL7RbGq9hHQMXCUbzA_MSU2Vh1T";
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
-
 </script>
 
 <script src="/js/scan-to-pdf.js?v=8001"></script>
