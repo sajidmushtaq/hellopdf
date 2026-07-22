@@ -6,6 +6,8 @@ const path = require("path");
 const { PDFDocument, rgb, degrees } = require("pdf-lib");
 const archiver = require("archiver");
 const { exec } = require("child_process");
+const util = require("util");
+const execPromise = util.promisify(exec);
 const os = require("os");
 async function processScannedPdf(pdfPath, worker, uploadsDir) {
 
