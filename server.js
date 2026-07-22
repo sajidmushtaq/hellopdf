@@ -7,7 +7,7 @@ const { PDFDocument, rgb, degrees } = require("pdf-lib");
 const archiver = require("archiver");
 const { exec } = require("child_process");
 const util = require("util");
-const execPromise = util.promisify(exec);
+const execAsync = util.promisify(exec);
 const os = require("os");
 async function processScannedPdf(pdfPath, worker, uploadsDir) {
 
@@ -102,7 +102,7 @@ async function processScannedPdf(pdfPath, worker, uploadsDir) {
 
 }
 
-const execPromise = util.promisify(exec);
+
 const ExcelJS = require("exceljs");
 const pptxgen = require("pptxgenjs");
 const puppeteer = require("puppeteer");
