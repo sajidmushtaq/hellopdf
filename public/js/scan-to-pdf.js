@@ -681,8 +681,6 @@ document.getElementById("scannerStatus");
 const qrContainer =
 document.getElementById("qrContainer");
 
-const scannerStatus =
-document.getElementById("scannerStatus");
 
 let scanSessionId = null;
 
@@ -755,6 +753,6 @@ function startConnectionWatcher() {
   }, 2000);
 
 }
-
+createScanSession();
 
 });
