@@ -122,6 +122,14 @@ canvas{max-width:100%;max-height:100%}
 </div>
 
 <script>
+const params = new URLSearchParams(window.location.search);
+const scanSessionId = params.get("session");
+
+if (scanSessionId) {
+  fetch(`/scan-session/${scanSessionId}/connect`, {
+    method: "POST"
+  }).catch(console.error);
+}
 const page = document.getElementById("page");
 const success = document.getElementById("success");
 const bottom = document.getElementById("bottom");
