@@ -10,6 +10,11 @@ RUN apt-get update && apt-get install -y \
     libreoffice \
     libreoffice-impress \
     ghostscript \
+    poppler-utils \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-ara \
+    tesseract-ocr-hin \
     fonts-dejavu \
     fonts-liberation \
     ca-certificates \

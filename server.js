@@ -6,7 +6,99 @@ const path = require("path");
 const { PDFDocument, rgb, degrees } = require("pdf-lib");
 const archiver = require("archiver");
 const { exec } = require("child_process");
-const util = require("util");
+const os = require("os");
+async function processScannedPdf(pdfPath, worker, uploadsDir) {
+
+  const tempPrefix = path.join(
+    uploadsDir,
+    `ocr-${Date.now()}`
+  );
+
+  await execAsync(
+    `pdftoppm -png "${pdfPath}" "${tempPrefix}"`
+  );
+
+  const images = fs.readdirSync(uploadsDir)
+    .filter(file => file.startsWith(path.basename(tempPrefix)))
+    .sort();
+
+  let extractedText = "";
+
+for (const image of images) {
+
+  const imagePath = path.join(uploadsDir, image);
+
+try {
+
+  const {
+    data: { text }
+  } = await worker.recognize(imagePath);
+
+  extractedText += "\n\n" + (text?.trim() || "");
+
+} finally {
+
+  if (fs.existsSync(imagePath)) {
+    fs.unlinkSync(imagePath);
+  }
+
+}
+
+}
+
+return extractedText.trim();
+
+}
+async function processScannedPdf(pdfPath, worker, uploadsDir) {
+
+  const outputPrefix = path.join(
+    uploadsDir,
+    `ocr-${Date.now()}`
+  );
+
+  await execAsync(
+    `pdftoppm -png "${pdfPath}" "${outputPrefix}"`
+  );
+
+  const imageFiles = fs
+    .readdirSync(uploadsDir)
+    .filter(file =>
+      file.startsWith(path.basename(outputPrefix))
+    )
+    .sort();
+
+  let extractedText = "";
+
+  for (const image of imageFiles) {
+
+    const imagePath = path.join(
+      uploadsDir,
+      image
+    );
+
+    try {
+
+      const {
+        data: { text }
+      } = await worker.recognize(imagePath);
+
+      extractedText +=
+        "\n\n" +
+        (text?.trim() || "No text detected.");
+
+    } finally {
+
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+
+    }
+
+  }
+
+  return extractedText.trim();
+
+}
 
 const execPromise = util.promisify(exec);
 const ExcelJS = require("exceljs");
@@ -1976,10 +2068,17 @@ app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
 
     uploadedPaths = req.files.map((file) => file.path);
 
-    const language = req.body.language || "eng";
+    const language =
+  req.body.language === "auto"
+    ? "eng+urd+ara+hin"
+    : (req.body.language || "eng");
     const { createWorker } = require("tesseract.js");
 
     let finalText = "";
+
+let worker = null;
+
+// Worker sirf tab create hoga jab image OCR ki zarurat hogi.
 
     for (const file of req.files) {
       const ext = path.extname(file.originalname).toLowerCase();
@@ -1994,29 +2093,90 @@ app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
             finalText += data.text.trim();
           } else {
             finalText += `\n\n--- ${file.originalname} ---\n\n`;
-            finalText += "No readable text found in this PDF. For scanned PDFs, please use scanned page images for best OCR results.";
+           const outputPrefix = path.join(
+  uploadsDir,
+  `ocr-${Date.now()}`
+);
+
+await execAsync(
+  `pdftoppm -png "${file.path}" "${outputPrefix}"`
+);
+
+const imageFiles = fs
+  .readdirSync(uploadsDir)
+  .filter(name => name.startsWith(path.basename(outputPrefix)))
+  .sort();
+
+if (!worker) {
+  worker = await createWorker(language);
+}
+
+let scannedText = "";
+
+for (const image of imageFiles) {
+
+  const imagePath = path.join(uploadsDir, image);
+
+  try {
+
+    const {
+      data: { text }
+    } = await worker.recognize(imagePath);
+
+    scannedText += "\n\n" + (text?.trim() || "");
+
+  } finally {
+
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+
+  }
+
+}
+
+finalText += scannedText.trim() || "No text detected.";
           }
         } catch (pdfErr) {
           finalText += `\n\n--- ${file.originalname} ---\n\n`;
           finalText += "Could not read text from this PDF.";
         }
       } else {
-        const worker = await createWorker(language);
 
-        const {
-          data: { text }
-        } = await worker.recognize(file.path);
+  if (!worker) {
+    worker = await createWorker(language);
+  }
 
-        await worker.terminate();
+  try {
 
-        finalText += `\n\n--- ${file.originalname} ---\n\n`;
-        finalText += text && text.trim() ? text.trim() : "No text detected.";
-      }
+  const {
+    data: { text }
+  } = await worker.recognize(file.path);
+
+  finalText += `\n\n--- ${file.originalname} ---\n\n`;
+
+  finalText += text && text.trim()
+    ? text.trim()
+    : "No text detected.";
+
+} catch (ocrErr) {
+
+  console.error(`OCR failed for ${file.originalname}:`, ocrErr);
+
+  finalText += `\n\n--- ${file.originalname} ---\n\n`;
+  finalText += "OCR failed for this file.";
+
+}
+}
     }
 
-    if (!finalText.trim()) {
-      return res.status(400).send("No readable text found");
-    }
+    if (worker) {
+  await worker.terminate();
+}
+
+if (!finalText.trim()) {
+  return res.status(400).send("No readable text found");
+}
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=ocr-output.pdf");
@@ -2055,7 +2215,12 @@ app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
     });
 
   } catch (err) {
-    console.error("OCR PDF ERROR:", err);
+
+  if (worker) {
+    await worker.terminate().catch(() => {});
+  }
+
+  console.error("OCR PDF ERROR:", err);
 
     uploadedPaths.forEach((filePath) => {
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
