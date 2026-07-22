@@ -695,7 +695,7 @@ async function createScanSession() {
   scanSessionId = data.sessionId;
 
   const mobileScanUrl =
-    `${window.location.origin}/mobile-scan.html?session=${scanSessionId}`;
+    `${window.location.origin}/scan-mobile.html?session=${scanSessionId}`;
 
   QRCode.toCanvas(
     mobileScanUrl,
