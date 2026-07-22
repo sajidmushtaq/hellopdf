@@ -161,18 +161,9 @@ const createBtn = document.getElementById("createBtn");
 const progressBar = document.getElementById("progressBar");
 const downloadBtn = document.getElementById("downloadBtn");
 let currentUser = null;
-let currentUser = null;
 
 (async () => {
-  const { data } = await window.supabaseClient.auth.getUser();
-
-  if (data && data.user) {
-    currentUser = data.user;
-  }
-
-  console.log("Current User:", currentUser);
-})();
-(async () => {
+alert(typeof window.supabaseClient);
   const { data } = await window.supabaseClient.auth.getUser();
 
   if (data && data.user) {
