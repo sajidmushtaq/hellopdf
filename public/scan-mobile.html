@@ -160,6 +160,25 @@ const emptyText = document.getElementById("emptyText");
 const createBtn = document.getElementById("createBtn");
 const progressBar = document.getElementById("progressBar");
 const downloadBtn = document.getElementById("downloadBtn");
+let currentUser = null;
+let currentUser = null;
+
+(async () => {
+  const { data } = await window.supabaseClient.auth.getUser();
+
+  if (data && data.user) {
+    currentUser = data.user;
+  }
+
+  console.log("Current User:", currentUser);
+})();
+(async () => {
+  const { data } = await window.supabaseClient.auth.getUser();
+
+  if (data && data.user) {
+    currentUser = data.user;
+  }
+})();
 
 let currentImage = null;
 let rotation = 0;
@@ -484,6 +503,9 @@ createBtn.onclick = async () => {
   }
 
   const formData = new FormData();
+if (currentUser) {
+  formData.append("user_id", currentUser.id);
+}
   scannedFiles.forEach(file => formData.append("images", file));
 
   progressBar.style.width = "20%";
