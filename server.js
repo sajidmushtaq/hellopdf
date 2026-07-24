@@ -2074,6 +2074,7 @@ app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
   req.body.language === "auto"
     ? "eng+urd+ara+hin"
     : (req.body.language || "eng");
+    console.log("OCR Language:", language);
     const { createWorker } = require("tesseract.js");
 
     let finalText = "";
