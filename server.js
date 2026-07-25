@@ -2086,6 +2086,7 @@ res.on("finish", () => {
 
 app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
   let uploadedPaths = [];
+  let worker = null;
 
   try {
     if (!req.files || req.files.length === 0) {
@@ -2146,7 +2147,7 @@ if (!profileData.is_premium) {
 
     let finalText = "";
 
-let worker = null;
+
 
 // Worker sirf tab create hoga jab image OCR ki zarurat hogi.
 
