@@ -1100,6 +1100,26 @@ if (!profileData.is_premium) {
       size: "A4",
       margin: 50
     });
+    const urduFont = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoNastaliqUrdu-Regular.ttf"
+);
+
+const arabicFont = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoNaskhArabic-Regular.ttf"
+);
+
+const hindiFont = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoSansDevanagari-Regular.ttf"
+);
 
     doc.pipe(res);
 
@@ -1108,6 +1128,9 @@ if (!profileData.is_premium) {
     });
 
     doc.moveDown();
+    doc.registerFont("urdu", urduFont);
+doc.registerFont("arabic", arabicFont);
+doc.registerFont("hindi", hindiFont);
 
     doc.fontSize(12).text(text, {
       align: "left",
@@ -2239,6 +2262,30 @@ if (!finalText.trim()) {
     });
 
     doc.pipe(res);
+    const urduFont = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoNastaliqUrdu-Regular.ttf"
+);
+
+const arabicFont = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoNaskhArabic-Regular.ttf"
+);
+
+const hindiFont = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoSansDevanagari-Regular.ttf"
+);
+
+doc.registerFont("urdu", urduFont);
+doc.registerFont("arabic", arabicFont);
+doc.registerFont("hindi", hindiFont);
 
     doc.fontSize(22).text("HelloPDF OCR Result", {
       align: "center"
@@ -2253,9 +2300,12 @@ if (!finalText.trim()) {
         doc.addPage();
       }
 
-      doc.fontSize(11).text(line || " ", {
-        lineGap: 4
-      });
+      doc.font("urdu");
+doc.fontSize(11);
+
+doc.text(line || " ", {
+  lineGap: 4
+});
     });
 if (!usageData) {
 
