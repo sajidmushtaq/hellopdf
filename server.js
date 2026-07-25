@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
@@ -2252,7 +2253,54 @@ console.log("===============================");
 if (!finalText.trim()) {
   return res.status(400).send("No readable text found");
 }
+const escapeHtml = (text) => {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+};
 
+const formattedOCRText = escapeHtml(finalText)
+  .replace(/\r?\n/g, "<br>");
+const htmlCode = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+@page{
+    size:A4;
+    margin:20mm;
+}
+
+body{
+    font-family:
+      "Noto Nastaliq Urdu",
+      "Noto Naskh Arabic",
+      "Noto Sans Devanagari",
+      Arial,
+      sans-serif;
+
+    font-size:18px;
+    line-height:2;
+    color:#222;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${formattedOCRText}
+
+</body>
+</html>
+`;
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=ocr-output.pdf");
 
