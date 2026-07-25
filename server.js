@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const express = require("express");
+const { reshape } = require("arabic-persian-reshaper");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
@@ -2274,13 +2275,19 @@ const formattedOCRText = escapeHtml(finalText)
     doc.moveDown();
 
     const lines = finalText.split(/\r?\n/);
+    const containsArabicScript = (text) =>
+  /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(text);
 
     lines.forEach((line) => {
       if (doc.y > 760) {
         doc.addPage();
       }
 
-    doc.fontSize(11).text(line || " ", {
+    const outputLine = containsArabicScript(line)
+  ? reshape(line)
+  : line;
+
+doc.fontSize(11).text(outputLine || " ", {
   lineGap: 4
 });
     });

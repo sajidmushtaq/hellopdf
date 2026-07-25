@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",
+    "arabic-persian-reshaper": "^1.0.1",
     "archiver": "^7.0.1",
     "bcrypt": "^6.0.0",
     "docx": "^9.6.1",
