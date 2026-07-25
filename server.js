@@ -2069,6 +2069,49 @@ app.post("/ocr-pdf", upload.array("files"), async (req, res) => {
     }
 
     uploadedPaths = req.files.map((file) => file.path);
+    const userId = req.body.user_id;
+
+console.log("OCR USER ID =", userId);
+
+if (!userId) {
+  return res.status(401).send("Please login first");
+}
+
+const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("is_premium")
+  .eq("id", userId)
+  .single();
+
+if (profileError) {
+  return res.status(500).send("Unable to verify account");
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "ocr_pdf")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (usageError) {
+  return res.status(500).send("Usage verification failed");
+}
+
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited OCR PDF conversions."
+    );
+  }
+
+}
 
     const language =
   req.body.language === "auto"
@@ -2208,7 +2251,33 @@ if (!finalText.trim()) {
         lineGap: 4
       });
     });
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "ocr_pdf",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("OCR INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("OCR UPDATE ERROR =", updateError);
+
+}
     doc.end();
 
     res.on("finish", () => {

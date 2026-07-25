@@ -153,6 +153,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData();
     selectedFiles.forEach((file) => formData.append("files", file));
     formData.append("language", ocrLanguage.value);
+    const { data } =
+  await window.supabaseClient.auth.getUser();
+
+if (!data.user) {
+  alert("Please login first");
+  return;
+}
+
+formData.append("user_id", data.user.id);
 
     resetProgress();
     startProgress();
@@ -166,11 +175,30 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
 
-      if (!response.ok) {
-        const text = await response.text();
-        alert(text || "OCR failed");
-        return;
-      }
+     if (!response.ok) {
+
+  const text = await response.text();
+
+  if (
+    response.status === 403 ||
+    text.toLowerCase().includes("limit")
+  ) {
+
+    const modal = document.getElementById("upgradeModal");
+
+    if (modal) {
+      modal.style.display = "flex";
+    } else {
+      alert(text);
+    }
+
+    return;
+  }
+
+  alert(text || "OCR failed");
+
+  return;
+}
 
       const blob = await response.blob();
 
@@ -192,10 +220,25 @@ document.addEventListener("DOMContentLoaded", () => {
     } finally {
       clearInterval(progressTimer);
       convertBtn.disabled = false;
-      convertBtn.textContent = "Start OCR";
+     convertBtn.innerHTML =
+  'Start OCR <i class="fa-solid fa-arrow-right"></i>';
+
+resetProgress();
     }
   });
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
 
+if (closeUpgradeModal) {
+
+  closeUpgradeModal.addEventListener("click", () => {
+
+    document.getElementById("upgradeModal").style.display =
+      "none";
+
+  });
+
+}
   downloadBtn.addEventListener("click", () => {
     if (!outputUrl) {
       alert("PDF is not ready yet");
