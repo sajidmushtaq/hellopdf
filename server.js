@@ -2182,6 +2182,9 @@ for (const image of imageFiles) {
 }
 
 finalText += scannedText.trim() || "No text detected.";
+console.log("========== OCR RAW TEXT ==========");
+console.log(scannedText);
+console.log("==================================");
           }
         } catch (pdfErr) {
           finalText += `\n\n--- ${file.originalname} ---\n\n`;
@@ -2204,6 +2207,9 @@ finalText += scannedText.trim() || "No text detected.";
   finalText += text && text.trim()
     ? text.trim()
     : "No text detected.";
+    console.log("========== IMAGE OCR ==========");
+console.log(text);
+console.log("===============================");
 
 } catch (ocrErr) {
 
