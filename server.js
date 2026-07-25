@@ -2252,54 +2252,10 @@ console.log("===============================");
 if (!finalText.trim()) {
   return res.status(400).send("No readable text found");
 }
-const escapeHtml = (text) => {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-};
 
 const formattedOCRText = escapeHtml(finalText)
   .replace(/\r?\n/g, "<br>");
-const htmlCode = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
 
-<style>
-
-@page{
-    size:A4;
-    margin:20mm;
-}
-
-body{
-    font-family:
-      "Noto Nastaliq Urdu",
-      "Noto Naskh Arabic",
-      "Noto Sans Devanagari",
-      Arial,
-      sans-serif;
-
-    font-size:18px;
-    line-height:2;
-    color:#222;
-    white-space:pre-wrap;
-    word-break:break-word;
-}
-
-</style>
-
-</head>
-
-<body>
-
-${formattedOCRText}
-
-</body>
-</html>
-`;
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=ocr-output.pdf");
 
@@ -2309,30 +2265,7 @@ ${formattedOCRText}
     });
 
     doc.pipe(res);
-    const urduFont = path.join(
-  __dirname,
-  "public",
-  "fonts",
-  "NotoNastaliqUrdu-Regular.ttf"
-);
-
-const arabicFont = path.join(
-  __dirname,
-  "public",
-  "fonts",
-  "NotoNaskhArabic-Regular.ttf"
-);
-
-const hindiFont = path.join(
-  __dirname,
-  "public",
-  "fonts",
-  "NotoSansDevanagari-Regular.ttf"
-);
-
-doc.registerFont("urdu", urduFont);
-doc.registerFont("arabic", arabicFont);
-doc.registerFont("hindi", hindiFont);
+    
 
     doc.fontSize(22).text("HelloPDF OCR Result", {
       align: "center"
@@ -2347,10 +2280,7 @@ doc.registerFont("hindi", hindiFont);
         doc.addPage();
       }
 
-      doc.font("urdu");
-doc.fontSize(11);
-
-doc.text(line || " ", {
+    doc.fontSize(11).text(line || " ", {
   lineGap: 4
 });
     });
