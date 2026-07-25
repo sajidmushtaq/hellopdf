@@ -2255,8 +2255,7 @@ if (!finalText.trim()) {
   return res.status(400).send("No readable text found");
 }
 
-const formattedOCRText = escapeHtml(finalText)
-  .replace(/\r?\n/g, "<br>");
+
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=ocr-output.pdf");
