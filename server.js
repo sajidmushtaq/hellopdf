@@ -2136,6 +2136,14 @@ if (!profileData.is_premium) {
     );
   }
 
+  const selectedLanguage = (req.body.language || "eng").toLowerCase();
+
+  if (selectedLanguage !== "eng") {
+    return res.status(403).send(
+      "Premium feature. Upgrade to use OCR in Urdu, Arabic, Hindi and Auto Detect."
+    );
+  }
+
 }
 
     const language =
