@@ -4610,7 +4610,56 @@ app.post("/pdf-forms", upload.single("file"), async (req, res) => {
 });
 
 app.post("/edit-pdf", upload.single("file"), async (req, res) => {
+
   try {
+
+    const userId = req.body.user_id;
+
+    console.log("EDIT PDF USER ID =", userId);
+
+    if (!userId) {
+      return res.status(401).send("Please login first");
+    }
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .single();
+
+    if (profileError) {
+      return res.status(500).send("Unable to verify account");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { data: usageData, error: usageError } = await supabase
+      .from("usage_logs")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("tool_name", "edit_pdf")
+      .eq("usage_date", today)
+      .maybeSingle();
+
+    if (usageError) {
+      return res.status(500).send("Usage verification failed");
+    }
+
+    if (!profileData.is_premium) {
+
+      const currentUsage =
+        usageData ? usageData.usage_count : 0;
+
+      if (currentUsage >= 8) {
+
+        return res.status(403).send(
+          "Daily free limit reached. Upgrade to Premium for unlimited Edit PDF usage."
+        );
+
+      }
+
+    }
+
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
     }
@@ -4622,36 +4671,72 @@ app.post("/edit-pdf", upload.single("file"), async (req, res) => {
     }
 
     const inputPath = req.file.path;
+
     const pdfBytes = fs.readFileSync(inputPath);
+
     const pdfDoc = await PDFDocument.load(pdfBytes);
+
     const pages = pdfDoc.getPages();
 
     for (const item of elements) {
+
       const pageIndex = Number(item.page) - 1;
 
       if (pageIndex < 0 || pageIndex >= pages.length) continue;
+
       if (!item.dataUrl || !item.dataUrl.includes(",")) continue;
 
       const page = pages[pageIndex];
-      const { width: pdfWidth, height: pdfHeight } = page.getSize();
 
-      const base64Data = item.dataUrl.split(",")[1];
-      const imageBytes = Buffer.from(base64Data, "base64");
+      const {
+        width: pdfWidth,
+        height: pdfHeight
+      } = page.getSize();
+
+      const base64Data =
+        item.dataUrl.split(",")[1];
+
+      const imageBytes =
+        Buffer.from(base64Data, "base64");
 
       let image;
-      if (item.dataUrl.includes("image/jpeg") || item.dataUrl.includes("image/jpg")) {
-        image = await pdfDoc.embedJpg(imageBytes);
+
+      if (
+        item.dataUrl.includes("image/jpeg") ||
+        item.dataUrl.includes("image/jpg")
+      ) {
+
+        image =
+          await pdfDoc.embedJpg(imageBytes);
+
       } else {
-        image = await pdfDoc.embedPng(imageBytes);
+
+        image =
+          await pdfDoc.embedPng(imageBytes);
+
       }
 
-      const scaleX = pdfWidth / Number(item.pageWidth || pdfWidth);
-      const scaleY = pdfHeight / Number(item.pageHeight || pdfHeight);
+      const scaleX =
+        pdfWidth /
+        Number(item.pageWidth || pdfWidth);
 
-      const drawX = Number(item.x || 0) * scaleX;
-      const drawWidth = Number(item.width || 150) * scaleX;
-      const drawHeight = Number(item.height || 40) * scaleY;
-      const drawY = pdfHeight - (Number(item.y || 0) * scaleY) - drawHeight;
+      const scaleY =
+        pdfHeight /
+        Number(item.pageHeight || pdfHeight);
+
+      const drawX =
+        Number(item.x || 0) * scaleX;
+
+      const drawWidth =
+        Number(item.width || 150) * scaleX;
+
+      const drawHeight =
+        Number(item.height || 40) * scaleY;
+
+      const drawY =
+        pdfHeight -
+        (Number(item.y || 0) * scaleY) -
+        drawHeight;
 
       page.drawImage(image, {
         x: drawX,
@@ -4659,9 +4744,48 @@ app.post("/edit-pdf", upload.single("file"), async (req, res) => {
         width: drawWidth,
         height: drawHeight
       });
+
     }
 
-    const outputBytes = await pdfDoc.save();
+    const outputBytes =
+      await pdfDoc.save();
+
+    if (!usageData) {
+
+      const { error: insertError } =
+        await supabase
+          .from("usage_logs")
+          .insert([
+            {
+              user_id: userId,
+              tool_name: "edit_pdf",
+              usage_date: today,
+              usage_count: 1
+            }
+          ]);
+
+      console.log(
+        "EDIT PDF INSERT ERROR =",
+        insertError
+      );
+
+    } else {
+
+      const { error: updateError } =
+        await supabase
+          .from("usage_logs")
+          .update({
+            usage_count:
+              usageData.usage_count + 1
+          })
+          .eq("id", usageData.id);
+
+      console.log(
+        "EDIT PDF UPDATE ERROR =",
+        updateError
+      );
+
+    }
 
     const finalOutputDir =
       typeof outputDir !== "undefined"
@@ -4669,68 +4793,63 @@ app.post("/edit-pdf", upload.single("file"), async (req, res) => {
         : path.join(__dirname, "outputs");
 
     if (!fs.existsSync(finalOutputDir)) {
-      fs.mkdirSync(finalOutputDir, { recursive: true });
+
+      fs.mkdirSync(finalOutputDir, {
+        recursive: true
+      });
+
     }
 
-    const outputFileName = `edited-${Date.now()}.pdf`;
-    const outputPath = path.join(finalOutputDir, outputFileName);
+    const outputFileName =
+      `edited-${Date.now()}.pdf`;
 
-    fs.writeFileSync(outputPath, outputBytes);
-    fs.unlink(inputPath, () => {});
+    const outputPath =
+      path.join(
+        finalOutputDir,
+        outputFileName
+      );
 
-    res.download(outputPath, "edited-pdf.pdf", () => {
-      fs.unlink(outputPath, () => {});
-    });
-  } catch (error) {
-    console.error("EDIT PDF ERROR MESSAGE:", error.message);
-    console.error("EDIT PDF FULL ERROR:", error);
-    res.status(500).send(error.message || "Failed to edit PDF.");
-  }
-});
-
-app.post("/pdf-summarizer", upload.single("file"), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).send("No PDF file uploaded.");
-    }
-
-    const inputPath = req.file.path;
-    const length = String(req.body.length || "2");
-
-    const dataBuffer = fs.readFileSync(inputPath);
-    const parsed = await pdfParse(dataBuffer);
-
-    const text = String(parsed.text || "").replace(/\s+/g, " ").trim();
-
-    if (!text) {
-      fs.unlink(inputPath, () => {});
-      return res.status(400).send("Could not extract readable text from this PDF.");
-    }
-
-    const sentences = text
-      .split(/(?<=[.!?])\s+/)
-      .map((s) => s.trim())
-      .filter((s) => s.length > 25);
-
-    const count = length === "1" ? 4 : 9;
-
-    const summaryLines = sentences
-      .slice(0, count)
-      .map((s) => `• ${s}`);
-
-    const summary = summaryLines.join("\n");
+    fs.writeFileSync(
+      outputPath,
+      outputBytes
+    );
 
     fs.unlink(inputPath, () => {});
 
-    res.json({
-      text,
-      summary
-    });
+    res.download(
+      outputPath,
+      "edited-pdf.pdf",
+      () => {
+
+        fs.unlink(
+          outputPath,
+          () => {}
+        );
+
+      }
+    );
+
   } catch (error) {
-    console.error("PDF SUMMARIZER ERROR MESSAGE:", error.message);
-    console.error("PDF SUMMARIZER FULL ERROR:", error);
-    res.status(500).send(error.message || "Failed to summarize PDF.");
+
+    console.error(
+      "EDIT PDF ERROR MESSAGE:",
+      error.message
+    );
+
+    console.error(
+      "EDIT PDF FULL ERROR:",
+      error
+    );
+
+    res
+      .status(500)
+      .send(
+        error.message ||
+        "Failed to edit PDF."
+      );
+
   }
+
 });
 
 app.post("/translate-pdf", upload.single("file"), async (req, res) => {
