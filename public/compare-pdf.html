@@ -232,8 +232,6 @@ user@email.com
 
 </div>
 
-</div>
-
 <div class="hp-profile-list">
 
 <a href="/account.html">
@@ -258,8 +256,6 @@ type="button">
 </div>
 
 </div>
-</header>
-
 </header>
 
 <div
@@ -532,13 +528,16 @@ profileMenuEmail.textContent = user.email;
 
 if (mobileProfileBox) {
 
+if (window.innerWidth <= 768) {
 mobileProfileBox.style.display = "block";
+} else {
+mobileProfileBox.style.display = "none";
+}
 
 mobileProfileName.textContent = fullName;
 mobileProfileEmail.textContent = user.email;
 
 }
-
 } else {
 
 desktopAuthButtons.style.display = "flex";
@@ -573,12 +572,6 @@ mobileLogoutBtn.addEventListener("click", logoutUser);
 })();
 
 </script>
-
-</body>
-</html>
-
-</body>
-</html>
 
 </body>
 </html>
