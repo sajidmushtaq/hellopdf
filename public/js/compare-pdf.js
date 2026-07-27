@@ -1,7 +1,51 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* DRAWERS */
+
+  const toolsMenuBtn =
+  document.getElementById("toolsMenuBtn");
+
+  const mainMenuBtn =
+  document.getElementById("mainMenuBtn");
+
+  const toolsDrawer =
+  document.getElementById("toolsDrawer");
+
+  const mainDrawer =
+  document.getElementById("mainDrawer");
+
+  const toolsClose =
+  document.getElementById("toolsClose");
+
+  const mainClose =
+  document.getElementById("mainClose");
+
+  const drawerOverlay =
+  document.getElementById("drawerOverlay");
+
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+  let currentUser = null;
+
+  (async () => {
+
+    const { data } =
+    await window.supabaseClient.auth.getUser();
+
+    if (data && data.user) {
+
+      currentUser = data.user;
+
+    }
+
+  })();
+
   if (window.pdfjsLib) {
+
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
   }
 
   const startScreen = document.getElementById("startScreen");
@@ -54,9 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetProgress() {
-    progressBar.style.width = "0%";
-    progressBar.textContent = "0%";
-  }
+
+  progressBar.style.width = "0%";
+  progressBar.textContent = "0%";
+
+}
 
   function setProgress(value) {
     progressBar.style.width = value + "%";
@@ -251,8 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formData = new FormData();
-    formData.append("pdfOne", fileOne);
-    formData.append("pdfTwo", fileTwo);
+
 
     compareBtn.disabled = true;
     compareBtn.innerHTML = `Comparing... <i class="fa-solid fa-spinner fa-spin"></i>`;
@@ -269,10 +314,26 @@ document.addEventListener("DOMContentLoaded", () => {
       setProgress(70);
 
       if (!response.ok) {
-        const text = await response.text();
-        alert(text || "Compare failed");
-        return;
-      }
+
+const text =
+await response.text();
+
+if(response.status===403){
+
+document.getElementById(
+"upgradeModal"
+).style.display="flex";
+
+throw new Error("");
+
+}
+
+throw new Error(
+text ||
+"Compare failed"
+);
+
+}
 
       const blob = await response.blob();
 
@@ -312,4 +373,55 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   showStart();
+  /* MOBILE DRAWERS */
+
+  function closeDrawers() {
+
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    drawerOverlay.classList.remove("active");
+
+  }
+
+  if (toolsMenuBtn) {
+
+    toolsMenuBtn.addEventListener("click", () => {
+
+      toolsDrawer.classList.add("active");
+      drawerOverlay.classList.add("active");
+
+    });
+
+  }
+
+  if (mainMenuBtn) {
+
+    mainMenuBtn.addEventListener("click", () => {
+
+      mainDrawer.classList.add("active");
+      drawerOverlay.classList.add("active");
+
+    });
+
+  }
+
+  if (toolsClose)
+    toolsClose.addEventListener("click", closeDrawers);
+
+  if (mainClose)
+    mainClose.addEventListener("click", closeDrawers);
+
+  if (drawerOverlay)
+    drawerOverlay.addEventListener("click", closeDrawers);
+
+  if (closeUpgradeModal) {
+
+    closeUpgradeModal.addEventListener("click", () => {
+
+      document.getElementById("upgradeModal").style.display = "none";
+
+    });
+
+  }
+
 });

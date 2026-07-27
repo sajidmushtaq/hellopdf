@@ -3952,10 +3952,62 @@ app.post(
     { name: "pdfTwo", maxCount: 1 }
   ]),
   async (req, res) => {
+
     let fileOnePath = null;
     let fileTwoPath = null;
 
     try {
+
+      const userId = req.body.user_id;
+
+      console.log("COMPARE PDF USER ID =", userId);
+
+      if (!userId) {
+        return res.status(401).send("Please login first");
+      }
+
+      const { data: profileData, error: profileError } =
+        await supabase
+          .from("profiles")
+          .select("is_premium")
+          .eq("id", userId)
+          .single();
+
+      if (profileError) {
+        return res.status(500).send("Unable to verify account");
+      }
+
+      const today =
+        new Date().toISOString().split("T")[0];
+
+      const { data: usageData, error: usageError } =
+        await supabase
+          .from("usage_logs")
+          .select("*")
+          .eq("user_id", userId)
+          .eq("tool_name", "compare_pdf")
+          .eq("usage_date", today)
+          .maybeSingle();
+
+      if (usageError) {
+        return res.status(500).send("Usage verification failed");
+      }
+
+      if (!profileData.is_premium) {
+
+        const currentUsage =
+          usageData ? usageData.usage_count : 0;
+
+        if (currentUsage >= 8) {
+
+          return res.status(403).send(
+            "Daily free limit reached. Upgrade to Premium for unlimited Compare PDF usage."
+          );
+
+        }
+
+      }
+
       if (!req.files || !req.files.pdfOne || !req.files.pdfTwo) {
         return res.status(400).send("Please upload both PDF files");
       }
@@ -3991,16 +4043,57 @@ app.post(
       const differences = [];
 
       for (let i = 0; i < maxLines; i++) {
+
         const left = linesOne[i] || "";
         const right = linesTwo[i] || "";
 
         if (left !== right) {
+
           differences.push({
             line: i + 1,
             pdfOne: left,
             pdfTwo: right
           });
+
         }
+
+      }
+
+      if (!usageData) {
+
+        const { error: insertError } =
+          await supabase
+            .from("usage_logs")
+            .insert([
+              {
+                user_id: userId,
+                tool_name: "compare_pdf",
+                usage_date: today,
+                usage_count: 1
+              }
+            ]);
+
+        console.log(
+          "COMPARE PDF INSERT ERROR =",
+          insertError
+        );
+
+      } else {
+
+        const { error: updateError } =
+          await supabase
+            .from("usage_logs")
+            .update({
+              usage_count:
+                usageData.usage_count + 1
+            })
+            .eq("id", usageData.id);
+
+        console.log(
+          "COMPARE PDF UPDATE ERROR =",
+          updateError
+        );
+
       }
 
       res.setHeader("Content-Type", "application/pdf");
@@ -4029,9 +4122,13 @@ app.post(
       doc.moveDown();
 
       if (differences.length === 0) {
+
         doc.fontSize(14).text("No text differences found.");
+
       } else {
+
         differences.slice(0, 200).forEach((diff) => {
+
           if (doc.y > 720) doc.addPage();
 
           doc.fontSize(11).text(`Line ${diff.line}`, {
@@ -4042,31 +4139,49 @@ app.post(
           doc.text(`PDF 2: ${diff.pdfTwo || "[empty]"}`);
 
           doc.moveDown(0.7);
+
         });
 
         if (differences.length > 200) {
+
           doc.addPage();
+
           doc
             .fontSize(12)
-            .text(`Only first 200 differences shown out of ${differences.length}.`);
+            .text(
+              `Only first 200 differences shown out of ${differences.length}.`
+            );
+
         }
+
       }
 
       doc.end();
 
       res.on("finish", () => {
-        if (fileOnePath && fs.existsSync(fileOnePath)) fs.unlinkSync(fileOnePath);
-        if (fileTwoPath && fs.existsSync(fileTwoPath)) fs.unlinkSync(fileTwoPath);
+
+        if (fileOnePath && fs.existsSync(fileOnePath))
+          fs.unlinkSync(fileOnePath);
+
+        if (fileTwoPath && fs.existsSync(fileTwoPath))
+          fs.unlinkSync(fileTwoPath);
+
       });
 
     } catch (err) {
+
       console.error("COMPARE PDF ERROR:", err);
 
-      if (fileOnePath && fs.existsSync(fileOnePath)) fs.unlinkSync(fileOnePath);
-      if (fileTwoPath && fs.existsSync(fileTwoPath)) fs.unlinkSync(fileTwoPath);
+      if (fileOnePath && fs.existsSync(fileOnePath))
+        fs.unlinkSync(fileOnePath);
+
+      if (fileTwoPath && fs.existsSync(fileTwoPath))
+        fs.unlinkSync(fileTwoPath);
 
       return res.status(500).send("Compare PDF failed");
+
     }
+
   }
 );
 
