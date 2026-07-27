@@ -295,8 +295,15 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Please select both PDF files");
       return;
     }
-
+console.log("CURRENT USER =", currentUser);
     const formData = new FormData();
+
+if (currentUser) {
+  formData.append("user_id", currentUser.id);
+}
+
+formData.append("pdfOne", fileOne);
+formData.append("pdfTwo", fileTwo);
 
 
     compareBtn.disabled = true;
