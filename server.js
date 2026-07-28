@@ -4906,9 +4906,14 @@ res.download(outputPath, "signed-pdf.pdf", () => {
       fs.unlink(outputPath, () => {});
     });
   } catch (error) {
-    console.error("SIGN PDF ERROR:", error);
-    res.status(500).send("Failed to sign PDF.");
-  }
+
+    console.error("========== SIGN PDF ERROR ==========");
+    console.error(error);
+    console.error(error.stack);
+
+    res.status(500).send(error.message);
+
+}
 });
 
 app.post("/fill-sign-pdf", upload.single("file"), async (req, res) => {
