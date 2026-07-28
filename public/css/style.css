@@ -22749,3 +22749,1214 @@ header{
     overflow: auto !important;
   }
 }
+
+/* ===========================================================
+   SIGN PDF - STEP 1
+   START SCREEN + BASE LAYOUT
+=========================================================== */
+
+.sign-pdf-page{
+width:100%;
+max-width:1400px;
+margin:0 auto;
+padding:40px 20px 60px;
+display:block;
+}
+
+.sign-start-screen{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:520px;
+}
+
+.sign-hero-box{
+width:100%;
+max-width:760px;
+margin:auto;
+text-align:center;
+}
+
+.sign-hero-box h1{
+font-size:54px;
+font-weight:800;
+color:#111827;
+margin-bottom:14px;
+}
+
+.sign-hero-box p{
+font-size:20px;
+color:#64748b;
+margin-bottom:34px;
+}
+
+.sign-upload-row{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:16px;
+flex-wrap:wrap;
+}
+
+.sign-big-upload-btn{
+height:60px;
+padding:0 34px;
+border:none;
+border-radius:14px;
+background:#e53935;
+color:#fff;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+transition:.25s;
+}
+
+.sign-big-upload-btn:hover{
+background:#d32f2f;
+}
+
+.sign-cloud-side{
+display:flex;
+gap:12px;
+}
+
+.sign-cloud-side button{
+width:58px;
+height:58px;
+border-radius:14px;
+border:1px solid #dbe3ee;
+background:#fff;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:.25s;
+}
+
+.sign-cloud-side button:hover{
+border-color:#e53935;
+transform:translateY(-2px);
+}
+
+.sign-cloud-side svg{
+width:28px;
+height:28px;
+}
+
+.sign-drop-text{
+display:block;
+margin-top:24px;
+font-size:16px;
+color:#6b7280;
+}
+
+.hp-sign-editor{
+display:grid;
+grid-template-columns:160px 1fr 340px;
+gap:24px;
+align-items:start;
+width:100%;
+min-height:720px;
+}
+
+.hp-page-thumbs{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:16px;
+padding:14px;
+overflow:auto;
+height:calc(100vh - 170px);
+}
+
+.hp-sign-workspace{
+background:#f5f7fb;
+border-radius:18px;
+padding:18px;
+min-height:720px;
+}
+
+.hp-sign-panel{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:18px;
+padding:22px;
+height:fit-content;
+position:sticky;
+top:100px;
+box-shadow:0 10px 35px rgba(0,0,0,.05);
+}
+
+.hp-sign-topbar{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:18px;
+padding-bottom:12px;
+border-bottom:1px solid #e5e7eb;
+}
+
+.hp-pdf-scroll{
+overflow:auto;
+height:calc(100vh - 220px);
+padding-right:8px;
+}
+
+.pdf-canvas-wrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:30px;
+}
+
+.sign-page-box{
+position:relative;
+background:#fff;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+border-radius:8px;
+overflow:hidden;
+}
+
+@media(max-width:1200px){
+
+.hp-sign-editor{
+
+grid-template-columns:1fr;
+
+}
+
+.hp-page-thumbs{
+
+display:none;
+
+}
+
+.hp-sign-panel{
+
+position:relative;
+top:auto;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.sign-hero-box h1{
+
+font-size:36px;
+
+}
+
+.sign-hero-box p{
+
+font-size:16px;
+
+}
+
+.sign-upload-row{
+
+flex-direction:column;
+
+}
+
+.sign-big-upload-btn{
+
+width:100%;
+
+}
+
+.hp-sign-workspace{
+
+padding:10px;
+
+}
+
+}
+
+/* ===========================================================
+   SIGN PDF - STEP 2
+   SIGNATURE MODAL
+=========================================================== */
+
+.hp-sign-modal{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+background:rgba(15,23,42,.55);
+backdrop-filter:blur(3px);
+z-index:999999;
+padding:20px;
+}
+
+.hp-sign-modal:not(.hidden-screen){
+display:flex;
+}
+
+.hp-sign-modal-card{
+width:100%;
+max-width:920px;
+background:#ffffff;
+border-radius:22px;
+overflow:hidden;
+box-shadow:0 30px 80px rgba(0,0,0,.25);
+animation:hpSignPopup .22s ease;
+}
+
+@keyframes hpSignPopup{
+
+from{
+
+opacity:0;
+transform:translateY(20px) scale(.96);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0) scale(1);
+
+}
+
+}
+
+.hp-modal-head{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:24px 30px;
+border-bottom:1px solid #edf2f7;
+
+}
+
+.hp-modal-head h2{
+
+font-size:30px;
+font-weight:800;
+color:#111827;
+
+}
+
+.hp-modal-login{
+
+font-size:15px;
+font-weight:700;
+color:#2563eb;
+text-decoration:none;
+
+}
+
+.hp-modal-body{
+
+padding:30px;
+
+}
+
+.hp-user-row{
+
+display:flex;
+align-items:flex-start;
+gap:22px;
+margin-bottom:26px;
+
+}
+
+.hp-user-icon{
+
+width:54px;
+height:54px;
+border-radius:50%;
+background:#f3f4f6;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+color:#475569;
+flex-shrink:0;
+
+}
+
+.hp-user-row label{
+
+flex:1;
+font-weight:700;
+font-size:14px;
+color:#374151;
+
+}
+
+.hp-user-row input{
+
+width:100%;
+height:54px;
+margin-top:8px;
+padding:0 18px;
+border:1px solid #dbe3ee;
+border-radius:12px;
+font-size:16px;
+background:#fff;
+
+}
+
+.hp-sign-tabs{
+
+display:flex;
+gap:12px;
+margin-bottom:26px;
+border-bottom:1px solid #edf2f7;
+padding-bottom:16px;
+
+}
+
+.hp-sign-tab{
+
+padding:12px 18px;
+border:none;
+background:#f8fafc;
+border-radius:12px;
+cursor:pointer;
+font-weight:700;
+font-size:15px;
+transition:.25s;
+
+}
+
+.hp-sign-tab.active{
+
+background:#ef4444;
+color:#fff;
+
+}
+
+.hp-tab-panel{
+
+display:block;
+
+}
+
+.hp-tab-panel.hidden-screen{
+
+display:none;
+
+}
+
+.hp-modal-footer{
+
+padding:22px 30px;
+border-top:1px solid #edf2f7;
+display:flex;
+justify-content:flex-end;
+
+}
+
+.hp-modal-footer .main-red-btn{
+
+min-width:180px;
+height:52px;
+border:none;
+border-radius:12px;
+background:#ef4444;
+color:#fff;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+
+}
+
+.hp-modal-footer .main-red-btn:hover{
+
+background:#dc2626;
+
+}
+
+@media(max-width:768px){
+
+.hp-sign-modal{
+
+padding:12px;
+
+}
+
+.hp-sign-modal-card{
+
+max-height:90vh;
+overflow:auto;
+
+}
+
+.hp-modal-head{
+
+padding:18px;
+
+}
+
+.hp-modal-head h2{
+
+font-size:22px;
+
+}
+
+.hp-modal-body{
+
+padding:18px;
+
+}
+
+.hp-user-row{
+
+flex-direction:column;
+
+}
+
+.hp-sign-tabs{
+
+flex-wrap:wrap;
+
+}
+
+.hp-modal-footer{
+
+padding:18px;
+
+}
+
+.hp-modal-footer .main-red-btn{
+
+width:100%;
+
+}
+
+}
+
+/* ===========================================================
+   SIGN PDF - STEP 3
+   EDITOR PANEL + THUMBNAILS + FIELD CARDS
+=========================================================== */
+
+.hp-page-thumbs{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.hp-thumb{
+width:100%;
+background:#fff;
+border:2px solid #e5e7eb;
+border-radius:12px;
+padding:8px;
+cursor:pointer;
+transition:.2s;
+}
+
+.hp-thumb canvas{
+width:100%;
+height:auto;
+display:block;
+border-radius:6px;
+}
+
+.hp-thumb span{
+display:block;
+margin-top:8px;
+text-align:center;
+font-size:13px;
+font-weight:700;
+color:#64748b;
+}
+
+.hp-thumb:hover{
+
+border-color:#ef4444;
+
+}
+
+.hp-thumb.active{
+
+border-color:#ef4444;
+box-shadow:0 0 0 4px rgba(239,68,68,.12);
+
+}
+
+.hp-sign-panel h2{
+
+font-size:24px;
+font-weight:800;
+margin-bottom:20px;
+color:#111827;
+
+}
+
+.hp-sign-panel h3{
+
+margin:22px 0 12px;
+font-size:15px;
+font-weight:800;
+color:#374151;
+
+}
+
+.hp-sign-type-row{
+
+display:flex;
+gap:12px;
+margin-bottom:10px;
+
+}
+
+.hp-type-card{
+
+flex:1;
+border:2px solid #e5e7eb;
+background:#fff;
+border-radius:14px;
+padding:16px;
+cursor:pointer;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:8px;
+transition:.2s;
+
+}
+
+.hp-type-card i{
+
+font-size:24px;
+color:#ef4444;
+
+}
+
+.hp-type-card span{
+
+font-size:14px;
+font-weight:700;
+
+}
+
+.hp-type-card.active{
+
+border-color:#ef4444;
+background:#fff5f5;
+
+}
+
+.hp-type-card.disabled{
+
+opacity:.55;
+cursor:not-allowed;
+
+}
+
+.hp-field-list{
+
+display:flex;
+flex-direction:column;
+gap:10px;
+
+}
+
+.hp-field-btn{
+
+width:100%;
+display:flex;
+align-items:center;
+gap:12px;
+padding:13px 14px;
+border:1px solid #e5e7eb;
+background:#fff;
+border-radius:12px;
+cursor:pointer;
+font-size:14px;
+font-weight:700;
+transition:.2s;
+
+}
+
+.hp-field-btn:hover{
+
+border-color:#ef4444;
+
+}
+
+.hp-field-card{
+
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px;
+border:1px solid #e5e7eb;
+background:#fff;
+border-radius:12px;
+
+}
+
+.drag-dots{
+
+font-size:18px;
+color:#94a3b8;
+
+}
+
+.field-icon{
+
+width:34px;
+height:34px;
+border-radius:8px;
+background:#f3f4f6;
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:700;
+color:#374151;
+flex-shrink:0;
+
+}
+
+.field-preview{
+
+flex:1;
+
+}
+
+.field-preview small{
+
+display:block;
+font-size:12px;
+color:#64748b;
+margin-bottom:4px;
+
+}
+
+.field-preview img{
+
+height:34px;
+max-width:100%;
+object-fit:contain;
+
+}
+
+.field-edit{
+
+border:none;
+background:none;
+cursor:pointer;
+font-size:18px;
+color:#64748b;
+
+}
+
+.progress-wrap{
+
+height:8px;
+background:#edf2f7;
+border-radius:999px;
+overflow:hidden;
+margin:24px 0;
+
+}
+
+#progressBar{
+
+height:100%;
+width:0;
+background:#ef4444;
+transition:.25s;
+
+}
+
+.hp-sign-final-btn{
+
+width:100%;
+height:54px;
+border:none;
+border-radius:14px;
+background:#ef4444;
+color:#fff;
+font-size:17px;
+font-weight:800;
+cursor:pointer;
+transition:.25s;
+
+}
+
+.hp-sign-final-btn:hover{
+
+background:#dc2626;
+
+}
+
+@media(max-width:768px){
+
+.hp-sign-panel{
+
+margin-top:20px;
+
+}
+
+.hp-sign-type-row{
+
+flex-direction:column;
+
+}
+
+}
+
+/* ===========================================================
+   SIGN PDF - STEP 4
+   SIGNATURE BOXES + CANVAS + SUCCESS
+=========================================================== */
+
+/* PDF PAGE */
+
+.pdf-page{
+position:relative;
+display:inline-block;
+background:#fff;
+border-radius:8px;
+overflow:hidden;
+box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+
+/* Canvas */
+
+.pdf-page canvas{
+display:block;
+max-width:100%;
+height:auto;
+}
+
+/* Signature Element */
+
+.hp-sign-element{
+position:absolute;
+display:flex;
+align-items:center;
+justify-content:center;
+min-width:120px;
+min-height:46px;
+padding:8px 12px;
+background:rgba(255,255,255,.92);
+border:2px solid transparent;
+border-radius:8px;
+cursor:move;
+user-select:none;
+transition:.15s;
+z-index:50;
+}
+
+.hp-sign-element img{
+display:block;
+max-width:100%;
+max-height:100%;
+pointer-events:none;
+}
+
+.hp-sign-element:hover{
+border-color:#ef4444;
+box-shadow:0 8px 20px rgba(239,68,68,.18);
+}
+
+.hp-sign-element.selected{
+border-color:#ef4444;
+box-shadow:0 0 0 4px rgba(239,68,68,.15);
+}
+
+/* Resize Handles */
+
+.hp-resize{
+position:absolute;
+width:10px;
+height:10px;
+background:#ef4444;
+border:2px solid #fff;
+border-radius:50%;
+z-index:60;
+}
+
+.hp-resize.nw{
+top:-6px;
+left:-6px;
+cursor:nwse-resize;
+}
+
+.hp-resize.ne{
+top:-6px;
+right:-6px;
+cursor:nesw-resize;
+}
+
+.hp-resize.sw{
+bottom:-6px;
+left:-6px;
+cursor:nesw-resize;
+}
+
+.hp-resize.se{
+bottom:-6px;
+right:-6px;
+cursor:nwse-resize;
+}
+
+/* Delete Button */
+
+.hp-delete-sign{
+position:absolute;
+top:-14px;
+right:-14px;
+width:28px;
+height:28px;
+border:none;
+border-radius:50%;
+background:#ef4444;
+color:#fff;
+font-size:14px;
+font-weight:700;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+
+/* Canvas Wrapper */
+
+.pdf-canvas-wrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:34px;
+padding-bottom:30px;
+}
+
+/* Empty State */
+
+.hp-empty-state{
+padding:60px 20px;
+text-align:center;
+color:#64748b;
+font-size:15px;
+}
+
+/* Success Screen */
+
+#successScreen{
+text-align:center;
+padding:70px 20px;
+}
+
+#successScreen .success-icon{
+width:90px;
+height:90px;
+margin:0 auto 24px;
+border-radius:50%;
+background:#22c55e;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+font-size:42px;
+}
+
+#successScreen h2{
+font-size:34px;
+font-weight:800;
+color:#111827;
+margin-bottom:14px;
+}
+
+#successScreen p{
+font-size:17px;
+color:#64748b;
+margin-bottom:30px;
+}
+
+#downloadBtn{
+min-width:220px;
+height:56px;
+border:none;
+border-radius:14px;
+background:#ef4444;
+color:#fff;
+font-size:17px;
+font-weight:700;
+cursor:pointer;
+transition:.2s;
+}
+
+#downloadBtn:hover{
+background:#dc2626;
+transform:translateY(-2px);
+}
+
+/* Scrollbars */
+
+.hp-page-thumbs::-webkit-scrollbar,
+.hp-pdf-scroll::-webkit-scrollbar{
+width:8px;
+}
+
+.hp-page-thumbs::-webkit-scrollbar-thumb,
+.hp-pdf-scroll::-webkit-scrollbar-thumb{
+background:#d1d5db;
+border-radius:999px;
+}
+
+.hp-page-thumbs::-webkit-scrollbar-thumb:hover,
+.hp-pdf-scroll::-webkit-scrollbar-thumb:hover{
+background:#9ca3af;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.hp-sign-element{
+
+min-width:90px;
+min-height:38px;
+
+}
+
+.hp-delete-sign{
+
+width:24px;
+height:24px;
+font-size:12px;
+
+}
+
+#successScreen{
+
+padding:50px 16px;
+
+}
+
+#successScreen h2{
+
+font-size:26px;
+
+}
+
+#downloadBtn{
+
+width:100%;
+
+}
+
+}
+
+/* ===========================================================
+   SIGN PDF - STEP 5
+   FINAL POLISH
+=========================================================== */
+
+/* Smooth animation */
+
+.hp-sign-editor *,
+.hp-sign-modal *{
+transition:
+background-color .2s ease,
+border-color .2s ease,
+box-shadow .2s ease,
+transform .2s ease,
+opacity .2s ease;
+}
+
+/* Better workspace */
+
+.hp-sign-workspace{
+border:1px solid #e5e7eb;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* Better panel */
+
+.hp-sign-panel{
+background:#fff;
+box-shadow:
+0 12px 35px rgba(0,0,0,.06),
+0 1px 2px rgba(0,0,0,.04);
+}
+
+/* Hover */
+
+.hp-sign-panel button:hover,
+.hp-sign-panel .hp-field-btn:hover{
+transform:translateY(-1px);
+}
+
+/* Active click */
+
+.hp-sign-panel button:active{
+transform:scale(.98);
+}
+
+/* Focus */
+
+.hp-sign-panel input:focus,
+.hp-modal-body input:focus{
+outline:none;
+border-color:#ef4444;
+box-shadow:0 0 0 4px rgba(239,68,68,.12);
+}
+
+/* Disabled */
+
+button:disabled{
+opacity:.55;
+cursor:not-allowed;
+transform:none !important;
+}
+
+/* Loading */
+
+.hp-loading-overlay{
+position:absolute;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+background:rgba(255,255,255,.82);
+backdrop-filter:blur(2px);
+z-index:500;
+}
+
+.hp-spinner{
+width:48px;
+height:48px;
+border:5px solid #e5e7eb;
+border-top-color:#ef4444;
+border-radius:50%;
+animation:hpSpin .8s linear infinite;
+}
+
+@keyframes hpSpin{
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+/* Signature dragging */
+
+.hp-sign-element.dragging{
+opacity:.82;
+transform:scale(1.03);
+z-index:999;
+cursor:grabbing;
+}
+
+/* Drop hint */
+
+.hp-drop-highlight{
+outline:3px dashed #ef4444;
+outline-offset:8px;
+}
+
+/* Better thumbnails */
+
+.hp-thumb{
+overflow:hidden;
+}
+
+.hp-thumb canvas{
+transition:transform .25s;
+}
+
+.hp-thumb:hover canvas{
+transform:scale(1.03);
+}
+
+/* Better buttons */
+
+.hp-sign-final-btn,
+.main-red-btn,
+.sign-big-upload-btn{
+
+box-shadow:
+0 8px 20px rgba(239,68,68,.20);
+
+}
+
+.hp-sign-final-btn:hover,
+.main-red-btn:hover,
+.sign-big-upload-btn:hover{
+
+box-shadow:
+0 14px 30px rgba(239,68,68,.30);
+
+}
+
+/* Success */
+
+#successScreen{
+
+animation:fadeSuccess .4s ease;
+
+}
+
+@keyframes fadeSuccess{
+
+from{
+
+opacity:0;
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+transform:none;
+
+}
+
+}
+
+/* Prevent image selection */
+
+.hp-sign-editor img,
+.hp-sign-editor canvas{
+
+user-select:none;
+-webkit-user-drag:none;
+
+}
+
+/* Better mobile spacing */
+
+@media(max-width:768px){
+
+.hp-sign-panel{
+
+border-radius:16px;
+
+}
+
+.hp-sign-workspace{
+
+border-radius:14px;
+
+}
+
+.hp-page-thumbs{
+
+border-radius:14px;
+
+}
+
+.hp-sign-modal-card{
+
+border-radius:18px;
+
+}
+
+}
