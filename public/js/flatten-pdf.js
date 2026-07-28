@@ -1,5 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+/* DRAWERS */
+
+const toolsMenuBtn =
+document.getElementById("toolsMenuBtn");
+
+const mainMenuBtn =
+document.getElementById("mainMenuBtn");
+
+const toolsDrawer =
+document.getElementById("toolsDrawer");
+
+const mainDrawer =
+document.getElementById("mainDrawer");
+
+const toolsClose =
+document.getElementById("toolsClose");
+
+const mainClose =
+document.getElementById("mainClose");
+
+const drawerOverlay =
+document.getElementById("drawerOverlay");
+
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
+
+let currentUser = null;
+
+(async()=>{
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if(data && data.user){
+
+currentUser = data.user;
+
+}
+
+})();
+
   if (window.pdfjsLib) {
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
@@ -260,17 +301,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData();
 
-    formData.append("pdfFile", selectedFile);
+if(currentUser){
 
-    formData.append(
-      "flattenForms",
-      flattenForms.checked
-    );
+formData.append(
+"user_id",
+currentUser.id
+);
 
-    formData.append(
-      "flattenAnnotations",
-      flattenAnnotations.checked
-    );
+}
+
+formData.append(
+"pdfFile",
+selectedFile
+);
+
+formData.append(
+"flattenForms",
+flattenForms.checked
+);
+
+formData.append(
+"flattenAnnotations",
+flattenAnnotations.checked
+);
 
     flattenBtn.disabled = true;
 
@@ -292,13 +345,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
 
-        const text = await response.text();
+const text =
+await response.text();
 
-        alert(text || "Flatten failed");
+if(response.status===403){
 
-        return;
-      }
+document.getElementById(
+"upgradeModal"
+).style.display="flex";
 
+throw new Error("");
+
+}
+
+throw new Error(
+text ||
+"Flatten failed"
+);
+
+}
       const blob = await response.blob();
 
       if (!blob || blob.size < 100) {
@@ -357,5 +422,58 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   showStart();
+
+/* MOBILE DRAWERS */
+
+function closeDrawers(){
+
+toolsDrawer.classList.remove("active");
+mainDrawer.classList.remove("active");
+drawerOverlay.classList.remove("active");
+
+}
+
+if(toolsMenuBtn){
+
+toolsMenuBtn.addEventListener("click",()=>{
+
+toolsDrawer.classList.add("active");
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(mainMenuBtn){
+
+mainMenuBtn.addEventListener("click",()=>{
+
+mainDrawer.classList.add("active");
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(toolsClose)
+toolsClose.addEventListener("click",closeDrawers);
+
+if(mainClose)
+mainClose.addEventListener("click",closeDrawers);
+
+if(drawerOverlay)
+drawerOverlay.addEventListener("click",closeDrawers);
+
+if(closeUpgradeModal){
+
+closeUpgradeModal.addEventListener("click",()=>{
+
+document.getElementById(
+"upgradeModal"
+).style.display="none";
+
+});
+
+}
 
 });
