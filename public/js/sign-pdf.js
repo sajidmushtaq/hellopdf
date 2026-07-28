@@ -1,5 +1,49 @@
+
+document.addEventListener("DOMContentLoaded", () => {
+
+/* DRAWERS */
+
+const toolsMenuBtn =
+document.getElementById("toolsMenuBtn");
+
+const mainMenuBtn =
+document.getElementById("mainMenuBtn");
+
+const toolsDrawer =
+document.getElementById("toolsDrawer");
+
+const mainDrawer =
+document.getElementById("mainDrawer");
+
+const toolsClose =
+document.getElementById("toolsClose");
+
+const mainClose =
+document.getElementById("mainClose");
+
+const drawerOverlay =
+document.getElementById("drawerOverlay");
+
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
+
+let currentUser = null;
+
+(async()=>{
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if(data && data.user){
+
+currentUser = data.user;
+
+}
+
+})();
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 const startScreen = document.getElementById("startScreen");
 const previewScreen = document.getElementById("previewScreen");
@@ -461,9 +505,26 @@ applySignBtn.addEventListener("click", async () => {
   progressWrap.classList.remove("hidden-screen");
   progressBar.style.width = "35%";
 
-  const formData = new FormData();
-  formData.append("file", selectedPdfFile);
-  formData.append("placements", JSON.stringify(placements));
+ const formData = new FormData();
+
+if(currentUser){
+
+formData.append(
+"user_id",
+currentUser.id
+);
+
+}
+
+formData.append(
+"file",
+selectedPdfFile
+);
+
+formData.append(
+"placements",
+JSON.stringify(placements)
+);
 
   try {
     const res = await fetch("/sign-pdf", {
@@ -473,10 +534,27 @@ applySignBtn.addEventListener("click", async () => {
 
     progressBar.style.width = "80%";
 
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(txt || "Failed to sign PDF");
-    }
+    if(!res.ok){
+
+const txt =
+await res.text();
+
+if(res.status===403){
+
+document.getElementById(
+"upgradeModal"
+).style.display="flex";
+
+throw new Error("");
+
+}
+
+throw new Error(
+txt ||
+"Failed to sign PDF"
+);
+
+}
 
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
@@ -498,4 +576,59 @@ applySignBtn.addEventListener("click", async () => {
 
 newFileBtn.addEventListener("click", () => {
   window.location.reload();
+});
+
+/* MOBILE DRAWERS */
+
+function closeDrawers(){
+
+toolsDrawer.classList.remove("active");
+mainDrawer.classList.remove("active");
+drawerOverlay.classList.remove("active");
+
+}
+
+if(toolsMenuBtn){
+
+toolsMenuBtn.addEventListener("click",()=>{
+
+toolsDrawer.classList.add("active");
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(mainMenuBtn){
+
+mainMenuBtn.addEventListener("click",()=>{
+
+mainDrawer.classList.add("active");
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(toolsClose)
+toolsClose.addEventListener("click",closeDrawers);
+
+if(mainClose)
+mainClose.addEventListener("click",closeDrawers);
+
+if(drawerOverlay)
+drawerOverlay.addEventListener("click",closeDrawers);
+
+if(closeUpgradeModal){
+
+closeUpgradeModal.addEventListener("click",()=>{
+
+document.getElementById(
+"upgradeModal"
+).style.display="none";
+
+});
+
+}
+
 });
