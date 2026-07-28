@@ -131,7 +131,7 @@ const PDFKit = require("pdfkit");
 const app = express();
 
 const uploadDir = path.join(__dirname, "uploads");
-const outputDir = path.join(__dirname, "outputs");
+
 
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
