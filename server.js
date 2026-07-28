@@ -10,6 +10,13 @@ const { exec } = require("child_process");
 const util = require("util");
 const execAsync = util.promisify(exec);
 const os = require("os");
+const uploadsDir = path.join(__dirname, "uploads");
+const outputDir = path.join(__dirname, "outputs");
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 async function processScannedPdf(pdfPath, worker, uploadsDir) {
 
   const tempPrefix = path.join(
@@ -124,6 +131,11 @@ const PDFKit = require("pdfkit");
 const app = express();
 
 const uploadDir = path.join(__dirname, "uploads");
+const outputDir = path.join(__dirname, "outputs");
+
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
 const outputsDir = path.join(__dirname, "outputs");
 const usersFile = path.join(__dirname, "users.json");
 
