@@ -22799,13 +22799,14 @@ flex-wrap:wrap;
 }
 
 .sign-big-upload-btn{
-height:60px;
-padding:0 34px;
+min-width:290px;
+height:72px;
+padding:0 46px;
 border:none;
 border-radius:14px;
 background:#e53935;
 color:#fff;
-font-size:18px;
+font-size:20px;
 font-weight:700;
 cursor:pointer;
 transition:.25s;
