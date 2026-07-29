@@ -22817,30 +22817,35 @@ background:#d32f2f;
 
 .sign-cloud-side{
 display:flex;
-gap:12px;
+align-items:center;
+gap:10px;
 }
 
 .sign-cloud-side button{
-width:58px;
-height:58px;
-border-radius:14px;
-border:1px solid #dbe3ee;
-background:#fff;
-cursor:pointer;
+width:52px;
+height:52px;
 display:flex;
-justify-content:center;
 align-items:center;
-transition:.25s;
+justify-content:center;
+background:#ffffff;
+border:1px solid #dbe2ea;
+border-radius:12px;
+cursor:pointer;
+transition:all .2s ease;
+box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
 .sign-cloud-side button:hover{
-border-color:#e53935;
+border-color:#ef4444;
 transform:translateY(-2px);
+box-shadow:0 8px 20px rgba(0,0,0,.10);
 }
 
+.sign-cloud-side img,
 .sign-cloud-side svg{
-width:28px;
-height:28px;
+width:24px;
+height:24px;
+display:block;
 }
 
 .sign-drop-text{
