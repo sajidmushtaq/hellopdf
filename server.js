@@ -5040,33 +5040,7 @@ if (!profileData.is_premium) {
       
       fs.unlink(outputPath, () => {});
     });
-    if (!usageData) {
-
-  const { error: insertError } = await supabase
-    .from("usage_logs")
-    .insert([
-      {
-        user_id: userId,
-        tool_name: "fill_sign_pdf",
-        usage_date: today,
-        usage_count: 1
-      }
-    ]);
-
-  console.log("FILL SIGN INSERT ERROR =", insertError);
-
-} else {
-
-  const { error: updateError } = await supabase
-    .from("usage_logs")
-    .update({
-      usage_count: usageData.usage_count + 1
-    })
-    .eq("id", usageData.id);
-
-  console.log("FILL SIGN UPDATE ERROR =", updateError);
-
-}
+    
   } catch (error) {
     console.error("FILL SIGN PDF ERROR MESSAGE:", error.message);
     console.error("FILL SIGN PDF FULL ERROR:", error);
