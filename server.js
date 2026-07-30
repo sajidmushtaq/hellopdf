@@ -5018,7 +5018,40 @@ if (!profileData.is_premium) {
     }
 
     const outputBytes = await pdfDoc.save();
+if (!usageData) {
 
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "fill_sign_pdf",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log(
+    "FILL SIGN INSERT ERROR =",
+    insertError
+  );
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count:
+        usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log(
+    "FILL SIGN UPDATE ERROR =",
+    updateError
+  );
+
+}
     const finalOutputDir =
       typeof outputDir !== "undefined"
         ? outputDir
@@ -5142,19 +5175,6 @@ app.post("/edit-pdf", upload.single("file"), async (req, res) => {
     if (profileError) {
       return res.status(500).send("Unable to verify account");
     }
-    const today = new Date().toISOString().split("T")[0];
-
-const { data: usageData, error: usageError } = await supabase
-  .from("usage_logs")
-  .select("*")
-  .eq("user_id", userId)
-  .eq("tool_name", "fill_sign_pdf")
-  .eq("usage_date", today)
-  .maybeSingle();
-
-if (usageError) {
-  return res.status(500).send("Usage verification failed");
-}
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -5169,19 +5189,6 @@ if (usageError) {
     if (usageError) {
       return res.status(500).send("Usage verification failed");
     }
-    if (!profileData.is_premium) {
-
-  const currentUsage = usageData ? usageData.usage_count : 0;
-
-  if (currentUsage >= 8) {
-
-    return res.status(403).send(
-      "Daily free limit reached. Upgrade to Premium for unlimited Fill & Sign PDF conversions."
-    );
-
-  }
-
-}
 
     if (!profileData.is_premium) {
 
