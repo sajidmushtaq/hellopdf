@@ -412,9 +412,27 @@ currentUser.id
   window.scrollTo(0, 0);
 }, 350);
     } catch (err) {
-      alert("Error: " + err.message);
-      progressWrap.classList.add("hidden-screen");
+
+  progressWrap.classList.add("hidden-screen");
+
+  if (
+    err.message &&
+    err.message.includes("Daily free limit reached")
+  ) {
+
+    const modal =
+      document.getElementById("upgradeModal");
+
+    if (modal) {
+      modal.style.display = "flex";
     }
+
+    return;
+  }
+
+  alert("Error: " + err.message);
+
+}
   });
 
   if (newFileBtn) newFileBtn.addEventListener("click", () => window.location.reload());
