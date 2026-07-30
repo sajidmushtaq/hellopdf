@@ -5010,33 +5010,7 @@ if (profileError) {
     fs.unlink(inputPath, () => {});
 
     res.download(outputPath, "filled-signed-pdf.pdf", () => {
-      if (!usageData) {
-
-  const { error: insertError } = await supabase
-    .from("usage_logs")
-    .insert([
-      {
-        user_id: userId,
-        tool_name: "fill_sign_pdf",
-        usage_date: today,
-        usage_count: 1
-      }
-    ]);
-
-  console.log("FILL SIGN INSERT ERROR =", insertError);
-
-} else {
-
-  const { error: updateError } = await supabase
-    .from("usage_logs")
-    .update({
-      usage_count: usageData.usage_count + 1
-    })
-    .eq("id", usageData.id);
-
-  console.log("FILL SIGN UPDATE ERROR =", updateError);
-
-}
+      
       fs.unlink(outputPath, () => {});
     });
   } catch (error) {
