@@ -2,6 +2,46 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  /* DRAWERS */
+
+const toolsMenuBtn =
+document.getElementById("toolsMenuBtn");
+
+const mainMenuBtn =
+document.getElementById("mainMenuBtn");
+
+const toolsDrawer =
+document.getElementById("toolsDrawer");
+
+const mainDrawer =
+document.getElementById("mainDrawer");
+
+const toolsClose =
+document.getElementById("toolsClose");
+
+const mainClose =
+document.getElementById("mainClose");
+
+const drawerOverlay =
+document.getElementById("drawerOverlay");
+
+const closeUpgradeModal =
+document.getElementById("closeUpgradeModal");
+
+let currentUser = null;
+
+(async()=>{
+
+const { data } =
+await window.supabaseClient.auth.getUser();
+
+if(data && data.user){
+
+currentUser = data.user;
+
+}
+
+})();
   const startScreen = document.getElementById("startScreen");
   const editorScreen = document.getElementById("editorScreen");
   const successScreen = document.getElementById("successScreen");
@@ -327,6 +367,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData();
     formData.append("file", selectedPdfFile);
     formData.append("fields", JSON.stringify(fields));
+    if(currentUser){
+
+formData.append(
+"user_id",
+currentUser.id
+);
+
+}
 
     try {
       const res = await fetch("/fill-sign-pdf", {
@@ -370,6 +418,60 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (newFileBtn) newFileBtn.addEventListener("click", () => window.location.reload());
+  /* MOBILE DRAWERS */
+
+function closeDrawers(){
+
+toolsDrawer.classList.remove("active");
+mainDrawer.classList.remove("active");
+drawerOverlay.classList.remove("active");
+
+}
+
+if(toolsMenuBtn){
+
+toolsMenuBtn.addEventListener("click",()=>{
+
+toolsDrawer.classList.add("active");
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(mainMenuBtn){
+
+mainMenuBtn.addEventListener("click",()=>{
+
+mainDrawer.classList.add("active");
+drawerOverlay.classList.add("active");
+
+});
+
+}
+
+if(toolsClose)
+toolsClose.addEventListener("click",closeDrawers);
+
+if(mainClose)
+mainClose.addEventListener("click",closeDrawers);
+
+if(drawerOverlay)
+drawerOverlay.addEventListener("click",closeDrawers);
+
+if(closeUpgradeModal){
+
+closeUpgradeModal.addEventListener("click",()=>{
+
+const modal =
+document.getElementById("upgradeModal");
+
+if(modal)
+modal.style.display="none";
+
+});
+
+}
   if (againBtn) {
   againBtn.addEventListener("click", () => window.location.reload());
 }
