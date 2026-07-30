@@ -4947,6 +4947,32 @@ const { data: profileData, error: profileError } = await supabase
 if (profileError) {
   return res.status(500).send("Unable to verify account");
 }
+const today = new Date().toISOString().split("T")[0];
+
+const { data: usageData, error: usageError } = await supabase
+  .from("usage_logs")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("tool_name", "fill_sign_pdf")
+  .eq("usage_date", today)
+  .maybeSingle();
+
+if (usageError) {
+  return res.status(500).send("Usage verification failed");
+}
+if (!profileData.is_premium) {
+
+  const currentUsage = usageData ? usageData.usage_count : 0;
+
+  if (currentUsage >= 8) {
+
+    return res.status(403).send(
+      "Daily free limit reached. Upgrade to Premium for unlimited Fill & Sign PDF conversions."
+    );
+
+  }
+
+}
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
     }
@@ -5010,9 +5036,37 @@ if (profileError) {
     fs.unlink(inputPath, () => {});
 
     res.download(outputPath, "filled-signed-pdf.pdf", () => {
+
       
       fs.unlink(outputPath, () => {});
     });
+    if (!usageData) {
+
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "fill_sign_pdf",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log("FILL SIGN INSERT ERROR =", insertError);
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log("FILL SIGN UPDATE ERROR =", updateError);
+
+}
   } catch (error) {
     console.error("FILL SIGN PDF ERROR MESSAGE:", error.message);
     console.error("FILL SIGN PDF FULL ERROR:", error);
