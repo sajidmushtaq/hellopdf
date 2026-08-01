@@ -50,6 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadSummaryBtn = document.getElementById("downloadSummaryBtn");
   const askInput = document.getElementById("askInput");
   const askBtn = document.getElementById("askBtn");
+  const suggestedQuestionsBox =
+  document.getElementById("suggestedQuestionsBox");
+
+const suggestedQuestionsList =
+  document.getElementById("suggestedQuestionsList");
+
+const suggestedToggleBtn =
+  document.getElementById("suggestedToggleBtn");
 
   let selectedPdf = null;
   let pdfDocObj = null;
@@ -202,6 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
       finalSummary = data.summary || "";
 
       renderSummary(finalSummary);
+      renderSuggestedQuestions(extractedText);
     } catch (err) {
       summaryResult.innerHTML = `<div class="summary-error">Error: ${err.message}</div>`;
     }
@@ -220,6 +229,95 @@ document.addEventListener("DOMContentLoaded", () => {
       </ul>
     `;
   }
+  function renderSuggestedQuestions(text) {
+  if (!suggestedQuestionsList) return;
+
+  const cleanText = String(text || "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleanText) {
+    suggestedQuestionsList.innerHTML = "";
+    return;
+  }
+
+  const sentences = cleanText
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length > 35);
+
+  const questions = [];
+
+  if (sentences.length > 0) {
+    questions.push(
+      "What are the main points discussed in this document?"
+    );
+  }
+
+  if (sentences.length > 2) {
+    questions.push(
+      "What are the most important findings or ideas in this document?"
+    );
+  }
+
+  if (sentences.length > 4) {
+    questions.push(
+      "What key details should I remember from this document?"
+    );
+  }
+
+  if (sentences.length > 6) {
+    questions.push(
+      "What conclusions can be drawn from this document?"
+    );
+  }
+
+  if (sentences.length > 8) {
+    questions.push(
+      "Can you explain the most important section of this document?"
+    );
+  }
+
+  suggestedQuestionsList.innerHTML = questions
+    .slice(0, 5)
+    .map(
+      (question) => `
+        <button
+          type="button"
+          class="summary-suggested-question"
+        >
+          ${escapeHtml(question)}
+        </button>
+      `
+    )
+    .join("");
+}
+if (suggestedToggleBtn && suggestedQuestionsList) {
+
+  suggestedToggleBtn.addEventListener("click", () => {
+
+    const isHidden =
+      suggestedQuestionsList.style.display === "none";
+
+    suggestedQuestionsList.style.display =
+      isHidden ? "flex" : "none";
+
+    suggestedToggleBtn.textContent =
+      isHidden ? "⌃" : "⌄";
+
+  });
+
+}
+suggestedQuestionsList.addEventListener("click", (e) => {
+  const questionBtn = e.target.closest(".summary-suggested-question");
+
+  if (!questionBtn) return;
+
+  const question = questionBtn.textContent.trim();
+
+  askInput.value = question;
+  askBtn.click();
+});
 
   askBtn.addEventListener("click", () => {
     const q = askInput.value.trim();

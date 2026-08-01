@@ -23968,3 +23968,105 @@ border-radius:18px;
 }
 
 }
+
+/* ===== PDF SUMMARIZER RESULT TYPOGRAPHY ===== */
+
+.summary-result-box {
+  color: #4c1d95 !important;
+  font-size: 17px !important;
+  line-height: 1.75 !important;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.summary-result-box h3 {
+  color: #4c1d95 !important;
+  font-size: 29px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  margin: 0 0 18px !important;
+  letter-spacing: -0.4px;
+}
+
+.summary-result-box ul {
+  padding-left: 26px !important;
+  margin: 0;
+}
+
+.summary-result-box li {
+  color: #4c1d95 !important;
+  font-size: 17px !important;
+  line-height: 1.75 !important;
+  font-weight: 400;
+  padding-left: 3px;
+  margin-bottom: 14px !important;
+}
+
+.summary-result-box li::marker {
+  font-size: 14px;
+}
+
+/* ===== PDF SUMMARIZER SUGGESTED QUESTIONS ===== */
+
+.summary-suggested-box {
+  margin-top: 26px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.summary-suggested-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.summary-suggested-title span {
+  font-size: 16px;
+  font-weight: 800;
+  color: #374151;
+}
+
+.summary-suggested-title button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.summary-suggested-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-suggested-question {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  text-align: left;
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.summary-suggested-question:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* Ask anything now sits below Copy / Download */
+
+.summary-actions + .summary-question-box {
+  margin-top: 18px;
+}

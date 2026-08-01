@@ -413,12 +413,18 @@ border-radius:16px;
         <div class="summary-loading">Your summary will appear here...</div>
       </div>
 
-      <div class="summary-question-box">
-        <input id="askInput" type="text" placeholder="Ask anything..." />
-        <button id="askBtn" type="button">↑</button>
-      </div>
+      <div id="suggestedQuestionsBox" class="summary-suggested-box">
+  <div class="summary-suggested-title">
+    <span>Suggested questions:</span>
+    <button id="suggestedToggleBtn" type="button">⌃</button>
+  </div>
 
-      <div class="summary-actions">
+  <div id="suggestedQuestionsList" class="summary-suggested-list">
+    <!-- Questions will be generated from the uploaded PDF -->
+  </div>
+</div>
+
+<div class="summary-actions">
         <button id="copySummaryBtn" class="summary-copy-btn" type="button">
           Copy
         </button>
@@ -427,6 +433,10 @@ border-radius:16px;
           Download
         </button>
       </div>
+<div class="summary-question-box">
+  <input id="askInput" type="text" placeholder="Ask anything..." />
+  <button id="askBtn" type="button">↑</button>
+</div>
     </aside>
   </section>
 </div>
