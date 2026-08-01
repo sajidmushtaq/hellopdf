@@ -3645,7 +3645,7 @@ if (summaryLength === "short") {
 }
 
 if (summaryLength === "medium") {
-  sentenceLimit = 8;
+  sentenceLimit = 14;
 }
 
 const selectedSentences =
