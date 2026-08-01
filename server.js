@@ -3515,6 +3515,216 @@ console.error(err);
   }
 });
 
+app.post("/pdf-summarizer", upload.single("file"), async (req, res) => {
+  let inputPath = null;
+
+  try {
+        const userId = req.body.user_id;
+
+    console.log("PDF SUMMARIZER USER ID =", userId);
+
+    if (!userId) {
+      return res.status(401).send("Please login first");
+    }
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .single();
+
+    if (profileError) {
+      return res.status(500).send("Unable to verify account");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { data: usageData, error: usageError } = await supabase
+      .from("usage_logs")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("tool_name", "pdf_summarizer")
+      .eq("usage_date", today)
+      .maybeSingle();
+
+    if (usageError) {
+      return res.status(500).send("Usage verification failed");
+    }
+
+    if (!profileData.is_premium) {
+
+      const currentUsage =
+        usageData ? usageData.usage_count : 0;
+
+      if (currentUsage >= 8) {
+
+        return res.status(403).send(
+          "Daily free limit reached. Upgrade to Premium for unlimited PDF Summarizer usage."
+        );
+
+      }
+    }
+
+    if (!req.file) {
+      return res.status(400).send("No PDF file uploaded");
+    }
+
+    inputPath = req.file.path;
+
+    const pdfBuffer = fs.readFileSync(inputPath);
+
+    const data = await pdfParse(pdfBuffer);
+
+    const text = String(data.text || "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    console.log("PDF SUMMARIZER EXTRACTION SUCCESS");
+    console.log("PDF SUMMARIZER TEXT LENGTH =", text.length);
+
+    if (!text) {
+
+      if (fs.existsSync(inputPath)) {
+        fs.unlinkSync(inputPath);
+      }
+
+      return res.status(400).send(
+        "No readable text found in this PDF"
+      );
+    }
+
+    const summaryLength =
+  String(req.body.length || "medium").toLowerCase();
+
+const summaryMode =
+  String(req.body.mode || "standard").toLowerCase();
+
+console.log("PDF SUMMARIZER LENGTH =", summaryLength);
+console.log("PDF SUMMARIZER MODE =", summaryMode);
+/*
+  PREMIUM SUMMARY OPTIONS
+*/
+
+if (!profileData.is_premium) {
+
+  if (summaryLength === "long") {
+
+    return res.status(403).send(
+      "Long summaries are a Premium feature. Upgrade to Premium to continue."
+    );
+
+  }
+
+  if (summaryMode === "advanced") {
+
+    return res.status(403).send(
+      "Advanced AI is a Premium feature. Upgrade to Premium to continue."
+    );
+
+  }
+
+}
+
+/*
+  Standard AI local summarizer
+*/
+
+const sentences =
+  text
+    .match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+
+const cleanSentences =
+  sentences
+    .map(sentence => sentence.trim())
+    .filter(sentence => sentence.length > 20);
+
+let sentenceLimit = 5;
+
+if (summaryLength === "short") {
+  sentenceLimit = 4;
+}
+
+if (summaryLength === "medium") {
+  sentenceLimit = 8;
+}
+
+const selectedSentences =
+  cleanSentences.slice(0, sentenceLimit);
+
+const summary =
+  selectedSentences
+    .map(sentence => `• ${sentence}`)
+    .join("\n\n");
+
+if (!summary.trim()) {
+  return res.status(400).send(
+    "Unable to create summary from this PDF"
+  );
+}
+
+console.log("PDF SUMMARIZER SUMMARY SUCCESS");
+console.log("SUMMARY LENGTH =", summary.length);
+    if (!usageData) {
+
+      const { error: insertError } = await supabase
+        .from("usage_logs")
+        .insert([
+          {
+            user_id: userId,
+            tool_name: "pdf_summarizer",
+            usage_date: today,
+            usage_count: 1
+          }
+        ]);
+
+      console.log(
+        "PDF SUMMARIZER INSERT ERROR =",
+        insertError
+      );
+
+    } else {
+
+      const { error: updateError } = await supabase
+        .from("usage_logs")
+        .update({
+          usage_count: usageData.usage_count + 1
+        })
+        .eq("id", usageData.id);
+
+      console.log(
+        "PDF SUMMARIZER UPDATE ERROR =",
+        updateError
+      );
+
+    }
+
+    if (fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    return res.json({
+  text: text,
+  summary: summary
+});
+
+  } catch (err) {
+
+    console.error(
+      "========== PDF SUMMARIZER FULL ERROR =========="
+    );
+
+    console.error(err);
+
+    if (inputPath && fs.existsSync(inputPath)) {
+      fs.unlinkSync(inputPath);
+    }
+
+    return res.status(500).send(
+      "PDF summarization failed"
+    );
+  }
+});
+
 app.post("/image-to-pdf", upload.array("images"), async (req, res) => {
   try {
     const userId = req.body.user_id;

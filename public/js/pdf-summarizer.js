@@ -2,6 +2,33 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    /* DRAWERS */
+
+  const toolsMenuBtn =
+  document.getElementById("toolsMenuBtn");
+
+  const mainMenuBtn =
+  document.getElementById("mainMenuBtn");
+
+  const toolsDrawer =
+  document.getElementById("toolsDrawer");
+
+  const mainDrawer =
+  document.getElementById("mainDrawer");
+
+  const toolsClose =
+  document.getElementById("toolsClose");
+
+  const mainClose =
+  document.getElementById("mainClose");
+
+  const drawerOverlay =
+  document.getElementById("drawerOverlay");
+
+  const closeUpgradeModal =
+  document.getElementById("closeUpgradeModal");
+
+  let currentUser = null;
   const pdfInput = document.getElementById("pdfInput");
   const selectPdfBtn = document.getElementById("selectPdfBtn");
   const settingsPopup = document.getElementById("settingsPopup");
@@ -31,7 +58,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let extractedText = "";
   let finalSummary = "";
   let summaryMode = "standard";
+  (async()=>{
 
+    const { data } =
+    await window.supabaseClient.auth.getUser();
+
+    if(data && data.user){
+
+      currentUser = data.user;
+
+    }
+
+  })();
   selectPdfBtn.addEventListener("click", () => pdfInput.click());
 
   pdfInput.addEventListener("change", () => {
@@ -122,6 +160,14 @@ document.addEventListener("DOMContentLoaded", () => {
     summaryResult.innerHTML = `<div class="summary-loading">Generating AI summary...</div>`;
 
     const formData = new FormData();
+        if(currentUser){
+
+      formData.append(
+        "user_id",
+        currentUser.id
+      );
+
+    }
     formData.append("file", selectedPdf);
     formData.append("length", summaryLength.value);
     formData.append("mode", summaryMode);
@@ -132,9 +178,23 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
 
-      if (!res.ok) {
+            if (!res.ok) {
         const text = await res.text();
-        throw new Error(text || "Failed to summarize PDF.");
+
+        if (res.status === 403) {
+
+          document.getElementById(
+            "upgradeModal"
+          ).style.display = "flex";
+
+          throw new Error("");
+
+        }
+
+        throw new Error(
+          text ||
+          "Failed to summarize PDF."
+        );
       }
 
       const data = await res.json();
@@ -202,7 +262,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
     URL.revokeObjectURL(url);
   });
+    /* MOBILE DRAWERS */
 
+  function closeDrawers(){
+
+    toolsDrawer.classList.remove("active");
+    mainDrawer.classList.remove("active");
+    drawerOverlay.classList.remove("active");
+
+  }
+
+  if(toolsMenuBtn){
+
+    toolsMenuBtn.addEventListener("click",()=>{
+
+      toolsDrawer.classList.add("active");
+      drawerOverlay.classList.add("active");
+
+    });
+
+  }
+
+  if(mainMenuBtn){
+
+    mainMenuBtn.addEventListener("click",()=>{
+
+      mainDrawer.classList.add("active");
+      drawerOverlay.classList.add("active");
+
+    });
+
+  }
+
+  if(toolsClose)
+  toolsClose.addEventListener("click",closeDrawers);
+
+  if(mainClose)
+  mainClose.addEventListener("click",closeDrawers);
+
+  if(drawerOverlay)
+  drawerOverlay.addEventListener("click",closeDrawers);
+  if (closeUpgradeModal) {
+
+
+    closeUpgradeModal.addEventListener("click", () => {
+
+      document.getElementById("upgradeModal").style.display = "none";
+
+    });
+
+  }
   function escapeHtml(text) {
     return String(text || "")
       .replace(/&/g, "&amp;")
