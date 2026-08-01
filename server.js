@@ -3593,8 +3593,22 @@ app.post("/pdf-summarizer", upload.single("file"), async (req, res) => {
       );
     }
 
-    const summaryLength =
-  String(req.body.length || "medium").toLowerCase();
+    const rawSummaryLength =
+  String(req.body.length || "2").toLowerCase();
+
+let summaryLength = "medium";
+
+if (rawSummaryLength === "1" || rawSummaryLength === "short") {
+  summaryLength = "short";
+}
+
+if (rawSummaryLength === "2" || rawSummaryLength === "medium") {
+  summaryLength = "medium";
+}
+
+if (rawSummaryLength === "3" || rawSummaryLength === "long") {
+  summaryLength = "long";
+}
 
 const summaryMode =
   String(req.body.mode || "standard").toLowerCase();
