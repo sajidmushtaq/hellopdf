@@ -5695,6 +5695,52 @@ app.post("/edit-pdf", upload.single("file"), async (req, res) => {
 
 app.post("/translate-pdf", upload.single("file"), async (req, res) => {
   try {
+        const userId = req.body.user_id;
+
+    console.log("TRANSLATE PDF USER ID =", userId);
+
+    if (!userId) {
+      return res.status(401).send("Please login first");
+    }
+
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .single();
+
+    if (profileError) {
+      return res.status(500).send("Unable to verify account");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { data: usageData, error: usageError } = await supabase
+      .from("usage_logs")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("tool_name", "translate_pdf")
+      .eq("usage_date", today)
+      .maybeSingle();
+
+    if (usageError) {
+      return res.status(500).send("Usage verification failed");
+    }
+
+    if (!profileData.is_premium) {
+
+      const currentUsage =
+        usageData ? usageData.usage_count : 0;
+
+      if (currentUsage >= 8) {
+
+        return res.status(403).send(
+          "Daily free limit reached. Upgrade to Premium for unlimited PDF translations."
+        );
+
+      }
+
+    }
     if (!req.file) {
       return res.status(400).send("No PDF file uploaded.");
     }
@@ -5714,12 +5760,114 @@ app.post("/translate-pdf", upload.single("file"), async (req, res) => {
       return res.status(400).send("Could not extract readable text from this PDF.");
     }
 
-    const translated = makeDemoTranslation(originalText, fromLang, toLang);
+  const languageMap = {
+  english: "en",
+  urdu: "ur",
+  arabic: "ar",
+  french: "fr"
+};
 
-    res.json({
-      original: originalText,
-      translated
-    });
+const sourceLanguage =
+  fromLang === "auto"
+    ? "auto"
+    : (languageMap[fromLang] || fromLang);
+
+const targetLanguage =
+  languageMap[toLang] || toLang;
+
+console.log("TRANSLATE PDF SOURCE =", sourceLanguage);
+console.log("TRANSLATE PDF TARGET =", targetLanguage);
+
+const translateResponse = await fetch(
+  "https://libretranslate-latest-a1ay.onrender.com/translate",
+  {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+      q: originalText,
+      source: sourceLanguage,
+      target: targetLanguage,
+      format: "text"
+    })
+  }
+);
+
+if (!translateResponse.ok) {
+
+  const translateError =
+    await translateResponse.text();
+
+  console.error(
+    "LIBRETRANSLATE ERROR =",
+    translateError
+  );
+
+  throw new Error(
+    "Translation service failed"
+  );
+}
+
+const translateData =
+  await translateResponse.json();
+
+const translated =
+  translateData.translatedText;
+
+if (!translated) {
+  throw new Error(
+    "No translated text returned"
+  );
+}
+
+console.log(
+  "REAL TRANSLATION SUCCESS"
+);
+
+if (!usageData) {
+
+  const { error: insertError } = await supabase
+    .from("usage_logs")
+    .insert([
+      {
+        user_id: userId,
+        tool_name: "translate_pdf",
+        usage_date: today,
+        usage_count: 1
+      }
+    ]);
+
+  console.log(
+    "TRANSLATE PDF INSERT ERROR =",
+    insertError
+  );
+
+} else {
+
+  const { error: updateError } = await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+  console.log(
+    "TRANSLATE PDF UPDATE ERROR =",
+    updateError
+  );
+
+}
+
+console.log("TRANSLATE PDF SUCCESS");
+console.log("TRANSLATED TEXT LENGTH =", translated.length);
+
+return res.json({
+  original: originalText,
+  translated
+});
   } catch (error) {
     console.error("TRANSLATE PDF ERROR MESSAGE:", error.message);
     console.error("TRANSLATE PDF FULL ERROR:", error);

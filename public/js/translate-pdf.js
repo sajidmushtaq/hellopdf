@@ -2,6 +2,45 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    /* DRAWERS + USER FRAMEWORK */
+
+  const toolsMenuBtn =
+    document.getElementById("toolsMenuBtn");
+
+  const mainMenuBtn =
+    document.getElementById("mainMenuBtn");
+
+  const toolsDrawer =
+    document.getElementById("toolsDrawer");
+
+  const mainDrawer =
+    document.getElementById("mainDrawer");
+
+  const toolsClose =
+    document.getElementById("toolsClose");
+
+  const mainClose =
+    document.getElementById("mainClose");
+
+  const drawerOverlay =
+    document.getElementById("drawerOverlay");
+
+  const closeUpgradeModal =
+    document.getElementById("closeUpgradeModal");
+
+  let currentUser = null;
+    (async () => {
+
+    const { data } =
+      await window.supabaseClient.auth.getUser();
+
+    if (data && data.user) {
+
+      currentUser = data.user;
+
+    }
+
+  })();
 
   const pdfInput = document.getElementById("translatePdfInput");
   const selectBtn = document.getElementById("translateSelectBtn");
@@ -149,7 +188,14 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     const formData = new FormData();
+if (currentUser) {
 
+  formData.append(
+    "user_id",
+    currentUser.id
+  );
+
+}
     formData.append("file", selectedPdf);
 
     formData.append("fromLang", fromLang.value);
@@ -165,10 +211,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) {
 
-        const text = await res.text();
+  const text = await res.text();
 
-        throw new Error(text);
-      }
+  if (res.status === 403) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    }
+
+    throw new Error("");
+
+  }
+
+  throw new Error(
+    text || "PDF translation failed"
+  );
+}
 
       const data = await res.json();
 
@@ -223,5 +284,79 @@ document.addEventListener("DOMContentLoaded", () => {
     URL.revokeObjectURL(url);
 
   });
+    /* MOBILE DRAWERS */
 
+  function closeDrawers() {
+
+    if (toolsDrawer) {
+      toolsDrawer.classList.remove("active");
+    }
+
+    if (mainDrawer) {
+      mainDrawer.classList.remove("active");
+    }
+
+    if (drawerOverlay) {
+      drawerOverlay.classList.remove("active");
+    }
+
+  }
+
+  if (toolsMenuBtn) {
+
+    toolsMenuBtn.addEventListener("click", () => {
+
+      if (toolsDrawer) {
+        toolsDrawer.classList.add("active");
+      }
+
+      if (drawerOverlay) {
+        drawerOverlay.classList.add("active");
+      }
+
+    });
+
+  }
+
+  if (mainMenuBtn) {
+
+    mainMenuBtn.addEventListener("click", () => {
+
+      if (mainDrawer) {
+        mainDrawer.classList.add("active");
+      }
+
+      if (drawerOverlay) {
+        drawerOverlay.classList.add("active");
+      }
+
+    });
+
+  }
+
+  if (toolsClose) {
+    toolsClose.addEventListener("click", closeDrawers);
+  }
+
+  if (mainClose) {
+    mainClose.addEventListener("click", closeDrawers);
+  }
+
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener("click", closeDrawers);
+  }
+  if (closeUpgradeModal) {
+
+    closeUpgradeModal.addEventListener("click", () => {
+
+      const upgradeModal =
+        document.getElementById("upgradeModal");
+
+      if (upgradeModal) {
+        upgradeModal.style.display = "none";
+      }
+
+    });
+
+  }
 });
