@@ -5,7 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const { PDFDocument, rgb, degrees } = require("pdf-lib");
-const PDFKit = require("pdfkit");
+
 const archiver = require("archiver");
 const { exec } = require("child_process");
 const util = require("util");
