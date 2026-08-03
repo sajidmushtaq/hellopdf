@@ -5,6 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const { PDFDocument, rgb, degrees } = require("pdf-lib");
+const PDFKit = require("pdfkit");
 const archiver = require("archiver");
 const { exec } = require("child_process");
 const util = require("util");
@@ -1226,7 +1227,7 @@ if (!profileData.is_premium) {
       size: "A4",
       margin: 50
     });
-    const urduFont = path.join(
+    const urduFontPath = path.join(
   __dirname,
   "public",
   "fonts",
@@ -6000,6 +6001,98 @@ app.get("/dns-test", async (req, res) => {
     });
   });
 });
+app.post(
+  "/download-translated-pdf",
+  express.json({ limit: "10mb" }),
+  async (req, res) => {
+
+    try {
+
+      const {
+        translatedText,
+        targetLanguage
+      } = req.body;
+
+      if (!translatedText) {
+        return res.status(400).json({
+          error: "Translated text is required"
+        });
+      }
+
+      const doc = new PDFKit({
+        size: "A4",
+        margin: 50
+      });
+
+      res.setHeader(
+        "Content-Type",
+        "application/pdf"
+      );
+
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="translated-document.pdf"'
+      );
+
+      doc.pipe(res);
+
+      if (targetLanguage === "urdu") {
+
+        doc.registerFont(
+          "UrduFont",
+          urduFontPath
+        );
+
+        doc.font("UrduFont");
+
+        doc.fontSize(16);
+
+        const reshapedText =
+          reshape(translatedText);
+
+        doc.text(
+          reshapedText,
+          50,
+          50,
+          {
+            width: 495,
+            align: "right"
+          }
+        );
+
+      } else {
+
+        doc.font("Helvetica");
+
+        doc.fontSize(12);
+
+        doc.text(
+          translatedText,
+          {
+            width: 495,
+            align: "left"
+          }
+        );
+      }
+
+      doc.end();
+
+    } catch (error) {
+
+      console.error(
+        "TRANSLATED PDF DOWNLOAD ERROR =",
+        error
+      );
+
+      if (!res.headersSent) {
+        res.status(500).json({
+          error:
+            "Failed to generate translated PDF"
+        });
+      }
+    }
+  }
+);
 
 // SUPABASE HOST DNS TEST
 app.get("/supabase-host-test", async (req, res) => {

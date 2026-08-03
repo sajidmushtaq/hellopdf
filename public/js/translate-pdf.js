@@ -81,15 +81,33 @@ if (translationLanguageIndicator && fromLang && toLang) {
 
   updateTranslationIndicator();
 
-  fromLang.addEventListener(
-    "change",
-    updateTranslationIndicator
-  );
+  fromLang.addEventListener("change", () => {
 
-  toLang.addEventListener(
-    "change",
-    updateTranslationIndicator
-  );
+  if (fromLang.value === "english") {
+    toLang.value = "urdu";
+  }
+
+  if (fromLang.value === "urdu") {
+    toLang.value = "english";
+  }
+
+  updateTranslationIndicator();
+
+});
+
+toLang.addEventListener("change", () => {
+
+  if (toLang.value === "english") {
+    fromLang.value = "urdu";
+  }
+
+  if (toLang.value === "urdu") {
+    fromLang.value = "english";
+  }
+
+  updateTranslationIndicator();
+
+});
 
 }
 
@@ -141,6 +159,12 @@ if (translationLanguageIndicator && fromLang && toLang) {
   });
 
   continueBtn.addEventListener("click", async () => {
+    if (fromLang.value === toLang.value) {
+
+  alert("Please select two different languages.");
+
+  return;
+}
 
     popup.classList.add("hidden-screen");
 
@@ -296,26 +320,95 @@ if (currentUser) {
 
   });
 
-  downloadBtn.addEventListener("click", () => {
+  downloadBtn.addEventListener("click", async () => {
 
-    const blob = new Blob(
-      [translatedTextBox.innerText],
-      { type: "text/plain" }
+  const translatedText =
+    translatedTextBox.innerText.trim();
+
+  if (!translatedText) {
+
+    alert("No translated text available.");
+
+    return;
+  }
+
+  const originalButtonText =
+    downloadBtn.textContent;
+
+  try {
+
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = "Preparing PDF...";
+
+    const response = await fetch(
+      "/download-translated-pdf",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          translatedText: translatedText,
+          targetLanguage: toLang.value
+        })
+      }
     );
 
-    const url = URL.createObjectURL(blob);
+    if (!response.ok) {
 
-    const a = document.createElement("a");
+      const errorText =
+        await response.text();
+
+      throw new Error(
+        errorText ||
+        "Failed to generate translated PDF"
+      );
+    }
+
+    const pdfBlob =
+      await response.blob();
+
+    const url =
+      URL.createObjectURL(pdfBlob);
+
+    const a =
+      document.createElement("a");
 
     a.href = url;
 
-    a.download = "translated-text.txt";
+    a.download =
+      "translated-document.pdf";
+
+    document.body.appendChild(a);
 
     a.click();
 
+    a.remove();
+
     URL.revokeObjectURL(url);
 
-  });
+  } catch (error) {
+
+    console.error(
+      "PDF DOWNLOAD ERROR =",
+      error
+    );
+
+    alert(
+      "Failed to download translated PDF."
+    );
+
+  } finally {
+
+    downloadBtn.disabled = false;
+
+    downloadBtn.textContent =
+      originalButtonText;
+  }
+
+});
     /* MOBILE DRAWERS */
 
   function closeDrawers() {
