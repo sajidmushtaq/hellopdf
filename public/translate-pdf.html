@@ -136,6 +136,24 @@ display:flex!important;
   border:1px solid #e5e7eb;
   border-radius:16px;
 }
+.translation-language-indicator{
+  display:inline-flex;
+  align-items:center;
+  width:fit-content;
+  margin:0 0 16px 0;
+  padding:7px 12px;
+
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  border-radius:999px;
+
+  color:#2563eb;
+  font-size:13px;
+  font-weight:800;
+  line-height:1;
+
+  letter-spacing:.2px;
+}
 </style>
 </head>
 
@@ -558,12 +576,18 @@ id="drawerOverlay">
   <div class="translate-right">
 
     <div class="translate-ai-badge">
-      🌐 Translate
-    </div>
+  🌐 Translate
+</div>
 
-    <h2>Translated Text</h2>
+<h2>Translated Text</h2>
 
-    <div id="translatedTextBox" class="translated-text-box">
+<div
+  id="translationLanguageIndicator"
+  class="translation-language-indicator">
+  English → Urdu
+</div>
+
+<div id="translatedTextBox" class="translated-text-box">
 
       <div class="translate-loading">
         Translating PDF...

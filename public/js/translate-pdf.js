@@ -60,6 +60,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const fromLang = document.getElementById("translateFromLang");
   const toLang = document.getElementById("translateToLang");
+  const translationLanguageIndicator =
+document.getElementById(
+  "translationLanguageIndicator"
+);
+
+function updateTranslationIndicator() {
+
+  const fromText =
+    fromLang.options[fromLang.selectedIndex].text;
+
+  const toText =
+    toLang.options[toLang.selectedIndex].text;
+
+  translationLanguageIndicator.textContent =
+    `${fromText} → ${toText}`;
+}
+
+updateTranslationIndicator();
+
+fromLang.addEventListener(
+  "change",
+  updateTranslationIndicator
+);
+
+toLang.addEventListener(
+  "change",
+  updateTranslationIndicator
+);
 
   const prevBtn = document.getElementById("translatePrevPage");
   const nextBtn = document.getElementById("translateNextPage");
