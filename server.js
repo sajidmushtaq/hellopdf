@@ -5778,32 +5778,87 @@ const targetLanguage =
 console.log("TRANSLATE PDF SOURCE =", sourceLanguage);
 console.log("TRANSLATE PDF TARGET =", targetLanguage);
 
-const translateResponse = await fetch(
-  "https://libretranslate-latest-a1ay.onrender.com/translate",
-  {
-    method: "POST",
+const TRANSLATE_URL =
+  "https://libretranslate-latest-a1ay.onrender.com/translate";
 
-    headers: {
-      "Content-Type": "application/json"
-    },
+let translateResponse = null;
+let lastTranslateError = "";
 
-    body: JSON.stringify({
-      q: originalText,
-      source: sourceLanguage,
-      target: targetLanguage,
-      format: "text"
-    })
+for (let attempt = 1; attempt <= 3; attempt++) {
+
+  try {
+
+    console.log(
+      `LIBRETRANSLATE ATTEMPT ${attempt}/3`
+    );
+
+    translateResponse = await fetch(
+      TRANSLATE_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          q: originalText,
+          source: sourceLanguage,
+          target: targetLanguage,
+          format: "text"
+        })
+      }
+    );
+
+    if (translateResponse.ok) {
+      console.log(
+        `LIBRETRANSLATE ATTEMPT ${attempt} SUCCESS`
+      );
+
+      break;
+    }
+
+    lastTranslateError =
+      await translateResponse.text();
+
+    console.error(
+      `LIBRETRANSLATE ATTEMPT ${attempt} FAILED STATUS =`,
+      translateResponse.status
+    );
+
+    console.error(
+      "LIBRETRANSLATE RESPONSE =",
+      lastTranslateError
+    );
+
+  } catch (fetchError) {
+
+    lastTranslateError =
+      fetchError.message || String(fetchError);
+
+    console.error(
+      `LIBRETRANSLATE ATTEMPT ${attempt} NETWORK ERROR =`,
+      lastTranslateError
+    );
   }
-);
 
-if (!translateResponse.ok) {
+  if (attempt < 3) {
 
-  const translateError =
-    await translateResponse.text();
+    console.log(
+      "WAITING 5 SECONDS BEFORE RETRY..."
+    );
+
+    await new Promise(resolve =>
+      setTimeout(resolve, 5000)
+    );
+  }
+}
+
+if (!translateResponse || !translateResponse.ok) {
 
   console.error(
-    "LIBRETRANSLATE ERROR =",
-    translateError
+    "LIBRETRANSLATE FAILED AFTER 3 ATTEMPTS =",
+    lastTranslateError
   );
 
   throw new Error(
