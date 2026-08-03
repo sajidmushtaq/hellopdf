@@ -77,17 +77,21 @@ function updateTranslationIndicator() {
     `${fromText} → ${toText}`;
 }
 
-updateTranslationIndicator();
+if (translationLanguageIndicator && fromLang && toLang) {
 
-fromLang.addEventListener(
-  "change",
-  updateTranslationIndicator
-);
+  updateTranslationIndicator();
 
-toLang.addEventListener(
-  "change",
-  updateTranslationIndicator
-);
+  fromLang.addEventListener(
+    "change",
+    updateTranslationIndicator
+  );
+
+  toLang.addEventListener(
+    "change",
+    updateTranslationIndicator
+  );
+
+}
 
   const prevBtn = document.getElementById("translatePrevPage");
   const nextBtn = document.getElementById("translateNextPage");
