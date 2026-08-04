@@ -4,6 +4,12 @@ const { reshape } = require("arabic-persian-reshaper");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const urduFontPath = path.join(
+  __dirname,
+  "public",
+  "fonts",
+  "NotoNastaliqUrdu-Regular.ttf"
+);
 const { PDFDocument, rgb, degrees } = require("pdf-lib");
 
 const archiver = require("archiver");
