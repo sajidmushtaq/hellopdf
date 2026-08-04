@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const express = require("express");
-const { reshape } = require("arabic-persian-reshaper");
+const { ArabicShaper } = require("arabic-persian-reshaper");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
@@ -6054,7 +6054,7 @@ app.post(
         doc.fontSize(16);
 
         const reshapedText =
-          reshape(translatedText);
+  ArabicShaper.convertArabic(translatedText);
 
         doc.text(
           reshapedText,
