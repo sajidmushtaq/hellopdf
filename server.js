@@ -5785,7 +5785,7 @@ const TRANSLATE_URL =
 let translateResponse = null;
 let lastTranslateError = "";
 
-for (let attempt = 1; attempt <= 3; attempt++) {
+for (let attempt = 1; attempt <= 5; attempt++) {
 
   try {
 
@@ -5843,14 +5843,14 @@ for (let attempt = 1; attempt <= 3; attempt++) {
     );
   }
 
-  if (attempt < 3) {
+  if (attempt < 5) {
 
     console.log(
       "WAITING 5 SECONDS BEFORE RETRY..."
     );
 
     await new Promise(resolve =>
-      setTimeout(resolve, 5000)
+      setTimeout(resolve, 10000)
     );
   }
 }
