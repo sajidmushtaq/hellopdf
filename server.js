@@ -6053,18 +6053,15 @@ app.post(
 
         doc.fontSize(16);
 
-        const reshapedText =
-  ArabicShaper.convertArabic(translatedText);
-
         doc.text(
-          reshapedText,
-          50,
-          50,
-          {
-            width: 495,
-            align: "right"
-          }
-        );
+  translatedText,
+  50,
+  50,
+  {
+    width: 495,
+    align: "right"
+  }
+);
 
       } else {
 
