@@ -1,4 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
+    /* DRAWERS */
+
+  const toolsMenuBtn =
+    document.getElementById("toolsMenuBtn");
+
+  const mainMenuBtn =
+    document.getElementById("mainMenuBtn");
+
+  const toolsDrawer =
+    document.getElementById("toolsDrawer");
+
+  const mainDrawer =
+    document.getElementById("mainDrawer");
+
+  const toolsClose =
+    document.getElementById("toolsClose");
+
+  const mainClose =
+    document.getElementById("mainClose");
+
+  const drawerOverlay =
+    document.getElementById("drawerOverlay");
+
+  const closeUpgradeModal =
+    document.getElementById("closeUpgradeModal");
+
+  let currentUser = null;
 
   const startScreen = document.getElementById("startScreen");
   const previewScreen = document.getElementById("previewScreen");
@@ -19,7 +46,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedFile = null;
   let repairedPdfUrl = null;
   let progressInterval = null;
+(async () => {
 
+  const { data } =
+    await window.supabaseClient.auth.getUser();
+
+  if (data && data.user) {
+
+    currentUser = data.user;
+
+  }
+
+})();
   function showStartScreen() {
 
     startScreen.classList.remove("hidden-screen");
@@ -229,7 +267,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData();
 
-    formData.append("pdf", selectedFile);
+if (currentUser) {
+
+  formData.append(
+    "user_id",
+    currentUser.id
+  );
+
+}
+
+formData.append("pdf", selectedFile);
 
     repairBtn.disabled = true;
 
@@ -250,9 +297,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
 
-        alert("Repair failed");
-        return;
-      }
+  const errorText =
+    await response.text();
+
+  if (response.status === 403) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+
+      upgradeModal.style.display = "flex";
+
+    }
+
+    throw new Error("");
+
+  }
+
+  throw new Error(
+    errorText ||
+    "Repair PDF failed"
+  );
+
+}
 
       const blob = await response.blob();
 
@@ -313,5 +381,80 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   showStartScreen();
+  /* MOBILE DRAWERS */
 
+  function closeDrawers() {
+
+    if (toolsDrawer) {
+      toolsDrawer.classList.remove("active");
+    }
+
+    if (mainDrawer) {
+      mainDrawer.classList.remove("active");
+    }
+
+    if (drawerOverlay) {
+      drawerOverlay.classList.remove("active");
+    }
+
+  }
+
+  if (toolsMenuBtn) {
+
+    toolsMenuBtn.addEventListener("click", () => {
+
+      if (toolsDrawer) {
+        toolsDrawer.classList.add("active");
+      }
+
+      if (drawerOverlay) {
+        drawerOverlay.classList.add("active");
+      }
+
+    });
+
+  }
+
+  if (mainMenuBtn) {
+
+    mainMenuBtn.addEventListener("click", () => {
+
+      if (mainDrawer) {
+        mainDrawer.classList.add("active");
+      }
+
+      if (drawerOverlay) {
+        drawerOverlay.classList.add("active");
+      }
+
+    });
+
+  }
+
+  if (toolsClose) {
+    toolsClose.addEventListener("click", closeDrawers);
+  }
+
+  if (mainClose) {
+    mainClose.addEventListener("click", closeDrawers);
+  }
+
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener("click", closeDrawers);
+  }
+
+  if (closeUpgradeModal) {
+
+    closeUpgradeModal.addEventListener("click", () => {
+
+      const upgradeModal =
+        document.getElementById("upgradeModal");
+
+      if (upgradeModal) {
+        upgradeModal.style.display = "none";
+      }
+
+    });
+
+  }
 });
