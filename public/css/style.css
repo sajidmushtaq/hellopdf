@@ -24044,3 +24044,129 @@ border-radius:18px;
 .summary-actions + .summary-question-box {
   margin-top: 18px;
 }
+
+/* =====================================================
+   SPLIT PDF - FINAL SUCCESS SCREEN OVERRIDE
+   PASTE AT THE VERY END OF style.css
+===================================================== */
+
+
+/* ===== SUCCESS SCREEN CONTAINER ===== */
+
+body .split-page #splitSuccessScreen:not(.hidden-screen){
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  text-align:center !important;
+  background:#f3f4f8 !important;
+
+  padding:40px 20px !important;
+}
+
+
+/* ===== SUCCESS HEADING ===== */
+
+body .split-page #splitSuccessScreen h1{
+  display:block !important;
+
+  font-size:54px !important;
+  font-weight:900 !important;
+  line-height:1.1 !important;
+
+  color:#111827 !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+}
+
+
+/* ===== SUCCESS DESCRIPTION ===== */
+
+body .split-page #splitSuccessScreen p{
+  display:block !important;
+
+  font-size:20px !important;
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+
+  margin:0 0 30px !important;
+  padding:0 !important;
+}
+
+
+/* ===== DOWNLOAD BUTTON ===== */
+
+body .split-page #splitSuccessScreen #downloadBtn{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+
+  border:none !important;
+
+  background:#ef4444 !important;
+  color:#ffffff !important;
+
+  padding:20px 36px !important;
+
+  border-radius:16px !important;
+
+  font-size:22px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+
+  cursor:pointer !important;
+
+  box-shadow:0 12px 28px rgba(239,68,68,.25) !important;
+}
+
+
+/* ===== DOWNLOAD BUTTON HOVER ===== */
+
+body .split-page #splitSuccessScreen #downloadBtn:hover{
+  background:#dc2626 !important;
+}
+
+
+/* =====================================================
+   SPLIT PDF - MOBILE SUCCESS SCREEN
+===================================================== */
+
+@media(max-width:768px){
+
+  body .split-page #splitSuccessScreen:not(.hidden-screen){
+    min-height:calc(100vh - 72px) !important;
+    padding:38px 18px 30px !important;
+  }
+
+  body .split-page #splitSuccessScreen h1{
+    font-size:34px !important;
+    line-height:1.2 !important;
+    margin:0 0 14px !important;
+  }
+
+  body .split-page #splitSuccessScreen p{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin:0 0 26px !important;
+  }
+
+  body .split-page #splitSuccessScreen #downloadBtn{
+    width:100% !important;
+    max-width:320px !important;
+
+    padding:18px 24px !important;
+
+    font-size:19px !important;
+  }
+
+}
