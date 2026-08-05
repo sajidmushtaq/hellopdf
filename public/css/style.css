@@ -5085,10 +5085,35 @@ main.merge-page > #successScreen[style*="display: none"] * {
   }
 
   .download-result-btn{
-    width:100%;
-    max-width:320px;
-    font-size:18px;
-  }
+  min-width:360px;
+  padding:28px 42px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  border:0;
+  border-radius:16px;
+
+  background:#ff0000;
+  color:#ffffff;
+
+  font-size:28px;
+  font-weight:800;
+  line-height:1;
+
+  cursor:pointer;
+
+  box-shadow:0 10px 24px rgba(255,0,0,.22);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.download-result-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px rgba(255,0,0,.27);
 }
 
 /* =====================================
@@ -5714,8 +5739,13 @@ body .merge-page #downloadBtn{
 ========================================= */
 
 .split-page{
-  min-height:calc(100vh - 72px);
-  background:#f3f4f8;
+  width:100%;
+  max-width:1320px;
+  margin:0 auto;
+  padding:0 24px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
 }
 
 /* START SCREEN */
@@ -5901,15 +5931,19 @@ body .merge-page #downloadBtn{
 }
 
 .split-success-screen h1{
-  font-size:54px;
+  margin:0 0 18px;
+  font-size:56px;
+  font-weight:900;
+  line-height:1.1;
   color:#111827;
-  margin-bottom:14px;
 }
 
 .split-success-screen p{
-  font-size:20px;
-  color:#64748b;
-  margin-bottom:28px;
+  max-width:760px;
+  margin:0 0 32px;
+  font-size:22px;
+  line-height:1.5;
+  color:#4b5563;
 }
 
 /* MOBILE */
@@ -6010,40 +6044,20 @@ body .split-page .drop-text{
 }
 
 body .split-page #splitSuccessScreen:not(.hidden-screen){
+  width:100% !important;
   min-height:calc(100vh - 72px) !important;
+
   display:flex !important;
   flex-direction:column !important;
   align-items:center !important;
-  justify-content:center !important;
+  justify-content:flex-start !important;
+
   text-align:center !important;
   background:#f3f4f8 !important;
-  padding:40px 20px !important;
+
+  padding:60px 20px 40px !important;
 }
 
-body .split-page #splitSuccessScreen h1{
-  font-size:54px !important;
-  font-weight:900 !important;
-  color:#111827 !important;
-  margin:0 0 14px !important;
-}
-
-body .split-page #splitSuccessScreen p{
-  font-size:20px !important;
-  color:#64748b !important;
-  margin:0 0 30px !important;
-}
-
-body .split-page #downloadBtn{
-  border:none !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  padding:20px 36px !important;
-  border-radius:16px !important;
-  font-size:22px !important;
-  font-weight:800 !important;
-  cursor:pointer !important;
-  box-shadow:0 12px 28px rgba(239,68,68,.25) !important;
-}
 
 /* =====================================
    MOBILE UI FINAL FIX LIKE ILOVEPDF
