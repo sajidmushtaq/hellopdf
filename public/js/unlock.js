@@ -1,4 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
+    /* DRAWERS */
+
+  const toolsMenuBtn =
+    document.getElementById("toolsMenuBtn");
+
+  const mainMenuBtn =
+    document.getElementById("mainMenuBtn");
+
+  const toolsDrawer =
+    document.getElementById("toolsDrawer");
+
+  const mainDrawer =
+    document.getElementById("mainDrawer");
+
+  const toolsClose =
+    document.getElementById("toolsClose");
+
+  const mainClose =
+    document.getElementById("mainClose");
+
+  const drawerOverlay =
+    document.getElementById("drawerOverlay");
+
+  const closeUpgradeModal =
+    document.getElementById("closeUpgradeModal");
+
+  let currentUser = null;
 
   const unlockStartScreen = document.getElementById("unlockStartScreen");
   const unlockPreviewScreen = document.getElementById("unlockPreviewScreen");
@@ -19,6 +46,18 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedFile = null;
   let finalPdfUrl = null;
   let progressInterval = null;
+  (async () => {
+
+  const { data } =
+    await window.supabaseClient.auth.getUser();
+
+  if (data && data.user) {
+
+    currentUser = data.user;
+
+  }
+
+})();
 
   /* INITIAL */
 
@@ -228,8 +267,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData();
 
-    formData.append("pdfFile", selectedFile);
-    formData.append("password", password);
+if (currentUser) {
+
+  formData.append(
+    "user_id",
+    currentUser.id
+  );
+
+}
+
+formData.append("pdfFile", selectedFile);
+formData.append("password", password);
 
     startFakeProgress();
 
@@ -249,12 +297,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
 
-        const errorText = await response.text();
+  const errorText =
+    await response.text();
 
-        alert(errorText || "Failed to unlock PDF");
+  if (response.status === 403) {
 
-        return;
-      }
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+
+      upgradeModal.style.display = "flex";
+
+    }
+
+    throw new Error("");
+
+  }
+
+  throw new Error(
+    errorText ||
+    "Failed to unlock PDF"
+  );
+
+}
 
       const blob = await response.blob();
 
@@ -331,5 +397,80 @@ document.addEventListener("DOMContentLoaded", () => {
     a.remove();
 
   });
+  /* MOBILE DRAWERS */
 
+  function closeDrawers() {
+
+    if (toolsDrawer) {
+      toolsDrawer.classList.remove("active");
+    }
+
+    if (mainDrawer) {
+      mainDrawer.classList.remove("active");
+    }
+
+    if (drawerOverlay) {
+      drawerOverlay.classList.remove("active");
+    }
+
+  }
+
+  if (toolsMenuBtn) {
+
+    toolsMenuBtn.addEventListener("click", () => {
+
+      if (toolsDrawer) {
+        toolsDrawer.classList.add("active");
+      }
+
+      if (drawerOverlay) {
+        drawerOverlay.classList.add("active");
+      }
+
+    });
+
+  }
+
+  if (mainMenuBtn) {
+
+    mainMenuBtn.addEventListener("click", () => {
+
+      if (mainDrawer) {
+        mainDrawer.classList.add("active");
+      }
+
+      if (drawerOverlay) {
+        drawerOverlay.classList.add("active");
+      }
+
+    });
+
+  }
+
+  if (toolsClose) {
+    toolsClose.addEventListener("click", closeDrawers);
+  }
+
+  if (mainClose) {
+    mainClose.addEventListener("click", closeDrawers);
+  }
+
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener("click", closeDrawers);
+  }
+
+  if (closeUpgradeModal) {
+
+    closeUpgradeModal.addEventListener("click", () => {
+
+      const upgradeModal =
+        document.getElementById("upgradeModal");
+
+      if (upgradeModal) {
+        upgradeModal.style.display = "none";
+      }
+
+    });
+
+  }
 });
