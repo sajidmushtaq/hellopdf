@@ -17,6 +17,7 @@
   <title>Split PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1003" />
+<link rel="stylesheet" href="/css/master-tools.css?v=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -182,19 +183,19 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="split-page">
+<main class="split-page master-tool-page">
 
-  <section class="split-start-screen" id="splitStartScreen">
-    <h1>Split PDF file</h1>
+  <section class="split-start-screen master-tool-start" id="splitStartScreen">
+    <h1 class="master-tool-title">Split PDF file</h1>
 
-    <p>
+    <p class="master-tool-description">
       Separate one page or a whole set for easy conversion into independent PDF files.
     </p>
 
     <div class="split-select-row">
       <div class="split-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF File</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -207,7 +208,7 @@
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-helper">or drop PDF here</div>
 
     <div class="ad-placeholder"></div>
   </section>
