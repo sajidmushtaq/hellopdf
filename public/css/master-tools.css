@@ -254,12 +254,12 @@
   }
 
 }
-
 /* =========================================================
-   MASTER UI CONTROL TEST
-   TEMPORARY
+   MASTER TOOLS — SPLIT SUCCESS AUTHORITY LAYER
+   Overrides legacy Split PDF styles without editing style.css
 ========================================================= */
 
-#splitSuccessScreen .master-tool-title{
+body .split-page #splitSuccessScreen.master-tool-success
+h1.master-tool-title{
   font-size:30px !important;
 }
