@@ -254,3 +254,12 @@
   }
 
 }
+
+/* =========================================================
+   MASTER UI CONTROL TEST
+   TEMPORARY
+========================================================= */
+
+#splitSuccessScreen .master-tool-title{
+  font-size:30px !important;
+}
