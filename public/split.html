@@ -213,19 +213,19 @@
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="split-preview-screen hidden-screen" id="splitPreviewScreen">
-    <div class="split-preview-left">
+  <section class="split-preview-screen master-tool-preview hidden-screen" id="splitPreviewScreen">
+    <div class="split-preview-left master-tool-preview-left">
       <div class="split-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="split-action-panel">
-      <h2>Split PDF</h2>
+    <aside class="split-action-panel master-tool-action-panel">
+      <h2 class="master-tool-panel-title">Split PDF</h2>
 
-      <p>
+     <p class="master-tool-panel-description">
         Choose how you want to split your PDF file, then download a ZIP with separated PDF files.
       </p>
 
-      <div class="split-option-box">
+      <div class="split-option-box master-tool-option-box">
         <label>
           <input type="radio" name="splitMode" value="all" checked />
           Split all pages
@@ -234,23 +234,23 @@
         <small>Extract every page into a separate PDF file.</small>
       </div>
 
-      <button class="split-main-btn" id="splitBtn" type="button">
+      <button class="split-main-btn master-tool-action-button" id="splitBtn" type="button">
         Split PDF
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container split-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container split-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="split-success-screen hidden-screen" id="splitSuccessScreen">
-    <h1>PDF has been split!</h1>
+  <section class="split-success-screen master-tool-success hidden-screen" id="splitSuccessScreen">
+    <h1 class="master-tool-title">PDF has been split!</h1>
 
-    <p>Your split PDF files are ready to download.</p>
+    <p class="master-tool-description">Your split PDF files are ready to download.</p>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
       Download split PDF
     </button>
   </section>
