@@ -17,6 +17,7 @@
   <title>Merge PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1003" />
+<link rel="stylesheet" href="/css/master-tools.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -177,15 +178,15 @@
 
 <main class="merge-page">
 
-  <section class="merge-start-screen" id="startScreen">
-    <h1>Merge PDF files</h1>
+  <section class="merge-start-screen master-tool-start" id="startScreen">
+  <h1 class="master-tool-title">Merge PDF files</h1>
 
-    <p>
-      Combine PDFs in the order you want with the easiest PDF merger available.
-    </p>
+  <p class="master-tool-description">
+    Combine PDFs in the order you want with the easiest PDF merger available.
+  </p>
 
     <div class="merge-select-row">
-      <div class="merge-upload-box" id="dropZone">
+      <div class="merge-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
         <h2>Select PDF files</h2>
       </div>
@@ -199,13 +200,12 @@
         </button>
       </div>
     </div>
-
-    <div class="drop-text">or drop PDFs here</div>
+<div class="drop-text master-tool-drop-text">or drop PDFs here</div>
 
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="merge-preview-screen hidden-screen" id="previewScreen">
+  <section class="merge-preview-screen master-tool-preview hidden-screen" id="previewScreen">
     <div class="merge-preview-left">
       <div class="merge-topbar">
         <div>
@@ -222,11 +222,11 @@
       <div class="merge-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="merge-action-panel">
+    <aside class="merge-action-panel master-tool-action-panel">
       <h2>Merge PDF</h2>
       <p>Arrange your files and click merge to combine them into one PDF.</p>
 
-      <button class="merge-main-btn" id="mergeBtn" type="button">
+      <button class="merge-main-btn master-tool-action-button" id="mergeBtn" type="button">
         Merge PDF
         
       </button>
@@ -237,14 +237,17 @@
     </aside>
   </section>
 
-  <section class="merge-success-screen hidden-screen" id="successScreen">
-    <h1>PDFs have been merged!</h1>
-    <p>Your merged PDF is ready to download.</p>
+  <section class="merge-success-screen master-tool-success hidden-screen" id="successScreen">
+  <h1 class="master-tool-title">PDFs have been merged!</h1>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
-      Download merged PDF
-    </button>
-  </section>
+  <p class="master-tool-description">
+    Your merged PDF is ready to download.
+  </p>
+
+  <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
+    Download merged PDF
+  </button>
+</section>
 <div id="upgradeModal" style="
 display:none;
 position:fixed;
