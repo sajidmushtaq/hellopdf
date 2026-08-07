@@ -17,6 +17,7 @@
   <title>Compress PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1006" />
+<link rel="stylesheet" href="/css/master-tools.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -182,15 +183,15 @@
 
 <main class="compress-page">
 
-  <section class="compress-start-screen" id="compressStartScreen">
-    <h1>Compress PDF</h1>
+  <section class="compress-start-screen master-tool-start" id="compressStartScreen">
+  <h1 class="master-tool-title">Compress PDF</h1>
 
-    <p>
-      Reduce PDF file size while keeping the best possible quality.
-    </p>
+  <p class="master-tool-description">
+    Reduce PDF file size while keeping the best possible quality.
+  </p>
 
     <div class="compress-select-row">
-      <div class="compress-upload-box" id="dropZone">
+      <div class="compress-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
         <h2>Select PDF file</h2>
       </div>
@@ -205,17 +206,17 @@
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
 
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="compress-preview-screen hidden-screen" id="compressPreviewScreen">
+  <section class="compress-preview-screen master-tool-preview hidden-screen" id="compressPreviewScreen">
     <div class="compress-preview-left">
       <div class="compress-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="compress-action-panel">
+    <aside class="compress-action-panel master-tool-action-panel">
       <h2>Compress PDF</h2>
 
       <p>
@@ -230,7 +231,7 @@
         <small>Good quality with smaller file size.</small>
       </div>
 
-      <button class="compress-main-btn" id="compressBtn" type="button">
+      <button class="compress-main-btn master-tool-action-button" id="compressBtn" type="button">
         Compress PDF
         <i class="fa-solid fa-arrow-right"></i>
       </button>
@@ -241,15 +242,17 @@
     </aside>
   </section>
 
-  <section class="compress-success-screen hidden-screen" id="compressSuccessScreen">
-    <h1>PDF has been compressed!</h1>
+ <section class="compress-success-screen master-tool-success hidden-screen" id="compressSuccessScreen">
+  <h1 class="master-tool-title">PDF has been compressed!</h1>
 
-    <p>Your compressed PDF is ready to download.</p>
+  <p class="master-tool-description">
+    Your compressed PDF is ready to download.
+  </p>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
-      Download compressed PDF
-    </button>
-  </section>
+  <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
+    Download compressed PDF
+  </button>
+</section>
 
 </main>
 <div id="upgradeModal" style="
