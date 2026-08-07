@@ -355,3 +355,22 @@ button.master-tool-download-button{
   border:none !important;
   border-radius:12px !important;
 }
+
+/* =========================================================
+   MASTER TOOLS — MERGE PREVIEW BUTTON COLORS
+   Match approved Success Screen button color
+========================================================= */
+
+/* Preview — Merge PDF button */
+body .merge-page #previewScreen.master-tool-preview
+button.master-tool-action-button{
+  background:#ff3131 !important;
+  color:#ffffff !important;
+}
+
+/* Preview — Add More (+) button */
+body .merge-page #previewScreen.master-tool-preview
+#addMoreBtn{
+  background:#ff3131 !important;
+  color:#ffffff !important;
+}
