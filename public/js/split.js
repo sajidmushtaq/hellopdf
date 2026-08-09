@@ -17,6 +17,91 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedFile = null;
   let splitZipUrl = null;
   let progressInterval = null;
+    /* =========================
+     SPLIT RANGE SETTINGS
+  ========================= */
+
+  const rangeContainer = document.querySelector(
+    '.split-sub-panel[data-split-panel="custom"]'
+  );
+
+  const addRangeBtn = rangeContainer?.querySelector(
+    ".split-add-range-btn"
+  );
+
+  const rangeCounter = document.getElementById(
+    "splitRangeCounter"
+  );
+
+  function getRangeRows() {
+    return Array.from(
+      rangeContainer?.querySelectorAll(".split-range-row") || []
+    );
+  }
+
+  function updateRangeCounter() {
+    const count = getRangeRows().length;
+
+    if (rangeCounter) {
+      rangeCounter.textContent = `${count} / 3`;
+    }
+  }
+
+  addRangeBtn?.addEventListener("click", () => {
+
+    const rows = getRangeRows();
+
+    if (rows.length >= 3) {
+      alert(
+        "Free users can create up to 3 ranges. Upgrade to Premium for unlimited ranges."
+      );
+      return;
+    }
+
+    const row = document.createElement("div");
+
+    row.className = "split-range-row";
+
+    row.innerHTML = `
+      <input
+        type="number"
+        min="1"
+        placeholder="From"
+      >
+
+      <span>–</span>
+
+      <input
+        type="number"
+        min="1"
+        placeholder="To"
+      >
+
+      <button
+        type="button"
+        class="split-remove-range-btn"
+        aria-label="Remove range"
+      >
+        ×
+      </button>
+    `;
+
+    rangeContainer.insertBefore(
+      row,
+      addRangeBtn
+    );
+
+    const removeBtn = row.querySelector(
+      ".split-remove-range-btn"
+    );
+
+    removeBtn.addEventListener("click", () => {
+      row.remove();
+      updateRangeCounter();
+    });
+
+    updateRangeCounter();
+  });
 
   /* =========================
      INITIAL STATE
@@ -229,19 +314,217 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    /* =========================================================
+   SPLIT MASTER UI — COLLECT SELECTED OPTIONS
+========================================================= */
+
+const activeModeTab =
+  document.querySelector(".split-mode-tab.active");
+
+const splitMode =
+  activeModeTab?.dataset.mode || "range";
+
+let splitOptions = {
+  mode: splitMode
+};
+
+/* RANGE */
+if (splitMode === "range") {
+
+  const activeRangeTab =
+    document.querySelector(".split-sub-tab.active");
+
+  const rangeType =
+    activeRangeTab?.dataset.splitType || "custom";
+
+  splitOptions.rangeType = rangeType;
+
+  /* CUSTOM */
+  if (rangeType === "custom") {
+
+    const ranges = [];
+
+    document
+      .querySelectorAll(
+        '.split-sub-panel[data-split-panel="custom"] .split-range-row'
+      )
+      .forEach((row) => {
+
+        const inputs = row.querySelectorAll("input");
+
+        const from = Number(inputs[0]?.value);
+        const to = Number(inputs[1]?.value);
+
+        if (from && to && from <= to) {
+          ranges.push({
+            from,
+            to
+          });
+        }
+
+      });
+
+    splitOptions.ranges = ranges;
+  }
+
+  /* FIXED */
+  if (rangeType === "fixed") {
+
+    const fixedInput =
+      document.querySelector(
+        '.split-sub-panel[data-split-panel="fixed"] input'
+      );
+
+    splitOptions.fixedPages =
+      Number(fixedInput?.value) || 5;
+  }
+
+  /* SMART */
+  if (rangeType === "smart") {
+
+    splitOptions.smart = true;
+  }
+}
+
+/* PAGES */
+if (splitMode === "pages") {
+
+  const selectedPageMode =
+    document.querySelector(
+      'input[name="pageMode"]:checked'
+    );
+
+  splitOptions.pageMode =
+    selectedPageMode?.value || "all";
+}
+
+/* SIZE */
+if (splitMode === "size") {
+
+  const sizeInput =
+    document.getElementById("splitMaxSize");
+
+  splitOptions.maxSize =
+    Number(sizeInput?.value) || 10;
+}
+
+console.log(
+  "SPLIT OPTIONS =",
+  splitOptions
+);
+
     const formData = new FormData();
 
     formData.append("pdf", selectedFile);
 
-    const { data } = await supabaseClient.auth.getUser();
+    const { data, error } = await supabaseClient.auth.getUser();
+
+console.log("SPLIT AUTH DATA =", data);
+console.log("SPLIT AUTH ERROR =", error);
 
 if (!data?.user) {
   alert("Please login first");
   return;
 }
 
+console.log("SPLIT LOGGED USER =", data.user.id);
 formData.append("user_id", data.user.id);
+    /* =========================
+       CUSTOM RANGE DATA
+    ========================= */
 
+    const activeMode =
+      document.querySelector(".split-mode-tab.active")?.dataset.mode || "range";
+
+    formData.append("split_mode", activeMode);
+
+    if (activeMode === "range") {
+
+      const customTab = document.querySelector(
+        '.split-sub-tab[data-split-type="custom"].active'
+      );
+
+      if (customTab) {
+
+        const customPanel = document.querySelector(
+          '.split-sub-panel[data-split-panel="custom"]'
+        );
+
+        const rows = Array.from(
+          customPanel?.querySelectorAll(".split-range-row") || []
+        );
+
+        const ranges = [];
+
+        for (const row of rows) {
+
+          const inputs = row.querySelectorAll(
+            'input[type="number"]'
+          );
+
+          const from = Number(inputs[0]?.value);
+          const to = Number(inputs[1]?.value);
+
+          if (!from || !to) {
+            alert("Please enter both From and To page numbers.");
+            return;
+          }
+
+          if (from > to) {
+            alert("From page cannot be greater than To page.");
+            return;
+          }
+
+          ranges.push({
+            from,
+            to
+          });
+        }
+
+        if (!ranges.length) {
+          alert("Please add at least one page range.");
+          return;
+        }
+
+        formData.append(
+          "ranges",
+          JSON.stringify(ranges)
+        );
+      }
+    }
+/* SPLIT MASTER — SEND SELECTED OPTIONS */
+
+formData.append(
+  "split_mode",
+  splitOptions.mode
+);
+
+formData.append(
+  "range_type",
+  splitOptions.rangeType || ""
+);
+
+formData.append(
+  "ranges",
+  JSON.stringify(
+    splitOptions.ranges || []
+  )
+);
+
+formData.append(
+  "fixed_pages",
+  splitOptions.fixedPages || ""
+);
+
+formData.append(
+  "page_mode",
+  splitOptions.pageMode || ""
+);
+
+formData.append(
+  "max_size",
+  splitOptions.maxSize || ""
+);
     startFakeProgress();
 
     splitBtn.disabled = true;
@@ -299,13 +582,19 @@ formData.append("user_id", data.user.id);
 
       setTimeout(() => {
 
-        splitPreviewScreen.classList.add("hidden-screen");
-        splitPreviewScreen.style.display = "none";
+  /* Hide start screen */
+  splitStartScreen.classList.add("hidden-screen");
+  splitStartScreen.style.display = "none";
 
-        splitSuccessScreen.classList.remove("hidden-screen");
-        splitSuccessScreen.style.display = "flex";
+  /* Hide preview screen */
+  splitPreviewScreen.classList.add("hidden-screen");
+  splitPreviewScreen.style.display = "none";
 
-      }, 400);
+  /* Show success screen */
+  splitSuccessScreen.classList.remove("hidden-screen");
+  splitSuccessScreen.style.display = "flex";
+
+}, 400);
 
     } catch (error) {
 
@@ -371,5 +660,186 @@ if (closeUpgradeModal) {
   });
 
 }
+
+});
+
+/* =========================================================
+   SPLIT MASTER UI — MAIN MODE TABS
+========================================================= */
+
+document.querySelectorAll(".split-mode-tab").forEach((tab) => {
+
+  tab.addEventListener("click", () => {
+
+    const mode = tab.dataset.mode;
+
+    document.querySelectorAll(".split-mode-tab")
+      .forEach((item) => item.classList.remove("active"));
+
+    tab.classList.add("active");
+
+    document.querySelectorAll(".split-mode-panel")
+      .forEach((panel) => {
+
+        panel.classList.toggle(
+          "active",
+          panel.dataset.panel === mode
+        );
+
+      });
+
+  });
+
+});
+
+/* =========================================================
+   SPLIT MASTER UI — RANGE SUB TABS
+========================================================= */
+
+document.querySelectorAll(".split-sub-tab").forEach((tab) => {
+
+  tab.addEventListener("click", () => {
+
+    const type = tab.dataset.splitType;
+
+    document.querySelectorAll(".split-sub-tab")
+      .forEach((item) => item.classList.remove("active"));
+
+    tab.classList.add("active");
+
+    document.querySelectorAll(".split-sub-panel")
+      .forEach((panel) => {
+
+        panel.classList.toggle(
+          "active",
+          panel.dataset.splitPanel === type
+        );
+
+      });
+
+  });
+
+});
+
+/* =========================================================
+   SPLIT MASTER UI — SMART PREMIUM GATE
+========================================================= */
+
+document.querySelectorAll(
+  '.split-sub-tab[data-split-type="smart"]'
+).forEach((smartTab) => {
+
+  smartTab.addEventListener("click", (event) => {
+
+    event.preventDefault();
+
+    const smartPanel =
+      document.querySelector(
+        '.split-sub-panel[data-split-panel="smart"]'
+      );
+
+    document.querySelectorAll(".split-sub-tab")
+      .forEach((item) => item.classList.remove("active"));
+
+    smartTab.classList.add("active");
+
+    document.querySelectorAll(".split-sub-panel")
+      .forEach((panel) => panel.classList.remove("active"));
+
+    if (smartPanel) {
+      smartPanel.classList.add("active");
+    }
+
+  });
+
+});
+
+/* =========================================================
+   SPLIT MASTER UI — ADD RANGE
+========================================================= */
+
+const addRangeBtn =
+  document.querySelector(".split-add-range-btn");
+
+const customRangePanel =
+  document.querySelector(
+    '.split-sub-panel[data-split-panel="custom"]'
+  );
+
+if (addRangeBtn && customRangePanel) {
+
+  addRangeBtn.addEventListener("click", () => {
+
+    const existingRanges =
+      customRangePanel.querySelectorAll(
+        ".split-range-row"
+      );
+
+    if (existingRanges.length >= 3) {
+
+      alert(
+        "Free users can create up to 3 ranges. Upgrade to Premium for unlimited ranges."
+      );
+
+      return;
+    }
+
+    const rangeRow =
+      document.createElement("div");
+
+    rangeRow.className = "split-range-row";
+
+    rangeRow.innerHTML = `
+      <input
+        type="number"
+        min="1"
+        placeholder="From"
+      >
+
+      <span>–</span>
+
+      <input
+        type="number"
+        min="1"
+        placeholder="To"
+      >
+
+      <button
+        type="button"
+        class="split-remove-range-btn"
+        aria-label="Remove range"
+      >
+        ×
+      </button>
+    `;
+
+    customRangePanel.insertBefore(
+      rangeRow,
+      addRangeBtn
+    );
+
+  });
+
+}
+
+/* =========================================================
+   SPLIT MASTER UI — REMOVE RANGE
+========================================================= */
+
+document.addEventListener("click", (event) => {
+
+  const removeBtn =
+    event.target.closest(
+      ".split-remove-range-btn"
+    );
+
+  if (!removeBtn) return;
+
+  const row =
+    removeBtn.closest(".split-range-row");
+
+  if (!row) return;
+
+  row.remove();
 
 });

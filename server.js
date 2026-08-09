@@ -1,3 +1,4 @@
+require("dotenv").config();
 const crypto = require("crypto");
 const express = require("express");
 const { ArabicShaper } = require("arabic-persian-reshaper");
@@ -299,7 +300,60 @@ if (!usageData) {
 app.post("/split", upload.single("pdf"), async (req, res) => {
   try { 
     const userId = req.body.user_id;
+const splitMode =
+  req.body.split_mode || "range";
 
+const rangeType =
+  req.body.range_type || "custom";
+
+let ranges = [];
+
+try {
+  ranges = JSON.parse(
+    req.body.ranges || "[]"
+  );
+} catch (error) {
+  ranges = [];
+}
+
+const fixedPages =
+  Number(req.body.fixed_pages) || 0;
+
+const pageMode =
+  req.body.page_mode || "";
+
+const maxSize =
+  Number(req.body.max_size) || 0;
+
+console.log(
+  "SPLIT MODE =",
+  splitMode
+);
+
+console.log(
+  "SPLIT RANGE TYPE =",
+  rangeType
+);
+
+console.log(
+  "SPLIT RANGES =",
+  ranges
+);
+
+console.log(
+  "SPLIT FIXED PAGES =",
+  fixedPages
+);
+
+console.log(
+  "SPLIT PAGE MODE =",
+  pageMode
+);
+
+console.log(
+  "SPLIT MAX SIZE =",
+  maxSize
+);
 console.log("SPLIT USER ID =", userId);
 
 if (!userId) {
@@ -350,15 +404,103 @@ if (!profileData.is_premium) {
     const outputDir = path.join(outputsDir, `split_${Date.now()}`);
     fs.mkdirSync(outputDir);
 
-    for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-      const newPdf = await PDFDocument.create();
-      const [page] = await newPdf.copyPages(pdfDoc, [i]);
-      newPdf.addPage(page);
+    /* =========================================================
+   SPLIT MASTER — RANGE PROCESSING
+========================================================= */
 
-      const pdfBytes = await newPdf.save();
-      fs.writeFileSync(path.join(outputDir, `page_${i + 1}.pdf`), pdfBytes);
+if (
+  splitMode === "range" &&
+  rangeType === "custom" &&
+  ranges.length > 0
+) {
+
+  const totalPages = pdfDoc.getPageCount();
+
+  for (let r = 0; r < ranges.length; r++) {
+
+    const startPage =
+      Math.max(1, Number(ranges[r].from));
+
+    const endPage =
+      Math.min(
+        totalPages,
+        Number(ranges[r].to)
+      );
+
+    if (
+      !Number.isInteger(startPage) ||
+      !Number.isInteger(endPage) ||
+      startPage > endPage
+    ) {
+      continue;
     }
 
+    const newPdf =
+      await PDFDocument.create();
+
+    const pageIndexes =
+      Array.from(
+        { length: endPage - startPage + 1 },
+        (_, index) =>
+          startPage - 1 + index
+      );
+
+    const copiedPages =
+      await newPdf.copyPages(
+        pdfDoc,
+        pageIndexes
+      );
+
+    copiedPages.forEach((page) => {
+      newPdf.addPage(page);
+    });
+
+    const pdfBytes =
+      await newPdf.save();
+
+    fs.writeFileSync(
+      path.join(
+        outputDir,
+        `range_${r + 1}_${startPage}-${endPage}.pdf`
+      ),
+      pdfBytes
+    );
+  }
+
+} else {
+
+  /* EXISTING DEFAULT BEHAVIOR */
+
+  for (
+    let i = 0;
+    i < pdfDoc.getPageCount();
+    i++
+  ) {
+
+    const newPdf =
+      await PDFDocument.create();
+
+    const [page] =
+      await newPdf.copyPages(
+        pdfDoc,
+        [i]
+      );
+
+    newPdf.addPage(page);
+
+    const pdfBytes =
+      await newPdf.save();
+
+    fs.writeFileSync(
+      path.join(
+        outputDir,
+        `page_${i + 1}.pdf`
+      ),
+      pdfBytes
+    );
+  }
+
+}
     const zipPath = `${outputDir}.zip`;
     const output = fs.createWriteStream(zipPath);
     const archive = archiver("zip", { zlib: { level: 9 } });
@@ -412,7 +554,65 @@ if (!profileData.is_premium) {
 app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
   try {
     const userId = req.body.user_id;
+const splitMode =
+  req.body.split_mode || "range";
 
+const rangeType =
+  req.body.range_type || "custom";
+
+let ranges = [];
+
+try {
+
+  ranges =
+    JSON.parse(
+      req.body.ranges || "[]"
+    );
+
+} catch (error) {
+
+  ranges = [];
+
+}
+
+const fixedPages =
+  Number(req.body.fixed_pages) || 0;
+
+const pageMode =
+  req.body.page_mode || "";
+
+const maxSize =
+  Number(req.body.max_size) || 0;
+
+console.log(
+  "SPLIT MODE =",
+  splitMode
+);
+
+console.log(
+  "SPLIT RANGE TYPE =",
+  rangeType
+);
+
+console.log(
+  "SPLIT RANGES =",
+  ranges
+);
+
+console.log(
+  "SPLIT FIXED PAGES =",
+  fixedPages
+);
+
+console.log(
+  "SPLIT PAGE MODE =",
+  pageMode
+);
+
+console.log(
+  "SPLIT MAX SIZE =",
+  maxSize
+);
 console.log("PDF TO IMAGE USER ID =", userId);
 
 if (!userId) {

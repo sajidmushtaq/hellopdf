@@ -224,15 +224,230 @@
      <p class="master-tool-panel-description">
         Choose how you want to split your PDF file, then download a ZIP with separated PDF files.
       </p>
+<div class="split-mode-tabs">
 
-      <div class="split-option-box master-tool-option-box">
-        <label>
-          <input type="radio" name="splitMode" value="all" checked />
-          Split all pages
-        </label>
+  <button class="split-mode-tab active" data-mode="range">
+    Range
+  </button>
 
-        <small>Extract every page into a separate PDF file.</small>
-      </div>
+  <button class="split-mode-tab" data-mode="pages">
+    Pages
+  </button>
+
+  <button class="split-mode-tab" data-mode="size">
+    Size
+  </button>
+
+</div>
+
+<!-- RANGE MODE -->
+<div class="split-mode-panel active" data-panel="range">
+
+  <div class="split-panel-heading">
+    <h3>Choose split mode</h3>
+
+    <p>
+      Choose how you want to divide your PDF.
+    </p>
+  </div>
+
+  <div class="split-sub-tabs">
+
+    <button class="split-sub-tab active" data-split-type="custom">
+      Custom
+      <span class="free-badge">FREE</span>
+    </button>
+
+    <button class="split-sub-tab" data-split-type="fixed">
+      Fixed
+      <span class="free-badge">FREE</span>
+    </button>
+
+    <button class="split-sub-tab premium" data-split-type="smart">
+      Smart
+      <span class="premium-badge">★ PREMIUM</span>
+    </button>
+
+  </div>
+
+  <!-- CUSTOM -->
+  <div class="split-sub-panel active" data-split-panel="custom">
+
+    <label>Page ranges</label>
+
+    <div class="split-range-row">
+
+      <input
+        type="number"
+        min="1"
+        placeholder="From"
+      >
+
+      <span>–</span>
+
+      <input
+        type="number"
+        min="1"
+        placeholder="To"
+      >
+
+    </div>
+
+    <button
+      type="button"
+      class="split-add-range-btn"
+    >
+      + Add Range
+    </button>
+
+    <div class="split-range-limit">
+  <span>Free ranges</span>
+  <strong id="splitRangeCounter">1 / 3</strong>
+</div>
+
+<small>
+  Upgrade to Premium for unlimited ranges.
+</small>
+
+  </div>
+
+  <!-- FIXED -->
+  <div class="split-sub-panel" data-split-panel="fixed">
+
+    <label>Split every</label>
+
+    <div class="split-fixed-input">
+
+      <input
+        type="number"
+        min="1"
+        value="5"
+      >
+
+      <span>pages</span>
+
+    </div>
+
+    <small>
+      Your PDF will be divided into equal page groups.
+    </small>
+
+  </div>
+
+ 
+
+</div>
+
+<!-- PAGES MODE -->
+<div class="split-mode-panel" data-panel="pages">
+
+  <div class="split-panel-heading">
+    <h3>Extract pages</h3>
+
+    <p>
+      Select the pages you want to extract from your PDF.
+    </p>
+  </div>
+
+  <div class="split-pages-options">
+
+    <label class="split-option-card">
+
+      <input
+        type="radio"
+        name="pageMode"
+        value="all"
+        checked
+      >
+
+      <span>
+        <strong>Extract all pages</strong>
+
+        <small>
+          Create a separate PDF for each page.
+        </small>
+      </span>
+
+    </label>
+
+    <label class="split-option-card">
+
+      <input
+        type="radio"
+        name="pageMode"
+        value="select"
+      >
+
+      <span>
+        <strong>Select specific pages</strong>
+
+        <small>
+          Example: 1, 3, 5-8
+        </small>
+      </span>
+
+    </label>
+
+  </div>
+
+</div>
+
+
+<!-- SIZE MODE -->
+<div class="split-mode-panel" data-panel="size">
+
+  <div class="split-panel-heading">
+
+    <h3>Split by file size</h3>
+
+    <p>
+      Create smaller PDF files based on maximum file size.
+    </p>
+
+  </div>
+
+  <div class="split-size-control">
+
+    <label for="splitMaxSize">
+      Maximum file size
+    </label>
+
+    <div class="split-size-input">
+
+      <input
+        type="number"
+        id="splitMaxSize"
+        min="1"
+        value="10"
+      >
+
+      <span>MB</span>
+
+    </div>
+
+  </div>
+
+  <div class="split-size-note">
+
+    <strong>FREE</strong>
+
+    <span>
+      Basic file-size splitting is available.
+    </span>
+
+  </div>
+
+  <div class="premium-size-note">
+
+    <strong>★ PREMIUM</strong>
+
+    <span>
+      Higher file-size limits and advanced control.
+    </span>
+
+  </div>
+
+</div>
 
       <button class="split-main-btn master-tool-action-button" id="splitBtn" type="button">
         Split PDF
