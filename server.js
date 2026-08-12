@@ -435,40 +435,41 @@ if (
       continue;
     }
 
-    const newPdf =
-      await PDFDocument.create();
+    /* ==========================================
+       EACH SELECTED PAGE = SEPARATE PDF
+    ========================================== */
 
-    const pageIndexes =
-      Array.from(
-        { length: endPage - startPage + 1 },
-        (_, index) =>
-          startPage - 1 + index
-      );
+    for (
+      let pageNumber = startPage;
+      pageNumber <= endPage;
+      pageNumber++
+    ) {
 
-    const copiedPages =
-      await newPdf.copyPages(
-        pdfDoc,
-        pageIndexes
-      );
+      const newPdf =
+        await PDFDocument.create();
 
-    copiedPages.forEach((page) => {
+      const [page] =
+        await newPdf.copyPages(
+          pdfDoc,
+          [pageNumber - 1]
+        );
+
       newPdf.addPage(page);
-    });
 
-    const pdfBytes =
-      await newPdf.save();
+      const pdfBytes =
+        await newPdf.save();
 
-    fs.writeFileSync(
-      path.join(
-        outputDir,
-        `range_${r + 1}_${startPage}-${endPage}.pdf`
-      ),
-      pdfBytes
-    );
+      fs.writeFileSync(
+        path.join(
+          outputDir,
+          `page_${pageNumber}.pdf`
+        ),
+        pdfBytes
+      );
+    }
   }
 
 } else {
-
   /* EXISTING DEFAULT BEHAVIOR */
 
   for (

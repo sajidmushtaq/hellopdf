@@ -429,69 +429,7 @@ if (!data?.user) {
 
 console.log("SPLIT LOGGED USER =", data.user.id);
 formData.append("user_id", data.user.id);
-    /* =========================
-       CUSTOM RANGE DATA
-    ========================= */
 
-    const activeMode =
-      document.querySelector(".split-mode-tab.active")?.dataset.mode || "range";
-
-    formData.append("split_mode", activeMode);
-
-    if (activeMode === "range") {
-
-      const customTab = document.querySelector(
-        '.split-sub-tab[data-split-type="custom"].active'
-      );
-
-      if (customTab) {
-
-        const customPanel = document.querySelector(
-          '.split-sub-panel[data-split-panel="custom"]'
-        );
-
-        const rows = Array.from(
-          customPanel?.querySelectorAll(".split-range-row") || []
-        );
-
-        const ranges = [];
-
-        for (const row of rows) {
-
-          const inputs = row.querySelectorAll(
-            'input[type="number"]'
-          );
-
-          const from = Number(inputs[0]?.value);
-          const to = Number(inputs[1]?.value);
-
-          if (!from || !to) {
-            alert("Please enter both From and To page numbers.");
-            return;
-          }
-
-          if (from > to) {
-            alert("From page cannot be greater than To page.");
-            return;
-          }
-
-          ranges.push({
-            from,
-            to
-          });
-        }
-
-        if (!ranges.length) {
-          alert("Please add at least one page range.");
-          return;
-        }
-
-        formData.append(
-          "ranges",
-          JSON.stringify(ranges)
-        );
-      }
-    }
 /* SPLIT MASTER — SEND SELECTED OPTIONS */
 
 formData.append(
