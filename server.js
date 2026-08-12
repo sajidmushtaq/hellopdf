@@ -416,6 +416,11 @@ if (
 
   const totalPages = pdfDoc.getPageCount();
 
+  /* ==========================================
+     CUSTOM RANGE
+     EACH SELECTED PAGE = SEPARATE PDF
+  ========================================== */
+
   for (let r = 0; r < ranges.length; r++) {
 
     const startPage =
@@ -434,10 +439,6 @@ if (
     ) {
       continue;
     }
-
-    /* ==========================================
-       EACH SELECTED PAGE = SEPARATE PDF
-    ========================================== */
 
     for (
       let pageNumber = startPage;
@@ -469,8 +470,73 @@ if (
     }
   }
 
+} else if (
+  splitMode === "range" &&
+  rangeType === "fixed" &&
+  fixedPages > 0
+) {
+
+  const totalPages = pdfDoc.getPageCount();
+
+  /* ==========================================
+     FIXED RANGE
+     EACH GROUP = ONE PDF
+  ========================================== */
+
+  let groupNumber = 1;
+
+  for (
+    let startPage = 1;
+    startPage <= totalPages;
+    startPage += fixedPages
+  ) {
+
+    const endPage =
+      Math.min(
+        startPage + fixedPages - 1,
+        totalPages
+      );
+
+    const newPdf =
+      await PDFDocument.create();
+
+    const pageIndexes =
+      Array.from(
+        { length: endPage - startPage + 1 },
+        (_, index) =>
+          startPage - 1 + index
+      );
+
+    const copiedPages =
+      await newPdf.copyPages(
+        pdfDoc,
+        pageIndexes
+      );
+
+    copiedPages.forEach((page) => {
+      newPdf.addPage(page);
+    });
+
+    const pdfBytes =
+      await newPdf.save();
+
+    fs.writeFileSync(
+      path.join(
+        outputDir,
+        `group_${groupNumber}_${startPage}-${endPage}.pdf`
+      ),
+      pdfBytes
+    );
+
+    groupNumber++;
+  }
+
 } else {
-  /* EXISTING DEFAULT BEHAVIOR */
+
+  /* ==========================================
+     DEFAULT BEHAVIOR
+     EACH PAGE = SEPARATE PDF
+  ========================================== */
 
   for (
     let i = 0;
@@ -500,7 +566,165 @@ if (
       pdfBytes
     );
   }
+}
+if (
+  splitMode === "range" &&
+  rangeType === "custom" &&
+  ranges.length > 0
+) {
 
+  const totalPages = pdfDoc.getPageCount();
+
+  /* ==========================================
+     CUSTOM RANGE
+     EACH SELECTED PAGE = SEPARATE PDF
+  ========================================== */
+
+  for (let r = 0; r < ranges.length; r++) {
+
+    const startPage =
+      Math.max(1, Number(ranges[r].from));
+
+    const endPage =
+      Math.min(
+        totalPages,
+        Number(ranges[r].to)
+      );
+
+    if (
+      !Number.isInteger(startPage) ||
+      !Number.isInteger(endPage) ||
+      startPage > endPage
+    ) {
+      continue;
+    }
+
+    for (
+      let pageNumber = startPage;
+      pageNumber <= endPage;
+      pageNumber++
+    ) {
+
+      const newPdf =
+        await PDFDocument.create();
+
+      const [page] =
+        await newPdf.copyPages(
+          pdfDoc,
+          [pageNumber - 1]
+        );
+
+      newPdf.addPage(page);
+
+      const pdfBytes =
+        await newPdf.save();
+
+      fs.writeFileSync(
+        path.join(
+          outputDir,
+          `page_${pageNumber}.pdf`
+        ),
+        pdfBytes
+      );
+    }
+  }
+
+} else if (
+  splitMode === "range" &&
+  rangeType === "fixed" &&
+  fixedPages > 0
+) {
+
+  const totalPages = pdfDoc.getPageCount();
+
+  /* ==========================================
+     FIXED RANGE
+     EACH GROUP = ONE PDF
+  ========================================== */
+
+  let groupNumber = 1;
+
+  for (
+    let startPage = 1;
+    startPage <= totalPages;
+    startPage += fixedPages
+  ) {
+
+    const endPage =
+      Math.min(
+        startPage + fixedPages - 1,
+        totalPages
+      );
+
+    const newPdf =
+      await PDFDocument.create();
+
+    const pageIndexes =
+      Array.from(
+        { length: endPage - startPage + 1 },
+        (_, index) =>
+          startPage - 1 + index
+      );
+
+    const copiedPages =
+      await newPdf.copyPages(
+        pdfDoc,
+        pageIndexes
+      );
+
+    copiedPages.forEach((page) => {
+      newPdf.addPage(page);
+    });
+
+    const pdfBytes =
+      await newPdf.save();
+
+    fs.writeFileSync(
+      path.join(
+        outputDir,
+        `group_${groupNumber}_${startPage}-${endPage}.pdf`
+      ),
+      pdfBytes
+    );
+
+    groupNumber++;
+  }
+
+} else {
+
+  /* ==========================================
+     DEFAULT BEHAVIOR
+     EACH PAGE = SEPARATE PDF
+  ========================================== */
+
+  for (
+    let i = 0;
+    i < pdfDoc.getPageCount();
+    i++
+  ) {
+
+    const newPdf =
+      await PDFDocument.create();
+
+    const [page] =
+      await newPdf.copyPages(
+        pdfDoc,
+        [i]
+      );
+
+    newPdf.addPage(page);
+
+    const pdfBytes =
+      await newPdf.save();
+
+    fs.writeFileSync(
+      path.join(
+        outputDir,
+        `page_${i + 1}.pdf`
+      ),
+      pdfBytes
+    );
+  }
 }
     const zipPath = `${outputDir}.zip`;
     const output = fs.createWriteStream(zipPath);
