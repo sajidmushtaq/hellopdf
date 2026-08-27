@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="pdf-thumb-wrap">
           <embed
-            src="${selectedFile.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+            src="${selectedFile.previewUrl}#toolbar=0&navpanes=0&scrollbar=1&page=1&view=FitH"
             type="application/pdf"
             class="pdf-thumb"
           />
@@ -598,7 +598,266 @@ if (closeUpgradeModal) {
   });
 
 }
+/* =========================================================
+   SMART SPLIT — PREMIUM BUTTON + DIRECT REQUEST
+========================================================= */
 
+const smartSplitBtn =
+  document.getElementById("smartSplitBtn");
+
+smartSplitBtn?.addEventListener("click", async () => {
+
+  let originalSmartButton = null;
+
+  if (!selectedFile) {
+    alert("Please select a PDF file");
+    return;
+  }
+
+  try {
+
+    const { data, error } =
+      await supabaseClient.auth.getUser();
+
+    if (error || !data?.user) {
+      alert("Please login first.");
+      return;
+    }
+
+    const userId = data.user.id;
+
+    const {
+      data: profileData,
+      error: profileError
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select("is_premium")
+        .eq("id", userId)
+        .single();
+
+    if (profileError) {
+
+      console.error(
+        "SMART PREMIUM CHECK ERROR =",
+        profileError
+      );
+
+      alert(
+        "Unable to verify Premium account."
+      );
+
+      return;
+    }
+
+    const isPremium =
+      profileData?.is_premium || false;
+
+    if (!isPremium) {
+
+      window.location.href =
+        "/pricing.html";
+
+      return;
+    }
+
+    console.log(
+      "SMART PREMIUM VERIFIED"
+    );
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      "pdf",
+      selectedFile
+    );
+
+    formData.append(
+      "user_id",
+      userId
+    );
+
+    formData.append(
+      "split_mode",
+      "range"
+    );
+
+    formData.append(
+      "range_type",
+      "smart"
+    );
+
+    formData.append(
+      "ranges",
+      "[]"
+    );
+
+    formData.append(
+      "fixed_pages",
+      ""
+    );
+
+    formData.append(
+      "page_mode",
+      ""
+    );
+
+    formData.append(
+      "max_size",
+      ""
+    );
+
+    console.log(
+      "SMART SPLIT REQUEST STARTED"
+    );
+
+    startFakeProgress();
+
+    smartSplitBtn.disabled = true;
+
+    originalSmartButton =
+      smartSplitBtn.innerHTML;
+
+    smartSplitBtn.innerHTML = `
+      Analyzing...
+      <i class="fa-solid fa-spinner fa-spin"></i>
+    `;
+
+    const response =
+      await fetch("/split", {
+        method: "POST",
+        body: formData
+      });
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+      console.error(
+        "SMART SERVER ERROR =",
+        errorText
+      );
+
+      if (
+        errorText.includes(
+          "Daily free limit reached"
+        )
+      ) {
+
+        const upgradeModal =
+          document.getElementById(
+            "upgradeModal"
+          );
+
+        if (upgradeModal) {
+          upgradeModal.style.display =
+            "flex";
+        }
+
+      } else {
+
+        alert(
+          errorText ||
+          "Smart Split failed"
+        );
+
+      }
+
+      return;
+    }
+
+    const blob =
+      await response.blob();
+
+    if (
+      !blob ||
+      blob.size < 100
+    ) {
+
+      alert(
+        "Smart Split failed"
+      );
+
+      return;
+    }
+
+    completeProgress();
+
+    if (splitZipUrl) {
+
+      URL.revokeObjectURL(
+        splitZipUrl
+      );
+
+    }
+
+    splitZipUrl =
+      URL.createObjectURL(
+        blob
+      );
+
+    setTimeout(() => {
+
+      splitStartScreen
+        .classList
+        .add("hidden-screen");
+
+      splitStartScreen.style.display =
+        "none";
+
+      splitPreviewScreen
+        .classList
+        .add("hidden-screen");
+
+      splitPreviewScreen.style.display =
+        "none";
+
+      splitSuccessScreen
+        .classList
+        .remove("hidden-screen");
+
+      splitSuccessScreen.style.display =
+        "flex";
+
+    }, 400);
+
+  } catch (error) {
+
+    console.error(
+      "SMART SPLIT ERROR =",
+      error
+    );
+
+    alert(
+      "Smart Split failed. Please try again."
+    );
+
+  } finally {
+
+    if (progressInterval) {
+
+      clearInterval(
+        progressInterval
+      );
+
+      progressInterval = null;
+    }
+
+    smartSplitBtn.disabled =
+      false;
+
+    smartSplitBtn.innerHTML =
+      originalSmartButton ||
+      `
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        Analyze PDF
+      `;
+
+  }
+
+});
 });
 
 /* =========================================================
@@ -691,6 +950,7 @@ document.querySelectorAll(
   });
 
 });
+
 
 /* =========================================================
    SPLIT MASTER UI — ADD RANGE

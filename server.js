@@ -131,7 +131,649 @@ const { createClient } = require("@supabase/supabase-js");
 
 const pdfParseModule = require("pdf-parse");
 const pdfParse = pdfParseModule.default || pdfParseModule;
+/* =========================================================
+   SMART SPLIT — PAGE BY PAGE TEXT EXTRACTION
+========================================================= */
 
+async function extractPdfPagesText(pdfBuffer) {
+
+  const pages = [];
+
+  const parsed = await pdfParse(pdfBuffer, {
+
+    pagerender: async (pageData) => {
+
+      const textContent =
+        await pageData.getTextContent({
+          normalizeWhitespace: false,
+          disableCombineTextItems: false
+        });
+
+      let lastY;
+      let text = "";
+
+      for (const item of textContent.items) {
+
+        if (
+          lastY === item.transform[5] ||
+          !lastY
+        ) {
+          text += item.str;
+        } else {
+          text += "\n" + item.str;
+        }
+
+        lastY = item.transform[5];
+      }
+
+      pages.push(
+        String(text || "")
+          .replace(/\s+/g, " ")
+          .trim()
+      );
+
+      return text;
+    }
+
+  });
+
+  return {
+    pageCount: parsed.numpages,
+    pages
+  };
+}
+/* =========================================================
+   SMART SPLIT — SECTION DETECTION
+========================================================= */
+
+function detectSmartSplitPoints(pages) {
+
+  const splitPoints = [];
+  console.log("========== SMART PAGE TEXT DIAGNOSTIC ==========");
+
+pages.forEach((page, index) => {
+
+  console.log(
+    `SMART PAGE ${index + 1} TEXT =`,
+    String(page || "").slice(0, 500)
+  );
+
+});
+
+console.log(
+  "SMART TOTAL PAGE TEXT ITEMS =",
+  pages.length
+);
+
+console.log(
+  "================================================="
+);
+
+  if (!Array.isArray(pages) || pages.length <= 1) {
+    return splitPoints;
+  }
+
+  const normalizedPages = pages.map((text) =>
+    String(text || "")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
+
+  for (let i = 0; i < normalizedPages.length - 1; i++) {
+
+    const currentPage =
+      normalizedPages[i];
+
+    const nextPage =
+      normalizedPages[i + 1];
+
+    let score = 0;
+    let strongContentChange = false;
+
+    /* ==========================================
+       SIGNAL 1 — BLANK / NEAR-BLANK PAGE
+    ========================================== */
+
+    if (
+      currentPage.length <= 20 ||
+      nextPage.length <= 20
+    ) {
+      score += 3;
+    }
+
+    /* ==========================================
+       SIGNAL 2 — LARGE CONTENT CHANGE
+    ========================================== */
+
+    const currentWords =
+      new Set(
+        currentPage
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(Boolean)
+      );
+
+    const nextWords =
+      new Set(
+        nextPage
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(Boolean)
+      );
+
+    if (
+      currentWords.size > 0 &&
+      nextWords.size > 0
+    ) {
+
+      let commonWords = 0;
+
+      for (const word of currentWords) {
+
+        if (nextWords.has(word)) {
+          commonWords++;
+        }
+
+      }
+
+      const smallerSet =
+        Math.min(
+          currentWords.size,
+          nextWords.size
+        );
+
+      const similarity =
+        smallerSet > 0
+          ? commonWords / smallerSet
+          : 0;
+
+      if (similarity < 0.10) {
+
+  score += 2;
+  strongContentChange = true;
+
+} else if (similarity < 0.20) {
+
+  score += 1;
+  strongContentChange = true;
+
+}
+
+    }
+
+    /* ==========================================
+   SIGNAL 3 — SMART HEADING / TOPIC CHANGE
+========================================== */
+
+const nextStart =
+  nextPage
+    .slice(0, 180)
+    .replace(
+      /^[^a-zA-Z0-9]+/,
+      ""
+    )
+    .trim();
+
+const headingPattern =
+  /^(chapter|section|part|appendix|introduction|summary|conclusion|important|auth|pricing|status|current|problem|fix|wants|files|page)\b/i;
+
+const hasHeadingSignal =
+  headingPattern.test(nextStart);
+
+if (hasHeadingSignal) {
+  score += 2;
+}
+const normalHeadingPattern =
+  /^(chapter|section|part|introduction|background|technical design|implementation|testing|results|conclusion|methodology|overview|discussion|references)\b/i;
+const hasNormalHeading =
+  normalHeadingPattern.test(nextStart);
+
+if (hasNormalHeading) {
+  score += 0;
+}
+
+const fullHeadingPattern = 
+  /^(chapter|section|part)\s+([a-z0-9ivxlcdm]+)|^(introduction|background|technical design|implementation|testing|results|conclusion|methodology|overview|discussion|references)\b/i;
+
+const currentHeadingMatch =
+  currentPage.match(fullHeadingPattern);
+
+const nextHeadingMatch =
+  nextPage.match(fullHeadingPattern);
+const continuationPattern =
+  /\b(continued|continuation|recovery|implementation details)\b/i;
+
+const hasContinuationSignal =
+  continuationPattern.test(nextStart);
+const normalizeHeading = (match) => {
+
+  if (!match) {
+    return null;
+  }
+
+  if (match[1] && match[2]) {
+    return (
+      match[1].toLowerCase() +
+      " " +
+      match[2].toLowerCase()
+    );
+  }
+
+  return match[3]
+    ? match[3].toLowerCase()
+    : null;
+};
+
+const currentHeading =
+  normalizeHeading(currentHeadingMatch);
+
+const nextHeading =
+  normalizeHeading(nextHeadingMatch);
+const extractLogicalHeadingId = (text) => {
+
+  const value =
+    String(text || "")
+      .slice(0, 180)
+      .trim();
+
+  /*
+   * ==========================================
+   * M2-5 STEP 4.3
+   * FULL LOGICAL HEADING IDENTIFIER DETECTION
+   * ==========================================
+   */
+
+  // CHAPTER / SECTION / PART + identifier
+  const namedMatch =
+    value.match(
+      /^(chapter|section|part)\s+([a-z0-9]+(?:[.\-_][a-z0-9]+)*)\b/i
+    );
+
+  if (namedMatch) {
+
+    return (
+      namedMatch[1].toLowerCase() +
+      " " +
+      namedMatch[2].toLowerCase()
+    );
+
+  }
+
+  // Numeric identifiers:
+  // 1.1
+  // 1.2.3
+  // 2-1
+  const numericMatch =
+    value.match(
+      /^(\d+(?:[.\-]\d+)+)\b/
+    );
+
+  if (numericMatch) {
+
+    return numericMatch[1]
+      .toLowerCase();
+
+  }
+
+  // Alphanumeric identifiers:
+  // A-2
+  // A.2
+  // B-1
+  const alphaNumericMatch =
+    value.match(
+      /^([a-z]+[.\-]\d+)\b/i
+    );
+
+  if (alphaNumericMatch) {
+
+    return alphaNumericMatch[1]
+      .toLowerCase();
+
+  }
+
+  // Roman numeral identifiers:
+  // I
+  // II
+  // IV
+  // IX
+  // XII
+  const romanMatch =
+    value.match(
+      /^([ivxlcdm]+)\b/i
+    );
+
+  if (romanMatch) {
+
+    return romanMatch[1]
+      .toLowerCase();
+
+  }
+
+  return null;
+};
+
+const currentLogicalHeading =
+  extractLogicalHeadingId(currentPage);
+
+const nextLogicalHeading =
+  extractLogicalHeadingId(nextPage);
+
+console.log(
+  "SMART CURRENT LOGICAL HEADING =",
+  currentLogicalHeading
+);
+
+console.log(
+  "SMART NEXT LOGICAL HEADING =",
+  nextLogicalHeading
+);
+
+const logicalHeadingChanged =
+  currentLogicalHeading &&
+  nextLogicalHeading &&
+  currentLogicalHeading !== nextLogicalHeading;
+
+const nextIntroducesLogicalHeading =
+  nextLogicalHeading &&
+  !currentLogicalHeading;
+
+/* ==========================================
+   M2-5 STEP 4.4
+   IDENTIFIER CHANGE = STRONG BOUNDARY
+========================================== */
+
+if (logicalHeadingChanged) {
+
+  if (hasContinuationSignal) {
+
+    console.log(
+      "SMART LOGICAL HEADING CHANGE OVERRIDDEN — CONTINUATION"
+    );
+
+  } else {
+
+    console.log(
+      "SMART LOGICAL IDENTIFIER CHANGED =",
+      currentLogicalHeading,
+      "->",
+      nextLogicalHeading
+    );
+
+    score += 4;
+
+  }
+
+}
+
+if (nextIntroducesLogicalHeading) {
+
+  console.log(
+    "SMART NEW LOGICAL HEADING DETECTED =",
+    nextLogicalHeading
+  );
+
+  score += 4;
+
+}
+
+const currentSectionMatch =
+  currentPage.match(
+    /\bsection\s+(\d+)\b/i
+  );
+
+const nextSectionMatch =
+  nextPage.match(
+    /\bsection\s+(\d+)\b/i
+  );
+
+const sectionNumberChanged =
+  currentSectionMatch &&
+  nextSectionMatch &&
+  currentSectionMatch[1] !== nextSectionMatch[1];
+
+if (sectionNumberChanged) {
+  score += 1;
+}
+
+/* ==========================================
+   SIGNAL 4 — TOPIC TRANSITION
+========================================== */
+
+const topicChangeSignals = [
+  "important",
+  "auth",
+  "pricing",
+  "status",
+  "current",
+  "problem",
+  "fix",
+  "wants",
+  "files",
+  "page",
+  "project",
+  "working",
+  "completed",
+  "tools",
+  "tech",
+  "brand",
+  "category",
+  "final",
+  "next",
+  "development",
+  "plan",
+  "key",
+  "learning",
+  "ready",
+  "maintain"
+];
+
+const lowerNextStart =
+  nextStart.toLowerCase();
+
+const hasTopicChange =
+  topicChangeSignals.some((word) =>
+    lowerNextStart.startsWith(word)
+  );
+
+if (hasTopicChange) {
+  score += 1;
+}
+
+
+/* ==========================================
+   M2-5 — FALSE POSITIVE SPLIT SUPPRESSION
+========================================== */
+
+const sameLogicalHeading =
+  currentHeading &&
+  nextHeading &&
+  currentHeading === nextHeading;
+
+const continuationWords =
+  /\b(continued|continuation|recovery|details|implementation details)\b/i;
+
+const nextIsContinuation =
+  continuationWords.test(nextStart);
+
+if (
+  sameLogicalHeading ||
+  nextIsContinuation
+) {
+  console.log(
+    "SMART FALSE POSITIVE SUPPRESSED"
+  );
+
+  score = Math.min(score, 2);
+}
+
+const validSmartBoundary =
+  score >= 3;
+
+if (validSmartBoundary) {
+
+  splitPoints.push(
+    i + 1
+  );
+
+}
+
+  }
+
+  return splitPoints;
+}
+
+
+/* =========================================================
+   SMART SPLIT — SECTION BOUNDARIES
+========================================================= */
+
+function buildSmartSections(
+  pageCount,
+  splitPoints
+) {
+
+  const sections = [];
+
+  if (
+    !Number.isInteger(pageCount) ||
+    pageCount <= 0
+  ) {
+
+    return sections;
+
+  }
+
+  const points =
+    Array.from(
+      new Set(
+        (splitPoints || [])
+          .map(Number)
+          .filter(
+            (point) =>
+              Number.isInteger(point) &&
+              point > 0 &&
+              point < pageCount
+          )
+      )
+    ).sort(
+      (a, b) => a - b
+    );
+
+  let startPage = 1;
+
+  for (const splitPoint of points) {
+
+    sections.push({
+      from: startPage,
+      to: splitPoint
+    });
+
+    startPage =
+      splitPoint + 1;
+
+  }
+
+  if (startPage <= pageCount) {
+
+    sections.push({
+      from: startPage,
+      to: pageCount
+    });
+
+  }
+
+  return sections;
+}
+
+
+/* =========================================================
+   SMART SPLIT — CREATE SECTION PDFs
+========================================================= */
+
+async function createSmartSectionPdfs(
+  pdfDoc,
+  sections,
+  outputDir
+) {
+
+  const createdFiles = [];
+
+  for (let i = 0; i < sections.length; i++) {
+
+    const startPage =
+      Math.max(
+        1,
+        Number(sections[i].from)
+      );
+
+    const endPage =
+      Math.min(
+        pdfDoc.getPageCount(),
+        Number(sections[i].to)
+      );
+
+    if (
+      !Number.isInteger(startPage) ||
+      !Number.isInteger(endPage) ||
+      startPage > endPage
+    ) {
+
+      continue;
+
+    }
+
+    const newPdf =
+      await PDFDocument.create();
+
+    const pageIndexes =
+      Array.from(
+        {
+          length:
+            endPage -
+            startPage +
+            1
+        },
+        (_, index) =>
+          startPage -
+          1 +
+          index
+      );
+
+    const copiedPages =
+      await newPdf.copyPages(
+        pdfDoc,
+        pageIndexes
+      );
+
+    copiedPages.forEach((page) => {
+      newPdf.addPage(page);
+    });
+
+    const pdfBytes =
+      await newPdf.save();
+
+    const fileName =
+      `smart_section_${i + 1}_${startPage}-${endPage}.pdf`;
+
+    const filePath =
+      path.join(
+        outputDir,
+        fileName
+      );
+
+    fs.writeFileSync(
+      filePath,
+      pdfBytes
+    );
+
+    createdFiles.push(
+      fileName
+    );
+
+  }
+
+  return createdFiles;
+}
 const { Document, Packer, Paragraph, TextRun } = require("docx");
 const mammoth = require("mammoth");
 const PDFKit = require("pdfkit");
@@ -400,7 +1042,116 @@ if (!profileData.is_premium) {
 }
     const bytes = fs.readFileSync(req.file.path);
     const pdfDoc = await PDFDocument.load(bytes);
+/* =========================================================
+   SMART SPLIT — SERVER SIDE PREMIUM + ANALYSIS
+========================================================= */
 
+if (
+  splitMode === "range" &&
+  rangeType === "smart"
+) {
+
+  if (!profileData.is_premium) {
+
+    return res.status(403).send(
+      "Smart Split is a Premium feature. Upgrade to Premium."
+    );
+
+  }
+
+  const smartAnalysis =
+    await extractPdfPagesText(bytes);
+
+  const splitPoints =
+    detectSmartSplitPoints(
+      smartAnalysis.pages
+    );
+
+  const smartSections =
+    buildSmartSections(
+      smartAnalysis.pageCount,
+      splitPoints
+    );
+
+  console.log(
+    "SMART PAGE COUNT =",
+    smartAnalysis.pageCount
+  );
+
+  console.log(
+    "SMART SPLIT POINTS =",
+    splitPoints
+  );
+
+  console.log(
+    "SMART SECTIONS =",
+    smartSections
+  );
+
+  if (!smartSections.length) {
+
+    return res.status(400).send(
+      "Smart Split could not detect any sections in this PDF."
+    );
+
+  }
+
+  const smartOutputDir =
+    path.join(
+      outputsDir,
+      `smart_${Date.now()}`
+    );
+
+  fs.mkdirSync(
+    smartOutputDir,
+    { recursive: true }
+  );
+
+  await createSmartSectionPdfs(
+    pdfDoc,
+    smartSections,
+    smartOutputDir
+  );
+
+  const smartZipPath =
+    `${smartOutputDir}.zip`;
+
+  const smartOutput =
+    fs.createWriteStream(
+      smartZipPath
+    );
+
+  const smartArchive =
+    archiver("zip", {
+      zlib: { level: 9 }
+    });
+
+  smartArchive.pipe(
+    smartOutput
+  );
+
+  smartArchive.directory(
+    smartOutputDir,
+    false
+  );
+
+  await smartArchive.finalize();
+
+  smartOutput.on("close", async () => {
+
+    console.log(
+      "SMART ZIP READY =",
+      smartZipPath
+    );
+
+    res.download(
+      smartZipPath
+    );
+
+  });
+
+  return;
+}
     const outputDir = path.join(outputsDir, `split_${Date.now()}`);
     fs.mkdirSync(outputDir);
 

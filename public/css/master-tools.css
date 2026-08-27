@@ -639,6 +639,38 @@ body .split-page .premium-feature-box p{
   line-height:1.5;
   color:#6b7280;
 }
+body .split-page .smart-feature-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin:14px 0 4px;
+  text-align:left;
+}
+
+body .split-page .smart-feature-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  padding:9px 10px;
+
+  border:1px solid #f0f1f3;
+  border-radius:9px;
+
+  background:#fafafa;
+
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  line-height:1.35;
+  color:#4b5563;
+}
+
+body .split-page .smart-feature-item i{
+  flex:0 0 auto;
+
+  font-size:11px;
+  color:#ff3131;
+}
 
 body .split-page .premium-upgrade-btn{
   width:100%;
@@ -668,6 +700,18 @@ body .split-page .premium-upgrade-btn{
 body .split-page .premium-upgrade-btn:hover{
   transform:translateY(-1px);
   box-shadow:0 9px 22px rgba(255,49,49,.28);
+}
+
+/* =========================================================
+   SPLIT MASTER UI — SUB PANEL VISIBILITY
+========================================================= */
+
+body .split-page .split-sub-panel{
+  display:none;
+}
+
+body .split-page .split-sub-panel.active{
+  display:block;
 }
 
 /* =========================================================
@@ -937,4 +981,209 @@ body .split-page #splitBtn:active{
       0 0 14px rgba(255,120,120,.18);
   }
 
+}
+
+/* =========================================================
+   SPLIT PDF — MASTER UPLOAD ALIGNMENT
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+body .split-page .split-select-row{
+  position:relative;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+body .split-page .split-upload-box{
+  width:330px;
+  display:flex;
+  justify-content:center;
+  margin:0;
+}
+
+body .split-page .split-upload-box .master-tool-button{
+  width:330px;
+  min-width:330px;
+  box-sizing:border-box;
+  margin:0;
+}
+
+body .split-page .cloud-buttons{
+  position:absolute;
+  left:calc(50% + 181px);
+  top:50%;
+  transform:translateY(-50%);
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+body .split-page .drop-text{
+  width:100%;
+  text-align:center;
+  margin-top:14px;
+}
+
+
+/* =========================================================
+   SPLIT PDF — SUCCESS BUTTON
+   Match MASTER PRIMARY BUTTON exactly
+========================================================= */
+
+body .split-page #splitSuccessScreen.master-tool-success
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  box-sizing:border-box !important;
+
+  padding:25px 38px !important;
+
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  border-radius:11px !important;
+
+  margin:0 !important;
+}
+
+@media(max-width:768px){
+
+  body .split-page .split-select-row{
+    flex-direction:column;
+  }
+
+  body .split-page .split-upload-box{
+    width:100%;
+    max-width:330px;
+  }
+
+  body .split-page .split-upload-box .master-tool-button{
+    width:100%;
+    min-width:0;
+  }
+
+  body .split-page .cloud-buttons{
+    position:static;
+    transform:none;
+
+    flex-direction:row;
+
+    margin-top:12px;
+  }
+
+  body .split-page .drop-text{
+    margin-top:14px;
+  }
+
+  body .split-page #splitSuccessScreen.master-tool-success
+  button.master-tool-download-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:330px !important;
+  }
+
+}
+
+/* =========================================================
+   SPLIT PDF — FINAL BUTTON / CLOUD ALIGNMENT
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+/* Keep cloud buttons vertically aligned with main button */
+body .split-page .split-select-row .cloud-buttons{
+  top:50%;
+  transform:translateY(-50%) !important;
+  margin-top:0 !important;
+}
+
+/* Keep both cloud buttons in their original vertical stack */
+body .split-page .split-select-row .cloud-buttons button{
+  flex-shrink:0;
+}
+
+
+/* =========================================================
+   SPLIT SUCCESS — SAME SIZE AS MASTER PRIMARY BUTTON
+========================================================= */
+
+body .split-page #splitSuccessScreen.master-tool-success
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+
+  height:auto !important;
+
+  padding:25px 38px !important;
+
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  white-space:nowrap !important;
+  text-align:center !important;
+
+  border-radius:11px !important;
+  box-sizing:border-box !important;
+
+  margin:0 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+  body .split-page .split-select-row .cloud-buttons{
+    top:auto;
+    transform:none !important;
+    margin-top:12px !important;
+  }
+
+  body .split-page #splitSuccessScreen.master-tool-success
+  button.master-tool-download-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:330px !important;
+
+    white-space:nowrap !important;
+    font-size:19px !important;
+    padding:18px 24px !important;
+  }
+
+}
+
+/* =========================================================
+   M2-UI STEP 2.1
+   SPLIT PDF PREVIEW SCROLL TEST
+   UI ONLY
+========================================================= */
+
+body .split-page .split-preview-left{
+  min-height:0;
+}
+
+body .split-page .split-file-grid{
+  min-height:0;
+}
+
+body .split-page .split-pdf-card{
+  overflow:hidden;
+}
+
+body .split-page .pdf-thumb-wrap{
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch;
+
+  scrollbar-width:auto;
+}
+
+body .split-page .pdf-thumb{
+  pointer-events:auto !important;
 }

@@ -419,7 +419,7 @@ if (user.is_premium) {
       msg.textContent = "Sending reset email...";
 
       const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://hellopdf.onrender.com/login.html"
+        redirectTo: window.location.origin + "/login.html"
       });
 
       if (error) {
