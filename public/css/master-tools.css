@@ -18,7 +18,6 @@
   background:#f3f4f8;
 }
 
-
 /* =========================================================
    2. MASTER START SCREEN
 ========================================================= */
@@ -33,7 +32,6 @@
   padding:55px 20px 40px;
 }
 
-
 /* =========================================================
    3. MASTER TITLE
 ========================================================= */
@@ -46,9 +44,8 @@
   font-weight:900;
 
   color:#111827;
+
 }
-
-
 /* =========================================================
    4. MASTER DESCRIPTION
 ========================================================= */
@@ -64,9 +61,8 @@
   font-weight:400;
 
   color:#64748b;
+
 }
-
-
 /* =========================================================
    5. MASTER PRIMARY BUTTON
 ========================================================= */
@@ -98,12 +94,10 @@
     transform .2s ease,
     box-shadow .2s ease;
 }
-
 .master-tool-button:hover{
   transform:translateY(-2px);
   box-shadow:0 14px 28px rgba(239,68,68,.25);
 }
-
 
 /* =========================================================
    6. MASTER HELPER TEXT
@@ -117,7 +111,6 @@
 
   color:#64748b;
 }
-
 
 /* =========================================================
    7. MASTER SUCCESS SCREEN
@@ -138,7 +131,6 @@
 
   background:#f3f4f8;
 }
-
 /* =========================================================
    7A. MASTER PREVIEW SCREEN
 ========================================================= */
@@ -148,7 +140,6 @@
   min-height:calc(100vh - 72px);
   background:#f3f4f8;
 }
-
 /* =========================================================
    7B. MASTER PREVIEW LEFT WORKSPACE
 ========================================================= */
@@ -157,7 +148,6 @@
   min-width:0;
   background:#f3f4f8;
 }
-
 /* =========================================================
    7C. MASTER PREVIEW ACTION PANEL
 ========================================================= */
@@ -170,7 +160,6 @@
   overflow-x:hidden;
   box-sizing:border-box;
 }
-
 /* =========================================================
    7D. MASTER ACTION PANEL TYPOGRAPHY
 ========================================================= */
@@ -178,11 +167,9 @@
 .master-tool-panel-title{
   margin:0 0 10px;
 }
-
 .master-tool-panel-description{
   margin:0;
 }
-
 /* =========================================================
    7E. MASTER OPTION / SETTINGS BOX
 ========================================================= */
@@ -190,7 +177,6 @@
 .master-tool-option-box{
   width:100%;
 }
-
 /* =========================================================
    7F. MASTER ACTION BUTTON
 ========================================================= */
@@ -198,7 +184,6 @@
 .master-tool-action-button{
   width:100%;
 }
-
 /* =========================================================
    7G. MASTER TOOL PROGRESS
 ========================================================= */
@@ -206,11 +191,9 @@
 .master-tool-progress{
   width:100%;
 }
-
 .master-tool-progress-bar{
   max-width:100%;
 }
-
 /* =========================================================
    7H. MASTER DOWNLOAD BUTTON
 ========================================================= */
@@ -266,19 +249,16 @@
 
 /* Success screen layout */
 body .split-page #splitSuccessScreen.master-tool-success:not(.hidden-screen){
-  display:flex !important;
   flex-direction:column !important;
   align-items:center !important;
   justify-content:flex-start !important;
 
   text-align:center !important;
 
-  /* Match Upload Screen distance from header */
   padding:58px 20px 40px !important;
 
   background:#f3f4f8 !important;
 }
-
 /* Success heading — same scale as Upload heading */
 body .split-page #splitSuccessScreen.master-tool-success:not(.hidden-screen)
 h1.master-tool-title{
@@ -286,18 +266,16 @@ h1.master-tool-title{
   line-height:1.2 !important;
   margin:0 0 14px !important;
 }
-
 /* Success description */
 body .split-page #splitSuccessScreen.master-tool-success:not(.hidden-screen)
-p.master-tool-description
+p.master-tool-description{
   font-size:20px !important;
   line-height:1.5 !important;
   margin:0 0 36px !important;
 }
-
 /* Download button — same visual scale as Upload button */
 body .split-page #splitSuccessScreen.master-tool-success:not(.hidden-screen)
-button.master-tool-download-button
+button.master-tool-download-button{
   width:330px !important;
   max-width:100% !important;
 
@@ -308,14 +286,12 @@ button.master-tool-download-button
 
   border-radius:12px !important;
 }
-
 /* =========================================================
    MASTER TOOLS — MERGE SUCCESS AUTHORITY LAYER
    Match approved Master UI
 ========================================================= */
 
-body .merge-page #successScreen.master-tool-success{
-  display:flex !important;
+body .merge-page #successScreen.master-tool-success:not(.hidden-screen){
   flex-direction:column !important;
   align-items:center !important;
   justify-content:flex-start !important;
@@ -324,43 +300,41 @@ body .merge-page #successScreen.master-tool-success{
   padding:58px 20px 40px !important;
   background:#f3f4f8 !important;
 }
-
 body .merge-page #successScreen.master-tool-success
 h1.master-tool-title{
   font-size:44px !important;
   line-height:1.2 !important;
   margin:0 0 14px !important;
 }
-
 body .merge-page #successScreen.master-tool-success
 p.master-tool-description{
   font-size:20px !important;
   line-height:1.5 !important;
   margin:0 0 36px !important;
 }
-
 body .merge-page #successScreen.master-tool-success
 button.master-tool-download-button{
   width:330px !important;
-  max-width:100% !important;
-  min-height:78px !important;
+min-width:330px !important;
+max-width:330px !important;
 
-  padding:0 28px !important;
+height:auto !important;
+
+padding:25px 38px !important;
 
   background:#ff3131 !important;
   color:#ffffff !important;
 
   font-family:Arial, Helvetica, sans-serif !important;
-  font-size:22px !important;
-  font-weight:700 !important;
-  line-height:1.2 !important;
+  font-size:28px !important;
+line-height:1 !important;
+font-weight:800 !important;
 
   white-space:nowrap !important;
 
   border:none !important;
-  border-radius:12px !important;
+  border-radius:11px !important;
 }
-
 /* =========================================================
    MASTER TOOLS — MERGE PREVIEW BUTTON COLORS
    Match approved Success Screen button color
@@ -372,20 +346,17 @@ button.master-tool-action-button{
   background:#ff3131 !important;
   color:#ffffff !important;
 }
-
 /* Preview — Add More (+) button */
 body .merge-page #previewScreen.master-tool-preview
 #addMoreBtn{
   background:#ff3131 !important;
   color:#ffffff !important;
 }
-
 /* =========================================================
    MASTER TOOLS — COMPRESS SUCCESS AUTHORITY LAYER
 ========================================================= */
 
 body .compress-page #compressSuccessScreen.master-tool-success{
-  display:flex !important;
   flex-direction:column !important;
   align-items:center !important;
   justify-content:flex-start !important;
@@ -394,16 +365,26 @@ body .compress-page #compressSuccessScreen.master-tool-success{
   padding:58px 20px 40px !important;
   background:#f3f4f8 !important;
 }
-
 body .compress-page #compressSuccessScreen.master-tool-success
 h1.master-tool-title{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+
   font-family:Arial, Helvetica, sans-serif !important;
   font-size:44px !important;
-  font-weight:700 !important;
+  font-weight:900 !important;
   line-height:1.2 !important;
-  margin:0 0 14px !important;
-}
 
+  color:#111827 !important;
+  text-align:center !important;
+}
 body .compress-page #compressSuccessScreen.master-tool-success
 p.master-tool-description{
   font-family:Arial, Helvetica, sans-serif !important;
@@ -412,7 +393,6 @@ p.master-tool-description{
   line-height:1.5 !important;
   margin:0 0 36px !important;
 }
-
 body .compress-page #compressSuccessScreen.master-tool-success
 button.master-tool-download-button{
   width:330px !important;
@@ -432,18 +412,35 @@ button.master-tool-download-button{
   border:none !important;
   border-radius:12px !important;
 }
-
 /* =========================================================
    MASTER TOOLS — COMPRESS PREVIEW AUTHORITY
 ========================================================= */
 
 body .compress-page #compressPreviewScreen.master-tool-preview
 button.master-tool-action-button{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+
+  height:auto !important;
+
+  padding:25px 38px !important;
+
   background:#ff3131 !important;
   color:#ffffff !important;
 
   font-family:Arial, Helvetica, sans-serif !important;
-  font-weight:700 !important;
+  font-size:18px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+
+  white-space:nowrap !important;
+  text-align:center !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  box-sizing:border-box !important;
 }
 
 /* =========================================================
@@ -459,7 +456,6 @@ body .split-page .split-mode-tabs{
   background:#f1f3f7;
   border-radius:12px;
 }
-
 body .split-page .split-mode-tab{
   flex:1;
   min-height:46px;
@@ -479,17 +475,14 @@ body .split-page .split-mode-tab{
     box-shadow .2s ease,
     transform .2s ease;
 }
-
 body .split-page .split-mode-tab:hover{
   color:#ff3131;
 }
-
 body .split-page .split-mode-tab.active{
   background:#ffffff;
   color:#ff3131;
   box-shadow:0 3px 10px rgba(0,0,0,.08);
 }
-
 /* =========================================================
    SPLIT MASTER UI — RANGE SUB TABS
 ========================================================= */
@@ -500,7 +493,6 @@ body .split-page .split-sub-tabs{
   gap:8px;
   margin:16px 0 18px;
 }
-
 body .split-page .split-sub-tab{
   position:relative;
 
@@ -523,19 +515,16 @@ body .split-page .split-sub-tab{
     box-shadow .2s ease,
     transform .2s ease;
 }
-
 body .split-page .split-sub-tab:hover{
   transform:translateY(-1px);
   border-color:#ffb3b3;
   box-shadow:0 4px 12px rgba(0,0,0,.06);
 }
-
 body .split-page .split-sub-tab.active{
   border-color:#ff3131;
   color:#ff3131;
   box-shadow:0 4px 14px rgba(255,49,49,.12);
 }
-
 body .split-page .free-badge,
 body .split-page .premium-badge{
   display:block;
@@ -546,15 +535,12 @@ body .split-page .premium-badge{
   font-weight:800;
   letter-spacing:.4px;
 }
-
 body .split-page .free-badge{
   color:#6b7280;
 }
-
 body .split-page .premium-badge{
   color:#ff3131;
 }
-
 /* =========================================================
    SPLIT MASTER UI — MODE PANELS
 ========================================================= */
@@ -562,11 +548,9 @@ body .split-page .premium-badge{
 body .split-page .split-mode-panel{
   display:none;
 }
-
 body .split-page .split-mode-panel.active{
   display:block;
 }
-
 body .split-page .split-panel-heading h3{
   margin:0 0 5px;
 
@@ -575,7 +559,6 @@ body .split-page .split-panel-heading h3{
   font-weight:700;
   color:#111827;
 }
-
 body .split-page .split-panel-heading p{
   margin:0 0 16px;
 
@@ -584,7 +567,6 @@ body .split-page .split-panel-heading p{
   line-height:1.5;
   color:#6b7280;
 }
-
 /* Premium feature card */
 
 body .split-page .premium-feature-box{
@@ -602,7 +584,6 @@ body .split-page .premium-feature-box{
 
   box-shadow:0 6px 20px rgba(255,49,49,.08);
 }
-
 body .split-page .premium-feature-icon{
   width:42px;
   height:42px;
@@ -620,7 +601,6 @@ body .split-page .premium-feature-icon{
 
   font-size:19px;
 }
-
 body .split-page .premium-feature-box h3{
   margin:0 0 7px;
 
@@ -629,7 +609,6 @@ body .split-page .premium-feature-box h3{
   font-weight:700;
   color:#111827;
 }
-
 body .split-page .premium-feature-box p{
   margin:0 auto 12px;
   max-width:280px;
@@ -646,7 +625,6 @@ body .split-page .smart-feature-list{
   margin:14px 0 4px;
   text-align:left;
 }
-
 body .split-page .smart-feature-item{
   display:flex;
   align-items:center;
@@ -664,14 +642,12 @@ body .split-page .smart-feature-item{
   line-height:1.35;
   color:#4b5563;
 }
-
 body .split-page .smart-feature-item i{
   flex:0 0 auto;
 
   font-size:11px;
   color:#ff3131;
 }
-
 body .split-page .premium-upgrade-btn{
   width:100%;
   min-height:48px;
@@ -696,12 +672,10 @@ body .split-page .premium-upgrade-btn{
     transform .2s ease,
     box-shadow .2s ease;
 }
-
 body .split-page .premium-upgrade-btn:hover{
   transform:translateY(-1px);
   box-shadow:0 9px 22px rgba(255,49,49,.28);
 }
-
 /* =========================================================
    SPLIT MASTER UI — SUB PANEL VISIBILITY
 ========================================================= */
@@ -709,11 +683,9 @@ body .split-page .premium-upgrade-btn:hover{
 body .split-page .split-sub-panel{
   display:none;
 }
-
 body .split-page .split-sub-panel.active{
   display:block;
 }
-
 /* =========================================================
    SPLIT MASTER UI — CUSTOM RANGE CONTROLS
 ========================================================= */
@@ -724,7 +696,6 @@ body .split-page .split-range-row{
   gap:8px;
   margin:10px 0 12px;
 }
-
 body .split-page .split-range-row input{
   width:100%;
   height:44px;
@@ -743,17 +714,14 @@ body .split-page .split-range-row input{
   outline:none;
   transition:border-color .2s ease, box-shadow .2s ease;
 }
-
 body .split-page .split-range-row input:focus{
   border-color:#ff7777;
   box-shadow:0 0 0 3px rgba(255,49,49,.08);
 }
-
 body .split-page .split-range-row span{
   color:#9ca3af;
   font-weight:700;
 }
-
 body .split-page .split-add-range-btn{
   width:100%;
   min-height:42px;
@@ -775,13 +743,11 @@ body .split-page .split-add-range-btn{
     border-color .2s ease,
     transform .2s ease;
 }
-
 body .split-page .split-add-range-btn:hover{
   background:#fff0f0;
   border-color:#ff3131;
   transform:translateY(-1px);
 }
-
 body .split-page .split-sub-panel > small{
   display:block;
   margin-top:9px;
@@ -792,7 +758,6 @@ body .split-page .split-sub-panel > small{
   font-size:11px;
   line-height:1.4;
 }
-
 /* =========================================================
    SPLIT MASTER UI — FIXED / PAGES / SIZE CONTROLS
 ========================================================= */
@@ -804,7 +769,6 @@ body .split-page .split-size-input{
   gap:8px;
   margin-top:9px;
 }
-
 body .split-page .split-fixed-input input,
 body .split-page .split-size-input input{
   width:100%;
@@ -823,7 +787,6 @@ body .split-page .split-size-input input{
 
   outline:none;
 }
-
 body .split-page .split-fixed-input span,
 body .split-page .split-size-input span{
   min-width:52px;
@@ -834,13 +797,11 @@ body .split-page .split-size-input span{
   font-size:13px;
   font-weight:600;
 }
-
 body .split-page .split-pages-options{
   display:flex;
   flex-direction:column;
   gap:10px;
 }
-
 body .split-page .split-option-card{
   display:flex;
   align-items:flex-start;
@@ -860,24 +821,20 @@ body .split-page .split-option-card{
     box-shadow .2s ease,
     transform .2s ease;
 }
-
 body .split-page .split-option-card:hover{
   border-color:#ffb3b3;
   box-shadow:0 4px 12px rgba(0,0,0,.05);
   transform:translateY(-1px);
 }
-
 body .split-page .split-option-card input{
   margin-top:3px;
   accent-color:#ff3131;
 }
-
 body .split-page .split-option-card span{
   display:flex;
   flex-direction:column;
   gap:4px;
 }
-
 body .split-page .split-option-card strong{
   color:#1f2937;
 
@@ -885,7 +842,6 @@ body .split-page .split-option-card strong{
   font-size:14px;
   font-weight:700;
 }
-
 body .split-page .split-option-card small{
   color:#7b8490;
 
@@ -893,7 +849,6 @@ body .split-page .split-option-card small{
   font-size:11px;
   line-height:1.4;
 }
-
 body .split-page .split-size-note,
 body .split-page .premium-size-note{
   display:flex;
@@ -908,24 +863,20 @@ body .split-page .premium-size-note{
   font-family:Arial, Helvetica, sans-serif;
   font-size:11px;
 }
-
 body .split-page .split-size-note{
   background:#f7f8fa;
   color:#68717d;
 }
-
 body .split-page .premium-size-note{
   background:#fff5f5;
   color:#ff3131;
 }
-
 body .split-page .split-size-note strong,
 body .split-page .premium-size-note strong{
   font-size:10px;
   font-weight:800;
   white-space:nowrap;
 }
-
 /* =========================================================
    SPLIT MASTER UI — ACTION BUTTON GLOW
 ========================================================= */
@@ -949,7 +900,6 @@ body .split-page #splitBtn{
 
   animation:splitButtonGlow 2.8s ease-in-out infinite;
 }
-
 body .split-page #splitBtn:hover{
   transform:translateY(-2px);
 
@@ -959,14 +909,12 @@ body .split-page #splitBtn:hover{
 
   animation:none;
 }
-
 body .split-page #splitBtn:active{
   transform:translateY(0);
 
   box-shadow:
     0 4px 10px rgba(255,49,49,.20);
 }
-
 @keyframes splitButtonGlow{
 
   0%,100%{
@@ -980,7 +928,6 @@ body .split-page #splitBtn:active{
       0 8px 20px rgba(255,49,49,.25),
       0 0 14px rgba(255,120,120,.18);
   }
-
 }
 
 /* =========================================================
@@ -995,38 +942,35 @@ body .split-page .split-select-row{
   justify-content:center;
   align-items:center;
 }
-
 body .split-page .split-upload-box{
   width:330px;
   display:flex;
   justify-content:center;
   margin:0;
 }
-
 body .split-page .split-upload-box .master-tool-button{
   width:330px;
   min-width:330px;
   box-sizing:border-box;
   margin:0;
-}
 
+  background:#ff3131 !important;
+  color:#ffffff !important;
+}
 body .split-page .cloud-buttons{
   position:absolute;
   left:calc(50% + 181px);
   top:50%;
   transform:translateY(-50%);
-
   display:flex;
   flex-direction:column;
   gap:10px;
 }
-
 body .split-page .drop-text{
   width:100%;
   text-align:center;
   margin-top:14px;
 }
-
 
 /* =========================================================
    SPLIT PDF — SUCCESS BUTTON
@@ -1049,7 +993,6 @@ button.master-tool-download-button{
 
   margin:0 !important;
 }
-
 @media(max-width:768px){
 
   body .split-page .split-select-row{
@@ -1088,6 +1031,7 @@ button.master-tool-download-button{
 
 }
 
+
 /* =========================================================
    SPLIT PDF — FINAL BUTTON / CLOUD ALIGNMENT
    UI ONLY — NO FUNCTIONALITY CHANGE
@@ -1099,12 +1043,10 @@ body .split-page .split-select-row .cloud-buttons{
   transform:translateY(-50%) !important;
   margin-top:0 !important;
 }
-
 /* Keep both cloud buttons in their original vertical stack */
 body .split-page .split-select-row .cloud-buttons button{
   flex-shrink:0;
 }
-
 
 /* =========================================================
    SPLIT SUCCESS — SAME SIZE AS MASTER PRIMARY BUTTON
@@ -1120,6 +1062,9 @@ button.master-tool-download-button{
 
   padding:25px 38px !important;
 
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
   font-size:28px !important;
   line-height:1 !important;
   font-weight:800 !important;
@@ -1127,12 +1072,12 @@ button.master-tool-download-button{
   white-space:nowrap !important;
   text-align:center !important;
 
+  border:none !important;
   border-radius:11px !important;
   box-sizing:border-box !important;
 
   margin:0 !important;
 }
-
 
 /* =========================================================
    MOBILE
@@ -1158,7 +1103,6 @@ button.master-tool-download-button{
   }
 
 }
-
 /* =========================================================
    M2-UI STEP 2.1
    SPLIT PDF PREVIEW SCROLL TEST
@@ -1168,22 +1112,421 @@ button.master-tool-download-button{
 body .split-page .split-preview-left{
   min-height:0;
 }
-
 body .split-page .split-file-grid{
   min-height:0;
 }
-
 body .split-page .split-pdf-card{
   overflow:hidden;
 }
-
 body .split-page .pdf-thumb-wrap{
   overflow:auto !important;
   -webkit-overflow-scrolling:touch;
 
   scrollbar-width:auto;
 }
-
 body .split-page .pdf-thumb{
   pointer-events:auto !important;
+}
+/* =========================================================
+   M3-UI STEP 2
+   MERGE PDF — MASTER PREVIEW AUTHORITY
+========================================================= */
+
+body .merge-page #previewScreen.master-tool-preview{
+  width:100%;
+  min-height:calc(100vh - 72px);
+  background:#f3f4f8;
+}
+/* LEFT PREVIEW WORKSPACE */
+body .merge-page #previewScreen.master-tool-preview
+.merge-preview-left{
+  min-width:0;
+  min-height:0;
+  background:#f3f4f8;
+  box-sizing:border-box;
+}
+/* TOP BAR */
+body .merge-page #previewScreen.master-tool-preview
+.merge-topbar{
+  box-sizing:border-box;
+}
+/* FILE GRID */
+body .merge-page #previewScreen.master-tool-preview
+.merge-file-grid{
+  min-width:0;
+  box-sizing:border-box;
+}
+/* PDF CARD */
+body .merge-page #previewScreen.master-tool-preview
+.merge-file-card{
+  box-sizing:border-box;
+}
+/* RIGHT ACTION PANEL */
+body .merge-page #previewScreen.master-tool-preview
+.merge-action-panel{
+  min-width:0;
+  height:calc(100vh - 72px);
+  max-height:calc(100vh - 72px);
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  box-sizing:border-box;
+}
+/* MERGE ACTION BUTTON */
+body .merge-page #previewScreen.master-tool-preview
+button.master-tool-action-button{
+  width:100% !important;
+  background:#ff3131 !important;
+  color:#ffffff !important;
+}
+/* =========================================================
+   M3-UI STEP 2.1
+   MERGE PDF — SCROLLABLE PDF PREVIEW
+========================================================= */
+
+body .merge-page .pdf-thumb-wrap{
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:auto;
+}
+body .merge-page .pdf-thumb{
+  pointer-events:auto !important;
+}
+/* =========================================================
+   M3-UI STEP 2.2
+   MERGE PDF — UPLOAD BUTTON MASTER ALIGNMENT
+========================================================= */
+
+body .merge-page .merge-select-row{
+  position:relative !important;
+  width:100% !important;
+  height:78px !important;
+
+  justify-content:center !important;
+  align-items:center !important;
+}
+body .merge-page .merge-upload-box{
+  align-items:center !important;
+  justify-content:center !important;
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+  box-sizing:border-box !important;
+  cursor:pointer !important;
+}
+body .merge-page .merge-upload-box h2{
+  margin:0 !important;
+  padding:25px 38px !important;
+
+  color:#ffffff !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+  text-align:center !important;
+}
+/* MERGE PDF — CLOUD BUTTONS ALIGNMENT */
+body .merge-page .merge-select-row .cloud-buttons{
+  position:static !important;
+  left:auto !important;
+  top:auto !important;
+  transform:none !important;
+
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+
+  margin:0 !important;
+  flex-shrink:0 !important;
+}
+/* Drop text stays centered underneath */
+body .merge-page .master-tool-drop-text{
+  width:100% !important;
+  text-align:center !important;
+}
+/* =========================================================
+   COMPRESS PDF — MASTER START SCREEN
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+body .compress-page .compress-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+body .compress-page .compress-start-screen
+.master-tool-title{
+  margin:0 0 14px !important;
+}
+body .compress-page .compress-start-screen
+.master-tool-description{
+  margin:0 0 28px !important;
+}
+/* Select button + cloud buttons */
+body .compress-page .compress-select-row{
+  position:relative !important;
+
+  width:100% !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:24px !important;
+}
+/* Main upload button */
+body .compress-page .compress-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+}
+body .compress-page .compress-upload-box h2{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  box-sizing:border-box !important;
+
+  margin:0 !important;
+  padding:0 28px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:12px !important;
+
+ font-family:Arial, Helvetica, sans-serif !important;
+font-size:22px !important;
+font-weight:900 !important;
+line-height:1.2 !important;
+  cursor:pointer !important;
+}
+/* Cloud buttons stay beside main button */
+body .compress-page .compress-select-row .cloud-buttons{
+  position:absolute !important;
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+
+  height:78px !important;
+
+  transform:none !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+}
+
+/* Drop text */
+body .compress-page .master-tool-drop-text{
+  width:100% !important;
+
+  margin-top:14px !important;
+
+  text-align:center !important;
+}
+
+
+/* =========================================================
+   COMPRESS PDF — MASTER UI AUTHORITY
+   Match Split PDF master UI
+========================================================= */
+
+body .compress-page .compress-start-screen{
+  padding:55px 20px 40px !important;
+}
+
+body .compress-page .compress-start-screen h1{
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+  color:#111827 !important;
+  margin:0 0 14px !important;
+}
+
+body .compress-page .compress-start-screen p{
+  max-width:850px !important;
+  font-size:24px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+  color:#64748b !important;
+  margin:0 0 28px !important;
+}
+
+body .compress-page .compress-upload-box h2{
+  min-width:330px !important;
+  padding:25px 38px !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border-radius:11px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+  box-sizing:border-box !important;
+}
+
+body .compress-page .cloud-buttons{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:10px !important;
+}
+
+body .compress-page .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  border-radius:50% !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border:none !important;
+  font-size:17px !important;
+}
+
+body .compress-page .drop-text{
+  margin-top:14px !important;
+  font-size:15px !important;
+}
+
+/* =========================================================
+   COMPRESS PREVIEW — ACTION BUTTON
+========================================================= */
+
+body .compress-page #compressPreviewScreen
+button.master-tool-action-button{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+
+  padding:20px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:18px !important;
+  font-weight:800 !important;
+  line-height:1.2 !important;
+
+  white-space:nowrap !important;
+  text-align:center !important;
+
+  border:none !important;
+  border-radius:16px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:8px !important;
+
+  box-sizing:border-box !important;
+}
+
+/* =========================================================
+   COMPRESS PDF — SUCCESS SCREEN
+   Styling only — visibility untouched
+========================================================= */
+
+/* Success screen layout */
+body .compress-page .compress-success-screen {
+  width: 100% !important;
+  min-height: calc(100vh - 72px) !important;
+
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  padding: 58px 20px 40px !important;
+
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+
+/* Success heading */
+body .compress-page .compress-success-screen
+h1.master-tool-title {
+  margin: 0 0 14px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 44px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+
+  color: #111827 !important;
+}
+
+
+/* Success description */
+body .compress-page .compress-success-screen
+p.master-tool-description {
+  width: 100% !important;
+  max-width: 850px !important;
+
+  margin: 0 0 28px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 22px !important;
+  line-height: 1.45 !important;
+  font-weight: 400 !important;
+
+  color: #64748b !important;
+}
+
+
+/* Download button */
+body .compress-page .compress-success-screen
+button.download-result-btn.master-tool-download-button {
+  width: 330px !important;
+  min-width: 330px !important;
+  max-width: 330px !important;
+  height: 78px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  box-sizing: border-box !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 11px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  text-align: center !important;
+  white-space: nowrap !important;
+  text-indent: 0 !important;
+
+  overflow: hidden !important;
+
+  box-shadow: 0 10px 24px rgba(239, 68, 68, .20) !important;
+
+  cursor: pointer !important;
 }

@@ -17,21 +17,25 @@
   <title>Compress PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1006" />
-<link rel="stylesheet" href="/css/master-tools.css?v=2" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    .hidden-screen {
-      display: none !important;
-    }
+    /* =========================================================
+   COMPRESS MASTER SCREEN STATES
+========================================================= */
 
-    #compressPreviewScreen:not(.hidden-screen) {
-      display: grid !important;
-    }
+.hidden-screen {
+  display: none !important;
+}
 
-    #compressSuccessScreen:not(.hidden-screen) {
-      display: flex !important;
-    }
+#compressPreviewScreen:not(.hidden-screen) {
+  display: grid !important;
+}
+
+#compressSuccessScreen:not(.hidden-screen) {
+  display: flex !important;
+}
 .hp-profile-wrap{display:none;position:relative;align-items:center}
 .hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
 .hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
@@ -45,6 +49,159 @@
 .hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc}
 .hp-mobile-profile{display:none;margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px}
   </style>
+<style>
+/* =========================================================
+   COMPRESS PDF — START SCREEN BUTTONS
+   Match Merge / Split approved UI
+========================================================= */
+
+/* Main upload button */
+body .compress-page .compress-start-screen .compress-upload-box h2.master-tool-button {
+  width: 330px !important;
+  min-width: 330px !important;
+  height: 78px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 !important;
+  padding: 25px 38px !important;
+
+  box-sizing: border-box !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 11px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  white-space: nowrap !important;
+
+  box-shadow: 0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor: pointer !important;
+}
+
+
+/* Cloud buttons */
+body .compress-page .compress-start-screen .cloud-buttons {
+  position: absolute !important;
+
+  left: calc(50% + 181px) !important;
+  top: 47% !important;
+
+  transform: translateY(-50%) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  gap: 10px !important;
+
+  margin: 0 !important;
+}
+
+
+/* Google Drive + Dropbox circles */
+body .compress-page .compress-start-screen .cloud-buttons button {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: none !important;
+  border-radius: 50% !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  font-size: 17px !important;
+
+  box-sizing: border-box !important;
+
+  cursor: pointer !important;
+}
+
+
+/* Drop text */
+body .compress-page .compress-start-screen .master-tool-drop-text {
+  margin-top: 14px !important;
+
+  text-align: center !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+
+  color: #64748b !important;
+}
+
+/* =========================================================
+   COMPRESS PDF — PREVIEW ACTION BUTTON
+========================================================= */
+
+body .compress-page .compress-action-panel
+.compress-main-btn.master-tool-action-button {
+  width: 100% !important;
+  height: 70px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+
+  margin: 24px 0 0 !important;
+  padding: 20px 24px !important;
+
+  box-sizing: border-box !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 11px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  white-space: nowrap !important;
+
+  box-shadow: 0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor: pointer !important;
+}
+
+
+/* Preview panel heading */
+body .compress-page .compress-action-panel
+h1.master-tool-title {
+  margin: 0 0 10px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 32px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+
+  color: #111827 !important;
+}
+
+</style>
 </head>
 
 <body>
@@ -181,7 +338,7 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="compress-page">
+<main class="compress-page master-tool-page">
 
   <section class="compress-start-screen master-tool-start" id="compressStartScreen">
   <h1 class="master-tool-title">Compress PDF</h1>
@@ -193,7 +350,7 @@
     <div class="compress-select-row">
       <div class="compress-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -212,32 +369,60 @@
   </section>
 
   <section class="compress-preview-screen master-tool-preview hidden-screen" id="compressPreviewScreen">
-    <div class="compress-preview-left">
+    <div class="split-preview-left master-tool-preview-left">
       <div class="compress-file-grid" id="fileList"></div>
     </div>
 
     <aside class="compress-action-panel master-tool-action-panel">
-      <h2>Compress PDF</h2>
+      <h1 class="master-tool-title">Compress PDF</h1>
 
-      <p>
+      <p class="master-tool-panel-description">
         Choose compression level and reduce your PDF file size.
       </p>
 
       <div class="compress-option-box">
-        <label>
-          <input type="radio" name="compressLevel" value="recommended" checked />
-          Recommended compression
-        </label>
-        <small>Good quality with smaller file size.</small>
-      </div>
+
+  <label>
+    <input
+      type="radio"
+      name="compressLevel"
+      value="recommended"
+      checked
+    />
+    Recommended compression
+  </label>
+  <small>Good quality with smaller file size.</small>
+
+  <label>
+    <input
+      type="radio"
+      name="compressLevel"
+      value="less"
+    />
+    Less compression
+  </label>
+  <small>Higher quality with moderate file size.</small>
+
+  <label class="premium-compress-option">
+  <input
+    type="radio"
+    name="compressLevel"
+    value="extreme"
+  />
+  <span class="compress-option-label">Extreme compression</span>
+  <span class="premium-badge">🔒 Premium</span>
+</label>
+  <small>Maximum compression with lower quality.</small>
+
+</div>
 
       <button class="compress-main-btn master-tool-action-button" id="compressBtn" type="button">
         Compress PDF
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container compress-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container compress-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>

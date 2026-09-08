@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadBtn = document.getElementById("downloadBtn");
 
   let filesArray = [];
+  let isPremium = false;
   let mergedPdfUrl = null;
   let progressInterval = null;
 
@@ -21,7 +22,44 @@ document.addEventListener("DOMContentLoaded", () => {
   successScreen.classList.add("hidden-screen");
   previewScreen.style.display = "none";
   successScreen.style.display = "none";
+async function loadPremiumStatus() {
+  try {
+    const {
+      data: { user },
+      error: userError
+    } = await supabaseClient.auth.getUser();
 
+    if (userError || !user) {
+      console.log("PREMIUM CHECK: No logged-in user");
+      isPremium = false;
+      return;
+    }
+
+    const {
+      data: profileData,
+      error: profileError
+    } = await supabaseClient
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError) {
+      console.error("MERGE PREMIUM CHECK ERROR =", profileError);
+      isPremium = false;
+      return;
+    }
+
+    isPremium = profileData?.is_premium || false;
+
+    console.log("MERGE PREMIUM STATUS =", isPremium);
+
+  } catch (error) {
+    console.error("MERGE PREMIUM STATUS ERROR =", error);
+    isPremium = false;
+  }
+}
+loadPremiumStatus();
   function resetProgress() {
     if (progressInterval) {
       clearInterval(progressInterval);
@@ -58,22 +96,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addFiles(files) {
-    const selectedFiles = Array.from(files).filter((file) => {
-      return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-    });
+  const selectedFiles = Array.from(files).filter((file) => {
+    return (
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf")
+    );
+  });
 
-    if (selectedFiles.length === 0) {
-      alert("Please select PDF files only");
-      return;
+  if (selectedFiles.length === 0) {
+    alert("Please select PDF files only");
+    return;
+  }
+
+  // ===== FREE USER MAX 20 PDFs =====
+  const maxFreeFiles = 20;
+
+  if (!isPremium && filesArray.length + selectedFiles.length > maxFreeFiles) {
+    const upgradeModal = document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+      upgradeModal.style.display = "flex";
+    } else {
+      alert(
+        "Free users can merge a maximum of 20 PDF files. Upgrade to Premium to merge more."
+      );
     }
 
-    selectedFiles.forEach((file) => {
-      file.previewUrl = URL.createObjectURL(file);
-    });
-
-    filesArray = [...filesArray, ...selectedFiles];
-    renderFiles();
+    return;
   }
+
+  selectedFiles.forEach((file) => {
+    file.previewUrl = URL.createObjectURL(file);
+  });
+
+  filesArray = [...filesArray, ...selectedFiles];
+  renderFiles();
+}
 
   function renderFiles() {
     fileList.innerHTML = "";

@@ -25,11 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
   compressStartScreen.style.display = "flex";
 
   compressPreviewScreen.classList.add("hidden-screen");
-  compressSuccessScreen.classList.add("hidden-screen");
+compressSuccessScreen.classList.add("hidden-screen");
 
   compressPreviewScreen.style.display = "none";
-  compressSuccessScreen.style.display = "none";
-
+compressSuccessScreen.style.setProperty("display", "none", "important");
   /* =========================
      CLICK SELECT
   ========================= */
@@ -241,6 +240,10 @@ if (!data?.user) {
 }
 
 formData.append("user_id", data.user.id);
+const selectedCompression =
+  document.querySelector('input[name="compressLevel"]:checked')?.value || "recommended";
+
+formData.append("compressLevel", selectedCompression);
 
     startFakeProgress();
 
@@ -262,20 +265,20 @@ formData.append("user_id", data.user.id);
 
   const errorText = await response.text();
 
-  if (errorText.includes("Daily free limit reached")) {
+  if (
+  errorText.includes("Daily free limit reached") ||
+  errorText.includes("Premium feature")
+) {
+  const upgradeModal = document.getElementById("upgradeModal");
 
-    const upgradeModal =
-      document.getElementById("upgradeModal");
-
-    if (upgradeModal) {
-      upgradeModal.style.display = "flex";
-    }
-
+  if (upgradeModal) {
+    upgradeModal.style.display = "flex";
   } else {
-
     alert(errorText || "Compression failed");
-
   }
+} else {
+  alert(errorText || "Compression failed");
+}
 
   return;
 }
@@ -296,6 +299,9 @@ formData.append("user_id", data.user.id);
 
         compressSuccessScreen.classList.remove("hidden-screen");
         compressSuccessScreen.style.display = "flex";
+        const successTitle = compressSuccessScreen.querySelector("h1");
+successTitle.style.display = "block";
+successTitle.style.visibility = "visible";
 
       }, 400);
 

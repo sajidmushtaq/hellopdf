@@ -45,6 +45,179 @@
   #successScreen:not(.hidden-screen) {
     display: flex !important;
   }
+
+/* =========================================================
+   MERGE PDF — START BUTTON CENTER
+   Same alignment as Compress PDF
+========================================================= */
+
+body .merge-page .merge-select-row {
+  position: relative !important;
+
+  width: 100% !important;
+  height: 78px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+/* Main upload button */
+body .merge-page .merge-upload-box {
+  width: 330px !important;
+  min-width: 330px !important;
+  height: 78px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* Button itself */
+body .merge-page .merge-upload-box h2.master-tool-button {
+  width: 330px !important;
+  min-width: 330px !important;
+  height: 78px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 !important;
+  padding: 25px 38px !important;
+
+  box-sizing: border-box !important;
+
+  text-align: center !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 11px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  white-space: nowrap !important;
+
+  box-shadow: 0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor: pointer !important;
+}
+
+
+/* Cloud buttons — do NOT take space from center button */
+body .merge-page .merge-select-row .cloud-buttons {
+  position: absolute !important;
+
+  left: calc(50% + 181px) !important;
+  top: 0 !important;
+
+  width: auto !important;
+  height: 78px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  gap: 10px !important;
+
+  margin: 0 !important;
+
+  transform: none !important;
+}
+
+ /* =========================================================
+    MERGE PDF — PREVIEW BUTTON
+ ========================================================= */
+
+body .merge-page #previewScreen
+button.merge-main-btn.master-tool-action-button {
+  width: 100% !important;
+  height: 70px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 24px 0 0 !important;
+  padding: 20px 24px !important;
+
+  box-sizing: border-box !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 11px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  white-space: nowrap !important;
+  text-align: center !important;
+
+  box-shadow: 0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor: pointer !important;
+}
+
+ /* =========================================================
+    MERGE PDF — SUCCESS DOWNLOAD BUTTON
+ ========================================================= */
+
+body .merge-page #successScreen
+button.download-result-btn.master-tool-download-button {
+  width: 330px !important;
+  min-width: 330px !important;
+  max-width: 330px !important;
+
+  height: 78px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 auto !important;
+  padding: 0 10px !important;
+
+  box-sizing: border-box !important;
+
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 11px !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+
+  text-align: center !important;
+  text-indent: 0 !important;
+  white-space: nowrap !important;
+
+  overflow: hidden !important;
+
+  box-shadow: 0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor: pointer !important;
+}
 </style>
 </head>
 
@@ -176,7 +349,7 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="merge-page">
+<main class="merge-page master-tool-page">
 
   <section class="merge-start-screen master-tool-start" id="startScreen">
   <h1 class="master-tool-title">Merge PDF files</h1>
@@ -188,7 +361,7 @@
     <div class="merge-select-row">
       <div class="merge-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
-        <h2>Select PDF files</h2>
+        <h2 class="master-tool-button">Select PDF files</h2>
       </div>
 
       <div class="cloud-buttons">

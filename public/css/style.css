@@ -5671,43 +5671,7 @@ body .merge-page #previewScreen:not(.hidden-screen) .merge-file-card{
   margin-bottom: 24px !important;
 }
 
-/* ===== MERGE SUCCESS PAGE FINAL ===== */
 
-body .merge-page #successScreen:not(.hidden-screen){
-  min-height:calc(100vh - 72px) !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-  text-align:center !important;
-  padding:40px 20px !important;
-  background:#f3f4f8 !important;
-}
-
-body .merge-page #successScreen h1{
-  font-size:54px !important;
-  font-weight:900 !important;
-  color:#111827 !important;
-  margin:0 0 14px !important;
-}
-
-body .merge-page #successScreen p{
-  font-size:20px !important;
-  color:#64748b !important;
-  margin:0 0 30px !important;
-}
-
-body .merge-page #downloadBtn{
-  border:none !important;
-  background:#ef4444 !important;
-  color:#ffffff !important;
-  padding:20px 36px !important;
-  border-radius:16px !important;
-  font-size:22px !important;
-  font-weight:800 !important;
-  cursor:pointer !important;
-  box-shadow:0 12px 28px rgba(239,68,68,.25) !important;
-}
 
 /* =========================================
    SPLIT PDF FINAL UI
@@ -6448,6 +6412,9 @@ body .split-page #downloadBtn{
   right:0;
   width:300px;
   height:calc(100vh - 72px);
+
+box-sizing:border-box;
+
   background:#ffffff;
   border-left:1px solid #e5e7eb;
   padding:26px 22px;
@@ -6710,11 +6677,17 @@ body .compress-page .cloud-buttons{
 body .compress-page .cloud-buttons button{
   width:38px !important;
   height:38px !important;
+
   border:none !important;
   border-radius:50% !important;
-  background:#ef4444 !important;
+
+  background:#ff3131 !important;
   color:#ffffff !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
   font-size:17px !important;
+  font-weight:700 !important;
+
   display:flex !important;
   align-items:center !important;
   justify-content:center !important;
@@ -24069,4 +24042,63 @@ border-radius:18px;
 
 .summary-actions + .summary-question-box {
   margin-top: 18px;
+}
+
+/* =========================================================
+   MERGE SUCCESS — FINAL MASTER LAYOUT
+   Match Split PDF success screen
+========================================================= */
+
+body .merge-page #successScreen.master-tool-success:not(.hidden-screen){
+  min-height:calc(100vh - 72px) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:58px 20px 40px !important;
+  background:#f3f4f8 !important;
+  box-sizing:border-box !important;
+}
+
+body .merge-page #successScreen.master-tool-success:not(.hidden-screen)
+h1.master-tool-title{
+  font-size:44px !important;
+  line-height:1.2 !important;
+  margin:0 0 14px !important;
+}
+
+body .merge-page #successScreen.master-tool-success:not(.hidden-screen)
+p.master-tool-description{
+  font-size:20px !important;
+  line-height:1.5 !important;
+  margin:0 0 36px !important;
+}
+
+body .merge-page #successScreen.master-tool-success:not(.hidden-screen)
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+  min-height:78px !important;
+
+  box-sizing:border-box !important;
+
+  padding:22px 24px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+font-size:26px !important;
+font-weight:800 !important;
+  line-height:1.2 !important;
+
+  white-space:nowrap !important;
+
+  border:none !important;
+  border-radius:12px !important;
 }

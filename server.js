@@ -867,6 +867,16 @@ console.log("USAGE ERROR =", usageError);
 
 if (!profileData.is_premium) {
 
+  // FREE USER MAX 20 PDFs PER MERGE
+  if (req.files.length > 20) {
+
+    return res.status(403).send(
+      "Free users can merge a maximum of 20 PDF files. Upgrade to Premium to merge more."
+    );
+
+  }
+
+  // FREE USER DAILY LIMIT
   const currentUsage = usageData ? usageData.usage_count : 0;
 
   if (currentUsage >= 8) {
@@ -2073,6 +2083,21 @@ console.log("COMPRESS PROFILE ERROR =", profileError);
 if (profileError) {
   return res.status(500).send("Unable to verify account");
 }
+const compressLevel = req.body.compressLevel || "recommended";
+
+if (compressLevel === "extreme" && !profileData.is_premium) {
+  return res
+    .status(403)
+    .send("Extreme compression is a Premium feature. Upgrade to Premium.");
+}
+
+const compressionSettings = {
+  extreme: "/screen",
+  recommended: "/ebook",
+  less: "/printer",
+};
+
+const pdfSetting = compressionSettings[compressLevel] || "/ebook";
 const today = new Date().toISOString().split("T")[0];
 
 const { data: usageData, error: usageError } = await supabase
@@ -2108,7 +2133,7 @@ if (!profileData.is_premium) {
     const inputPath = req.file.path;
     const outputPath = path.join(outputsDir, `compressed_${Date.now()}.pdf`);
 
-    const gsCommand = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${outputPath}" "${inputPath}"`;
+    const gsCommand = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=${pdfSetting} -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${outputPath}" "${inputPath}"`;
 
     exec(gsCommand, async (gsErr) => {
       if (!gsErr && fs.existsSync(outputPath)) {
