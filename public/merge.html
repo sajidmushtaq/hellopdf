@@ -218,6 +218,65 @@ button.download-result-btn.master-tool-download-button {
 
   cursor: pointer !important;
 }
+
+/* =========================================================
+   MERGE PDF — MOBILE START SCREEN FINAL FIX
+========================================================= */
+
+@media screen and (max-width:768px){
+
+  /* Main row becomes vertical */
+  body .merge-page .merge-select-row{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    height:auto !important;
+    gap:18px !important;
+  }
+
+  /* Remove the unwanted center cloud */
+  body .merge-page .merge-upload-box::after{
+    display:none !important;
+    content:none !important;
+  }
+
+  /* Google Drive + Dropbox */
+  body .merge-page .merge-select-row .cloud-buttons{
+    position:static !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+    transform:none !important;
+
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    width:100% !important;
+    height:auto !important;
+    gap:18px !important;
+    margin:0 !important;
+  }
+
+  body .merge-page .merge-select-row .cloud-buttons button{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    width:56px !important;
+    height:56px !important;
+    min-width:56px !important;
+    min-height:56px !important;
+
+    margin:0 !important;
+    border-radius:50% !important;
+  }
+
+}
 </style>
 </head>
 
