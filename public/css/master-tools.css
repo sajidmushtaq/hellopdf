@@ -1672,3 +1672,728 @@ border-radius:50% !important;
 }
 
 }
+
+/* =========================================================
+   REMOVE PDF — MASTER UI
+   Match approved COMPRESS PDF design
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+/* =========================
+   REMOVE START SCREEN
+========================= */
+
+body .remove-page .remove-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+/* Title */
+
+body .remove-page .remove-start-screen
+.master-tool-title{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+  text-align:center !important;
+}
+
+/* Description */
+
+body .remove-page .remove-start-screen
+.master-tool-description{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 28px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:24px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+}
+
+
+/* =========================
+   REMOVE UPLOAD ROW
+========================= */
+
+body .remove-page .remove-select-row{
+  position:relative !important;
+
+  width:100% !important;
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* Upload box */
+
+body .remove-page .remove-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+  cursor:pointer !important;
+}
+
+/* Main red button */
+
+body .remove-page .remove-upload-box
+.master-tool-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  padding:0 28px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* =========================
+   CLOUD BUTTONS
+========================= */
+
+body .remove-page .remove-select-row
+.cloud-buttons{
+  position:absolute !important;
+
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+
+  height:78px !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+
+  margin:0 !important;
+  transform:none !important;
+}
+
+body .remove-page .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+
+  min-width:38px !important;
+  min-height:38px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  background:#ef4444 !important;
+  color:#ffffff !important;
+
+  font-size:17px !important;
+
+  cursor:pointer !important;
+}
+
+
+/* =========================
+   DROP TEXT
+========================= */
+
+body .remove-page .master-tool-drop-text{
+  width:100% !important;
+
+  margin-top:14px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+
+  text-align:center !important;
+}
+
+
+/* =========================================================
+   REMOVE PREVIEW SCREEN
+========================================================= */
+
+body .remove-page #removePreviewScreen.master-tool-preview{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  background:#f3f4f8 !important;
+}
+
+/* Left preview workspace */
+
+body .remove-page #removePreviewScreen
+.remove-preview-left{
+  min-width:0 !important;
+  min-height:0 !important;
+
+  background:#f3f4f8 !important;
+  box-sizing:border-box !important;
+}
+
+/* Action panel */
+
+body .remove-page #removePreviewScreen
+.remove-action-panel.master-tool-action-panel{
+  min-width:0 !important;
+
+  height:calc(100vh - 72px) !important;
+  max-height:calc(100vh - 72px) !important;
+
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+
+  box-sizing:border-box !important;
+}
+
+/* Panel heading */
+
+body .remove-page #removePreviewScreen
+.remove-action-panel h2{
+  font-family:Arial, Helvetica, sans-serif !important;
+  color:#111827 !important;
+  font-weight:800 !important;
+}
+
+/* Panel description */
+
+body .remove-page #removePreviewScreen
+.master-tool-panel-description{
+  font-family:Arial, Helvetica, sans-serif !important;
+  color:#64748b !important;
+}
+
+
+/* =========================================================
+   REMOVE OPTION BOX
+========================================================= */
+
+body .remove-page .remove-option-box.master-tool-option-box{
+  width:100% !important;
+
+  padding:18px !important;
+  margin-top:22px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ffffff !important;
+
+  border:1px solid #e5e7eb !important;
+  border-radius:12px !important;
+
+  box-shadow:0 4px 14px rgba(15,23,42,.05) !important;
+}
+
+body .remove-page .remove-option-box label{
+  display:block !important;
+
+  margin:0 0 9px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:14px !important;
+  line-height:1.4 !important;
+  font-weight:800 !important;
+
+  color:#111827 !important;
+}
+
+body .remove-page .remove-option-box input{
+  width:100% !important;
+  height:48px !important;
+
+  padding:0 13px !important;
+
+  box-sizing:border-box !important;
+
+  border:1px solid #dfe3e8 !important;
+  border-radius:9px !important;
+
+  background:#ffffff !important;
+  color:#111827 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  font-weight:600 !important;
+
+  outline:none !important;
+}
+
+body .remove-page .remove-option-box input:focus{
+  border-color:#ff7777 !important;
+  box-shadow:0 0 0 3px rgba(255,49,49,.08) !important;
+}
+
+body .remove-page .remove-option-box small{
+  display:block !important;
+
+  margin-top:8px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.4 !important;
+
+  color:#7b8490 !important;
+}
+
+
+/* =========================================================
+   REMOVE ACTION BUTTON
+========================================================= */
+
+body .remove-page #removePreviewScreen
+button.master-tool-action-button{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+
+  min-height:70px !important;
+
+  margin-top:18px !important;
+  padding:0 24px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:9px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:24px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  text-align:center !important;
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+body .remove-page #removePreviewScreen
+button.master-tool-action-button:hover{
+  transform:translateY(-2px) !important;
+
+  box-shadow:0 14px 28px rgba(239,68,68,.25) !important;
+}
+
+
+/* =========================================================
+   REMOVE PROGRESS BAR
+========================================================= */
+
+body .remove-page .remove-progress.master-tool-progress{
+  width:100% !important;
+
+  margin-top:18px !important;
+
+  overflow:hidden !important;
+  border-radius:10px !important;
+}
+
+body .remove-page .remove-progress
+.master-tool-progress-bar{
+  max-width:100% !important;
+
+  min-height:8px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+}
+
+
+/* =========================================================
+   REMOVE SUCCESS SCREEN
+========================================================= */
+
+body .remove-page #removeSuccessScreen.master-tool-success{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  padding:58px 20px 40px !important;
+
+  box-sizing:border-box !important;
+
+  background:#f3f4f8 !important;
+
+  text-align:center !important;
+}
+
+/* Success heading */
+
+body .remove-page #removeSuccessScreen
+h1.master-tool-title{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+}
+
+/* Success description */
+
+body .remove-page #removeSuccessScreen
+p.master-tool-description{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 28px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+}
+
+
+/* =========================================================
+   REMOVE DOWNLOAD BUTTON
+========================================================= */
+
+body .remove-page #removeSuccessScreen
+button.download-result-btn.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 auto !important;
+  padding:0 !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  text-align:center !important;
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* =========================================================
+   REMOVE PDF — MOBILE
+========================================================= */
+
+@media screen and (max-width:768px){
+
+  body .remove-page .remove-start-screen{
+    padding:38px 18px 30px !important;
+  }
+
+  body .remove-page .remove-start-screen
+  .master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+    margin-bottom:14px !important;
+  }
+
+  body .remove-page .remove-start-screen
+  .master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin-bottom:24px !important;
+  }
+
+  /* Mobile upload row */
+
+  body .remove-page .remove-select-row{
+    width:100% !important;
+    height:auto !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:18px !important;
+  }
+
+  body .remove-page .remove-upload-box{
+    width:100% !important;
+    max-width:330px !important;
+    min-width:0 !important;
+    height:78px !important;
+  }
+
+  body .remove-page .remove-upload-box
+  .master-tool-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:330px !important;
+
+    height:78px !important;
+
+    font-size:22px !important;
+  }
+
+  /* Mobile cloud buttons */
+
+  body .remove-page .remove-select-row
+  .cloud-buttons{
+    position:static !important;
+
+    width:100% !important;
+    height:auto !important;
+
+    display:flex !important;
+    flex-direction:row !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:18px !important;
+
+    margin:0 !important;
+    transform:none !important;
+  }
+
+  body .remove-page .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+
+    min-width:56px !important;
+    min-height:56px !important;
+
+    margin:0 !important;
+
+    border-radius:50% !important;
+
+    font-size:20px !important;
+  }
+
+  body .remove-page .master-tool-drop-text{
+    margin-top:14px !important;
+    font-size:15px !important;
+  }
+
+  /* Mobile success */
+
+  body .remove-page #removeSuccessScreen.master-tool-success{
+    padding:38px 18px 30px !important;
+  }
+
+  body .remove-page #removeSuccessScreen
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+  body .remove-page #removeSuccessScreen
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+  }
+
+  body .remove-page #removeSuccessScreen
+  button.download-result-btn.master-tool-download-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:330px !important;
+
+    height:70px !important;
+
+    font-size:19px !important;
+  }
+
+}
+
+/* =========================================================
+   REMOVE PDF — FINAL SCREEN VISIBILITY FIX
+========================================================= */
+
+body .remove-page #removeStartScreen.hidden-screen{
+  display:none !important;
+}
+
+body .remove-page #removePreviewScreen.hidden-screen{
+  display:none !important;
+}
+
+body .remove-page #removeSuccessScreen.hidden-screen{
+  display:none !important;
+}
+
+/* Active screens */
+
+body .remove-page #removeStartScreen:not(.hidden-screen){
+  display:flex !important;
+}
+
+body .remove-page #removePreviewScreen:not(.hidden-screen){
+  display:grid !important;
+}
+
+body .remove-page #removeSuccessScreen:not(.hidden-screen){
+  display:flex !important;
+}
+
+/* =========================================================
+   REMOVE PDF — START SCREEN HIDE FIX
+========================================================= */
+
+body .remove-page #removeStartScreen[style*="display: none"]{
+  display:none !important;
+}
+
+/* =========================================
+   REMOVE PAGES - FLOATING ADD MORE BUTTON
+========================================= */
+.remove-preview-left {
+  position: static;
+}
+
+.remove-preview-screen {
+  position: relative;
+}
+.remove-add-more-btn {
+  position: absolute;
+  right: 28px;
+  top: 28px;
+
+  width: 58px;
+  height: 58px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ff3131;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(255, 49, 49, 0.25);
+
+  z-index: 20;
+}
+
+.remove-add-more-btn:hover {
+  transform: translateY(-2px);
+}
+
+.remove-add-more-btn i {
+  color: #ffffff;
+  font-size: 28px;
+}
+
+/* REMOVE PDF — CLOUD BUTTON COLOR FIX */
+
+body .remove-page .remove-start-screen .cloud-buttons button {
+  background: #ef4444 !important;
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+body .remove-page .remove-start-screen .cloud-buttons button:hover {
+  background: #ef4444 !important;
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+}

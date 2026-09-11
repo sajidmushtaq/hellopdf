@@ -15,8 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Remove Pages - HelloPDF</title>
-
-  <link rel="stylesheet" href="/css/style.css?v=1005" />
+<link rel="stylesheet" href="/css/style.css?v=1005" />
+  <link rel="stylesheet" href="/css/master-tools.css?v=1001" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -180,19 +180,19 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="remove-page">
+<main class="remove-page master-tool-page">
 
-  <section class="remove-start-screen" id="removeStartScreen">
-    <h1>Remove PDF pages</h1>
+  <section class="remove-start-screen master-tool-start" id="removeStartScreen">
+    <h1 class="master-tool-title">Remove PDF pages</h1>
 
-    <p>
+    <p class="master-tool-description">
       Delete unwanted pages from your PDF file quickly and securely.
     </p>
 
     <div class="remove-select-row">
-      <div class="remove-upload-box" id="dropZone">
+      <div class="remove-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -205,53 +205,57 @@
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
 
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="remove-preview-screen hidden-screen" id="removePreviewScreen">
+  <section class="remove-preview-screen master-tool-preview hidden-screen" id="removePreviewScreen">
     <div class="remove-preview-left">
       <div class="remove-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="remove-action-panel">
+    <aside class="remove-action-panel master-tool-action-panel">
       <h2>Remove Pages</h2>
 
-      <p>
-        Enter the page numbers you want to remove from your PDF.
-      </p>
+      <p class="master-tool-panel-description">
+  Enter the page numbers you want to remove from your PDF.
+</p>
 
-      <div class="remove-option-box">
-        <label for="pagesInput">Pages to remove</label>
+     <div id="pagesSelectionArea">
 
-        <input
-          type="text"
-          id="pagesInput"
-          name="pages"
-          placeholder="Example: 2,4,6"
-        />
+  <div class="remove-option-box">
+    <label for="pagesInput">Pages to remove</label>
 
-        <small>Separate page numbers with commas.</small>
-      </div>
+    <input
+      type="text"
+      id="pagesInput"
+      name="pages"
+      placeholder="Example: 2,4,6"
+    />
 
-      <button class="remove-main-btn" id="removeBtn" type="button">
+    <small>Separate page numbers with commas.</small>
+  </div>
+
+</div>
+
+      <button class="remove-main-btn master-tool-action-button" id="removeBtn" type="button">
         Remove Pages
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container remove-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
-      </div>
+      <div class="progress-container remove-progress master-tool-progress">
+  <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
+</div>
     </aside>
   </section>
 
-  <section class="remove-success-screen hidden-screen" id="removeSuccessScreen">
-    <h1>Pages have been removed!</h1>
+  <section class="remove-success-screen master-tool-success hidden-screen" id="removeSuccessScreen">
+    <h1 class="master-tool-title">Pages have been removed!</h1>
 
-    <p>Your cleaned PDF is ready to download.</p>
+    <p class="master-tool-description">Your cleaned PDF is ready to download.</p>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
       Download PDF
     </button>
   </section>

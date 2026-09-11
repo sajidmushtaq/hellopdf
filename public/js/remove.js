@@ -16,9 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const downloadBtn = document.getElementById("downloadBtn");
 
-  let selectedFile = null;
-  let finalPdfUrl = null;
-  let progressInterval = null;
+  let selectedFiles = [];
+let finalPdfUrl = null;
+let finalDownloadName = "updated.pdf";
+let progressInterval = null;
+
+let individualPageSelections = [];
+let applySamePagesToAll = false;
 
   /* =========================
      INITIAL STATE
@@ -46,25 +50,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fileInput.addEventListener("change", (e) => {
 
-    const file = e.target.files[0];
+  const files = Array.from(e.target.files);
 
-    if (!file) return;
+  if (!files.length) return;
 
-    if (
-      file.type !== "application/pdf" &&
-      !file.name.toLowerCase().endsWith(".pdf")
-    ) {
-      alert("Please select a PDF file");
-      return;
-    }
+  const validFiles = files.filter((file) =>
+    file.type === "application/pdf" ||
+    file.name.toLowerCase().endsWith(".pdf")
+  );
 
-    selectedFile = file;
+  if (validFiles.length !== files.length) {
+    alert("Only PDF files are allowed");
+  }
 
-    selectedFile.previewUrl = URL.createObjectURL(file);
+  if (!validFiles.length) return;
 
-    renderPreview();
+  const availableSlots = 10 - selectedFiles.length;
 
+  if (availableSlots <= 0) {
+    alert("You can select up to 10 PDF files.");
+    return;
+  }
+
+  const filesToAdd = validFiles.slice(0, availableSlots);
+
+  if (validFiles.length > availableSlots) {
+    alert("You can select up to 10 PDF files.");
+  }
+
+  filesToAdd.forEach((file) => {
+    file.previewUrl = URL.createObjectURL(file);
+    selectedFiles.push(file);
   });
+
+  renderPreview();
+
+  // Allow selecting the same file again
+  fileInput.value = "";
+
+});
 
   /* =========================
      DRAG DROP
@@ -81,95 +105,324 @@ document.addEventListener("DOMContentLoaded", () => {
 
   dropZone.addEventListener("drop", (e) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    dropZone.classList.remove("drag-active");
+  dropZone.classList.remove("drag-active");
 
-    const file = e.dataTransfer.files[0];
+  const files = Array.from(e.dataTransfer.files);
 
-    if (!file) return;
+  if (!files.length) return;
 
-    if (
-      file.type !== "application/pdf" &&
-      !file.name.toLowerCase().endsWith(".pdf")
-    ) {
-      alert("Please select a PDF file");
-      return;
-    }
+  const validFiles = files.filter((file) =>
+    file.type === "application/pdf" ||
+    file.name.toLowerCase().endsWith(".pdf")
+  );
 
-    selectedFile = file;
+  if (validFiles.length !== files.length) {
+    alert("Only PDF files are allowed");
+  }
 
-    selectedFile.previewUrl = URL.createObjectURL(file);
+  if (!validFiles.length) return;
 
-    renderPreview();
+  const availableSlots = 10 - selectedFiles.length;
 
+  if (availableSlots <= 0) {
+    alert("You can select up to 10 PDF files.");
+    return;
+  }
+
+  const filesToAdd = validFiles.slice(0, availableSlots);
+
+  if (validFiles.length > availableSlots) {
+    alert("You can select up to 10 PDF files.");
+  }
+
+  filesToAdd.forEach((file) => {
+    file.previewUrl = URL.createObjectURL(file);
+    selectedFiles.push(file);
   });
 
+  renderPreview();
+
+});
   /* =========================
      PREVIEW
   ========================= */
 
   function renderPreview() {
 
-    if (!selectedFile) return;
+  if (!selectedFiles.length) return;
 
-    removeStartScreen.style.display = "none";
+  removeStartScreen.style.display = "none";
 
-    removePreviewScreen.classList.remove("hidden-screen");
-    removePreviewScreen.style.display = "grid";
+  removePreviewScreen.classList.remove("hidden-screen");
+  removePreviewScreen.style.display = "grid";
 
-    removeSuccessScreen.classList.add("hidden-screen");
-    removeSuccessScreen.style.display = "none";
+  removeSuccessScreen.classList.add("hidden-screen");
+  removeSuccessScreen.style.display = "none";
 
-    fileList.innerHTML = `
-      <div class="merge-file-card remove-pdf-card">
+  fileList.innerHTML = selectedFiles.map((file, index) => {
 
-        <button class="remove-file-btn" id="removeSelectedFile" type="button">
-          ×
-        </button>
+  const pagesValue =
+    individualPageSelections[index] || "";
 
-        <div class="pdf-thumb-wrap">
-          <embed
-            src="${selectedFile.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
-            type="application/pdf"
-            class="pdf-thumb"
-          />
-        </div>
+  return `
+    <div class="merge-file-card remove-pdf-card">
 
-        <h3>${selectedFile.name}</h3>
+      <button
+        class="remove-file-btn"
+        data-index="${index}"
+        type="button"
+      >
+        ×
+      </button>
 
-        <span class="file-order-badge">1</span>
-
+      <div class="pdf-thumb-wrap">
+        <embed
+          src="${file.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+          type="application/pdf"
+          class="pdf-thumb"
+        />
       </div>
-    `;
 
-    const removeSelectedFileBtn = document.getElementById("removeSelectedFile");
+      <h3>${escapeHtml(file.name)}</h3>
 
-    removeSelectedFileBtn.addEventListener("click", () => {
+      <span class="file-order-badge">${index + 1}</span>
 
-      if (selectedFile.previewUrl) {
-        URL.revokeObjectURL(selectedFile.previewUrl);
+      <div class="remove-file-pages">
+        <label for="removePages-${index}">
+          Pages to remove
+        </label>
+
+        <input
+          type="text"
+          id="removePages-${index}"
+          class="individual-pages-input"
+          data-index="${index}"
+          placeholder="Example: 2,4,6"
+          value="${escapeHtml(pagesValue)}"
+        />
+
+        <small>
+          Separate page numbers with commas.
+        </small>
+      </div>
+
+    </div>
+  `;
+
+}).join("");
+
+
+  fileList
+  .querySelectorAll(".remove-file-btn")
+  .forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+      const index = Number(button.dataset.index);
+
+      const file = selectedFiles[index];
+
+      if (file?.previewUrl) {
+        URL.revokeObjectURL(file.previewUrl);
       }
 
-      selectedFile = null;
+      selectedFiles.splice(index, 1);
 
-      fileList.innerHTML = "";
+      individualPageSelections.splice(index, 1);
 
-      removeStartScreen.style.display = "flex";
+      if (!selectedFiles.length) {
 
-      removePreviewScreen.classList.add("hidden-screen");
-      removePreviewScreen.style.display = "none";
+        resetToStart();
 
-      removeSuccessScreen.classList.add("hidden-screen");
-      removeSuccessScreen.style.display = "none";
+        return;
 
-      pagesInput.value = "";
+      }
 
-      resetProgress();
+      renderPreview();
+
+    });
+
+  });
+
+
+/* SAVE INDIVIDUAL PAGE SELECTIONS */
+
+fileList
+  .querySelectorAll(".individual-pages-input")
+  .forEach((input) => {
+
+    input.addEventListener("input", () => {
+
+      const index = Number(input.dataset.index);
+
+      individualPageSelections[index] =
+        input.value.trim();
+
+    });
+
+  });
+  /* =========================
+     ADD MORE PDFs
+  ========================= */
+
+  let addMoreBtn = document.getElementById("removeAddMoreBtn");
+
+  if (!addMoreBtn) {
+
+    addMoreBtn = document.createElement("button");
+
+    addMoreBtn.id = "removeAddMoreBtn";
+    addMoreBtn.type = "button";
+    addMoreBtn.className = "remove-add-more-btn";
+
+addMoreBtn.innerHTML = `
+  <i class="fa-solid fa-plus"></i>
+`;
+
+    removePreviewScreen
+      .querySelector(".remove-preview-left")
+      .appendChild(addMoreBtn);
+
+    addMoreBtn.addEventListener("click", () => {
+
+      if (selectedFiles.length >= 10) {
+        alert("You can select up to 10 PDF files.");
+        return;
+      }
+
+      fileInput.click();
 
     });
 
   }
+
+  addMoreBtn.style.display =
+    selectedFiles.length < 10 ? "flex" : "none";
+  }
+  /* APPLY SAME PAGES TO ALL */
+
+  let samePagesBox =
+    document.getElementById("applySamePagesBox");
+
+  if (!samePagesBox) {
+
+    samePagesBox = document.createElement("label");
+
+    samePagesBox.id = "applySamePagesBox";
+    samePagesBox.className = "apply-same-pages-box";
+
+    samePagesBox.innerHTML = `
+      <input
+        type="checkbox"
+        id="applySamePages"
+      />
+
+      <span>
+        Apply same pages to all PDFs
+      </span>
+    `;
+
+    const actionPanel =
+      removePreviewScreen.querySelector(
+        ".remove-action-panel"
+      );
+
+    const removeOptionBox =
+      actionPanel?.querySelector(
+        "#pagesSelectionArea"
+      );
+
+    if (removeOptionBox) {
+      removeOptionBox.appendChild(samePagesBox);
+    }
+  }
+
+  const samePagesCheckbox =
+    document.getElementById("applySamePages");
+
+  if (samePagesCheckbox) {
+
+    samePagesCheckbox.checked =
+      applySamePagesToAll;
+
+    samePagesCheckbox.onchange = () => {
+
+      applySamePagesToAll =
+        samePagesCheckbox.checked;
+
+      if (applySamePagesToAll) {
+
+        const commonPages =
+          pagesInput.value.trim();
+
+        individualPageSelections =
+          selectedFiles.map(() => commonPages);
+
+        fileList
+          .querySelectorAll(".individual-pages-input")
+          .forEach((input) => {
+
+            input.value = commonPages;
+            input.disabled = true;
+
+          });
+
+      } else {
+
+        fileList
+          .querySelectorAll(".individual-pages-input")
+          .forEach((input) => {
+
+            input.disabled = false;
+
+          });
+
+      }
+
+    };
+
+  }
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function resetToStart() {
+
+  selectedFiles.forEach((file) => {
+
+    if (file.previewUrl) {
+      URL.revokeObjectURL(file.previewUrl);
+    }
+
+  });
+
+  selectedFiles = [];
+
+  fileList.innerHTML = "";
+
+  removeStartScreen.style.display = "flex";
+
+  removePreviewScreen.classList.add("hidden-screen");
+  removePreviewScreen.style.display = "none";
+
+  removeSuccessScreen.classList.add("hidden-screen");
+  removeSuccessScreen.style.display = "none";
+
+  pagesInput.value = "";
+
+  resetProgress();
+
+  fileInput.value = "";
+
+}
 
   /* =========================
      PROGRESS
@@ -226,24 +479,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
   removeBtn?.addEventListener("click", async () => {
 
-    if (!selectedFile) {
+    if (!selectedFiles.length) {
 
       alert("Please select a PDF file");
 
       return;
     }
 
-    if (!pagesInput.value.trim()) {
+    if (selectedFiles.length === 1) {
 
-      alert("Please enter page numbers");
+  if (!pagesInput.value.trim()) {
+    alert("Please enter page numbers");
+    return;
+  }
 
-      return;
-    }
+} else if (applySamePagesToAll) {
+
+  if (!pagesInput.value.trim()) {
+    alert("Please enter pages to remove");
+    return;
+  }
+
+} else {
+
+  const hasEmptySelection =
+    individualPageSelections.some(
+      (pages) => !String(pages || "").trim()
+    );
+
+  if (hasEmptySelection) {
+    alert("Please enter pages to remove for every PDF");
+    return;
+  }
+
+}
 
     const formData = new FormData();
 
-    formData.append("pdf", selectedFile);
+    selectedFiles.forEach((file) => {
+  formData.append("pdf", file);
+});
     formData.append("pages", pagesInput.value.trim());
+    if (selectedFiles.length === 1) {
+
+  formData.append(
+    "pages",
+    pagesInput.value.trim()
+  );
+
+} else if (applySamePagesToAll) {
+
+  const commonPages =
+    pagesInput.value.trim();
+
+  formData.append(
+    "pages",
+    commonPages
+  );
+
+  formData.append(
+    "pagesByFile",
+    JSON.stringify(
+      selectedFiles.map(() => commonPages)
+    )
+  );
+
+} else {
+
+  formData.append(
+    "pagesByFile",
+    JSON.stringify(individualPageSelections)
+  );
+
+}
 const { data } = await window.supabaseClient.auth.getUser();
 
 if (!data?.user) {
@@ -268,7 +576,7 @@ formData.append("user_id", data.user.id);
         body: formData
       });
 
-      if (!response.ok) {
+    if (!response.ok) {
 
   const errorText = await response.text();
 
@@ -278,6 +586,51 @@ formData.append("user_id", data.user.id);
       document.getElementById("upgradeModal");
 
     if (upgradeModal) {
+
+      const message =
+        upgradeModal.querySelector("p");
+
+      if (message) {
+        message.textContent =
+          "You have reached your daily free limit. Upgrade to Premium for unlimited access to all PDF tools.";
+      }
+
+      const heading =
+        upgradeModal.querySelector("h2");
+
+      if (heading) {
+        heading.textContent = "Free Limit Reached";
+      }
+
+      upgradeModal.style.display = "flex";
+    }
+
+  } else if (
+    errorText.includes(
+      "Multiple PDF files are available for Premium users only"
+    )
+  ) {
+
+    const upgradeModal =
+      document.getElementById("upgradeModal");
+
+    if (upgradeModal) {
+
+      const heading =
+        upgradeModal.querySelector("h2");
+
+      if (heading) {
+        heading.textContent = "Upgrade to Premium";
+      }
+
+      const message =
+        upgradeModal.querySelector("p");
+
+      if (message) {
+        message.textContent =
+          "Multiple PDF files are a Premium feature. Upgrade to Premium to process multiple PDFs at once.";
+      }
+
       upgradeModal.style.display = "flex";
     }
 
@@ -287,10 +640,20 @@ formData.append("user_id", data.user.id);
 
   }
 
+  resetProgress();
   return;
 }
 
       const blob = await response.blob();
+      if (blob.type === "application/zip") {
+
+  finalDownloadName = "removed-pages.zip";
+
+} else {
+
+  finalDownloadName = "updated.pdf";
+
+}
 
       if (!blob || blob.size < 100) {
 
@@ -347,26 +710,23 @@ formData.append("user_id", data.user.id);
 
   downloadBtn?.addEventListener("click", () => {
 
-    if (!finalPdfUrl) {
+  if (!finalPdfUrl) {
+    alert("File not ready yet");
+    return;
+  }
 
-      alert("PDF not ready yet");
+  const a = document.createElement("a");
 
-      return;
-    }
+  a.href = finalPdfUrl;
+  a.download = finalDownloadName;
 
-    const a = document.createElement("a");
+  document.body.appendChild(a);
 
-    a.href = finalPdfUrl;
+  a.click();
 
-    a.download = "updated.pdf";
+  a.remove();
 
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-  });
+});
   const closeUpgradeModal =
   document.getElementById("closeUpgradeModal");
 
