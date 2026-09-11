@@ -21,16 +21,24 @@
 
   <style>
     .hidden-screen {
-      display: none !important;
-    }
+  display:none !important;
+}
 
-    #removePreviewScreen:not(.hidden-screen) {
-      display: grid !important;
-    }
+#removePreviewScreen:not(.hidden-screen) {
+  display:grid !important;
+}
 
-    #removeSuccessScreen:not(.hidden-screen) {
-      display: flex !important;
-    }
+#removeSuccessScreen:not(.hidden-screen) {
+  display:flex !important;
+}
+
+@media (max-width: 768px) {
+  #removePreviewScreen:not(.hidden-screen) {
+    display:block !important;
+    grid-template-columns:1fr !important;
+    padding-right:0 !important;
+  }
+}
 .hp-profile-wrap{display:none;position:relative;align-items:center}
 .hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
 .hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
