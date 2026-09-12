@@ -1719,7 +1719,7 @@ if (!profileData.is_premium) {
   }
 });
 
-app.post("/remove-pages", upload.single("pdf"), async (req, res) => {
+app.post("/remove-pages", upload.array("pdf", 10), async (req, res) => {
   try {
     const userId = req.body.user_id;
 
@@ -1762,30 +1762,279 @@ if (!profileData.is_premium) {
   }
 
 }
-    const pagesToRemove = req.body.pages
-      .split(",")
-      .map((p) => parseInt(p.trim()) - 1);
 
-    const bytes = fs.readFileSync(req.file.path);
-    const pdfDoc = await PDFDocument.load(bytes);
+/* =========================
+   REMOVE PAGES FILE CHECK
+========================= */
 
-    const newPdf = await PDFDocument.create();
+if (!req.files || req.files.length === 0) {
 
-    for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-      if (!pagesToRemove.includes(i)) {
-        const [page] = await newPdf.copyPages(pdfDoc, [i]);
-        newPdf.addPage(page);
-      }
+  return res.status(400).send("No PDF files uploaded");
+
+}
+
+
+/* =========================
+   FREE USER = SINGLE PDF
+========================= */
+
+if (!profileData.is_premium && req.files.length > 1) {
+
+  req.files.forEach((file) => {
+
+    if (fs.existsSync(file.path)) {
+      fs.unlinkSync(file.path);
     }
 
-    const pdfBytes = await newPdf.save();
+  });
 
-    if (fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
+  return res.status(403).send(
+    "Multiple PDF files are available for Premium users only. Please upgrade to Premium."
+  );
+
+}
+   /* =========================
+   PAGE SELECTIONS
+========================= */
+
+let pagesByFile = [];
+
+if (req.files.length === 1) {
+
+  let pages = req.body.pages || "";
+
+  if (Array.isArray(pages)) {
+    pages = pages.join(",");
+  } else {
+    pages = String(pages);
+  }
+
+  pagesByFile = [pages];
+
+
+
+} else if (req.body.pagesByFile) {
+
+  try {
+
+    pagesByFile =
+      JSON.parse(req.body.pagesByFile);
+
+  } catch (err) {
+
+    return res.status(400).send(
+      "Invalid page selection data"
+    );
+
+  }
+
+} else {
+
+  pagesByFile =
+    req.files.map(() => req.body.pages || "");
+
+}
+
+if (
+  !Array.isArray(pagesByFile) ||
+  pagesByFile.length !== req.files.length
+) {
+
+  return res.status(400).send(
+    "Page selection does not match PDF files"
+  );
+
+}
+/* =========================
+   EMPTY PAGE SELECTION CHECK
+========================= */
+
+const hasEmptyPageSelection =
+  pagesByFile.some(
+    (pages) => !String(pages || "").trim()
+  );
+
+if (hasEmptyPageSelection) {
+
+  req.files.forEach((file) => {
+
+    if (fs.existsSync(file.path)) {
+      fs.unlinkSync(file.path);
     }
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=updated.pdf");
+  });
+
+  return res.status(400).send(
+    "Please enter pages to remove for every PDF."
+  );
+
+}
+
+const processedFiles = [];
+
+for (const file of req.files) {
+
+ const fileIndex = req.files.indexOf(file);
+
+const pageSelection = pagesByFile[fileIndex];
+
+const pagesToRemove = (
+  Array.isArray(pageSelection)
+    ? pageSelection.join(",")
+    : String(pageSelection || "")
+)
+  .split(",")
+  .map((p) => parseInt(p.trim()) - 1)
+  .filter((p) => !isNaN(p));
+
+const bytes = fs.readFileSync(file.path);
+
+const pdfDoc = await PDFDocument.load(bytes);
+
+const newPdf = await PDFDocument.create();
+
+for (let i = 0; i < pdfDoc.getPageCount(); i++) {
+
+  if (!pagesToRemove.includes(i)) {
+
+    const [page] =
+      await newPdf.copyPages(pdfDoc, [i]);
+
+    newPdf.addPage(page);
+
+  }
+
+}
+
+const pdfBytes = await newPdf.save();
+  processedFiles.push({
+    name: file.originalname,
+    bytes: pdfBytes
+  });
+
+  if (fs.existsSync(file.path)) {
+    fs.unlinkSync(file.path);
+  }
+
+}
+
+
+/* =========================
+   SINGLE PDF
+========================= */
+
+if (processedFiles.length === 1) {
+
+  res.setHeader("Content-Type", "application/pdf");
+
+  res.setHeader(
+    "Content-Disposition",
+    "attachment; filename=updated.pdf"
+  );
+
+  // Existing single-PDF behavior preserved
+  var pdfBytes = processedFiles[0].bytes;
+
+}
+/* =========================
+   MULTIPLE PDFs → ZIP
+========================= */
+
+if (processedFiles.length > 1) {
+
+  const outputDir = path.join(
+    outputsDir,
+    `remove_pages_${Date.now()}`
+  );
+
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  processedFiles.forEach((file, index) => {
+
+  const safeName = path
+    .basename(file.name, path.extname(file.name))
+    .replace(/[^a-zA-Z0-9_-]/g, "_");
+
+  const outputPath = path.join(
+    outputDir,
+    `${safeName}_${index + 1}_removed_pages.pdf`
+  );
+
+  fs.writeFileSync(outputPath, file.bytes);
+
+});
+
+  const zipPath = `${outputDir}.zip`;
+
+  const output = fs.createWriteStream(zipPath);
+
+  const archive = archiver("zip", {
+    zlib: { level: 9 }
+  });
+
+  archive.pipe(output);
+
+  archive.directory(outputDir, false);
+
+  await archive.finalize();
+
+  await new Promise((resolve, reject) => {
+
+    output.on("close", resolve);
+    output.on("error", reject);
+
+  });
+
+  res.setHeader("Content-Type", "application/zip");
+
+  res.setHeader(
+    "Content-Disposition",
+    "attachment; filename=removed-pages.zip"
+  );
+
+  const zipBytes = fs.readFileSync(zipPath);
+
+  // Cleanup temporary files
+  processedFiles.forEach(() => {});
+
+  if (fs.existsSync(zipPath)) {
+    fs.unlinkSync(zipPath);
+  }
+
+  if (fs.existsSync(outputDir)) {
+    fs.rmSync(outputDir, {
+      recursive: true,
+      force: true
+    });
+  }
+/* =========================
+   UPDATE USAGE LOG
+========================= */
+
+if (!usageData) {
+
+  await supabase
+    .from("usage_logs")
+    .insert([{
+      user_id: userId,
+      tool_name: "pdf_remove_pages",
+      usage_date: today,
+      usage_count: 1
+    }]);
+
+} else {
+
+  await supabase
+    .from("usage_logs")
+    .update({
+      usage_count: usageData.usage_count + 1
+    })
+    .eq("id", usageData.id);
+
+}
+  return res.end(zipBytes);
+
+}
 if (!usageData) {
 
   await supabase
@@ -1822,6 +2071,29 @@ app.post("/rotate", upload.single("pdf"), async (req, res) => {
 
     const bytes = fs.readFileSync(req.file.path);
     const pdfDoc = await PDFDocument.load(bytes);
+    const totalPages = pdfDoc.getPageCount();
+
+const invalidPages = pagesToRemove.filter(
+  (page) =>
+    page < 0 ||
+    page >= totalPages
+);
+
+if (invalidPages.length > 0) {
+
+  req.files.forEach((uploadedFile) => {
+
+    if (fs.existsSync(uploadedFile.path)) {
+      fs.unlinkSync(uploadedFile.path);
+    }
+
+  });
+
+  return res.status(400).send(
+    `Invalid page number for ${file.originalname}`
+  );
+
+}
 
     const pages = pdfDoc.getPages();
 
