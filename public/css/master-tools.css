@@ -2511,158 +2511,100 @@ body .remove-page .remove-main-btn.master-tool-action-button i{
 
 /* =========================================================
    REMOVE PDF — ADD MORE BUTTON
-   MATCH MERGE PDF POSITION
-   DESKTOP ONLY
+   SAME AS MERGE PDF
 ========================================================= */
 
-@media screen and (min-width: 769px){
+body .remove-page .remove-add-more-btn{
+  position:fixed !important;
+  right:320px !important;
+  top:245px !important;
 
-  body .remove-page #removePreviewScreen{
-    position:relative !important;
-  }
+  width:56px !important;
+  height:56px !important;
 
-  body .remove-page #removePreviewScreen .remove-preview-left{
-    position:relative !important;
-  }
+  border-radius:50% !important;
+  background:#ef4444 !important;
 
-  body .remove-page #removePreviewScreen .remove-add-more-btn{
-    position:absolute !important;
+  color:transparent !important;
+  font-size:0 !important;
 
-    right:20px !important;
-    top:163px !important;
+  padding:0 !important;
+  border:none !important;
 
-    width:58px !important;
-    height:58px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 
-    margin:0 !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-
-    border:none !important;
-    border-radius:50% !important;
-
-    background:#ff3131 !important;
-    color:#ffffff !important;
-
-    font-size:30px !important;
-    z-index:20 !important;
-  }
-
-  body .remove-page #removePreviewScreen .remove-add-more-btn i{
-    color:#ffffff !important;
-    font-size:28px !important;
-  }
-
+  z-index:50 !important;
 }
 
-@media screen and (min-width: 769px){
-
-  body .remove-page #removePreviewScreen .remove-add-more-btn{
-    position:absolute !important;
-
-    /* EXACTLY BEFORE THE RIGHT ACTION PANEL */
-    right:calc(23% + 19px) !important;
-    top:165px !important;
-
-    width:58px !important;
-    height:58px !important;
-
-    margin:0 !important;
-    padding:0 !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-
-    border:none !important;
-    border-radius:50% !important;
-
-    background:#ff3131 !important;
-    color:#ffffff !important;
-
-    font-size:30px !important;
-    z-index:20 !important;
-  }
-
-  body .remove-page #removePreviewScreen
-  .remove-add-more-btn i{
-    color:#ffffff !important;
-    font-size:28px !important;
-  }
-
+body .remove-page .remove-add-more-btn i{
+  color:#ffffff !important;
+  font-size:26px !important;
 }
+
+
+body .remove-page .remove-action-panel .remove-progress{
+  display:block !important;
+  width:100% !important;
+  height:8px !important;
+  margin:12px 0 0 !important;
+  padding:0 !important;
+  background:#e5e7eb !important;
+  border-radius:999px !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+}
+
+body .remove-page .remove-action-panel .remove-progress .progress-bar{
+  display:flex !important;
+  width:0%
+  height:8px !important;
+  min-height:10px !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  border-radius:999px !important;
+  transition:width .3s ease !important;
+  box-sizing:border-box !important;
+}
+
 
 /* =========================================================
-   REMOVE PDF — DESKTOP ADD MORE
-   EXACT SAME POSITION AS MERGE PDF
+   REMOVE PDF — FINAL PROGRESS BAR
+   MATCH MERGE PDF
 ========================================================= */
 
-@media screen and (min-width: 769px) {
-
-  body .remove-page .remove-add-more-btn {
-    position: fixed !important;
-    right: 320px !important;
-    top: 245px !important;
-
-    width: 56px !important;
-    height: 56px !important;
-    min-width: 56px !important;
-    min-height: 56px !important;
-
-    border: none !important;
-    border-radius: 50% !important;
-
-    background: #ef4444 !important;
-    color: transparent !important;
-
-    font-size: 0 !important;
-    padding: 0 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    z-index: 50 !important;
-
-    box-shadow: 0 12px 25px rgba(239, 47, 47, 0.28) !important;
-  }
-
-  body .remove-page .remove-add-more-btn i {
-    color: #ffffff !important;
-    font-size: 26px !important;
-  }
-
+body .remove-page #removePreviewScreen
+.remove-action-panel .remove-progress{
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:18px 0 0 !important;
+  padding:0 !important;
+  background:#e2e8f0 !important;
+  border-radius:12px !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  flex-shrink:0 !important;
 }
 
-/* =========================================================
-   REMOVE PDF — ADD MORE BUTTON
-   EXACT SAME POSITION AS MERGE PDF
-========================================================= */
-
-body .remove-page .remove-preview-left {
-  position: static !important;
-}
-
-body .remove-page #addMoreBtn {
-  position: fixed !important;
-  right: -153px !important;
-  top: 245px !important;
-  width: 56px !important;
-  height: 56px !important;
-  min-width: 56px !important;
-  min-height: 56px !important;
-  border-radius: 50% !important;
-  background: #ef4444 !important;
-  color: transparent !important;
-  font-size: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-  z-index: 50 !important;
-}
-
-body .remove-page #addMoreBtn i {
-  color: #ffffff !important;
-  font-size: 26px !important;
+body .remove-page #removePreviewScreen
+.remove-action-panel .remove-progress .progress-bar{
+  display:block !important;
+  width:0%;
+  height:24px !important;
+  min-height:24px !important;
+  max-width:none !important;
+  background:#ef4444 !important;
+  color:#ffffff !important;
+  line-height:24px !important;
+  text-align:center !important;
+  font-size:12px !important;
+  font-weight:bold !important;
+  border-radius:12px !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+  transition:width .3s ease !important;
 }
