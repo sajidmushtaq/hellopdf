@@ -2508,3 +2508,161 @@ body .remove-page .remove-main-btn.master-tool-action-button i{
   }
 
 }
+
+/* =========================================================
+   REMOVE PDF — ADD MORE BUTTON
+   MATCH MERGE PDF POSITION
+   DESKTOP ONLY
+========================================================= */
+
+@media screen and (min-width: 769px){
+
+  body .remove-page #removePreviewScreen{
+    position:relative !important;
+  }
+
+  body .remove-page #removePreviewScreen .remove-preview-left{
+    position:relative !important;
+  }
+
+  body .remove-page #removePreviewScreen .remove-add-more-btn{
+    position:absolute !important;
+
+    right:20px !important;
+    top:163px !important;
+
+    width:58px !important;
+    height:58px !important;
+
+    margin:0 !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    border:none !important;
+    border-radius:50% !important;
+
+    background:#ff3131 !important;
+    color:#ffffff !important;
+
+    font-size:30px !important;
+    z-index:20 !important;
+  }
+
+  body .remove-page #removePreviewScreen .remove-add-more-btn i{
+    color:#ffffff !important;
+    font-size:28px !important;
+  }
+
+}
+
+@media screen and (min-width: 769px){
+
+  body .remove-page #removePreviewScreen .remove-add-more-btn{
+    position:absolute !important;
+
+    /* EXACTLY BEFORE THE RIGHT ACTION PANEL */
+    right:calc(23% + 19px) !important;
+    top:165px !important;
+
+    width:58px !important;
+    height:58px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    border:none !important;
+    border-radius:50% !important;
+
+    background:#ff3131 !important;
+    color:#ffffff !important;
+
+    font-size:30px !important;
+    z-index:20 !important;
+  }
+
+  body .remove-page #removePreviewScreen
+  .remove-add-more-btn i{
+    color:#ffffff !important;
+    font-size:28px !important;
+  }
+
+}
+
+/* =========================================================
+   REMOVE PDF — DESKTOP ADD MORE
+   EXACT SAME POSITION AS MERGE PDF
+========================================================= */
+
+@media screen and (min-width: 769px) {
+
+  body .remove-page .remove-add-more-btn {
+    position: fixed !important;
+    right: 320px !important;
+    top: 245px !important;
+
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+
+    border: none !important;
+    border-radius: 50% !important;
+
+    background: #ef4444 !important;
+    color: transparent !important;
+
+    font-size: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    z-index: 50 !important;
+
+    box-shadow: 0 12px 25px rgba(239, 47, 47, 0.28) !important;
+  }
+
+  body .remove-page .remove-add-more-btn i {
+    color: #ffffff !important;
+    font-size: 26px !important;
+  }
+
+}
+
+/* =========================================================
+   REMOVE PDF — ADD MORE BUTTON
+   EXACT SAME POSITION AS MERGE PDF
+========================================================= */
+
+body .remove-page .remove-preview-left {
+  position: static !important;
+}
+
+body .remove-page #addMoreBtn {
+  position: fixed !important;
+  right: -153px !important;
+  top: 245px !important;
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+  min-height: 56px !important;
+  border-radius: 50% !important;
+  background: #ef4444 !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  z-index: 50 !important;
+}
+
+body .remove-page #addMoreBtn i {
+  color: #ffffff !important;
+  font-size: 26px !important;
+}
