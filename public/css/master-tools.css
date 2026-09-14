@@ -2779,7 +2779,7 @@ body .extract-page .extract-success-screen{
   width:100% !important;
   min-height:calc(100vh - 72px) !important;
 
-  display:flex !important;
+  
   flex-direction:column !important;
   align-items:center !important;
   justify-content:flex-start !important;
@@ -2814,7 +2814,7 @@ body .extract-page .extract-success-screen
   margin:0 !important;
   padding:0 28px !important;
 
-  display:flex !important;
+  
   align-items:center !important;
   justify-content:center !important;
 
