@@ -1532,6 +1532,160 @@ button.download-result-btn.master-tool-download-button {
 }
 
 /* =========================================================
+   EXTRACT PDF — MASTER START SCREEN
+   Match Compress PDF approved UI
+========================================================= */
+
+body .extract-page .extract-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+body .extract-page .extract-start-screen
+.master-tool-title{
+  margin:0 0 14px !important;
+}
+
+body .extract-page .extract-start-screen
+.master-tool-description{
+  margin:0 0 28px !important;
+}
+
+/* Select button + cloud buttons */
+body .extract-page .extract-select-row{
+  position:relative !important;
+
+  width:100% !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:24px !important;
+}
+
+/* Main upload button */
+body .extract-page .extract-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  box-sizing:border-box !important;
+
+  cursor:pointer !important;
+}
+
+body .extract-page .extract-upload-box
+.master-tool-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  padding:25px 38px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+/* Cloud buttons */
+body .extract-page .extract-select-row
+.cloud-buttons{
+  position:absolute !important;
+
+  left:calc(50% + 181px) !important;
+  top:47% !important;
+
+  transform:translateY(-50%) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+
+  margin:0 !important;
+}
+
+/* Google Drive + Dropbox */
+body .extract-page .extract-select-row
+.cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  min-width:38px !important;
+  min-height:38px !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  font-size:17px !important;
+
+  box-sizing:border-box !important;
+
+  cursor:pointer !important;
+}
+
+/* Drop text */
+body .extract-page .extract-start-screen
+.master-tool-drop-text{
+  margin-top:14px !important;
+
+  text-align:center !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+}
+
+/* =========================================================
    MERGE PDF — MOBILE START SCREEN
    UI ONLY
 ========================================================= */
@@ -2607,4 +2761,89 @@ body .remove-page #removePreviewScreen
   box-sizing:border-box !important;
   overflow:hidden !important;
   transition:width .3s ease !important;
+}
+
+/* EXTRACT PDF — PREVIEW ACTION BUTTON */
+body .extract-page #extractPreviewScreen.master-tool-preview
+button.master-tool-action-button{
+  background:#ff3131 !important;
+  color:#ffffff !important;
+}
+
+/* =========================================================
+   EXTRACT PDF — SUCCESS SCREEN
+   Match Compress PDF approved UI
+========================================================= */
+
+body .extract-page .extract-success-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+body .extract-page .extract-success-screen
+.master-tool-title{
+  margin:0 0 14px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+}
+
+body .extract-page .extract-success-screen
+.master-tool-description{
+  margin:0 0 28px !important;
+}
+
+body .extract-page .extract-success-screen
+.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  margin:0 !important;
+  padding:0 28px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:12px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+/* =========================================================
+   EXTRACT PDF — SUCCESS DOWNLOAD BUTTON COLOR
+========================================================= */
+
+body .extract-page #extractSuccessScreen.master-tool-success
+button.download-result-btn.master-tool-download-button{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  border:none !important;
 }
