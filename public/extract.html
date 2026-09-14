@@ -17,6 +17,7 @@
   <title>Extract Pages - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=4001" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -272,54 +273,53 @@ border-radius:16px;
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="extract-page">
+<main class="extract-page master-tool-page">
 
   <!-- START SCREEN -->
 
-  <section class="extract-start-screen" id="extractStartScreen">
+  <section class="extract-start-screen master-tool-start" id="extractStartScreen">
 
-    <h1>Extract PDF pages</h1>
+    <h1 class="master-tool-title">Extract PDF pages</h1>
 
-    <p>
+   <p class="master-tool-description">
       Extract selected pages from your PDF file quickly and securely.
     </p>
 
     <div class="extract-select-row">
 
-      <div class="extract-upload-box" id="dropZone">
+      <div class="extract-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
-        <button type="button">
-          <i class="fa-brands fa-google-drive"></i>
-        </button>
+  <button type="button" aria-label="Upload from Google Drive">
+    <i class="fa-brands fa-google-drive"></i>
+  </button>
 
-        <button type="button">
-          <i class="fa-brands fa-dropbox"></i>
-        </button>
-      </div>
+  <button type="button" aria-label="Upload from Dropbox">
+    <i class="fa-brands fa-dropbox"></i>
+  </button>
+</div>
 
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
 
   </section>
 
   <!-- PREVIEW SCREEN -->
 
-  <section class="extract-preview-screen hidden-screen" id="extractPreviewScreen">
+  <section class="extract-preview-screen master-tool-preview hidden-screen" id="extractPreviewScreen">
 
-    <div class="extract-preview-left">
+    <div class="extract-preview-left master-tool-preview-left">
       <div class="extract-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="extract-action-panel">
+    <aside class="extract-action-panel master-tool-action-panel">
 
-      <h2>Extract Pages</h2>
-
-      <p>
+      <h1 class="master-tool-title">Extract Pages</h1>
+<p class="master-tool-panel-description">
         Enter the page numbers you want to extract from your PDF.
       </p>
 
@@ -339,13 +339,13 @@ border-radius:16px;
 
       </div>
 
-      <button class="extract-main-btn" id="extractBtn" type="button">
+      <button class="extract-main-btn master-tool-action-button" id="extractBtn" type="button">
         Extract Pages
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container extract-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container extract-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
 
     </aside>
@@ -354,13 +354,13 @@ border-radius:16px;
 
   <!-- SUCCESS SCREEN -->
 
-  <section class="extract-success-screen hidden-screen" id="extractSuccessScreen">
+  <section class="extract-success-screen master-tool-success hidden-screen" id="extractSuccessScreen">
 
-    <h1>Pages extracted successfully!</h1>
+    <h1 class="master-tool-title">Pages extracted successfully!</h1>
 
-    <p>Your extracted PDF is ready to download.</p>
+    <p class="master-tool-description">Your extracted PDF is ready to download.</p>
 
-    <button id="downloadBtn">
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
       Download PDF
     </button>
 

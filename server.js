@@ -2833,7 +2833,8 @@ const today =
     .split("T")[0];
 
 const {
-  data: usageData
+  data: usageData,
+  error: usageError
 } = await supabase
   .from("usage_logs")
   .select("*")
@@ -2847,6 +2848,9 @@ const {
     today
   )
   .maybeSingle();
+
+console.log("EXTRACT USAGE DATA =", usageData);
+console.log("EXTRACT USAGE ERROR =", usageError);
 
 if (!profileData.is_premium) {
 
