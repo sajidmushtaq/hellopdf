@@ -17,6 +17,7 @@
   <title>Reorder PDF Pages - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=3002" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -262,16 +263,16 @@ display:none !important;
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="reorder-page">
+<main class="reorder-page master-tool-page">
 
-  <section class="reorder-start-screen" id="reorderStartScreen">
-    <h1>Reorder PDF pages</h1>
-    <p>Change the order of PDF pages easily and quickly.</p>
+  <section class="reorder-start-screen master-tool-start" id="reorderStartScreen">
+    <h1 class="master-tool-title">Reorder PDF pages</h1>
+    <p class="master-tool-description">Change the order of PDF pages easily and quickly.</p>
 
     <div class="reorder-select-row">
-      <div class="reorder-upload-box" id="dropZone">
+      <div class="reorder-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -284,38 +285,40 @@ display:none !important;
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
   </section>
 
-  <section class="reorder-preview-screen hidden-screen" id="reorderPreviewScreen">
-    <div class="reorder-preview-left">
+  <section class="reorder-preview-screen master-tool-preview hidden-screen" id="reorderPreviewScreen">
+    <div class="reorder-preview-left master-tool-preview-left">
       <div class="reorder-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="reorder-action-panel">
-      <h2>Reorder Pages</h2>
-      <p>Enter the new order of pages.</p>
+    <aside class="reorder-action-panel master-tool-action-panel">
+      <h1 class="master-tool-title">Reorder Pages</h1>
+      <p class="master-tool-panel-description">Enter the new order of pages.</p>
 
-      <div class="reorder-option-box">
+      <div class="reorder-option-box master-tool-option-box">
         <label for="orderInput">Page order</label>
         <input type="text" id="orderInput" placeholder="Example: 3,1,2" />
         <small>Separate page numbers with commas.</small>
       </div>
 
-      <button class="reorder-main-btn" id="reorderBtn" type="button">
+      <button class="reorder-main-btn master-tool-action-button" id="reorderBtn" type="button">
         Reorder Pages <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container reorder-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container reorder-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="reorder-success-screen hidden-screen" id="reorderSuccessScreen">
-    <h1>PDF reordered successfully!</h1>
-    <p>Your reordered PDF is ready to download.</p>
-    <button id="downloadBtn">Download PDF</button>
+  <section class="reorder-success-screen master-tool-success hidden-screen" id="reorderSuccessScreen">
+    <h1 class="master-tool-title">PDF reordered successfully!</h1>
+    <p class="master-tool-description">Your reordered PDF is ready to download.</p>
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
+  Download PDF
+</button>
   </section>
 <div id="upgradeModal" style="
 display:none;

@@ -2847,3 +2847,439 @@ button.download-result-btn.master-tool-download-button{
   color:#ffffff !important;
   border:none !important;
 }
+
+/* ================================
+   REORDER PDF — FINAL UI FIX
+   Same as Extract Pages
+================================ */
+
+/* START SCREEN */
+body .reorder-page .master-tool-start{
+  width:100%;
+ 
+  flex-direction:column;
+  align-items:center !important;
+  justify-content:flex-start;
+  text-align:center;
+  padding:55px 20px 40px;
+}
+
+/* START TITLE */
+body .reorder-page .master-tool-title{
+  text-align:center;
+}
+
+/* START DESCRIPTION */
+body .reorder-page .master-tool-description{
+  text-align:center;
+}
+
+/* UPLOAD ROW */
+body .reorder-page .reorder-select-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+}
+
+/* SELECT PDF BUTTON */
+body .reorder-page button.master-tool-button{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  border:none !important;
+}
+
+/* CLOUD BUTTONS */
+body .reorder-page .cloud-buttons{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+body .reorder-page .cloud-buttons button{
+  width:56px;
+  height:56px;
+  border:none;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+/* DROP TEXT */
+body .reorder-page .master-tool-drop-text{
+  text-align:center;
+}
+
+
+/* ================================
+   PREVIEW SCREEN
+================================ */
+
+body .reorder-page #reorderPreviewScreen.master-tool-preview
+button.master-tool-action-button{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  border:none !important;
+}
+
+
+/* ================================
+   SUCCESS SCREEN
+================================ */
+
+body .reorder-page #reorderSuccessScreen.master-tool-success{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+body .reorder-page #reorderSuccessScreen.master-tool-success
+button.download-result-btn.master-tool-download-button{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  border:none !important;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:768px){
+
+  body .reorder-page .reorder-select-row{
+    width:100%;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  body .reorder-page .reorder-upload-box{
+    width:100%;
+    display:flex;
+    justify-content:center;
+  }
+
+  body .reorder-page button.master-tool-button{
+    width:100%;
+    max-width:320px;
+  }
+
+  body .reorder-page .cloud-buttons{
+    justify-content:center;
+  }
+
+}
+
+/* =========================================
+   REORDER PDF — MATCH COMPRESS PDF
+========================================= */
+
+body .reorder-page .reorder-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+/* Select button + cloud buttons */
+body .reorder-page .reorder-select-row{
+  position:relative !important;
+  width:100% !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:24px !important;
+}
+
+/* Main upload box */
+body .reorder-page .reorder-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+}
+
+/* Main Select PDF button */
+body .reorder-page .reorder-upload-box h2{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:0 28px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:12px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+  cursor:pointer !important;
+}
+
+/* Cloud buttons — exact Compress position */
+body .reorder-page .reorder-select-row .cloud-buttons{
+  position:absolute !important;
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+
+  height:78px !important;
+
+  transform:none !important;
+
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+  margin:0 !important;
+}
+
+/* Google Drive + Dropbox — same red */
+body .reorder-page .reorder-select-row .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  min-width:38px !important;
+  min-height:38px !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* Drop text */
+body .reorder-page .master-tool-drop-text{
+  width:100% !important;
+  text-align:center !important;
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+  body .reorder-page .reorder-select-row{
+    width:100% !important;
+  }
+
+  body .reorder-page .reorder-upload-box{
+    width:330px !important;
+    min-width:330px !important;
+  }
+
+  body .reorder-page .reorder-select-row .cloud-buttons{
+    position:absolute !important;
+    left:calc(50% + 181px) !important;
+  }
+}
+
+/* =========================================
+   REORDER PDF — SUCCESS SCREEN
+   MATCH COMPRESS PDF
+========================================= */
+
+body .reorder-page #reorderSuccessScreen.master-tool-success{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:40px 20px !important;
+  text-align:center !important;
+  box-sizing:border-box !important;
+}
+
+/* Success heading */
+body .reorder-page #reorderSuccessScreen
+.master-tool-title{
+  margin:0 0 14px !important;
+
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+  color:#111827 !important;
+}
+
+/* Success description */
+body .reorder-page #reorderSuccessScreen
+.master-tool-description{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 28px !important;
+
+  font-size:20px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+  color:#64748b !important;
+}
+
+/* Download button */
+body .reorder-page #reorderSuccessScreen
+button.download-result-btn.master-tool-download-button{
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  min-width:330px !important;
+  height:78px !important;
+
+  padding:0 28px !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:12px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+
+  cursor:pointer !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+  body .reorder-page #reorderSuccessScreen
+  .master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+  body .reorder-page #reorderSuccessScreen
+  .master-tool-description{
+    max-width:100% !important;
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin-bottom:24px !important;
+  }
+
+  body .reorder-page #reorderSuccessScreen
+  button.download-result-btn.master-tool-download-button{
+    width:100% !important;
+    max-width:320px !important;
+    min-width:0 !important;
+    height:60px !important;
+    font-size:19px !important;
+  }
+}
+
+/* =========================================
+   REORDER PDF — SUCCESS SPACING
+   EXACT COMPRESS PDF POSITION
+========================================= */
+
+body .reorder-page #reorderSuccessScreen.master-tool-success{
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+
+  padding:58px 20px 40px !important;
+  background:#f3f4f8 !important;
+  box-sizing:border-box !important;
+}
+
+/* Heading spacing */
+body .reorder-page #reorderSuccessScreen.master-tool-success
+h1.master-tool-title{
+  font-size:44px !important;
+  line-height:1.2 !important;
+  margin:0 0 14px !important;
+}
+
+/* Description spacing */
+body .reorder-page #reorderSuccessScreen.master-tool-success
+p.master-tool-description{
+  font-size:20px !important;
+  line-height:1.5 !important;
+  margin:0 0 36px !important;
+}
+
+/* Download button */
+body .reorder-page #reorderSuccessScreen.master-tool-success
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+
+  height:auto !important;
+  padding:25px 38px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  white-space:nowrap !important;
+
+  border:none !important;
+  border-radius:11px !important;
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+  body .reorder-page #reorderSuccessScreen.master-tool-success{
+    padding:38px 18px 30px !important;
+  }
+
+  body .reorder-page #reorderSuccessScreen.master-tool-success
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+  body .reorder-page #reorderSuccessScreen.master-tool-success
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin-bottom:24px !important;
+  }
+
+  body .reorder-page #reorderSuccessScreen.master-tool-success
+  button.master-tool-download-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:320px !important;
+
+    padding:18px 24px !important;
+    font-size:19px !important;
+  }
+}
