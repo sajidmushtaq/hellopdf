@@ -2073,28 +2073,6 @@ app.post("/rotate", upload.single("pdf"), async (req, res) => {
     const pdfDoc = await PDFDocument.load(bytes);
     const totalPages = pdfDoc.getPageCount();
 
-const invalidPages = pagesToRemove.filter(
-  (page) =>
-    page < 0 ||
-    page >= totalPages
-);
-
-if (invalidPages.length > 0) {
-
-  req.files.forEach((uploadedFile) => {
-
-    if (fs.existsSync(uploadedFile.path)) {
-      fs.unlinkSync(uploadedFile.path);
-    }
-
-  });
-
-  return res.status(400).send(
-    `Invalid page number for ${file.originalname}`
-  );
-
-}
-
     const pages = pdfDoc.getPages();
 
     pages.forEach((page) => {
@@ -2104,7 +2082,7 @@ if (invalidPages.length > 0) {
     const pdfBytes = await pdfDoc.save();
 const userId = req.body.user_id;
 
-console.log("REMOVE USER ID =", userId);
+console.log("ROTATE USER ID =", userId);
 
 if (!userId) {
   return res.status(401).send("Please login first");

@@ -3283,3 +3283,404 @@ button.master-tool-download-button{
     font-size:19px !important;
   }
 }
+
+/* =========================================================
+   ROTATE PDF — MASTER UI
+   Match Compress / Merge approved UI
+========================================================= */
+
+
+/* =========================================================
+   ROTATE PDF — START SCREEN
+========================================================= */
+
+body .rotate-page .rotate-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:55px 20px 40px !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* Upload row */
+
+body .rotate-page .rotate-select-row{
+  position:relative !important;
+
+  width:100% !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:24px !important;
+}
+
+
+/* Main upload box */
+
+body .rotate-page .rotate-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+
+  height:78px !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+}
+
+
+/* Select PDF button */
+
+body .rotate-page .rotate-upload-box h2{
+  width:330px !important;
+  min-width:330px !important;
+
+  height:78px !important;
+
+  display:flex !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  box-sizing:border-box !important;
+
+  margin:0 !important;
+
+  padding:25px 38px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:28px !important;
+  font-weight:800 !important;
+
+  line-height:1 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* Cloud buttons */
+
+body .rotate-page .rotate-select-row .cloud-buttons{
+  position:absolute !important;
+
+  left:calc(50% + 181px) !important;
+
+  top:47% !important;
+
+  transform:translateY(-50%) !important;
+
+  display:flex !important;
+
+  flex-direction:column !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+
+  margin:0 !important;
+}
+
+
+/* Google Drive + Dropbox */
+
+body .rotate-page .rotate-select-row .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+
+  min-width:38px !important;
+  min-height:38px !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  display:flex !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  font-size:17px !important;
+
+  box-sizing:border-box !important;
+
+  cursor:pointer !important;
+}
+
+
+/* Drop text */
+
+body .rotate-page .rotate-start-screen .master-tool-drop-text{
+  margin-top:14px !important;
+
+  text-align:center !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:15px !important;
+
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+}
+
+
+/* =========================================================
+   ROTATE PDF — PREVIEW ACTION BUTTON
+========================================================= */
+
+body .rotate-page .rotate-action-panel
+.rotate-main-btn.master-tool-action-button{
+
+  width:100% !important;
+
+  height:70px !important;
+
+  display:flex !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:12px !important;
+
+  margin:24px 0 0 !important;
+
+  padding:20px 24px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:24px !important;
+  font-weight:800 !important;
+
+  line-height:1 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* Preview heading */
+
+body .rotate-page .rotate-action-panel
+h1.master-tool-title{
+
+  margin:0 0 10px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:32px !important;
+
+  line-height:1.15 !important;
+
+  font-weight:900 !important;
+
+  color:#111827 !important;
+}
+
+
+/* =========================================================
+   ROTATE PDF — SUCCESS SCREEN
+========================================================= */
+
+body .rotate-page #rotateSuccessScreen.master-tool-success{
+
+  flex-direction:column !important;
+
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:58px 20px 40px !important;
+
+  background:#f3f4f8 !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* Success heading */
+
+body .rotate-page #rotateSuccessScreen.master-tool-success
+h1.master-tool-title{
+
+  font-size:44px !important;
+
+  line-height:1.2 !important;
+
+  margin:0 0 14px !important;
+}
+
+
+/* Success description */
+
+body .rotate-page #rotateSuccessScreen.master-tool-success
+p.master-tool-description{
+
+  font-size:20px !important;
+
+  line-height:1.5 !important;
+
+  margin:0 0 36px !important;
+}
+
+
+/* Download button */
+
+body .rotate-page #rotateSuccessScreen.master-tool-success
+button.master-tool-download-button{
+
+  width:330px !important;
+
+  min-width:330px !important;
+
+  max-width:330px !important;
+
+  height:auto !important;
+
+  padding:25px 38px !important;
+
+  background:#ff3131 !important;
+
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:28px !important;
+
+  line-height:1 !important;
+
+  font-weight:800 !important;
+
+  white-space:nowrap !important;
+
+  border:none !important;
+
+  border-radius:11px !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* =========================================================
+   ROTATE PDF — MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+  body .rotate-page .rotate-start-screen{
+
+    padding:38px 18px 30px !important;
+  }
+
+
+  body .rotate-page .rotate-upload-box{
+
+    width:100% !important;
+
+    min-width:0 !important;
+
+    max-width:330px !important;
+  }
+
+
+  body .rotate-page .rotate-upload-box h2{
+
+    width:100% !important;
+
+    min-width:0 !important;
+
+    max-width:330px !important;
+
+    font-size:22px !important;
+  }
+
+
+  body .rotate-page .rotate-select-row .cloud-buttons{
+
+    left:calc(50% + 181px) !important;
+  }
+
+
+  body .rotate-page #rotateSuccessScreen.master-tool-success{
+
+    padding:38px 18px 30px !important;
+  }
+
+
+  body .rotate-page #rotateSuccessScreen.master-tool-success
+  h1.master-tool-title{
+
+    font-size:34px !important;
+
+    line-height:1.2 !important;
+  }
+
+
+  body .rotate-page #rotateSuccessScreen.master-tool-success
+  p.master-tool-description{
+
+    font-size:17px !important;
+
+    line-height:1.5 !important;
+
+    margin-bottom:24px !important;
+  }
+
+
+  body .rotate-page #rotateSuccessScreen.master-tool-success
+  button.master-tool-download-button{
+
+    width:100% !important;
+
+    min-width:0 !important;
+
+    max-width:320px !important;
+
+    padding:18px 24px !important;
+
+    font-size:19px !important;
+  }
+
+}

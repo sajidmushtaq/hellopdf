@@ -17,6 +17,7 @@
   <title>Rotate PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=3004" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -133,16 +134,16 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="rotate-page">
+<main class="rotate-page master-tool-page">
 
-  <section class="rotate-start-screen" id="rotateStartScreen">
-    <h1>Rotate PDF</h1>
-    <p>Rotate your PDF pages quickly and easily.</p>
+  <section class="rotate-start-screen master-tool-start" id="rotateStartScreen">
+    <h1 class="master-tool-title">Rotate PDF</h1>
+    <p class="master-tool-description">Rotate your PDF pages quickly and easily.</p>
 
-    <div class="rotate-select-row">
-      <div class="rotate-upload-box" id="dropZone">
+   <div class="rotate-select-row master-tool-select-row">
+      <div class="rotate-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -155,19 +156,19 @@
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
   </section>
 
-  <section class="rotate-preview-screen hidden-screen" id="rotatePreviewScreen">
-    <div class="rotate-preview-left">
+  <section class="rotate-preview-screen master-tool-preview hidden-screen" id="rotatePreviewScreen">
+    <div class="rotate-preview-left master-tool-preview-left">
       <div class="rotate-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="rotate-action-panel">
-      <h2>Rotate PDF</h2>
-      <p>Choose rotation angle and apply it to your PDF.</p>
+   <aside class="rotate-action-panel master-tool-action-panel">
+      <h1 class="master-tool-title">Rotate PDF</h1>
+      <p class="master-tool-panel-description">Choose rotation angle and apply it to your PDF.</p>
 
-      <div class="rotate-option-box">
+      <div class="rotate-option-box master-tool-option-box">
         <label for="angleInput">Rotation angle</label>
 
         <select id="angleInput">
@@ -179,20 +180,22 @@
         <small>Select how much you want to rotate the PDF pages.</small>
       </div>
 
-      <button class="rotate-main-btn" id="rotateBtn" type="button">
+      <button class="rotate-main-btn master-tool-action-button" id="rotateBtn" type="button">
         Rotate PDF <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container rotate-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container rotate-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="rotate-success-screen hidden-screen" id="rotateSuccessScreen">
-    <h1>PDF rotated successfully!</h1>
-    <p>Your rotated PDF is ready to download.</p>
-    <button id="downloadBtn">Download PDF</button>
+  <section class="rotate-success-screen master-tool-success hidden-screen" id="rotateSuccessScreen">
+    <h1 class="master-tool-title">PDF rotated successfully!</h1>
+    <p class="master-tool-description">Your rotated PDF is ready to download.</p>
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
+  Download PDF
+</button>
   </section>
 <div id="upgradeModal" style="
 display:none;
