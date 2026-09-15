@@ -17,6 +17,7 @@
   <title>Add Page Numbers - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=3004" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -270,19 +271,19 @@ display:none !important;
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="page-number-page">
+<main class="page-number-page master-tool-page">
 
-  <section class="page-number-start-screen" id="pageNumberStartScreen">
-    <h1>Add Page Numbers</h1>
+  <section class="page-number-start-screen master-tool-start" id="pageNumberStartScreen">
+    <h1 class="master-tool-title">Add Page Numbers</h1>
 
-    <p>
+    <p class="master-tool-description">
       Add page numbers to your PDF file with simple or bordered style.
     </p>
 
     <div class="page-number-select-row">
-      <div class="page-number-upload-box" id="dropZone">
+      <div class="page-number-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -295,22 +296,22 @@ display:none !important;
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
   </section>
 
-  <section class="page-number-preview-screen hidden-screen" id="pageNumberPreviewScreen">
-    <div class="page-number-preview-left">
+  <section class="page-number-preview-screen master-tool-preview hidden-screen" id="pageNumberPreviewScreen">
+    <div class="page-number-preview-left master-tool-preview-left">
       <div class="page-number-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="page-number-action-panel">
-      <h2>Page Numbers</h2>
-
-      <p>
+    <aside class="page-number-action-panel master-tool-action-panel">
+      <h1 class="master-tool-title">Page Numbers</h1>
+<p class="master-tool-panel-description">
         Choose how your page numbers should appear.
       </p>
 
-      <div class="page-number-option-box">
+      <div class="page-number-option-box master-tool-option-box">
+<div class="page-number-option-box master-tool-option-box">
         <label class="page-number-radio">
           <input type="radio" name="numberStyle" value="simple" checked />
           <span>Simple number</span>
@@ -328,23 +329,23 @@ display:none !important;
         <small>Page number inside a small border box.</small>
       </div>
 
-      <button class="page-number-main-btn" id="pageNumberBtn" type="button">
+      <button class="page-number-main-btn master-tool-action-button" id="pageNumberBtn" type="button">
         Add Page Numbers
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container page-number-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container page-number-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="page-number-success-screen hidden-screen" id="pageNumberSuccessScreen">
-    <h1>Page numbers added!</h1>
+  <section class="page-number-success-screen master-tool-success hidden-screen" id="pageNumberSuccessScreen">
+    <h1 class="master-tool-title">Page numbers added!</h1>
 
-    <p>Your numbered PDF is ready to download.</p>
+    <p class="master-tool-description">Your numbered PDF is ready to download.</p>
 
-    <button id="downloadBtn">
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
       Download PDF
     </button>
   </section>

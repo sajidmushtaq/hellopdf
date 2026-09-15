@@ -3684,3 +3684,369 @@ button.master-tool-download-button{
   }
 
 }
+
+/* =========================================================
+   PAGE NUMBERS — MASTER TOOL UI
+   Match Compress PDF approved design
+========================================================= */
+
+/* START SCREEN */
+body .page-number-page .page-number-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+/* TITLE */
+body .page-number-page .page-number-start-screen
+h1.master-tool-title{
+  margin:0 0 14px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+  color:#111827 !important;
+}
+
+/* DESCRIPTION */
+body .page-number-page .page-number-start-screen
+p.master-tool-description{
+  margin:0 0 36px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:20px !important;
+  line-height:1.5 !important;
+  color:#64748b !important;
+}
+
+/* SELECT ROW */
+body .page-number-page .page-number-select-row{
+  position:relative !important;
+  width:100% !important;
+  
+  align-items:center !important;
+  justify-content:center !important;
+  gap:24px !important;
+}
+
+/* UPLOAD BOX */
+body .page-number-page .page-number-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+  
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+
+/* MAIN UPLOAD BUTTON */
+body .page-number-page .page-number-upload-box
+h2.master-tool-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+ 
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:25px 38px !important;
+  background:#ff3131 !important;
+  color:#ffffff !important;
+  border:none !important;
+  border-radius:11px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+  cursor:pointer !important;
+}
+
+/* CLOUD BUTTONS */
+body .page-number-page .page-number-select-row
+.cloud-buttons{
+  position:absolute !important;
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+  height:78px !important;
+  transform:none !important;
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  margin:0 !important;
+}
+
+/* CLOUD CIRCLES */
+body .page-number-page .page-number-select-row
+.cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+  min-width:38px !important;
+  min-height:38px !important;
+  padding:0 !important;
+  margin:0 !important;
+  
+  align-items:center !important;
+  justify-content:center !important;
+  border:none !important;
+  border-radius:50% !important;
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  font-size:17px !important;
+  box-sizing:border-box !important;
+  cursor:pointer !important;
+}
+
+/* DROP TEXT */
+body .page-number-page .page-number-start-screen
+.master-tool-drop-text{
+  width:100% !important;
+  margin-top:14px !important;
+  text-align:center !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  line-height:1.5 !important;
+  color:#64748b !important;
+}
+
+
+/* =========================================================
+   PREVIEW SCREEN
+========================================================= */
+
+body .page-number-page
+#pageNumberPreviewScreen.master-tool-preview{
+  box-sizing:border-box !important;
+}
+
+/* ACTION PANEL */
+body .page-number-page .page-number-action-panel{
+  box-sizing:border-box !important;
+}
+
+/* PREVIEW TITLE */
+body .page-number-page .page-number-action-panel
+h1.master-tool-title{
+  margin:0 0 10px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:32px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+  color:#111827 !important;
+}
+
+/* PREVIEW DESCRIPTION */
+body .page-number-page .page-number-action-panel
+p.master-tool-panel-description{
+  margin:0 0 24px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:17px !important;
+  line-height:1.5 !important;
+  color:#64748b !important;
+}
+
+/* OPTION BOXES */
+body .page-number-page .page-number-action-panel
+.master-tool-option-box{
+  box-sizing:border-box !important;
+}
+
+/* ACTION BUTTON */
+body .page-number-page .page-number-action-panel
+.page-number-main-btn.master-tool-action-button{
+  width:100% !important;
+  height:70px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:12px !important;
+  margin:24px 0 0 !important;
+  padding:20px 24px !important;
+  box-sizing:border-box !important;
+  background:#ff3131 !important;
+  color:#ffffff !important;
+  border:none !important;
+  border-radius:11px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:18px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+  cursor:pointer !important;
+}
+
+/* PROGRESS */
+body .page-number-page .page-number-action-panel
+.master-tool-progress{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+body .page-number-page .page-number-action-panel
+.master-tool-progress-bar{
+  box-sizing:border-box !important;
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+body .page-number-page
+#pageNumberSuccessScreen.master-tool-success{
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+  padding:58px 20px 40px !important;
+  background:#f3f4f8 !important;
+  box-sizing:border-box !important;
+}
+
+/* SUCCESS TITLE */
+body .page-number-page
+#pageNumberSuccessScreen.master-tool-success
+h1.master-tool-title{
+  font-size:44px !important;
+  line-height:1.2 !important;
+  margin:0 0 14px !important;
+}
+
+/* SUCCESS DESCRIPTION */
+body .page-number-page
+#pageNumberSuccessScreen.master-tool-success
+p.master-tool-description{
+  font-size:20px !important;
+  line-height:1.5 !important;
+  margin:0 0 36px !important;
+}
+
+/* DOWNLOAD BUTTON */
+body .page-number-page
+#pageNumberSuccessScreen.master-tool-success
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+  height:auto !important;
+  padding:25px 38px !important;
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+  white-space:nowrap !important;
+  border:none !important;
+  border-radius:11px !important;
+  cursor:pointer !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+  body .page-number-page .page-number-start-screen{
+    padding:38px 18px 30px !important;
+  }
+
+  body .page-number-page .page-number-start-screen
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+  body .page-number-page .page-number-start-screen
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin-bottom:28px !important;
+  }
+
+  body .page-number-page .page-number-select-row{
+    gap:0 !important;
+  }
+
+  body .page-number-page .page-number-upload-box,
+  body .page-number-page .page-number-upload-box
+  h2.master-tool-button{
+    width:280px !important;
+    min-width:280px !important;
+  }
+
+  body .page-number-page .page-number-upload-box,
+  body .page-number-page .page-number-upload-box
+  h2.master-tool-button{
+    height:70px !important;
+  }
+
+  body .page-number-page .page-number-upload-box
+  h2.master-tool-button{
+    font-size:22px !important;
+    padding:20px 24px !important;
+  }
+
+  body .page-number-page .page-number-select-row
+  .cloud-buttons{
+    position:static !important;
+    height:auto !important;
+    margin-left:12px !important;
+    gap:8px !important;
+  }
+
+  body .page-number-page .page-number-select-row
+  .cloud-buttons button{
+    width:36px !important;
+    height:36px !important;
+    min-width:36px !important;
+    min-height:36px !important;
+  }
+
+  body .page-number-page
+  #pageNumberSuccessScreen.master-tool-success{
+    padding:38px 18px 30px !important;
+  }
+
+  body .page-number-page
+  #pageNumberSuccessScreen.master-tool-success
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+  body .page-number-page
+  #pageNumberSuccessScreen.master-tool-success
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin-bottom:24px !important;
+  }
+
+  body .page-number-page
+  #pageNumberSuccessScreen.master-tool-success
+  button.master-tool-download-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:320px !important;
+    padding:18px 24px !important;
+    font-size:19px !important;
+  }
+
+}
