@@ -4050,3 +4050,1539 @@ button.master-tool-download-button{
   }
 
 }
+
+/* =========================================================
+   CROP PDF — MASTER TOOL UI
+   Match Compress PDF approved design
+   Crop canvas/editor functionality untouched
+========================================================= */
+
+
+/* =========================================================
+   START SCREEN
+========================================================= */
+
+body .crop-page .crop-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+
+/* START TITLE */
+
+body .crop-page .crop-start-screen
+h1.master-tool-title{
+  margin:0 0 14px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+}
+
+
+/* START DESCRIPTION */
+
+body .crop-page .crop-start-screen
+p.master-tool-description{
+  margin:0 0 36px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:20px !important;
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+}
+
+
+/* SELECT ROW */
+
+body .crop-page .crop-select-row{
+  position:relative !important;
+
+  width:100% !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:24px !important;
+}
+
+
+/* UPLOAD BOX */
+
+body .crop-page .crop-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+ 
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+
+
+/* MAIN SELECT BUTTON */
+
+body .crop-page .crop-upload-box
+h2.master-tool-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  box-sizing:border-box !important;
+
+  margin:0 !important;
+  padding:25px 38px !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* CLOUD BUTTONS */
+
+body .crop-page .crop-select-row
+.cloud-buttons{
+  position:absolute !important;
+
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+
+  height:78px !important;
+
+  transform:none !important;
+
+ 
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+
+  margin:0 !important;
+}
+
+
+/* CLOUD CIRCLES */
+
+body .crop-page .crop-select-row
+.cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+
+  min-width:38px !important;
+  min-height:38px !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  font-size:17px !important;
+
+  box-sizing:border-box !important;
+
+  cursor:pointer !important;
+}
+
+
+/* DROP TEXT */
+
+body .crop-page .crop-start-screen
+.master-tool-drop-text{
+  width:100% !important;
+
+  margin-top:14px !important;
+
+  text-align:center !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+}
+
+
+/* =========================================================
+   CROP EDITOR / PREVIEW SCREEN
+   Keep canvas and crop handles untouched
+========================================================= */
+
+body .crop-page
+#previewScreen.master-tool-preview{
+  box-sizing:border-box !important;
+}
+
+
+/* LEFT SIDE */
+
+body .crop-page
+.crop-editor-left.master-tool-preview-left{
+  box-sizing:border-box !important;
+}
+
+
+/* RIGHT ACTION PANEL */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel{
+  box-sizing:border-box !important;
+}
+
+
+/* PANEL TITLE */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+h1.master-tool-title{
+  margin:0 0 18px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:32px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+}
+
+
+/* CROP HELP BOX */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+.crop-help{
+  box-sizing:border-box !important;
+}
+
+
+/* RESET BUTTON */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+.crop-reset-btn{
+  box-sizing:border-box !important;
+}
+
+
+/* PAGES OPTION BOX */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+.crop-radio-box.master-tool-option-box{
+  box-sizing:border-box !important;
+}
+
+
+/* CROP ACTION BUTTON */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+.crop-main-btn.master-tool-action-button{
+  width:100% !important;
+  height:70px !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:12px !important;
+
+  margin:24px 0 0 !important;
+  padding:20px 24px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:20px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* PROGRESS CONTAINER */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+.crop-progress.master-tool-progress{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+
+/* PROGRESS BAR */
+
+body .crop-page
+.crop-editor-panel.master-tool-action-panel
+.master-tool-progress-bar{
+  box-sizing:border-box !important;
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+body .crop-page
+#successScreen.master-tool-success{
+  flex-direction:column !important;
+
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:58px 20px 40px !important;
+
+  background:#f3f4f8 !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* SUCCESS TITLE */
+
+body .crop-page
+#successScreen.master-tool-success
+h1.master-tool-title{
+  font-size:44px !important;
+  line-height:1.2 !important;
+
+  margin:0 0 14px !important;
+}
+
+
+/* SUCCESS DESCRIPTION */
+
+body .crop-page
+#successScreen.master-tool-success
+p.master-tool-description{
+  font-size:20px !important;
+  line-height:1.5 !important;
+
+  margin:0 0 36px !important;
+}
+
+
+/* DOWNLOAD BUTTON */
+
+body .crop-page
+#successScreen.master-tool-success
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+
+  height:auto !important;
+
+  padding:25px 38px !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:20px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  white-space:nowrap !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  cursor:pointer !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+  /* START */
+
+  body .crop-page .crop-start-screen{
+    padding:38px 18px 30px !important;
+  }
+
+
+  body .crop-page .crop-start-screen
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+
+  body .crop-page .crop-start-screen
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin-bottom:28px !important;
+  }
+
+
+  /* SELECT ROW */
+
+  body .crop-page .crop-select-row{
+    gap:0 !important;
+  }
+
+
+  /* UPLOAD BUTTON */
+
+  body .crop-page .crop-upload-box,
+  body .crop-page .crop-upload-box
+  h2.master-tool-button{
+    width:280px !important;
+    min-width:280px !important;
+  }
+
+
+  body .crop-page .crop-upload-box,
+  body .crop-page .crop-upload-box
+  h2.master-tool-button{
+    height:70px !important;
+  }
+
+
+  body .crop-page .crop-upload-box
+  h2.master-tool-button{
+    font-size:22px !important;
+    padding:20px 24px !important;
+  }
+
+
+  /* CLOUD BUTTONS */
+
+  body .crop-page .crop-select-row
+  .cloud-buttons{
+    position:static !important;
+
+    height:auto !important;
+
+    margin-left:12px !important;
+
+    gap:8px !important;
+  }
+
+
+  body .crop-page .crop-select-row
+  .cloud-buttons button{
+    width:36px !important;
+    height:36px !important;
+
+    min-width:36px !important;
+    min-height:36px !important;
+  }
+
+
+  /* SUCCESS */
+
+  body .crop-page
+  #successScreen.master-tool-success{
+    padding:38px 18px 30px !important;
+  }
+
+
+  body .crop-page
+  #successScreen.master-tool-success
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+
+  body .crop-page
+  #successScreen.master-tool-success
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+
+    margin-bottom:24px !important;
+  }
+
+
+  body .crop-page
+  #successScreen.master-tool-success
+  button.master-tool-download-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:320px !important;
+
+    padding:18px 24px !important;
+
+    font-size:15px !important;
+  }
+
+}
+
+
+/* =========================================================
+   CROP PDF — PREVIEW / PDF VIEWER
+========================================================= */
+
+body .crop-page #previewScreen.crop-editor-screen{
+  grid-template-columns:minmax(0,1fr) 375px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+
+/* =========================================================
+   LEFT PDF AREA
+========================================================= */
+
+body .crop-page
+#previewScreen.crop-editor-screen
+.crop-editor-left{
+
+  position:relative;
+
+  width:100%;
+  height:100%;
+  min-height:0;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  box-sizing:border-box;
+
+  padding:30px 25px 95px;
+}
+
+
+/* =========================================================
+   PDF PAGES VIEWER
+========================================================= */
+
+body .crop-page
+#cropPagesViewer{
+
+  width:100%;
+  min-height:100%;
+
+  box-sizing:border-box;
+
+  align-items:start;
+  justify-items:center;
+
+  gap:24px;
+}
+
+
+/* =========================================================
+   SINGLE PAGE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer.crop-view-single{
+
+  display:grid;
+
+  grid-template-columns:minmax(0,1fr);
+
+  row-gap:24px;
+
+}
+
+
+/* =========================================================
+   TWO PAGES SIDE BY SIDE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer.crop-view-double{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  column-gap:18px;
+  row-gap:24px;
+
+}
+
+
+/* =========================================================
+   COVER + PAGE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer.crop-view-cover{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  column-gap:18px;
+  row-gap:24px;
+
+}
+
+
+/* =========================================================
+   PDF PAGE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer .crop-view-page{
+
+  width:max-content;
+  max-width:100%;
+
+  background:#ffffff;
+
+  box-sizing:border-box;
+
+  box-shadow:
+    0 6px 20px rgba(0,0,0,.14);
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   ACTIVE CROP PAGE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer .crop-canvas-wrap{
+
+  width:max-content;
+
+  max-width:100%;
+
+  background:#ffffff;
+
+  box-sizing:border-box;
+
+  box-shadow:
+    0 6px 20px rgba(0,0,0,.14);
+}
+
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+body .crop-page
+#cropPagesViewer canvas{
+
+  display:block;
+
+  width:auto;
+  height:auto;
+
+  max-width:100%;
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+body .crop-page
+#previewScreen.crop-editor-screen
+.crop-editor-panel{
+
+  width:100%;
+  height:100%;
+
+  min-height:0;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  box-sizing:border-box;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+body .crop-page
+#previewScreen.crop-editor-screen
+.crop-editor-left
+.crop-page-controls{
+
+  position:fixed;
+
+  left:calc((100vw - 375px) / 2);
+  bottom:18px;
+
+  transform:translateX(-50%);
+
+  z-index:10000;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  width:max-content;
+  max-width:calc(100vw - 30px);
+
+  min-height:44px;
+
+  margin:0;
+  padding:7px 11px;
+
+  background:#4b4b55;
+
+  color:#ffffff;
+
+  border-radius:7px;
+
+  box-shadow:
+    0 5px 16px rgba(0,0,0,.22);
+
+  box-sizing:border-box;
+}
+
+
+/* =========================================================
+   TOOLBAR BUTTONS
+========================================================= */
+
+body .crop-page
+.crop-page-controls > button{
+
+  width:30px;
+  height:30px;
+
+  min-width:30px;
+  min-height:30px;
+
+  padding:0;
+  margin:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:transparent;
+
+  color:#ffffff;
+
+  border:none;
+
+  font-size:21px;
+  line-height:1;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   PAGE COUNTER / ZOOM
+========================================================= */
+
+body .crop-page
+.crop-page-controls > span{
+
+  color:#ffffff;
+
+  font-family:Arial,Helvetica,sans-serif;
+
+  font-size:14px;
+
+  white-space:nowrap;
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+body .crop-page
+.crop-view-settings{
+
+  position:relative;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  margin-left:4px;
+}
+
+
+/* =========================================================
+   GEAR
+========================================================= */
+
+body .crop-page
+.crop-view-settings-btn{
+
+  width:30px;
+  height:30px;
+
+  min-width:30px;
+  min-height:30px;
+
+  padding:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#4b4b55;
+
+  color:#ffffff;
+
+  border:none;
+
+  border-radius:5px;
+
+  font-size:14px;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   VIEW MENU
+========================================================= */
+
+body .crop-page
+.crop-view-menu{
+
+  position:absolute;
+
+  right:0;
+  bottom:40px;
+
+  visibility:hidden;
+  opacity:0;
+
+  pointer-events:none;
+
+  flex-direction:row;
+
+  align-items:center;
+
+  gap:6px;
+
+  padding:7px;
+
+  background:#4b4b55;
+
+  border-radius:6px;
+
+  box-shadow:
+    0 7px 18px rgba(0,0,0,.25);
+
+  z-index:20000;
+
+  transition:
+    opacity .15s ease,
+    visibility .15s ease;
+}
+
+
+/* OPEN MENU */
+
+body .crop-page
+.crop-view-menu.show{
+
+  visibility:visible;
+
+  opacity:1;
+
+  pointer-events:auto;
+
+}
+
+
+/* =========================================================
+   VIEW OPTIONS
+========================================================= */
+
+body .crop-page
+.crop-view-option{
+
+  width:34px;
+  height:34px;
+
+  min-width:34px;
+  min-height:34px;
+
+  padding:0;
+  margin:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#4b4b55;
+
+  color:#ffffff;
+
+  border:none;
+
+  border-radius:4px;
+
+  font-size:15px;
+
+  cursor:pointer;
+}
+
+
+/* ACTIVE VIEW */
+
+body .crop-page
+.crop-view-option.active{
+
+  background:#686873;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+  body .crop-page
+  #previewScreen.crop-editor-screen{
+
+    grid-template-columns:1fr;
+
+    overflow:hidden;
+  }
+
+
+  body .crop-page
+  #previewScreen.crop-editor-screen
+  .crop-editor-left{
+
+    height:60vh;
+
+    min-height:0;
+
+    padding:20px 12px 85px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+  }
+
+
+  body .crop-page
+  #previewScreen.crop-editor-screen
+  .crop-editor-panel{
+
+    height:auto;
+
+    max-height:none;
+
+    overflow:visible;
+  }
+
+
+  body .crop-page
+  #cropPagesViewer.crop-view-double,
+  body .crop-page
+  #cropPagesViewer.crop-view-cover{
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+    column-gap:10px;
+    row-gap:18px;
+  }
+
+
+  body .crop-page
+  #previewScreen.crop-editor-screen
+  .crop-page-controls{
+
+    left:50%;
+
+    bottom:12px;
+
+    max-width:
+      calc(100vw - 20px);
+  }
+
+}
+
+/* =========================================================
+   CROP PDF — FINAL PREVIEW LAYOUT
+========================================================= */
+
+body .crop-page #previewScreen.crop-editor-screen{
+  height:calc(100vh - 72px);
+  min-height:0;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+
+
+/* =========================================================
+   LEFT PDF VIEWER — ONLY THIS SIDE SCROLLS
+========================================================= */
+
+body .crop-page
+#previewScreen.crop-editor-screen
+.crop-editor-left{
+
+  position:relative;
+
+  width:100%;
+  height:100%;
+  min-height:0;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  box-sizing:border-box;
+
+  padding:30px 25px 100px;
+}
+
+
+/* =========================================================
+   PDF PAGES CONTAINER
+========================================================= */
+
+body .crop-page
+#cropPagesViewer{
+
+  width:100%;
+  min-height:100%;
+
+  box-sizing:border-box;
+
+  align-items:start;
+  justify-items:center;
+
+  row-gap:24px;
+  column-gap:18px;
+}
+
+
+/* =========================================================
+   SINGLE PAGE MODE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer.crop-view-single{
+
+  display:grid;
+
+  grid-template-columns:minmax(0,1fr);
+
+}
+
+
+/* =========================================================
+   TWO PAGE MODE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer.crop-view-double{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+}
+
+
+/* =========================================================
+   COVER + PAGE MODE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer.crop-view-cover{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+}
+
+
+/* =========================================================
+   PDF PAGE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer .crop-view-page{
+
+  width:max-content;
+  max-width:100%;
+
+  background:#ffffff;
+
+  box-sizing:border-box;
+
+  box-shadow:
+    0 6px 20px rgba(0,0,0,.14);
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   ACTIVE PDF PAGE
+========================================================= */
+
+body .crop-page
+#cropPagesViewer .crop-canvas-wrap{
+
+  width:max-content;
+  max-width:100%;
+
+  background:#ffffff;
+
+  box-sizing:border-box;
+
+  box-shadow:
+    0 6px 20px rgba(0,0,0,.14);
+}
+
+
+/* =========================================================
+   PDF CANVAS
+========================================================= */
+
+body .crop-page
+#cropPagesViewer canvas{
+
+  display:block;
+
+  width:auto;
+  height:auto;
+
+  max-width:100%;
+}
+
+
+/* =========================================================
+   RIGHT ACTION PANEL — NO SCROLL
+========================================================= */
+
+body .crop-page
+#previewScreen.crop-editor-screen
+.crop-editor-panel{
+
+  width:100%;
+  height:100%;
+
+  min-height:0;
+
+  overflow:hidden;
+
+  box-sizing:border-box;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+body .crop-page
+#previewScreen.crop-editor-screen
+.crop-editor-left
+.crop-page-controls{
+
+  position:fixed;
+
+  left:calc((100vw - 375px) / 2);
+  bottom:18px;
+
+  transform:translateX(-50%);
+
+  z-index:10000;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  width:max-content;
+  max-width:calc(100vw - 30px);
+
+  min-height:44px;
+
+  margin:0;
+  padding:7px 11px;
+
+  background:#4b4b55;
+
+  color:#ffffff;
+
+  border-radius:7px;
+
+  box-shadow:
+    0 5px 16px rgba(0,0,0,.22);
+
+  box-sizing:border-box;
+}
+
+
+/* =========================================================
+   TOOLBAR BUTTONS
+========================================================= */
+
+body .crop-page
+.crop-page-controls > button{
+
+  width:30px;
+  height:30px;
+
+  min-width:30px;
+  min-height:30px;
+
+  padding:0;
+  margin:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:transparent;
+
+  color:#ffffff;
+
+  border:none;
+
+  font-size:21px;
+  line-height:1;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   PAGE NUMBER / ZOOM
+========================================================= */
+
+body .crop-page
+.crop-page-controls > span{
+
+  color:#ffffff;
+
+  font-family:Arial,Helvetica,sans-serif;
+
+  font-size:14px;
+
+  white-space:nowrap;
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+body .crop-page
+.crop-view-settings{
+
+  position:relative;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  margin-left:4px;
+}
+
+
+/* =========================================================
+   GEAR BUTTON
+========================================================= */
+
+body .crop-page
+.crop-view-settings-btn{
+
+  width:30px;
+  height:30px;
+
+  min-width:30px;
+  min-height:30px;
+
+  padding:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#4b4b55;
+
+  color:#ffffff;
+
+  border:none;
+
+  border-radius:5px;
+
+  font-size:14px;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   VIEW MENU
+========================================================= */
+
+body .crop-page
+.crop-view-menu{
+
+  position:absolute;
+
+  right:0;
+  bottom:40px;
+
+  display:flex;
+
+  flex-direction:row;
+
+  align-items:center;
+
+  gap:6px;
+
+  padding:7px;
+
+  background:#4b4b55;
+
+  border-radius:6px;
+
+  box-shadow:
+    0 7px 18px rgba(0,0,0,.25);
+
+  z-index:20000;
+
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
+
+  transition:
+    opacity .15s ease,
+    visibility .15s ease;
+}
+
+
+/* =========================================================
+   OPEN VIEW MENU
+========================================================= */
+
+body .crop-page
+.crop-view-menu.show{
+
+  visibility:visible;
+
+  opacity:1;
+
+  pointer-events:auto;
+}
+
+
+/* =========================================================
+   VIEW OPTIONS
+========================================================= */
+
+body .crop-page
+.crop-view-option{
+
+  width:34px;
+  height:34px;
+
+  min-width:34px;
+  min-height:34px;
+
+  padding:0;
+  margin:0;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#4b4b55;
+
+  color:#ffffff;
+
+  border:none;
+
+  border-radius:4px;
+
+  font-size:15px;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   ACTIVE VIEW OPTION
+========================================================= */
+
+body .crop-page
+.crop-view-option.active{
+
+  background:#686873;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+  body .crop-page
+  #previewScreen.crop-editor-screen{
+
+    height:calc(100vh - 60px);
+
+    overflow:hidden;
+  }
+
+
+  body .crop-page
+  #previewScreen.crop-editor-screen
+  .crop-editor-left{
+
+    width:100%;
+    height:100%;
+    min-height:0;
+
+    padding:20px 12px 90px;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+  }
+
+
+  body .crop-page
+  #previewScreen.crop-editor-screen
+  .crop-editor-panel{
+
+    width:100%;
+    height:auto;
+
+    overflow:visible;
+  }
+
+
+  body .crop-page
+  #cropPagesViewer.crop-view-double,
+  body .crop-page
+  #cropPagesViewer.crop-view-cover{
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+    column-gap:10px;
+    row-gap:18px;
+  }
+
+
+  body .crop-page
+  #previewScreen.crop-editor-screen
+  .crop-page-controls{
+
+    left:50%;
+    bottom:12px;
+
+    max-width:
+      calc(100vw - 20px);
+  }
+
+}
+
+body .crop-page
+#cropPagesViewer.crop-view-single{
+
+  display:flex !important;
+
+  flex-direction:column !important;
+
+  align-items:center !important;
+
+  justify-content:flex-start !important;
+
+  gap:24px !important;
+
+  width:100% !important;
+
+}

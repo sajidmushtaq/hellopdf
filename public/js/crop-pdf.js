@@ -18,17 +18,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const zoomText = document.getElementById("zoomText");
   const prevPage = document.getElementById("prevPage");
   const nextPage = document.getElementById("nextPage");
+  const cropViewSettingsBtn =
+  document.getElementById("cropViewSettingsBtn");
+
+const cropViewMenu =
+  document.getElementById("cropViewMenu");
+
+const cropViewOptions =
+  document.querySelectorAll(".crop-view-option");
+
+let cropPageSelected = false;
   const resetCrop = document.getElementById("resetCrop");
   const cropBtn = document.getElementById("cropBtn");
   const progressBar = document.getElementById("progressBar");
   const downloadBtn = document.getElementById("downloadBtn");
 
   let selectedFile = null;
-  let pdfDoc = null;
-  let currentPage = 1;
-  let scale = 1.35;
-  let croppedUrl = null;
-  let progressInterval = null;
+let pdfDoc = null;
+let currentPage = 1;
+let scale = 0.67;
+let croppedUrl = null;
+let progressInterval = null;
+
+let cropViewMode = "single";
 
   let dragging = false;
   let resizing = false;
@@ -90,71 +102,353 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function loadPdf(file) {
+
+  try {
+
     selectedFile = file;
 
-    const arrayBuffer = await file.arrayBuffer();
-    pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const arrayBuffer =
+      await file.arrayBuffer();
+
+    pdfDoc =
+      await pdfjsLib.getDocument({
+        data: arrayBuffer
+      }).promise;
 
     currentPage = 1;
-    pageCountEl.textContent = pdfDoc.numPages;
+
+    cropPageSelected = false;
+
+    pageCountEl.textContent =
+      pdfDoc.numPages;
+
+    showPreview();
 
     await renderPage();
-    showPreview();
-  }
 
-  async function renderPage() {
+    requestAnimationFrame(async () => {
+
+      try {
+
+        await updateCropView();
+
+      } catch (err) {
+
+        console.error(
+          "Crop viewer error:",
+          err
+        );
+
+      }
+
+    });
+
+  } catch (err) {
+
+  console.error("CROP PDF ERROR:", err);
+
+  alert(
+    "Error: " +
+    (err?.message || err)
+  );
+
+}
+
+}
+
+    async function renderPage() {
+
     const page = await pdfDoc.getPage(currentPage);
-    const viewport = page.getViewport({ scale });
+
+    const viewport = page.getViewport({
+      scale
+    });
+
 
     canvas.width = viewport.width;
+
     canvas.height = viewport.height;
 
+
     await page.render({
+
       canvasContext: ctx,
+
       viewport
+
     }).promise;
 
-    canvasWrap.style.width = canvas.width + "px";
-    canvasWrap.style.height = canvas.height + "px";
 
-    pageNumEl.textContent = currentPage;
-    zoomText.textContent = Math.round(scale * 70) + "%";
+    canvasWrap.style.width =
+      canvas.width + "px";
+
+    canvasWrap.style.height =
+      canvas.height + "px";
+
+
+    pageNumEl.textContent =
+      currentPage;
+
+    zoomText.textContent =
+      Math.round(scale * 70) + "%";
+
 
     resetCropBox();
+
+cropBox.style.display =
+  cropPageSelected ? "block" : "none";
+
   }
 
-  function resetCropBox() {
-    box = {
-      x: 40,
-      y: 40,
-      w: canvas.width - 80,
-      h: canvas.height - 80
+
+  function closeCropViewMenu() {
+
+    cropViewMenu?.classList.remove("show");
+
+  }
+
+function resetCropBox() {
+
+  box = {
+    x: 40,
+    y: 40,
+    w: canvas.width - 80,
+    h: canvas.height - 80
+  };
+
+  updateCropBox();
+
+}
+
+
+function updateCropBox() {
+
+  box.x = Math.max(
+    0,
+    Math.min(
+      box.x,
+      canvas.width - 40
+    )
+  );
+
+  box.y = Math.max(
+    0,
+    Math.min(
+      box.y,
+      canvas.height - 40
+    )
+  );
+
+  box.w = Math.max(
+    40,
+    Math.min(
+      box.w,
+      canvas.width - box.x
+    )
+  );
+
+  box.h = Math.max(
+    40,
+    Math.min(
+      box.h,
+      canvas.height - box.y
+    )
+  );
+
+
+  cropBox.style.left =
+    box.x + "px";
+
+  cropBox.style.top =
+    box.y + "px";
+
+  cropBox.style.width =
+    box.w + "px";
+
+  cropBox.style.height =
+    box.h + "px";
+
+
+}
+  async function renderViewerPage(pageNumber) {
+
+    const page =
+      await pdfDoc.getPage(pageNumber);
+
+
+    const viewport =
+      page.getViewport({
+        scale
+      });
+
+
+    const pageBox =
+      document.createElement("div");
+
+
+    pageBox.className =
+      "crop-view-page";
+
+
+    pageBox.dataset.page =
+      pageNumber;
+
+
+    const pageCanvas =
+      document.createElement("canvas");
+
+
+    pageCanvas.className =
+      "crop-view-canvas";
+
+
+    pageCanvas.width =
+      viewport.width;
+
+    pageCanvas.height =
+      viewport.height;
+
+
+    pageBox.appendChild(
+      pageCanvas
+    );
+
+
+    const pageCtx =
+      pageCanvas.getContext("2d");
+
+
+    await page.render({
+
+      canvasContext: pageCtx,
+
+      viewport
+
+    }).promise;
+
+
+    return pageBox;
+
+  }
+
+
+async function updateCropView() {
+
+  if (!pdfDoc) return;
+
+  const viewer =
+    document.getElementById("cropPagesViewer");
+
+  if (!viewer) return;
+
+  viewer.className =
+    "crop-pages-viewer crop-view-" + cropViewMode;
+
+  viewer.innerHTML = "";
+
+  /* --------------------------------
+     VIEW MODE LAYOUT
+  -------------------------------- */
+
+  viewer.style.width = "100%";
+  viewer.style.boxSizing = "border-box";
+  viewer.style.alignItems = "start";
+  viewer.style.justifyItems = "center";
+
+  if (cropViewMode === "double") {
+
+    viewer.style.display = "grid";
+    viewer.style.gridTemplateColumns =
+      "repeat(2, minmax(0, 1fr))";
+    viewer.style.gap = "24px";
+    viewer.style.alignItems = "start";
+
+  } else if (cropViewMode === "cover") {
+
+    viewer.style.display = "grid";
+    viewer.style.gridTemplateColumns =
+      "repeat(2, minmax(0, 1fr))";
+    viewer.style.gap = "24px";
+    viewer.style.alignItems = "start";
+
+  } else {
+
+    viewer.style.display = "flex";
+    viewer.style.flexDirection = "column";
+    viewer.style.alignItems = "center";
+    viewer.style.gap = "24px";
+
+  }
+
+
+  /* --------------------------------
+     RENDER ALL PDF PAGES
+  -------------------------------- */
+
+  for (
+    let pageNumber = 1;
+    pageNumber <= pdfDoc.numPages;
+    pageNumber++
+  ) {
+
+    const pageBox =
+      await renderViewerPage(pageNumber);
+
+    pageBox.dataset.page =
+      pageNumber;
+
+    pageBox.style.cursor =
+      "pointer";
+
+    pageBox.style.boxSizing =
+      "border-box";
+
+    pageBox.style.width =
+      "max-content";
+
+    pageBox.style.maxWidth =
+      "100%";
+
+
+    /* --------------------------------
+       PAGE CLICK = CROP TARGET
+    -------------------------------- */
+
+    pageBox.onclick = async (e) => {
+
+      e.stopPropagation();
+
+      cropPageSelected = true;
+
+      currentPage =
+        pageNumber;
+
+      pageNumEl.textContent =
+        currentPage;
+
+      await renderPage();
+
     };
 
-    updateCropBox();
+
+    /* --------------------------------
+       ACTIVE PAGE
+    -------------------------------- */
+
+    if (pageNumber === currentPage) {
+
+      pageBox.classList.add(
+        "crop-active-page"
+      );
+
+    }
+
+
+    viewer.appendChild(pageBox);
+
   }
 
-  function updateCropBox() {
-    box.x = Math.max(0, Math.min(box.x, canvas.width - 40));
-    box.y = Math.max(0, Math.min(box.y, canvas.height - 40));
-    box.w = Math.max(40, Math.min(box.w, canvas.width - box.x));
-    box.h = Math.max(40, Math.min(box.h, canvas.height - box.y));
-
-    cropBox.style.left = box.x + "px";
-    cropBox.style.top = box.y + "px";
-    cropBox.style.width = box.w + "px";
-    cropBox.style.height = box.h + "px";
-  }
-
-  function getPoint(e) {
-    const rect = canvasWrap.getBoundingClientRect();
-    const touch = e.touches ? e.touches[0] : e;
-
-    return {
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top
-    };
-  }
+}
 
   cropBox.addEventListener("mousedown", startMove);
   cropBox.addEventListener("touchstart", startMove, { passive: false });
@@ -262,22 +556,113 @@ document.addEventListener("DOMContentLoaded", () => {
 
     await loadPdf(file);
   });
+  cropViewSettingsBtn?.addEventListener(
+    "click",
+    (e) => {
 
+      e.stopPropagation();
+
+
+      cropViewMenu?.classList.toggle(
+        "show"
+      );
+
+    }
+  );
+
+
+  cropViewOptions.forEach(
+    (option) => {
+
+      option.addEventListener(
+        "click",
+        async (e) => {
+
+          e.stopPropagation();
+
+
+          cropViewOptions.forEach(
+            (item) => {
+
+              item.classList.remove(
+                "active"
+              );
+
+            }
+          );
+
+
+          option.classList.add(
+            "active"
+          );
+
+
+          cropViewMode =
+            option.dataset.view ||
+            "single";
+
+
+          closeCropViewMenu();
+
+
+          await updateCropView();
+
+        }
+      );
+
+    }
+  );
+
+
+  document.addEventListener(
+    "click",
+    () => {
+
+      closeCropViewMenu();
+
+    }
+  );
+
+
+document.addEventListener("click", () => {
+
+  closeCropViewMenu();
+
+});
   prevPage.addEventListener("click", async () => {
-    if (currentPage <= 1) return;
-    currentPage--;
-    await renderPage();
-  });
+
+  if (currentPage <= 1) return;
+
+  currentPage--;
+
+  await renderPage();
+
+  await updateCropView();
+
+});
 
   nextPage.addEventListener("click", async () => {
-    if (currentPage >= pdfDoc.numPages) return;
-    currentPage++;
-    await renderPage();
-  });
+
+  if (currentPage >= pdfDoc.numPages) return;
+
+  currentPage++;
+
+  await renderPage();
+
+  await updateCropView();
+
+});
 
   resetCrop.addEventListener("click", resetCropBox);
 
   cropBtn.addEventListener("click", async () => {
+    if (!cropPageSelected) {
+
+  alert("Please select a page to crop first.");
+
+  return;
+
+}
     if (!selectedFile) {
       alert("Please select a PDF file first");
       return;

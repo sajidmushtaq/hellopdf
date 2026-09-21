@@ -17,12 +17,26 @@
   <title>Crop PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1040" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    .hidden-screen { display: none !important; }
-    #previewScreen:not(.hidden-screen) { display: grid !important; }
-    #successScreen:not(.hidden-screen) { display: flex !important; }
+    .hidden-screen {
+  display: none !important;
+}
+
+#previewScreen.hidden-screen,
+#successScreen.hidden-screen {
+  display: none !important;
+}
+
+#previewScreen:not(.hidden-screen) {
+  display: grid !important;
+}
+
+#successScreen:not(.hidden-screen) {
+  display: flex !important;
+}
 .hp-profile-wrap{display:none;position:relative;align-items:center}
 .hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
 .hp-avatar{width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
@@ -265,16 +279,18 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="crop-page">
+<main class="crop-page master-tool-page">
 
-  <section class="crop-start-screen" id="startScreen">
-    <h1>Crop PDF</h1>
-    <p>Crop PDF margins and remove unwanted white space.</p>
+  <section class="crop-start-screen master-tool-start" id="startScreen">
+    <h1 class="master-tool-title">Crop PDF</h1>
+    <p class="master-tool-description">
+  Crop PDF margins and remove unwanted white space.
+</p>
 
     <div class="crop-select-row">
-      <div class="crop-upload-box" id="dropZone">
+      <div class="crop-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -283,12 +299,12 @@
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
   </section>
 
-  <section class="crop-editor-screen hidden-screen" id="previewScreen">
+  <section class="crop-editor-screen master-tool-preview hidden-screen" id="previewScreen">
 
-    <div class="crop-editor-left">
+    <div class="crop-editor-left master-tool-preview-left">
       <div class="crop-canvas-wrap" id="canvasWrap">
         <canvas id="pdfCanvas"></canvas>
 
@@ -299,17 +315,68 @@
           <span class="crop-handle br"></span>
         </div>
       </div>
+<div class="crop-page-controls">
 
-      <div class="crop-page-controls">
-        <button type="button" id="prevPage">‹</button>
-        <span><span id="pageNum">1</span> / <span id="pageCount">1</span></span>
-        <button type="button" id="nextPage">›</button>
-        <span id="zoomText">100%</span>
-      </div>
+  <button type="button" id="prevPage">‹</button>
+
+  <span>
+    <span id="pageNum">1</span> /
+    <span id="pageCount">1</span>
+  </span>
+
+  <button type="button" id="nextPage">›</button>
+
+  <span id="zoomText">100%</span>
+
+  <div class="crop-view-settings">
+
+    <button
+      type="button"
+      class="crop-view-settings-btn"
+      id="cropViewSettingsBtn"
+      title="Page view"
+    >
+      <i class="fa-solid fa-gear"></i>
+    </button>
+
+    <div
+      class="crop-view-menu"
+      id="cropViewMenu"
+    >
+
+      <button
+        type="button"
+        class="crop-view-option active"
+        data-view="single"
+      >
+        <i class="fa-regular fa-file"></i>
+      </button>
+
+      <button
+        type="button"
+        class="crop-view-option"
+        data-view="double"
+      >
+        <i class="fa-regular fa-copy"></i>
+      </button>
+
+      <button
+        type="button"
+        class="crop-view-option"
+        data-view="cover"
+      >
+        <i class="fa-solid fa-book-open"></i>
+      </button>
+
     </div>
 
-    <aside class="crop-editor-panel">
-      <h2>Crop PDF</h2>
+  </div>
+
+</div>
+    </div>
+
+    <aside class="crop-editor-panel master-tool-action-panel">
+      <h1 class="master-tool-title">Crop PDF</h1>
 
       <div class="crop-help">
         <i class="fa-solid fa-circle-info"></i>
@@ -318,7 +385,7 @@
 
       <button type="button" class="crop-reset-btn" id="resetCrop">Reset all</button>
 
-      <div class="crop-radio-box">
+      <div class="crop-radio-box master-tool-option-box">
         <h3>Pages:</h3>
 
         <label>
@@ -332,22 +399,24 @@
         </label>
       </div>
 
-      <button class="crop-main-btn" id="cropBtn" type="button">
+      <button class="crop-main-btn master-tool-action-button" id="cropBtn" type="button">
         Crop PDF <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container crop-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container crop-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
 
   </section>
 
-  <section class="crop-success-screen hidden-screen" id="successScreen">
-    <h1>PDF has been cropped!</h1>
-    <p>Your cropped PDF is ready to download.</p>
+  <section class="crop-success-screen master-tool-success hidden-screen" id="successScreen">
+    <h1 class="master-tool-title">PDF has been cropped!</h1>
+    <p class="master-tool-description">
+  Your cropped PDF is ready to download.
+</p>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
+    <button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">
       Download cropped PDF
     </button>
   </section>
