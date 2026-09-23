@@ -305,17 +305,28 @@
   <section class="crop-editor-screen master-tool-preview hidden-screen" id="previewScreen">
 
     <div class="crop-editor-left master-tool-preview-left">
-      <div class="crop-canvas-wrap" id="canvasWrap">
-        <canvas id="pdfCanvas"></canvas>
 
-        <div class="crop-box" id="cropBox">
-          <span class="crop-handle tl"></span>
-          <span class="crop-handle tr"></span>
-          <span class="crop-handle bl"></span>
-          <span class="crop-handle br"></span>
-        </div>
+  <div
+    id="cropPagesViewer"
+    class="crop-pages-viewer crop-view-single"
+  >
+
+    <div class="crop-canvas-wrap" id="canvasWrap">
+
+      <canvas id="pdfCanvas"></canvas>
+
+      <div class="crop-box" id="cropBox">
+        <span class="crop-handle tl"></span>
+        <span class="crop-handle tr"></span>
+        <span class="crop-handle bl"></span>
+        <span class="crop-handle br"></span>
       </div>
-<div class="crop-page-controls">
+
+    </div>
+
+  </div>
+
+  <div class="crop-page-controls">
 
   <button type="button" id="prevPage">‹</button>
 

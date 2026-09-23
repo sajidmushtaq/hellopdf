@@ -41,7 +41,7 @@ let croppedUrl = null;
 let progressInterval = null;
 
 let cropViewMode = "single";
-
+let activeCropContainer = canvasWrap;
   let dragging = false;
   let resizing = false;
   let resizeHandle = null;
@@ -336,8 +336,7 @@ async function updateCropView() {
 
   if (!pdfDoc) return;
 
-  const viewer =
-    document.getElementById("cropPagesViewer");
+  const viewer = document.getElementById("cropPagesViewer");
 
   if (!viewer) return;
 
@@ -346,44 +345,36 @@ async function updateCropView() {
 
   viewer.innerHTML = "";
 
-  /* --------------------------------
-     VIEW MODE LAYOUT
-  -------------------------------- */
-
+  // Reset inline layout
   viewer.style.width = "100%";
   viewer.style.boxSizing = "border-box";
+  viewer.style.gap = "24px";
   viewer.style.alignItems = "start";
   viewer.style.justifyItems = "center";
 
-  if (cropViewMode === "double") {
+  /*
+   * IMPORTANT:
+   * Viewer ke andar sirf preview pages render honge.
+   * Original crop canvas ko yahan move nahi karna.
+   */
+
+  if (cropViewMode === "double" || cropViewMode === "cover") {
 
     viewer.style.display = "grid";
     viewer.style.gridTemplateColumns =
       "repeat(2, minmax(0, 1fr))";
-    viewer.style.gap = "24px";
-    viewer.style.alignItems = "start";
-
-  } else if (cropViewMode === "cover") {
-
-    viewer.style.display = "grid";
-    viewer.style.gridTemplateColumns =
-      "repeat(2, minmax(0, 1fr))";
-    viewer.style.gap = "24px";
-    viewer.style.alignItems = "start";
 
   } else {
 
-    viewer.style.display = "flex";
-    viewer.style.flexDirection = "column";
-    viewer.style.alignItems = "center";
-    viewer.style.gap = "24px";
+    viewer.style.display = "grid";
+    viewer.style.gridTemplateColumns =
+      "minmax(0, 1fr)";
 
   }
 
-
-  /* --------------------------------
-     RENDER ALL PDF PAGES
-  -------------------------------- */
+  /*
+   * Render pages
+   */
 
   for (
     let pageNumber = 1;
@@ -394,8 +385,14 @@ async function updateCropView() {
     const pageBox =
       await renderViewerPage(pageNumber);
 
+    if (!pageBox) continue;
+
     pageBox.dataset.page =
-      pageNumber;
+      String(pageNumber);
+
+    pageBox.classList.add(
+      "crop-view-page"
+    );
 
     pageBox.style.cursor =
       "pointer";
@@ -403,39 +400,112 @@ async function updateCropView() {
     pageBox.style.boxSizing =
       "border-box";
 
-    pageBox.style.width =
-      "max-content";
+    pageBox.style.justifySelf =
+      "center";
 
-    pageBox.style.maxWidth =
-      "100%";
+    /*
+     * Page click = crop target
+     */
 
+    pageBox.onclick = async function (e) {
 
-    /* --------------------------------
-       PAGE CLICK = CROP TARGET
-    -------------------------------- */
+  e.preventDefault();
+  e.stopPropagation();
 
-    pageBox.onclick = async (e) => {
+  const viewer =
+    document.getElementById("cropPagesViewer");
 
-      e.stopPropagation();
+  const leftPanel =
+    document.querySelector(".crop-editor-left");
 
-      cropPageSelected = true;
+  if (!viewer || !leftPanel) return;
 
-      currentPage =
-        pageNumber;
+  /*
+   * Current scroll position save
+   */
+  const savedScrollTop =
+    leftPanel.scrollTop;
 
-      pageNumEl.textContent =
-        currentPage;
+  /*
+   * User ne jis page par click kiya
+   */
+  cropPageSelected = true;
 
-      await renderPage();
+  currentPage = pageNumber;
 
-    };
+  if (pageNumEl) {
+    pageNumEl.textContent =
+      currentPage;
+  }
 
+  /*
+   * Selected page ko original editable
+   * canvas par render karein.
+   */
+  await renderPage();
 
-    /* --------------------------------
-       ACTIVE PAGE
-    -------------------------------- */
+  /*
+   * IMPORTANT:
+   * Viewer ko dobara rebuild nahi karna.
+   */
 
-    if (pageNumber === currentPage) {
+  /*
+   * Original canvasWrap ko clicked page ki
+   * jagah move karein.
+   *
+   * Is se cropBox canvas ke saath hi rahega.
+   */
+  pageBox.replaceWith(canvasWrap);
+
+  canvasWrap.dataset.page =
+    currentPage;
+
+  canvasWrap.classList.add(
+    "crop-active-page"
+  );
+
+  /*
+   * Baqi pages ke active state remove karein.
+   */
+  viewer
+    .querySelectorAll(".crop-view-page")
+    .forEach(page => {
+
+      page.classList.remove(
+        "crop-active-page"
+      );
+
+    });
+
+  /*
+   * Crop box show
+   */
+  cropBox.style.display =
+    "block";
+
+  updateCropBox();
+
+  /*
+   * Scroll position bilkul wahi restore
+   * karein jahan user ne page select kiya tha.
+   */
+  requestAnimationFrame(() => {
+
+    leftPanel.scrollTop =
+      savedScrollTop;
+
+  });
+
+};
+
+    /*
+     * Active page highlight
+     */
+
+    if (
+      cropPageSelected &&
+      pageNumber === currentPage
+    ) {
 
       pageBox.classList.add(
         "crop-active-page"
@@ -443,8 +513,9 @@ async function updateCropView() {
 
     }
 
-
-    viewer.appendChild(pageBox);
+    viewer.appendChild(
+      pageBox
+    );
 
   }
 
