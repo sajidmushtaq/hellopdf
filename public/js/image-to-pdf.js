@@ -1,151 +1,307 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const imageStartScreen = document.getElementById("imageStartScreen");
-  const imagePreviewScreen = document.getElementById("imagePreviewScreen");
-  const imageSuccessScreen = document.getElementById("imageSuccessScreen");
+
+  /* =========================
+     SCREEN ELEMENTS
+  ========================= */
+
+  const imageStartScreen =
+    document.getElementById("imageStartScreen");
+
+  const imagePreviewScreen =
+    document.getElementById("imagePreviewScreen");
+
+  const imageSuccessScreen =
+    document.getElementById("imageSuccessScreen");
+
 
   const dropZone = document.getElementById("dropZone");
-  const imageFilesInput = document.getElementById("imageFiles");
-  const addMoreInput = document.getElementById("addMoreInput");
+const imageFilesInput = document.getElementById("imageFiles");
 
-  const fileList = document.getElementById("fileList");
-  const addMoreBtn = document.getElementById("addMoreBtn");
-  const convertBtn = document.getElementById("convertBtn");
-  const progressBar = document.getElementById("progressBar");
-  const downloadBtn = document.getElementById("downloadBtn");
+const fileList = document.getElementById("fileList");
+const addMoreBtn = document.getElementById("addMoreBtn");
+
+
+  /* =========================
+     ACTION ELEMENTS
+  ========================= */
+
+  const convertBtn =
+    document.getElementById("convertBtn");
+
+  const progressBar =
+    document.getElementById("progressBar");
+
+  const downloadBtn =
+    document.getElementById("downloadBtn");
+
+
+  /* =========================
+     TOOL STATE
+  ========================= */
 
   let selectedFiles = [];
+
   let finalPdfUrl = null;
+
   let progressInterval = null;
 
-  dropZone.addEventListener("click", () => imageFilesInput.click());
-  addMoreBtn.addEventListener("click", () => addMoreInput.click());
 
-  imageFilesInput.addEventListener("change", (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
 
-    selectedFiles.forEach(item => URL.revokeObjectURL(item.previewUrl));
+ /* =========================================================
+   IMAGE SELECTION
+   Select Images = REPLACE
+   Add More = APPEND
+========================================================= */
 
-    selectedFiles = files.map(file => ({
-      file,
-      previewUrl: URL.createObjectURL(file)
-    }));
+let addMoreMode = false;
 
-    renderPreview();
-  });
 
-  addMoreInput.addEventListener("change", (e) => {
-    const files = Array.from(e.target.files);
-    if (!files.length) return;
 
-    selectedFiles = [
-      ...selectedFiles,
-      ...files.map(file => ({
-        file,
-        previewUrl: URL.createObjectURL(file)
-      }))
-    ];
+/* =========================
+   ADD MORE IMAGES
+   ========================= */
 
-    addMoreInput.value = "";
-    renderPreview();
-  });
+addMoreBtn.addEventListener("click", (e) => {
 
-  dropZone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZone.classList.add("drag-active");
-  });
+  e.preventDefault();
+  e.stopPropagation();
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("drag-active");
-  });
+  // Add More selection = append to existing images
+  addMoreMode = true;
 
-  dropZone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZone.classList.remove("drag-active");
+  imageFilesInput.click();
 
-    const files = Array.from(e.dataTransfer.files).filter(file =>
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.name.toLowerCase().endsWith(".jpg") ||
-      file.name.toLowerCase().endsWith(".jpeg") ||
-      file.name.toLowerCase().endsWith(".png")
+});
+
+
+/* =========================
+   FILE SELECTION
+   ========================= */
+
+imageFilesInput.addEventListener("change", (e) => {
+
+  const files = Array.from(e.target.files);
+
+  if (!files.length) {
+    return;
+  }
+
+
+  /* =========================
+     FREE/PREMIUM IMAGE LIMIT
+     FRONTEND SAFETY CHECK
+  ========================= */
+
+  const FREE_IMAGE_LIMIT = 10;
+  const PREMIUM_IMAGE_LIMIT = 50;
+
+
+  /*
+     Premium status frontend par
+     abhi assume nahi karna.
+     Server final verification karega.
+
+     Filhaal normal selection ko
+     50 images se upar jane se rok rahe hain.
+  */
+
+  const maximumAllowedImages = PREMIUM_IMAGE_LIMIT;
+
+
+  /* =========================
+     CHECK TOTAL IMAGE COUNT
+  ========================= */
+
+  const totalImages = addMoreMode
+    ? selectedFiles.length + files.length
+    : files.length;
+
+
+  if (totalImages > maximumAllowedImages) {
+
+    alert(
+      `You can add a maximum of ${maximumAllowedImages} images in one PDF.`
     );
 
-    if (!files.length) {
-      alert("Please select JPG, JPEG, or PNG images");
-      return;
-    }
+    addMoreMode = false;
+    imageFilesInput.value = "";
 
-    selectedFiles.forEach(item => URL.revokeObjectURL(item.previewUrl));
+    return;
+  }
+
+
+  /* =========================
+     ADD MORE = APPEND
+  ========================= */
+
+  if (addMoreMode) {
+
+    files.forEach(file => {
+
+      selectedFiles.push({
+        file: file,
+        previewUrl: URL.createObjectURL(file)
+      });
+
+    });
+
+  }
+
+
+  /* =========================
+     NORMAL SELECT = REPLACE
+  ========================= */
+
+  else {
+
+    selectedFiles.forEach(item => {
+
+      if (item.previewUrl) {
+        URL.revokeObjectURL(item.previewUrl);
+      }
+
+    });
 
     selectedFiles = files.map(file => ({
-      file,
+
+      file: file,
       previewUrl: URL.createObjectURL(file)
+
     }));
 
-    renderPreview();
-  });
+  }
+
+
+  /* =========================
+     RESET MODE
+  ========================= */
+
+  addMoreMode = false;
+
+  // Allow selecting the same file again
+  imageFilesInput.value = "";
+
+  // Show all selected images
+  renderPreview();
+
+});
 
   function renderPreview(){
-    imageStartScreen.style.display = "none";
+
+  /* =========================
+     EMPTY STATE
+  ========================= */
+
+  if(!selectedFiles.length){
+
+    imagePreviewScreen.classList.add("hidden-screen");
+    imagePreviewScreen.style.display = "none";
 
     imageSuccessScreen.classList.add("hidden-screen");
     imageSuccessScreen.style.display = "none";
 
-    imagePreviewScreen.classList.remove("hidden-screen");
-    imagePreviewScreen.style.display = "grid";
+    imageStartScreen.style.display = "flex";
 
     fileList.innerHTML = "";
 
-    selectedFiles.forEach((item,index)=>{
-      const card = document.createElement("div");
-      card.className = "merge-file-card image-card";
-
-      card.innerHTML = `
-        <button class="remove-file-btn" data-index="${index}" type="button">×</button>
-
-        <div class="image-thumb-wrap">
-          <img src="${item.previewUrl}" class="image-thumb" alt="">
-        </div>
-
-        <h3>${item.file.name}</h3>
-        <span class="file-order-badge">${index + 1}</span>
-      `;
-
-      fileList.appendChild(card);
-    });
-
-    document.querySelectorAll(".remove-file-btn").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        const index = Number(btn.dataset.index);
-        URL.revokeObjectURL(selectedFiles[index].previewUrl);
-        selectedFiles.splice(index,1);
-
-        if(!selectedFiles.length){
-          imagePreviewScreen.classList.add("hidden-screen");
-          imagePreviewScreen.style.display = "none";
-          imageStartScreen.style.display = "flex";
-          return;
-        }
-
-        renderPreview();
-      });
-    });
+    return;
   }
 
-  function startFakeProgress(){
-    let progress = 15;
-    progressBar.style.width = "15%";
-    progressBar.textContent = "15%";
 
-    progressInterval = setInterval(()=>{
-      if(progress < 90){
-        progress += 5;
-        progressBar.style.width = progress + "%";
-        progressBar.textContent = progress + "%";
+  /* =========================
+     SHOW PREVIEW
+  ========================= */
+
+  imageStartScreen.style.display = "none";
+
+  imageSuccessScreen.classList.add("hidden-screen");
+  imageSuccessScreen.style.display = "none";
+
+  imagePreviewScreen.classList.remove("hidden-screen");
+  imagePreviewScreen.style.display = "grid";
+
+
+  /* =========================
+     CLEAR OLD CARDS
+  ========================= */
+
+  fileList.innerHTML = "";
+
+
+  /* =========================
+     CREATE IMAGE CARDS
+  ========================= */
+
+  selectedFiles.forEach((item,index)=>{
+
+    const card = document.createElement("div");
+
+    card.className = "merge-file-card image-card";
+
+    card.innerHTML = `
+      <button
+        class="remove-file-btn"
+        data-index="${index}"
+        type="button"
+      >×</button>
+
+      <div class="image-thumb-wrap">
+        <img
+          src="${item.previewUrl}"
+          class="image-thumb"
+          alt=""
+        >
+      </div>
+
+      <h3>${item.file.name}</h3>
+
+      <span class="file-order-badge">
+        ${index + 1}
+      </span>
+    `;
+
+    fileList.appendChild(card);
+
+  });
+
+
+  /* =========================
+     REMOVE IMAGE
+  ========================= */
+
+  document.querySelectorAll(".remove-file-btn").forEach(btn=>{
+
+    btn.addEventListener("click",(e)=>{
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const index = Number(btn.dataset.index);
+
+      if(selectedFiles[index]){
+        URL.revokeObjectURL(
+          selectedFiles[index].previewUrl
+        );
       }
-    },600);
+
+      selectedFiles.splice(index,1);
+
+      renderPreview();
+
+    });
+
+  });
+
+
+  /* =========================
+     ADD MORE BUTTON
+  ========================= */
+
+  if(addMoreBtn){
+    addMoreBtn.style.display = "flex";
   }
+
+}
 
   function completeProgress(){
     if(progressInterval) clearInterval(progressInterval);
@@ -173,7 +329,7 @@ if (!data?.user) {
 
 formData.append("user_id", data.user.id);
 
-    startFakeProgress();
+    
 
     convertBtn.disabled = true;
     convertBtn.innerHTML = `Converting... <i class="fa-solid fa-spinner fa-spin"></i>`;
@@ -189,15 +345,23 @@ if(!response.ok){
 
   if(errorText.includes("Daily free limit reached")){
 
-    const upgradeModal =
-      document.getElementById("upgradeModal");
-
-    if(upgradeModal){
-      upgradeModal.style.display = "flex";
-    }
-
-    return;
+  if(progressInterval){
+    clearInterval(progressInterval);
+    progressInterval = null;
   }
+
+  progressBar.style.width = "0%";
+  progressBar.textContent = "0%";
+
+  const upgradeModal =
+    document.getElementById("upgradeModal");
+
+  if(upgradeModal){
+    upgradeModal.style.display = "flex";
+  }
+
+  return;
+}
 
   throw new Error(errorText || "Image to PDF failed");
 }

@@ -333,197 +333,140 @@ function updateCropBox() {
 
 
 async function updateCropView() {
-
   if (!pdfDoc) return;
 
   const viewer = document.getElementById("cropPagesViewer");
-
   if (!viewer) return;
 
-  viewer.className =
-    "crop-pages-viewer crop-view-" + cropViewMode;
-
+  viewer.className = "crop-pages-viewer crop-view-" + cropViewMode;
   viewer.innerHTML = "";
 
-  // Reset inline layout
+  // Viewer layout
   viewer.style.width = "100%";
   viewer.style.boxSizing = "border-box";
   viewer.style.gap = "24px";
   viewer.style.alignItems = "start";
   viewer.style.justifyItems = "center";
 
-  /*
-   * IMPORTANT:
-   * Viewer ke andar sirf preview pages render honge.
-   * Original crop canvas ko yahan move nahi karna.
-   */
-
   if (cropViewMode === "double" || cropViewMode === "cover") {
-
     viewer.style.display = "grid";
     viewer.style.gridTemplateColumns =
       "repeat(2, minmax(0, 1fr))";
-
   } else {
-
     viewer.style.display = "grid";
     viewer.style.gridTemplateColumns =
       "minmax(0, 1fr)";
-
   }
-
-  /*
-   * Render pages
-   */
 
   for (
     let pageNumber = 1;
     pageNumber <= pdfDoc.numPages;
     pageNumber++
   ) {
-
-    const pageBox =
-      await renderViewerPage(pageNumber);
+    const pageBox = await renderViewerPage(pageNumber);
 
     if (!pageBox) continue;
 
-    pageBox.dataset.page =
-      String(pageNumber);
+    pageBox.dataset.page = String(pageNumber);
+    pageBox.classList.add("crop-view-page");
 
-    pageBox.classList.add(
-      "crop-view-page"
-    );
-
-    pageBox.style.cursor =
-      "pointer";
-
-    pageBox.style.boxSizing =
-      "border-box";
-
-    pageBox.style.justifySelf =
-      "center";
-
-    /*
-     * Page click = crop target
-     */
+    // Important:
+    // Crop box ko page ke andar position karne ke liye
+    pageBox.style.position = "relative";
+    pageBox.style.cursor = "pointer";
+    pageBox.style.boxSizing = "border-box";
+    pageBox.style.justifySelf = "center";
 
     pageBox.onclick = async function (e) {
+      e.preventDefault();
+      e.stopPropagation();
 
-  e.preventDefault();
-  e.stopPropagation();
+      const leftPanel =
+        document.querySelector(".crop-editor-left");
 
-  const viewer =
-    document.getElementById("cropPagesViewer");
+      if (!leftPanel) return;
 
-  const leftPanel =
-    document.querySelector(".crop-editor-left");
+      const savedScrollTop = leftPanel.scrollTop;
 
-  if (!viewer || !leftPanel) return;
+      // Is page ko crop target banayein
+      cropPageSelected = true;
+      currentPage = pageNumber;
 
-  /*
-   * Current scroll position save
-   */
-  const savedScrollTop =
-    leftPanel.scrollTop;
+      if (pageNumEl) {
+        pageNumEl.textContent = currentPage;
+      }
 
-  /*
-   * User ne jis page par click kiya
-   */
-  cropPageSelected = true;
+      // Actual hidden canvas par selected page render karein
+      await renderPage();
 
-  currentPage = pageNumber;
+      // Previous selected page ka active state remove
+      viewer
+        .querySelectorAll(".crop-view-page")
+        .forEach(page => {
+          page.classList.remove("crop-active-page");
+        });
 
-  if (pageNumEl) {
-    pageNumEl.textContent =
-      currentPage;
-  }
+      // Sirf clicked page active hoga
+      pageBox.classList.add("crop-active-page");
 
-  /*
-   * Selected page ko original editable
-   * canvas par render karein.
-   */
-  await renderPage();
+      /*
+       * IMPORTANT:
+       * Ab canvasWrap ko move nahi karna.
+       *
+       * Sirf cropBox ko clicked page ke andar move karna hai.
+       * Is se page apni jagah se nahi hilega.
+       */
+      pageBox.appendChild(cropBox);
 
-  /*
-   * IMPORTANT:
-   * Viewer ko dobara rebuild nahi karna.
-   */
+      cropBox.style.position = "absolute";
+      cropBox.style.display = "block";
+      cropBox.style.zIndex = "5";
 
-  /*
-   * Original canvasWrap ko clicked page ki
-   * jagah move karein.
-   *
-   * Is se cropBox canvas ke saath hi rahega.
-   */
-  pageBox.replaceWith(canvasWrap);
+      activeCropContainer = pageBox;
 
-  canvasWrap.dataset.page =
-    currentPage;
+      updateCropBox();
 
-  canvasWrap.classList.add(
-    "crop-active-page"
-  );
-
-  /*
-   * Baqi pages ke active state remove karein.
-   */
-  viewer
-    .querySelectorAll(".crop-view-page")
-    .forEach(page => {
-
-      page.classList.remove(
-        "crop-active-page"
-      );
-
-    });
-
-  /*
-   * Crop box show
-   */
-  cropBox.style.display =
-    "block";
-
-  updateCropBox();
-
-  /*
-   * Scroll position bilkul wahi restore
-   * karein jahan user ne page select kiya tha.
-   */
-  requestAnimationFrame(() => {
-
-    leftPanel.scrollTop =
-      savedScrollTop;
-
-  });
-
-};
+      // User ka current scroll position preserve karein
+      requestAnimationFrame(() => {
+        leftPanel.scrollTop = savedScrollTop;
+      });
+    };
 
     /*
-     * Active page highlight
+     * Agar pehle se koi page selected hai,
+     * to crop box usi page ke andar attach rahega.
      */
-
     if (
       cropPageSelected &&
       pageNumber === currentPage
     ) {
+      pageBox.classList.add("crop-active-page");
 
-      pageBox.classList.add(
-        "crop-active-page"
-      );
+      pageBox.style.position = "relative";
 
+      pageBox.appendChild(cropBox);
+
+      cropBox.style.position = "absolute";
+      cropBox.style.display = "block";
+      cropBox.style.zIndex = "5";
+
+      activeCropContainer = pageBox;
+
+      updateCropBox();
     }
 
-    viewer.appendChild(
-      pageBox
-    );
-
+    viewer.appendChild(pageBox);
   }
+
 
 }
 
   cropBox.addEventListener("mousedown", startMove);
   cropBox.addEventListener("touchstart", startMove, { passive: false });
-
+cropBox.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+});
   document.addEventListener("mousemove", moveBox);
   document.addEventListener("touchmove", moveBox, { passive: false });
 
@@ -590,7 +533,28 @@ async function updateCropView() {
     resizing = false;
     resizeHandle = null;
   }
+function getPoint(e) {
+  const rect = cropBox.parentElement.getBoundingClientRect();
 
+  let clientX;
+  let clientY;
+
+  if (e.touches && e.touches.length) {
+    clientX = e.touches[0].clientX;
+    clientY = e.touches[0].clientY;
+  } else if (e.changedTouches && e.changedTouches.length) {
+    clientX = e.changedTouches[0].clientX;
+    clientY = e.changedTouches[0].clientY;
+  } else {
+    clientX = e.clientX;
+    clientY = e.clientY;
+  }
+
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top
+  };
+}
   dropZone.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", async () => {

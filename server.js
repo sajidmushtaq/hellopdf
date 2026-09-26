@@ -5389,133 +5389,452 @@ console.log("SUMMARY LENGTH =", summary.length);
 
 app.post("/image-to-pdf", upload.array("images"), async (req, res) => {
   try {
+
+    /* =========================
+       GET USER
+    ========================= */
+
     const userId = req.body.user_id;
 
-console.log("IMAGE TO PDF USER ID =", userId);
+    console.log("IMAGE TO PDF USER ID =", userId);
 
-if (!userId) {
-  return res.status(401).send("Please login first");
-}
-const { data: profileData, error: profileError } = await supabase
-  .from("profiles")
-  .select("is_premium")
-  .eq("id", userId)
-  .single();
+    if (!userId) {
 
-console.log("IMAGE TO PDF PROFILE DATA =", profileData);
-console.log("IMAGE TO PDF PROFILE ERROR =", profileError);
+      if (req.files) {
+        req.files.forEach((file) => {
+          if (fs.existsSync(file.path)) {
+            fs.unlinkSync(file.path);
+          }
+        });
+      }
 
-if (profileError) {
-  return res.status(500).send("Unable to verify account");
-}
-const today = new Date().toISOString().split("T")[0];
-
-const { data: usageData, error: usageError } = await supabase
-  .from("usage_logs")
-  .select("*")
-  .eq("user_id", userId)
-  .eq("tool_name", "image_to_pdf")
-  .eq("usage_date", today)
-  .maybeSingle();
-
-console.log("IMAGE TO PDF USAGE DATA =", usageData);
-console.log("IMAGE TO PDF USAGE ERROR =", usageError);
-if (!profileData.is_premium) {
-
-  const currentUsage = usageData ? usageData.usage_count : 0;
-
-  if (currentUsage >= 8) {
-
-    return res.status(403).send(
-      "Daily free limit reached. Upgrade to Premium for unlimited Image to PDF conversions."
-    );
-
-  }
-
-}
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).send("No images uploaded");
+      return res.status(401).send("Please login first");
     }
 
-    const pdfDoc = await PDFDocument.create();
+
+    /* =========================
+       VERIFY PROFILE
+    ========================= */
+
+    const { data: profileData, error: profileError } =
+      await supabase
+        .from("profiles")
+        .select("is_premium")
+        .eq("id", userId)
+        .single();
+
+    console.log(
+      "IMAGE TO PDF PROFILE DATA =",
+      profileData
+    );
+
+    console.log(
+      "IMAGE TO PDF PROFILE ERROR =",
+      profileError
+    );
+
+
+    if (profileError) {
+
+      if (req.files) {
+        req.files.forEach((file) => {
+          if (fs.existsSync(file.path)) {
+            fs.unlinkSync(file.path);
+          }
+        });
+      }
+
+      return res
+        .status(500)
+        .send("Unable to verify account");
+    }
+
+
+    /* =========================
+       TODAY
+    ========================= */
+
+    const today =
+      new Date().toISOString().split("T")[0];
+
+
+    /* =========================
+       GET DAILY USAGE
+    ========================= */
+
+    const {
+      data: usageData,
+      error: usageError
+    } = await supabase
+      .from("usage_logs")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("tool_name", "image_to_pdf")
+      .eq("usage_date", today)
+      .maybeSingle();
+
+
+    console.log(
+      "IMAGE TO PDF USAGE DATA =",
+      usageData
+    );
+
+    console.log(
+      "IMAGE TO PDF USAGE ERROR =",
+      usageError
+    );
+
+
+    /* =========================
+       FREE USER DAILY LIMIT
+       8 CONVERSIONS / DAY
+    ========================= */
+
+    if (!profileData.is_premium) {
+
+      const currentUsage =
+        usageData
+          ? usageData.usage_count
+          : 0;
+
+
+      if (currentUsage >= 8) {
+
+        if (req.files) {
+          req.files.forEach((file) => {
+            if (fs.existsSync(file.path)) {
+              fs.unlinkSync(file.path);
+            }
+          });
+        }
+
+        return res.status(403).send(
+          "Daily free limit reached. Upgrade to Premium for unlimited Image to PDF conversions."
+        );
+      }
+    }
+
+
+    /* =========================
+       CHECK FILES
+    ========================= */
+
+    if (!req.files || req.files.length === 0) {
+
+      return res
+        .status(400)
+        .send("No images uploaded");
+    }
+
+
+    /* =========================
+       IMAGE COUNT LIMIT
+    ========================= */
+
+    const FREE_IMAGE_LIMIT = 10;
+    const PREMIUM_IMAGE_LIMIT = 50;
+
+
+    const maximumImages =
+      profileData.is_premium
+        ? PREMIUM_IMAGE_LIMIT
+        : FREE_IMAGE_LIMIT;
+
+
+    console.log(
+      "IMAGE TO PDF MAX IMAGES =",
+      maximumImages
+    );
+
+
+    if (req.files.length > maximumImages) {
+
+      req.files.forEach((file) => {
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
+
+      if (profileData.is_premium) {
+
+        return res.status(400).send(
+          "Premium users can add a maximum of 50 images in one PDF."
+        );
+
+      } else {
+
+        return res.status(400).send(
+          "Free users can add a maximum of 10 images in one PDF. Upgrade to Premium for up to 50 images."
+        );
+      }
+    }
+
+
+    /* =========================
+       TOTAL FILE SIZE LIMIT
+    ========================= */
+
+    const FREE_SIZE_LIMIT =
+      40 * 1024 * 1024;
+
+    const PREMIUM_SIZE_LIMIT =
+      500 * 1024 * 1024;
+
+
+    const maximumTotalSize =
+      profileData.is_premium
+        ? PREMIUM_SIZE_LIMIT
+        : FREE_SIZE_LIMIT;
+
+
+    const totalUploadSize =
+      req.files.reduce(
+        (total, file) => total + file.size,
+        0
+      );
+
+
+    console.log(
+      "IMAGE TO PDF TOTAL SIZE =",
+      totalUploadSize
+    );
+
+
+    console.log(
+      "IMAGE TO PDF MAX SIZE =",
+      maximumTotalSize
+    );
+
+
+    if (totalUploadSize > maximumTotalSize) {
+
+      req.files.forEach((file) => {
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
+
+      if (profileData.is_premium) {
+
+        return res.status(400).send(
+          "The total image size cannot exceed 500 MB."
+        );
+
+      } else {
+
+        return res.status(400).send(
+          "Free users can upload up to 40 MB of images per PDF. Upgrade to Premium for up to 500 MB."
+        );
+      }
+    }
+
+
+    /* =========================
+       CREATE PDF
+    ========================= */
+
+    const pdfDoc =
+      await PDFDocument.create();
+
+
+    /* =========================
+       ADD IMAGES
+    ========================= */
 
     for (const file of req.files) {
-      const ext = path.extname(file.originalname).toLowerCase();
-      const imageBytes = fs.readFileSync(file.path);
+
+      const ext =
+        path
+          .extname(file.originalname)
+          .toLowerCase();
+
+
+      const imageBytes =
+        fs.readFileSync(file.path);
+
 
       let image;
 
-      if (ext === ".jpg" || ext === ".jpeg") {
-        image = await pdfDoc.embedJpg(imageBytes);
+
+      if (
+        ext === ".jpg" ||
+        ext === ".jpeg"
+      ) {
+
+        image =
+          await pdfDoc.embedJpg(
+            imageBytes
+          );
+
       } else if (ext === ".png") {
-        image = await pdfDoc.embedPng(imageBytes);
+
+        image =
+          await pdfDoc.embedPng(
+            imageBytes
+          );
+
       } else {
+
         req.files.forEach((f) => {
-          if (fs.existsSync(f.path)) fs.unlinkSync(f.path);
+          if (fs.existsSync(f.path)) {
+            fs.unlinkSync(f.path);
+          }
         });
+
 
         return res
           .status(400)
-          .send("Only JPG, JPEG, and PNG images are allowed");
+          .send(
+            "Only JPG, JPEG, and PNG images are allowed"
+          );
       }
 
-      const page = pdfDoc.addPage([image.width, image.height]);
+
+      const page =
+        pdfDoc.addPage([
+          image.width,
+          image.height
+        ]);
+
 
       page.drawImage(image, {
+
         x: 0,
         y: 0,
+
         width: image.width,
         height: image.height
+
       });
+
     }
 
-    const pdfBytes = await pdfDoc.save();
+
+    /* =========================
+       SAVE PDF
+    ========================= */
+
+    const pdfBytes =
+      await pdfDoc.save();
+
+
+    /* =========================
+       DELETE TEMP FILES
+    ========================= */
 
     req.files.forEach((file) => {
-      if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-    });
-if (!usageData) {
 
-  const { error: insertError } = await supabase
-    .from("usage_logs")
-    .insert([
-      {
-        user_id: userId,
-        tool_name: "image_to_pdf",
-        usage_date: today,
-        usage_count: 1
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
       }
-    ]);
 
-  console.log("IMAGE TO PDF INSERT ERROR =", insertError);
+    });
 
-} else {
 
-  const { error: updateError } = await supabase
-    .from("usage_logs")
-    .update({
-      usage_count: usageData.usage_count + 1
-    })
-    .eq("id", usageData.id);
+    /* =========================
+       UPDATE DAILY USAGE
+       ONLY AFTER SUCCESS
+    ========================= */
 
-  console.log("IMAGE TO PDF UPDATE ERROR =", updateError);
+    if (!usageData) {
 
-}
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=image-to-pdf.pdf");
+      const {
+        error: insertError
+      } = await supabase
+        .from("usage_logs")
+        .insert([
+          {
+            user_id: userId,
+            tool_name: "image_to_pdf",
+            usage_date: today,
+            usage_count: 1
+          }
+        ]);
 
-    return res.end(Buffer.from(pdfBytes));
-  } catch (err) {
-    console.error("IMAGE TO PDF ERROR:", err);
 
-    if (req.files) {
-      req.files.forEach((file) => {
-        if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-      });
+      console.log(
+        "IMAGE TO PDF INSERT ERROR =",
+        insertError
+      );
+
+    } else {
+
+      const {
+        error: updateError
+      } = await supabase
+        .from("usage_logs")
+        .update({
+          usage_count:
+            usageData.usage_count + 1
+        })
+        .eq(
+          "id",
+          usageData.id
+        );
+
+
+      console.log(
+        "IMAGE TO PDF UPDATE ERROR =",
+        updateError
+      );
+
     }
 
-    return res.status(500).send("Image to PDF failed");
+
+    /* =========================
+       SEND PDF
+    ========================= */
+
+    res.setHeader(
+      "Content-Type",
+      "application/pdf"
+    );
+
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=image-to-pdf.pdf"
+    );
+
+
+    return res.end(
+      Buffer.from(pdfBytes)
+    );
+
+
+  } catch (err) {
+
+    console.error(
+      "IMAGE TO PDF ERROR:",
+      err
+    );
+
+
+    /* =========================
+       CLEANUP ON ERROR
+    ========================= */
+
+    if (req.files) {
+
+      req.files.forEach((file) => {
+
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+
+      });
+
+    }
+
+
+    return res
+      .status(500)
+      .send("Image to PDF failed");
+
   }
+
 });
 
 app.post("/signup", async (req, res) => {

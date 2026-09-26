@@ -5586,3 +5586,839 @@ body .crop-page
   width:100% !important;
 
 }
+
+/* =========================================================
+   IMAGE TO PDF — MASTER START SCREEN
+   Match Compress PDF approved UI
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+body .image-page .image-start-screen{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  text-align:center !important;
+
+  padding:55px 20px 40px !important;
+  box-sizing:border-box !important;
+}
+
+
+/* TITLE */
+
+body .image-page .image-start-screen
+.master-tool-title{
+  margin:0 0 14px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+}
+
+
+/* DESCRIPTION */
+
+body .image-page .image-start-screen
+.master-tool-description{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 28px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:24px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+}
+
+
+/* SELECT ROW */
+
+body .image-page .image-select-row{
+  position:relative !important;
+
+  width:100% !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:24px !important;
+}
+
+
+/* UPLOAD BOX */
+
+body .image-page .image-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+
+  cursor:pointer !important;
+}
+
+
+/* MAIN RED BUTTON */
+
+body .image-page .image-upload-box
+.master-tool-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  padding:25px 38px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ef4444 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* CLOUD BUTTONS */
+
+body .image-page .image-select-row
+.cloud-buttons{
+  position:absolute !important;
+
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+
+  height:78px !important;
+
+  
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+
+  margin:0 !important;
+}
+
+
+/* GOOGLE DRIVE + DROPBOX */
+
+body .image-page .image-select-row
+.cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+
+  min-width:38px !important;
+  min-height:38px !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  background:#ef4444 !important;
+  color:#ffffff !important;
+
+  font-size:17px !important;
+
+  box-sizing:border-box !important;
+
+  cursor:pointer !important;
+}
+
+
+/* DROP TEXT */
+
+body .image-page .image-start-screen
+.master-tool-drop-text{
+  width:100% !important;
+
+  margin-top:14px !important;
+
+  text-align:center !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  line-height:1.5 !important;
+
+  color:#64748b !important;
+}
+
+
+/* =========================================================
+   IMAGE TO PDF — MOBILE START SCREEN
+========================================================= */
+
+@media(max-width:768px){
+
+  body .image-page .image-start-screen{
+    padding:38px 18px 30px !important;
+  }
+
+
+  body .image-page .image-start-screen
+  .master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+    margin-bottom:14px !important;
+  }
+
+
+  body .image-page .image-start-screen
+  .master-tool-description{
+    max-width:100% !important;
+
+    font-size:17px !important;
+    line-height:1.5 !important;
+
+    margin-bottom:24px !important;
+  }
+
+
+  /* MOBILE SELECT ROW */
+
+  body .image-page .image-select-row{
+    width:100% !important;
+    height:auto !important;
+
+    
+    flex-direction:column !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:18px !important;
+  }
+
+
+  /* MOBILE UPLOAD BOX */
+
+  body .image-page .image-upload-box{
+    width:100% !important;
+    max-width:330px !important;
+
+    min-width:0 !important;
+
+    height:78px !important;
+  }
+
+
+  body .image-page .image-upload-box
+  .master-tool-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:330px !important;
+
+    height:78px !important;
+
+    font-size:22px !important;
+  }
+
+
+  /* MOBILE CLOUD BUTTONS */
+
+  body .image-page .image-select-row
+  .cloud-buttons{
+    position:static !important;
+
+    width:100% !important;
+    height:auto !important;
+
+    
+    flex-direction:row !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:18px !important;
+
+    margin:0 !important;
+
+    transform:none !important;
+  }
+
+
+  body .image-page .image-select-row
+  .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+
+    min-width:56px !important;
+    min-height:56px !important;
+
+    margin:0 !important;
+
+    border-radius:50% !important;
+
+    font-size:20px !important;
+  }
+
+
+  /* DROP TEXT */
+
+  body .image-page .image-start-screen
+  .master-tool-drop-text{
+    margin-top:14px !important;
+    font-size:15px !important;
+  }
+
+}
+
+/* =========================================================
+   IMAGE TO PDF — MASTER PREVIEW SCREEN
+   Match Compress PDF approved UI
+   UI ONLY — FUNCTIONALITY UNTOUCHED
+========================================================= */
+
+
+/* PREVIEW SCREEN */
+
+body .image-page #imagePreviewScreen.master-tool-preview{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  background:#f3f4f8 !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* LEFT PREVIEW AREA */
+
+body .image-page #imagePreviewScreen
+.image-preview-left{
+  min-width:0 !important;
+  min-height:0 !important;
+
+  background:#f3f4f8 !important;
+
+  box-sizing:border-box !important;
+
+  position:relative !important;
+}
+
+
+/* IMAGE FILE GRID */
+
+body .image-page #imagePreviewScreen
+.image-file-grid{
+  min-width:0 !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* RIGHT ACTION PANEL */
+
+body .image-page #imagePreviewScreen
+.image-action-panel{
+  min-width:0 !important;
+
+  height:calc(100vh - 72px) !important;
+  max-height:calc(100vh - 72px) !important;
+
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+
+  box-sizing:border-box !important;
+
+  background:#ffffff !important;
+}
+
+
+/* ACTION TITLE */
+
+body .image-page #imagePreviewScreen
+.image-action-panel
+.master-tool-title{
+  margin:0 0 14px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:34px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+}
+
+
+/* ACTION DESCRIPTION */
+
+body .image-page #imagePreviewScreen
+.image-action-panel
+.master-tool-panel-description{
+  margin:0 0 28px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:17px !important;
+  line-height:1.5 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+}
+
+
+/* CONVERT BUTTON */
+
+body .image-page #imagePreviewScreen
+button.master-tool-action-button{
+  width:100% !important;
+
+  min-height:58px !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:18px !important;
+  line-height:1.2 !important;
+  font-weight:800 !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* DISABLED CONVERT BUTTON */
+
+body .image-page #imagePreviewScreen
+button.master-tool-action-button:disabled{
+  opacity:.7 !important;
+  cursor:not-allowed !important;
+}
+
+
+/* PROGRESS CONTAINER */
+
+body .image-page #imagePreviewScreen
+.master-tool-progress{
+  width:100% !important;
+
+  height:24px !important;
+  min-height:24px !important;
+
+  margin-top:20px !important;
+
+  background:#e5e7eb !important;
+
+  border-radius:12px !important;
+
+  overflow:hidden !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* PROGRESS BAR */
+
+body .image-page #imagePreviewScreen
+.master-tool-progress-bar{
+  display:block !important;
+
+  width:0%;
+
+  height:24px !important;
+  min-height:24px !important;
+
+  max-width:none !important;
+
+  background:#ef4444 !important;
+
+  color:#ffffff !important;
+
+  line-height:24px !important;
+
+  text-align:center !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:12px !important;
+  font-weight:bold !important;
+
+  border-radius:12px !important;
+
+  box-sizing:border-box !important;
+
+  overflow:hidden !important;
+
+  transition:width .3s ease !important;
+}
+
+
+/* =========================================================
+   IMAGE TO PDF — MOBILE PREVIEW
+========================================================= */
+
+@media(max-width:768px){
+
+  body .image-page #imagePreviewScreen.master-tool-preview{
+    min-height:calc(100vh - 60px) !important;
+  }
+
+
+  body .image-page #imagePreviewScreen
+  .image-preview-left{
+    min-height:0 !important;
+  }
+
+
+  body .image-page #imagePreviewScreen
+  .image-action-panel{
+    height:auto !important;
+    max-height:none !important;
+
+    overflow:visible !important;
+  }
+
+
+  body .image-page #imagePreviewScreen
+  .image-action-panel
+  .master-tool-title{
+    font-size:28px !important;
+    line-height:1.2 !important;
+  }
+
+
+  body .image-page #imagePreviewScreen
+  .image-action-panel
+  .master-tool-panel-description{
+    font-size:16px !important;
+    line-height:1.5 !important;
+  }
+
+
+  body .image-page #imagePreviewScreen
+  button.master-tool-action-button{
+    width:100% !important;
+
+    min-height:58px !important;
+
+    font-size:18px !important;
+  }
+
+
+  body .image-page #imagePreviewScreen
+  .master-tool-progress{
+    margin-top:16px !important;
+  }
+
+}
+
+/* =========================================================
+   IMAGE TO PDF — MASTER SUCCESS SCREEN
+   Match Compress PDF approved UI
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+
+/* SUCCESS SCREEN */
+
+body .image-page #imageSuccessScreen.master-tool-success{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  padding:58px 20px 40px !important;
+
+  box-sizing:border-box !important;
+
+  text-align:center !important;
+
+  background:#f3f4f8 !important;
+}
+
+
+/* SUCCESS TITLE */
+
+body .image-page #imageSuccessScreen.master-tool-success
+h1.master-tool-title{
+  display:block !important;
+
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+
+  text-align:center !important;
+}
+
+
+/* SUCCESS DESCRIPTION */
+
+body .image-page #imageSuccessScreen.master-tool-success
+p.master-tool-description{
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 36px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:20px !important;
+  line-height:1.5 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+
+  text-align:center !important;
+}
+
+
+/* DOWNLOAD BUTTON */
+
+body .image-page #imageSuccessScreen.master-tool-success
+button.master-tool-download-button{
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+
+  height:78px !important;
+  min-height:78px !important;
+
+  
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 auto !important;
+  padding:0 28px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:12px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  font-weight:700 !important;
+  line-height:1.2 !important;
+
+  text-align:center !important;
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* DOWNLOAD BUTTON HOVER */
+
+body .image-page #imageSuccessScreen.master-tool-success
+button.master-tool-download-button:hover{
+  background:#ef4444 !important;
+  background-color:#ef4444 !important;
+}
+
+
+/* =========================================================
+   IMAGE TO PDF — MOBILE SUCCESS SCREEN
+========================================================= */
+
+@media(max-width:768px){
+
+  body .image-page #imageSuccessScreen.master-tool-success{
+    min-height:calc(100vh - 60px) !important;
+
+    padding:48px 20px 35px !important;
+  }
+
+
+  body .image-page #imageSuccessScreen.master-tool-success
+  h1.master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+  }
+
+
+  body .image-page #imageSuccessScreen.master-tool-success
+  p.master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+
+    margin-bottom:28px !important;
+  }
+
+
+  body .image-page #imageSuccessScreen.master-tool-success
+  button.master-tool-download-button{
+    width:330px !important;
+    min-width:0 !important;
+    max-width:100% !important;
+
+    height:70px !important;
+    min-height:70px !important;
+
+    font-size:20px !important;
+  }
+
+}
+
+/* =========================================================
+   IMAGE TO PDF — SELECT IMAGES LABEL BUTTON
+   Match Compress PDF red button
+========================================================= */
+
+body .image-page .image-upload-box label.master-tool-button{
+  width:330px !important;
+  min-width:330px !important;
+  height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  padding:0 28px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  body .image-page .image-upload-box label.master-tool-button{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:330px !important;
+
+    height:78px !important;
+
+    font-size:22px !important;
+  }
+
+}
+
+/* =========================================================
+   IMAGE TO PDF — CLOUD BUTTONS
+   Match main red button
+========================================================= */
+
+body .image-page .image-select-row .cloud-buttons button{
+  width:38px !important;
+  height:38px !important;
+
+  min-width:38px !important;
+  min-height:38px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  font-size:17px !important;
+
+  cursor:pointer !important;
+
+  box-shadow:0 6px 16px rgba(239,68,68,.20) !important;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  body .image-page .image-select-row .cloud-buttons button{
+    width:56px !important;
+    height:56px !important;
+
+    min-width:56px !important;
+    min-height:56px !important;
+
+    font-size:20px !important;
+
+    border-radius:50% !important;
+  }
+
+}

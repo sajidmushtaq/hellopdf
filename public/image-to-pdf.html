@@ -15,6 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Image to PDF - HelloPDF</title>
   <link rel="stylesheet" href="/css/style.css?v=9001"/>
+<link rel="stylesheet" href="/css/master-tools.css?v=9999"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     .hidden-screen{display:none!important}
@@ -162,57 +163,137 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="image-page">
+<main class="image-page master-tool-page">
 
-  <section class="image-start-screen" id="imageStartScreen">
-    <h1>Image to PDF</h1>
-    <p>Convert JPG, JPEG, and PNG images into a single PDF file.</p>
+  <section class="image-start-screen master-tool-start" id="imageStartScreen">
+
+    <h1 class="master-tool-title">Image to PDF</h1>
+
+    <p class="master-tool-description">
+      Convert JPG, JPEG, and PNG images into a single PDF file.
+    </p>
 
     <div class="image-select-row">
-      <div class="image-upload-box" id="dropZone">
-        <input type="file" id="imageFiles" accept=".jpg,.jpeg,.png,image/jpeg,image/png" multiple hidden />
-        <input type="file" id="addMoreInput" accept=".jpg,.jpeg,.png,image/jpeg,image/png" multiple hidden />
-        <h2>Select images</h2>
-      </div>
+
+      <div class="image-upload-box master-tool-upload-box" id="dropZone">
+
+  <input
+    type="file"
+    id="imageFiles"
+    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+    multiple
+    hidden
+  />
+
+  <label
+    for="imageFiles"
+    class="master-tool-button"
+  >
+    Select images
+  </label>
+
+</div>
 
       <div class="cloud-buttons">
-        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
-        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+
+        <button
+          type="button"
+          aria-label="Upload from Google Drive"
+        >
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button
+          type="button"
+          aria-label="Upload from Dropbox"
+        >
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="master-tool-drop-text">
+      or drop images here
+    </div>
+
+    <div class="ad-placeholder"></div>
+
+  </section>
+
+  <section
+  class="image-preview-screen master-tool-preview hidden-screen"
+  id="imagePreviewScreen"
+>
+
+  <div class="image-preview-left master-tool-preview-left">
+
+    <div class="image-file-grid" id="fileList"></div>
+
+    <button
+      class="image-floating-add-btn"
+      id="addMoreBtn"
+      type="button"
+      aria-label="Add more images"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </button>
+
+  </div>
+
+  <aside class="image-action-panel master-tool-action-panel">
+
+    <h1 class="master-tool-title">
+      Image to PDF
+    </h1>
+
+    <p class="master-tool-panel-description">
+      Convert selected images into one PDF file.
+    </p>
+
+    <button
+      class="image-main-btn master-tool-action-button"
+      id="convertBtn"
+      type="button"
+    >
+      Convert to PDF
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+    <div class="progress-container image-progress master-tool-progress">
+      <div
+        class="progress-bar master-tool-progress-bar"
+        id="progressBar"
+      >
+        0%
       </div>
     </div>
 
-    <div class="drop-text">or drop images here</div>
-  </section>
+  </aside>
 
-  <section class="image-preview-screen hidden-screen" id="imagePreviewScreen">
-    <div class="image-preview-left">
-      <div class="image-file-grid" id="fileList"></div>
+</section><section
+  class="image-success-screen master-tool-success hidden-screen"
+  id="imageSuccessScreen"
+>
 
-      <button class="image-floating-add-btn" id="addMoreBtn" type="button">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-    </div>
+  <h1 class="master-tool-title">
+    PDF created successfully!
+  </h1>
 
-    <aside class="image-action-panel">
-      <h2>Image to PDF</h2>
-      <p>Convert selected images into one PDF file.</p>
+  <p class="master-tool-description">
+    Your images have been converted into PDF.
+  </p>
 
-      <button class="image-main-btn" id="convertBtn" type="button">
-        Convert to PDF
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
+  <button
+    id="downloadBtn"
+    class="master-tool-download-button"
+    type="button"
+  >
+    Download PDF
+  </button>
 
-      <div class="progress-container image-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
-      </div>
-    </aside>
-  </section>
-
-  <section class="image-success-screen hidden-screen" id="imageSuccessScreen">
-    <h1>PDF created successfully!</h1>
-    <p>Your images have been converted into PDF.</p>
-    <button id="downloadBtn">Download PDF</button>
-  </section>
+</section>
 
 </main>
 <div id="upgradeModal" style="
@@ -287,7 +368,7 @@ window.supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 </script>
-<script src="/js/image-to-pdf.js?v=1010"></script>
+<script src="/js/image-to-pdf.js?v=1011"></script>
 
 <script>
 (async function () {
