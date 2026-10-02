@@ -12,139 +12,488 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressBar = document.getElementById("progressBar");
   const downloadBtn = document.getElementById("downloadBtn");
 
-  let selectedFile = null;
-  let previewUrl = null;
-  let zipUrl = null;
+  /* =========================================================
+   PDF TO IMAGE — JS STEP 1
+   MULTI-PDF SELECTION + PREVIEW
+========================================================= */
 
-  function resetProgress() {
-    progressBar.style.width = "0%";
-    progressBar.textContent = "0%";
+let selectedFiles = [];
+let previewUrls = [];
+let zipUrl = null;
+
+
+/* =========================================================
+   RESET PROGRESS
+========================================================= */
+
+function resetProgress() {
+
+  progressBar.style.width = "0%";
+  progressBar.textContent = "0%";
+
+}
+
+
+/* =========================================================
+   SCREEN FUNCTIONS
+========================================================= */
+
+function showStart() {
+
+  startScreen.classList.remove("hidden-screen");
+  previewScreen.classList.add("hidden-screen");
+  successScreen.classList.add("hidden-screen");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function showPreview() {
+
+  startScreen.classList.add("hidden-screen");
+  previewScreen.classList.remove("hidden-screen");
+  successScreen.classList.add("hidden-screen");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function showSuccess() {
+
+  startScreen.classList.add("hidden-screen");
+  previewScreen.classList.add("hidden-screen");
+  successScreen.classList.remove("hidden-screen");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =========================================================
+   PDF VALIDATION
+========================================================= */
+
+function isPdf(file) {
+
+  return file && (
+    file.type === "application/pdf" ||
+    file.name.toLowerCase().endsWith(".pdf")
+  );
+
+}
+
+
+/* =========================================================
+   ADD PDF FILES
+========================================================= */
+
+function addPdfFiles(files, replaceExisting = false) {
+
+  const incomingFiles = Array.from(files || []);
+
+  if (!incomingFiles.length) {
+    return;
   }
 
-  function showStart() {
-    startScreen.classList.remove("hidden-screen");
-    previewScreen.classList.add("hidden-screen");
-    previewScreen.classList.remove("active-screen");
-    successScreen.classList.add("hidden-screen");
-    successScreen.classList.remove("active-screen");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
-  function showPreview() {
-    startScreen.classList.add("hidden-screen");
-    previewScreen.classList.remove("hidden-screen");
-    previewScreen.classList.add("active-screen");
-    successScreen.classList.add("hidden-screen");
-    successScreen.classList.remove("active-screen");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  /* -----------------------------------------
+     Validate all selected files
+  ----------------------------------------- */
 
-  function showSuccess() {
-    startScreen.classList.add("hidden-screen");
-    previewScreen.classList.add("hidden-screen");
-    previewScreen.classList.remove("active-screen");
-    successScreen.classList.remove("hidden-screen");
-    successScreen.classList.add("active-screen");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  const validFiles = [];
 
-  function isPdf(file) {
-    return file && (
-      file.type === "application/pdf" ||
-      file.name.toLowerCase().endsWith(".pdf")
-    );
-  }
+  for (const file of incomingFiles) {
 
-  function handleFile(file) {
     if (!isPdf(file)) {
-      alert("Please select PDF file only");
-      return;
+
+      alert(
+        `"${file.name}" is not a PDF file.`
+      );
+
+      continue;
     }
 
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    validFiles.push(file);
 
-    selectedFile = file;
-    previewUrl = URL.createObjectURL(file);
-    resetProgress();
-    renderFile();
-    showPreview();
   }
 
-  function renderFile() {
-    fileList.innerHTML = "";
-    fileCounter.textContent = "1 file selected";
 
-    const card = document.createElement("div");
-    card.className = "pdf-image-file-card";
+  if (!validFiles.length) {
+    return;
+  }
+
+
+  /* -----------------------------------------
+     Replace existing files
+     Used by first Select PDF action
+  ----------------------------------------- */
+
+  if (replaceExisting) {
+
+    previewUrls.forEach((url) => {
+      URL.revokeObjectURL(url);
+    });
+
+    selectedFiles = [];
+    previewUrls = [];
+
+  }
+
+
+  /* -----------------------------------------
+     Add new PDFs
+  ----------------------------------------- */
+
+  validFiles.forEach((file) => {
+
+    selectedFiles.push(file);
+
+    const url = URL.createObjectURL(file);
+
+    previewUrls.push(url);
+
+  });
+
+
+  resetProgress();
+
+  renderFiles();
+
+  showPreview();
+
+}
+
+
+/* =========================================================
+   RENDER ALL PDF CARDS
+========================================================= */
+
+function renderFiles() {
+
+  fileList.innerHTML = "";
+
+
+  const count = selectedFiles.length;
+
+
+  if (count === 0) {
+
+    fileCounter.textContent =
+      "0 files selected";
+
+    return;
+
+  }
+
+
+  fileCounter.textContent =
+    count === 1
+      ? "1 file selected"
+      : `${count} files selected`;
+
+
+  selectedFiles.forEach((file, index) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "pdf-image-file-card";
+
 
     card.innerHTML = `
-      <button class="remove-file-btn" type="button">×</button>
+
+      <button
+        class="remove-file-btn"
+        type="button"
+        aria-label="Remove PDF"
+      >
+        ×
+      </button>
 
       <div class="pdf-image-pdf-preview">
+
         <embed
-          src="${previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
+          src="${previewUrls[index]}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
           type="application/pdf"
           class="pdf-image-pdf-embed"
         />
+
       </div>
 
-      <h3>${selectedFile.name}</h3>
-      <div class="file-order-badge">1</div>
+      <h3></h3>
+
+      <div class="file-order-badge">
+        ${index + 1}
+      </div>
+
     `;
 
-    card.querySelector(".remove-file-btn").addEventListener("click", () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      selectedFile = null;
-      previewUrl = null;
-      fileList.innerHTML = "";
-      showStart();
-    });
+
+    /* -----------------------------------------
+       File name
+    ----------------------------------------- */
+
+    const fileName =
+      card.querySelector("h3");
+
+    fileName.textContent =
+      file.name;
+
+
+    /* -----------------------------------------
+       Remove individual PDF
+    ----------------------------------------- */
+
+    card
+      .querySelector(".remove-file-btn")
+      .addEventListener("click", () => {
+
+        if (previewUrls[index]) {
+
+          URL.revokeObjectURL(
+            previewUrls[index]
+          );
+
+        }
+
+
+        selectedFiles.splice(index, 1);
+
+        previewUrls.splice(index, 1);
+
+
+        renderFiles();
+
+
+        if (selectedFiles.length === 0) {
+
+          showStart();
+
+          return;
+
+        }
+
+      });
+
 
     fileList.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   SELECT PDF BUTTON
+   FIRST SELECTION = REPLACE
+========================================================= */
+
+const selectPdfButton =
+  dropZone.querySelector(
+    ".master-tool-button, .pdf-image-select-btn"
+  );
+
+
+if (selectPdfButton) {
+
+  selectPdfButton.addEventListener(
+    "click",
+    (e) => {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      fileInput.click();
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   ADD MORE PDF
+   ADDITIONAL SELECTION = APPEND
+========================================================= */
+
+addMoreBtn.addEventListener(
+  "click",
+  (e) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    fileInput.click();
+
   }
+);
 
-  dropZone.addEventListener("click", () => fileInput.click());
-  addMoreBtn.addEventListener("click", () => fileInput.click());
 
-  fileInput.addEventListener("change", (e) => {
-    handleFile(e.target.files[0]);
+/* =========================================================
+   FILE INPUT CHANGE
+========================================================= */
+
+fileInput.addEventListener(
+  "change",
+  (e) => {
+
+    const files =
+      Array.from(
+        e.target.files || []
+      );
+
+
+    if (!files.length) {
+      return;
+    }
+
+
+    /*
+      If no PDF is currently selected,
+      this is the first selection.
+
+      Otherwise append as Add More.
+    */
+
+    const replaceExisting =
+      selectedFiles.length === 0;
+
+
+    addPdfFiles(
+      files,
+      replaceExisting
+    );
+
+
+    /*
+      Allow selecting the same PDF
+      again later.
+    */
+
     fileInput.value = "";
-  });
 
-  dropZone.addEventListener("dragover", (e) => {
+  }
+);
+
+
+/* =========================================================
+   DRAG OVER
+========================================================= */
+
+dropZone.addEventListener(
+  "dragover",
+  (e) => {
+
     e.preventDefault();
-    dropZone.classList.add("drag-active");
-  });
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("drag-active");
-  });
+    dropZone.classList.add(
+      "drag-active"
+    );
 
-  dropZone.addEventListener("drop", (e) => {
+  }
+);
+
+
+/* =========================================================
+   DRAG LEAVE
+========================================================= */
+
+dropZone.addEventListener(
+  "dragleave",
+  () => {
+
+    dropZone.classList.remove(
+      "drag-active"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   DROP MULTIPLE PDFs
+========================================================= */
+
+dropZone.addEventListener(
+  "drop",
+  (e) => {
+
     e.preventDefault();
-    dropZone.classList.remove("drag-active");
-    handleFile(e.dataTransfer.files[0]);
-  });
+
+    dropZone.classList.remove(
+      "drag-active"
+    );
+
+
+    const files =
+      Array.from(
+        e.dataTransfer.files || []
+      );
+
+
+    if (!files.length) {
+      return;
+    }
+
+
+    const replaceExisting =
+      selectedFiles.length === 0;
+
+
+    addPdfFiles(
+      files,
+      replaceExisting
+    );
+
+  }
+);
 
   convertBtn.addEventListener("click", async () => {
 
-  if (!selectedFile) {
+  if (!selectedFiles.length) {
     alert("Please select PDF file first");
     return;
   }
 
-  const { data } = await window.supabaseClient.auth.getUser();
+  /* =========================
+     LOGIN CHECK
+  ========================= */
+
+  const { data } =
+    await window.supabaseClient.auth.getUser();
 
   if (!data?.user) {
     alert("Please login first");
     return;
   }
 
+  /* =========================
+     USE FIRST SELECTED PDF
+  ========================= */
+
   const formData = new FormData();
-  formData.append("pdf", selectedFile);
+
+  formData.append("pdf", selectedFiles[0]);
   formData.append("user_id", data.user.id);
 
+  /* =========================
+     BUTTON + PROGRESS
+  ========================= */
+
   convertBtn.disabled = true;
+
   convertBtn.innerHTML =
     `Converting... <i class="fa-solid fa-spinner fa-spin"></i>`;
 
@@ -159,60 +508,113 @@ document.addEventListener("DOMContentLoaded", () => {
 
       progress += 5;
 
-      progressBar.style.width = progress + "%";
-      progressBar.textContent = progress + "%";
+      progressBar.style.width =
+        progress + "%";
 
+      progressBar.textContent =
+        progress + "%";
     }
 
   }, 500);
 
   try {
 
-    const response = await fetch("/pdf-to-image", {
-      method: "POST",
-      body: formData
-    });
+    /* =========================
+       SEND PDF TO SERVER
+    ========================= */
+
+    const response = await fetch(
+      "/pdf-to-image",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    /* =========================
+       ERROR HANDLING
+    ========================= */
 
     if (!response.ok) {
 
       clearInterval(progressInterval);
 
-      const errorText = await response.text();
+      const errorText =
+        await response.text();
 
-      if (errorText.includes("Daily free limit reached")) {
+      /* FREE DAILY LIMIT */
+
+      if (
+        errorText.includes(
+          "Daily free limit reached"
+        )
+      ) {
 
         const upgradeModal =
-          document.getElementById("upgradeModal");
+          document.getElementById(
+            "upgradeModal"
+          );
 
         if (upgradeModal) {
-          upgradeModal.style.display = "flex";
+
+          upgradeModal.style.display =
+            "flex";
         }
 
+        progressBar.style.width = "0%";
+        progressBar.textContent = "0%";
+
         convertBtn.disabled = false;
-        convertBtn.innerHTML = "Convert to Images";
+
+        convertBtn.innerHTML =
+          "Convert to Images";
 
         return;
       }
 
-      throw new Error(errorText || "Conversion failed");
+      throw new Error(
+        errorText ||
+        "PDF to Image conversion failed"
+      );
     }
 
-    const blob = await response.blob();
+    /* =========================
+       GET ZIP FILE
+    ========================= */
+
+    const blob =
+      await response.blob();
 
     if (!blob || blob.size < 100) {
-      throw new Error("Conversion failed");
+
+      throw new Error(
+        "PDF to Image conversion failed"
+      );
     }
+
+    /* =========================
+       CREATE DOWNLOAD URL
+    ========================= */
 
     if (zipUrl) {
       URL.revokeObjectURL(zipUrl);
     }
 
-    zipUrl = URL.createObjectURL(blob);
+    zipUrl =
+      URL.createObjectURL(blob);
+
+    /* =========================
+       COMPLETE PROGRESS
+    ========================= */
 
     clearInterval(progressInterval);
 
     progressBar.style.width = "100%";
     progressBar.textContent = "100%";
+
+    /* =========================
+       SHOW SUCCESS SCREEN
+    ========================= */
 
     setTimeout(() => {
 
@@ -226,7 +628,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.error(error);
 
-    alert(error.message || "Conversion failed");
+    alert(
+      error.message ||
+      "PDF to Image conversion failed"
+    );
 
   } finally {
 
@@ -234,11 +639,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     convertBtn.innerHTML =
       "Convert to Images";
-
   }
 
 });
 
+/* =========================================================
+   PDF TO IMAGE — DOWNLOAD ZIP
+========================================================= */
+
+downloadBtn.addEventListener("click", () => {
+
+  if (!zipUrl) {
+
+    alert("ZIP file is not ready yet");
+
+    return;
+  }
+
+
+  const a = document.createElement("a");
+
+  a.href = zipUrl;
+
+  a.download = "pdf-images.zip";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+});
   const closeUpgradeModal =
   document.getElementById("closeUpgradeModal");
 

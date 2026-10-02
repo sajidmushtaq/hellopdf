@@ -14,7 +14,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PDF to Image - HelloPDF</title>
-  <link rel="stylesheet" href="/css/style.css?v=4010"/>
+  <link rel="stylesheet" href="/css/style.css?v=4011"/>
+<link rel="stylesheet" href="/css/master-tools.css?v=9999"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
@@ -34,31 +35,7 @@
 .hp-profile-list a:hover,.hp-profile-logout:hover{background:#f8fafc}
 .hp-mobile-profile{display:none;margin-top:20px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px}
  
-/* PDF TO IMAGE CLOUD BUTTON FIX */
 
-.pdf-image-upload-area .cloud-buttons{
-display:flex;
-flex-direction:column;
-gap:12px;
-margin-left:12px;
-}
-
-.pdf-image-upload-area .cloud-buttons button{
-width:52px;
-height:52px;
-border:none;
-border-radius:50%;
-background:#ef2f2f;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-}
-
-.pdf-image-upload-area .cloud-buttons i{
-font-size:22px;
-color:#fff;
-} 
 </style>
 
 </head>
@@ -249,73 +226,175 @@ color:#fff;
 class="drawer-overlay"
 id="drawerOverlay">
 </div>
-<main class="pdf-image-page">
+<main class="pdf-image-page master-tool-page">
 
-  <section class="pdf-image-start-screen" id="startScreen">
-    <div class="pdf-image-start-content">
-      <h1>PDF to Image</h1>
-      <p>Convert PDF pages into high-quality JPG images in seconds.</p>
+  <!-- =====================================================
+       START SCREEN
+  ====================================================== -->
 
-      <div class="pdf-image-upload-area" id="dropZone">
-        <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+  <section
+    class="pdf-image-start-screen master-tool-start"
+    id="startScreen"
+  >
 
-        <button class="pdf-image-select-btn" type="button">
+    <h1 class="master-tool-title">
+      PDF to Image
+    </h1>
+
+    <p class="master-tool-description">
+      Convert PDF pages into high-quality JPG images in seconds.
+    </p>
+
+    <div class="pdf-image-select-row">
+
+      <div
+        class="pdf-image-upload-box master-tool-upload-box"
+        id="dropZone"
+      >
+
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf,.pdf"
+          multiple
+          hidden
+        />
+
+        <label
+          for="fileInput"
+          class="master-tool-button"
+        >
           Select PDF file
-        </button>
+        </label>
+
+      </div>
 
       <div class="cloud-buttons">
-        <button type="button"><i class="fa-brands fa-google-drive"></i></button>
-        <button type="button"><i class="fa-brands fa-dropbox"></i></button>
+
+        <button
+          type="button"
+          aria-label="Upload from Google Drive"
+        >
+          <i class="fa-brands fa-google-drive"></i>
+        </button>
+
+        <button
+          type="button"
+          aria-label="Upload from Dropbox"
+        >
+          <i class="fa-brands fa-dropbox"></i>
+        </button>
+
       </div>
+
     </div>
 
-      <div class="pdf-image-drop-text">or drop PDF here</div>
+    <div class="master-tool-drop-text">
+      or drop PDF here
     </div>
+
+    <div class="ad-placeholder"></div>
+
   </section>
 
-  <section class="pdf-image-preview-screen hidden-screen" id="previewScreen">
-    <div class="pdf-image-preview-left">
-      <div class="pdf-image-topbar">
-        <div>
-          <h1>PDF to Image</h1>
-          <p id="fileCounter">0 file selected</p>
+
+  <!-- =====================================================
+       PREVIEW SCREEN
+  ====================================================== -->
+
+  <section
+    class="pdf-image-preview-screen master-tool-preview hidden-screen"
+    id="previewScreen"
+  >
+
+    <div class="pdf-image-preview-left master-tool-preview-left">
+
+      <div
+        class="pdf-image-file-grid"
+        id="fileList"
+      ></div>
+
+      <!-- Required by existing JS -->
+      <span
+        id="fileCounter"
+        aria-live="polite"
+        hidden
+      >
+        0 files selected
+      </span>
+
+      <button
+        class="pdf-image-floating-add-btn"
+        id="addMoreBtn"
+        type="button"
+        aria-label="Add more PDF files"
+      >
+        <i class="fa-solid fa-plus"></i>
+      </button>
+
+    </div>
+
+
+    <aside class="pdf-image-action-panel master-tool-action-panel">
+
+      <h1 class="master-tool-title">
+        PDF to Image
+      </h1>
+
+      <p class="master-tool-panel-description">
+        Convert every PDF page into image files and download them in ZIP format.
+      </p>
+
+      <button
+        class="pdf-image-main-btn master-tool-action-button"
+        id="convertBtn"
+        type="button"
+      >
+        Convert to Images
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="pdf-image-progress master-tool-progress">
+
+        <div
+          class="pdf-image-progress-bar master-tool-progress-bar"
+          id="progressBar"
+        >
+          0%
         </div>
 
-        <button class="pdf-image-add-btn" id="addMoreBtn" type="button">
-          <i class="fa-solid fa-plus"></i>
-        </button>
       </div>
 
-      <div class="pdf-image-file-grid" id="fileList"></div>
-    </div>
-
-    <aside class="pdf-image-action-panel">
-      <h2>PDF to Image</h2>
-      <p>Convert every PDF page into image files and download them in ZIP format.</p>
-
-      <button class="pdf-image-main-btn" id="convertBtn" type="button">
-        Convert to Images
-      </button>
-
-      <div class="pdf-image-progress">
-        <div class="pdf-image-progress-bar" id="progressBar">0%</div>
-      </div>
     </aside>
+
   </section>
 
-  <section class="pdf-image-success-screen hidden-screen" id="successScreen">
-    <div class="pdf-image-success-box">
-      <div class="pdf-image-success-icon">
-        <i class="fa-solid fa-check"></i>
-      </div>
 
-      <h1>Images Ready</h1>
-      <p>Your PDF has been converted successfully.</p>
+  <!-- =====================================================
+       SUCCESS SCREEN
+  ====================================================== -->
 
-      <button class="pdf-image-download-btn" id="downloadBtn" type="button">
-        Download ZIP
-      </button>
-    </div>
+  <section
+    class="pdf-image-success-screen master-tool-success hidden-screen"
+    id="successScreen"
+  >
+
+    <h1 class="master-tool-title">
+      Images Ready
+    </h1>
+
+    <p class="master-tool-description">
+      Your PDF has been converted successfully.
+    </p>
+
+    <button
+      id="downloadBtn"
+      class="master-tool-download-button"
+      type="button"
+    >
+      Download ZIP
+    </button>
+
   </section>
 
 </main>

@@ -6422,3 +6422,777 @@ body .image-page .image-select-row .cloud-buttons button{
   }
 
 }
+
+/* =========================================================
+   START SCREEN
+========================================================= */
+
+body .pdf-image-page .pdf-image-start-screen.master-tool-start{
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  padding:55px 20px 40px !important;
+
+  box-sizing:border-box !important;
+
+  background:#f3f4f8 !important;
+
+  text-align:center !important;
+}
+
+
+/* TITLE */
+
+body .pdf-image-page .pdf-image-start-screen
+.master-tool-title{
+
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:44px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+
+  text-align:center !important;
+}
+
+
+/* DESCRIPTION */
+
+body .pdf-image-page .pdf-image-start-screen
+.master-tool-description{
+
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 32px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:24px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+
+  text-align:center !important;
+}
+
+
+/* UPLOAD ROW */
+
+body .pdf-image-page .pdf-image-select-row{
+  position:relative !important;
+
+  width:100% !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:24px !important;
+
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* UPLOAD BOX */
+
+body .pdf-image-page
+.pdf-image-upload-box.master-tool-upload-box{
+  width:330px !important;
+  min-width:330px !important;
+
+  height:78px !important;
+  min-height:78px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  background:transparent !important;
+  border:none !important;
+
+  box-sizing:border-box !important;
+}
+
+
+/* SELECT PDF BUTTON */
+
+body .pdf-image-page
+.pdf-image-upload-box
+.master-tool-button{
+
+  width:330px !important;
+  min-width:330px !important;
+
+  height:78px !important;
+  min-height:78px !important;
+
+ 
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:0 28px !important;
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:12px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:22px !important;
+  font-weight:700 !important;
+
+  line-height:1.2 !important;
+
+  text-align:center !important;
+  white-space:nowrap !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+
+  text-decoration:none !important;
+}
+
+
+/* HOVER */
+
+body .pdf-image-page
+.pdf-image-upload-box
+.master-tool-button:hover{
+
+  background:#ef4444 !important;
+}
+
+
+/* CLOUD BUTTONS */
+
+body .pdf-image-page .pdf-image-select-row
+.cloud-buttons{
+  position:absolute !important;
+
+  left:calc(50% + 181px) !important;
+  top:0 !important;
+
+  height:78px !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  gap:10px !important;
+
+  margin:0 !important;
+  padding:0 !important;
+}
+
+
+/* CLOUD BUTTON */
+
+body .pdf-image-page .pdf-image-select-row
+.cloud-buttons button{
+
+  width:38px !important;
+  height:38px !important;
+
+  min-width:38px !important;
+  min-height:38px !important;
+
+ 
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:0 !important;
+
+  background:#ff3131 !important;
+
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  font-size:17px !important;
+
+  box-shadow:0 8px 18px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
+
+
+/* DROP TEXT */
+
+body .pdf-image-page
+.pdf-image-start-screen
+.master-tool-drop-text{
+
+  margin:14px 0 0 !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:15px !important;
+  line-height:1.4 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+
+  text-align:center !important;
+}
+
+
+/* =========================================================
+   PREVIEW SCREEN
+   EXACT MASTER PROPORTION
+========================================================= */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview{
+
+  width:100% !important;
+
+  height:calc(100vh - 72px) !important;
+  min-height:calc(100vh - 72px) !important;
+}
+/* =========================================================
+   PDF TO IMAGE - SCREEN VISIBILITY FIX
+========================================================= */
+
+.hidden-screen {
+  display: none !important;
+}
+
+
+/* =========================================================
+   PDF TO IMAGE - START SCREEN
+========================================================= */
+
+#startScreen {
+  width: 100%;
+  min-height: 520px;
+
+
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  padding-top: 45px;
+  box-sizing: border-box;
+}
+
+
+/* Heading */
+
+#startScreen h1 {
+  margin: 0;
+  text-align: center;
+}
+
+
+/* Subtitle */
+
+#startScreen p {
+  text-align: center;
+}
+
+
+/* Upload area */
+
+#startScreen #dropZone {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* Select PDF + cloud buttons */
+
+#startScreen .upload-area,
+#startScreen .upload-box,
+#startScreen .upload-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Select PDF button */
+
+#startScreen #selectPdfBtn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* Drop text */
+
+#startScreen .drop-text {
+  text-align: center;
+}
+
+/* =========================================================
+   PDF TO IMAGE — ADD MORE BUTTON ONLY
+========================================================= */
+
+body .pdf-image-page #previewScreen.master-tool-preview
+.pdf-image-preview-left{
+  position:relative !important;
+}
+
+body .pdf-image-page #previewScreen.master-tool-preview
+.pdf-image-floating-add-btn{
+  position:absolute !important;
+
+  top:50% !important;
+  right:28px !important;
+
+  transform:translateY(-50%) !important;
+
+  width:58px !important;
+  height:58px !important;
+  min-width:58px !important;
+  min-height:58px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 !important;
+  padding:0 !important;
+
+  border:none !important;
+  border-radius:50% !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  font-size:28px !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.22) !important;
+
+  cursor:pointer !important;
+
+  z-index:100 !important;
+}
+
+/* =========================================================
+   PDF TO IMAGE — ADD MORE BUTTON
+   EXACT IMAGE-TO-PDF MASTER POSITION
+========================================================= */
+
+@media screen and (min-width:769px){
+
+  body .pdf-image-page
+  #previewScreen.master-tool-preview
+  #addMoreBtn.pdf-image-floating-add-btn{
+
+    position:fixed !important;
+
+    left:calc(76% - 83px) !important;
+    top:50% !important;
+
+    right:auto !important;
+    bottom:auto !important;
+
+    transform:translateY(-50%) !important;
+
+    width:58px !important;
+    height:58px !important;
+
+    min-width:58px !important;
+    min-height:58px !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+    border-radius:50% !important;
+
+    background:#ff3131 !important;
+    color:#ffffff !important;
+
+    font-size:28px !important;
+
+    box-shadow:0 10px 24px rgba(239,68,68,.22) !important;
+
+    cursor:pointer !important;
+
+    z-index:9999 !important;
+  }
+
+}
+
+/* PDF TO IMAGE — ADD MORE PLUS ICON ONLY */
+
+body .pdf-image-page #previewScreen.master-tool-preview
+.pdf-image-floating-add-btn i{
+  display:inline-block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+
+  color:#ffffff !important;
+
+  font-family:"Font Awesome 6 Free" !important;
+  font-weight:900 !important;
+
+  font-size:30px !important;
+  line-height:1 !important;
+}
+
+/* =========================================================
+   PDF TO IMAGE — PREVIEW MASTER LAYOUT
+   MATCH IMAGE TO PDF
+========================================================= */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview{
+
+  width:100% !important;
+
+  height:calc(100vh - 72px) !important;
+  min-height:calc(100vh - 72px) !important;
+
+  display:grid !important;
+
+  grid-template-columns:
+    minmax(0, 76%)
+    minmax(0, 24%) !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  background:#f3f4f8 !important;
+
+  box-sizing:border-box !important;
+
+  overflow:hidden !important;
+}
+
+
+/* =========================================================
+   LEFT PREVIEW WORKSPACE
+========================================================= */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview
+.pdf-image-preview-left{
+
+  position:relative !important;
+
+  width:100% !important;
+  height:100% !important;
+
+  min-width:0 !important;
+  min-height:0 !important;
+
+  padding:38px 28px 38px 0 !important;
+  margin:0 !important;
+
+  background:#f3f4f8 !important;
+
+  box-sizing:border-box !important;
+
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+/* PDF TO IMAGE — show preview grid ONLY when not hidden */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview:not(.hidden-screen){
+  display:grid !important;
+}
+
+/* =========================================================
+   PDF CARD GRID
+========================================================= */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview
+.pdf-image-file-grid{
+
+  width:100% !important;
+
+  min-width:0 !important;
+
+  display:grid !important;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
+
+  gap:18px !important;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  box-sizing:border-box !important;
+}
+
+/* =========================================================
+   PDF TO IMAGE — SCREEN VISIBILITY AUTHORITY
+========================================================= */
+
+body .pdf-image-page #startScreen.hidden-screen{
+  display:none !important;
+}
+
+body .pdf-image-page #previewScreen.hidden-screen{
+  display:none !important;
+}
+
+body .pdf-image-page #successScreen.hidden-screen{
+  display:none !important;
+}
+
+/* =========================================================
+   PDF TO IMAGE — RIGHT SIDE PANEL ONLY
+========================================================= */
+
+@media screen and (min-width:769px){
+
+  body .pdf-image-page
+  #previewScreen.master-tool-preview
+  .pdf-image-action-panel{
+
+    grid-column:2 !important;
+    grid-row:1 !important;
+
+    position:relative !important;
+
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+
+    width:100% !important;
+    height:100% !important;
+    max-height:100% !important;
+
+    margin-top:auto !important;
+margin-bottom:12px !important;
+
+    padding:38px 22px 28px !important;
+
+    background:#ffffff !important;
+
+    border:none !important;
+    border-left:1px solid #e5e7eb !important;
+
+    border-radius:0 !important;
+
+    box-shadow:none !important;
+
+    box-sizing:border-box !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+
+    overflow:hidden !important;
+
+    justify-self:stretch !important;
+    align-self:stretch !important;
+  }
+
+}
+
+ /* PDF TO IMAGE — RIGHT PANEL HEADING ONLY */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview
+.pdf-image-action-panel
+.master-tool-title{
+
+  white-space:nowrap !important;
+
+  font-size:32px !important;
+  line-height:1.2 !important;
+
+  margin:0 0 14px !important;
+}
+
+/* =========================================================
+   PDF TO IMAGE — RIGHT PANEL LAYOUT ONLY
+========================================================= */
+
+@media screen and (min-width:769px){
+
+  body .pdf-image-page
+  #previewScreen.master-tool-preview
+  .pdf-image-action-panel{
+
+    display:flex !important;
+    flex-direction:column !important;
+
+    height:100% !important;
+    min-height:0 !important;
+
+    box-sizing:border-box !important;
+  }
+
+
+  body .pdf-image-page
+  #previewScreen.master-tool-preview
+  .pdf-image-action-panel
+  .master-tool-action-button{
+
+    margin-top:auto !important;
+  }
+
+}
+
+/* PDF TO IMAGE — CONVERT BUTTON RED */
+
+body .pdf-image-page
+#previewScreen.master-tool-preview
+.pdf-image-action-panel
+.master-tool-action-button{
+
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+
+  color:#ffffff !important;
+}
+
+/* =========================================================
+   PDF TO IMAGE — SUCCESS PAGE
+   MATCH IMAGE TO PDF MASTER
+========================================================= */
+
+body .pdf-image-page #successScreen.master-tool-success:not(.hidden-screen){
+
+  width:100% !important;
+  min-height:calc(100vh - 72px) !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+
+  align-items:center !important;
+  justify-content:flex-start !important;
+
+  padding:58px 20px 40px !important;
+
+  box-sizing:border-box !important;
+
+  text-align:center !important;
+
+  background:#f3f4f8 !important;
+}
+
+
+/* SUCCESS HEADING */
+
+body .pdf-image-page
+#successScreen.master-tool-success
+h1.master-tool-title{
+
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 14px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:44px !important;
+  line-height:1.2 !important;
+  font-weight:900 !important;
+
+  color:#111827 !important;
+
+  text-align:center !important;
+}
+
+
+/* SUCCESS DESCRIPTION */
+
+body .pdf-image-page
+#successScreen.master-tool-success
+p.master-tool-description{
+
+  width:100% !important;
+  max-width:850px !important;
+
+  margin:0 0 36px !important;
+  padding:0 !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:20px !important;
+  line-height:1.5 !important;
+  font-weight:400 !important;
+
+  color:#64748b !important;
+
+  text-align:center !important;
+}
+
+
+/* DOWNLOAD ZIP BUTTON */
+
+body .pdf-image-page
+#successScreen.master-tool-success
+button.master-tool-download-button{
+
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+
+  height:78px !important;
+  min-height:78px !important;
+
+  display:flex !important;
+
+  align-items:center !important;
+  justify-content:center !important;
+
+  margin:0 auto !important;
+  padding:0 28px !important;
+
+  box-sizing:border-box !important;
+
+  background:#ff3131 !important;
+  color:#ffffff !important;
+
+  border:none !important;
+  border-radius:11px !important;
+
+  font-family:Arial, Helvetica, sans-serif !important;
+
+  font-size:22px !important;
+  line-height:1.2 !important;
+  font-weight:700 !important;
+
+  white-space:nowrap !important;
+  text-align:center !important;
+
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+
+  cursor:pointer !important;
+}
