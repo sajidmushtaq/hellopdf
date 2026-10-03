@@ -7196,3 +7196,103 @@ button.master-tool-download-button{
 
   cursor:pointer !important;
 }
+
+/* =========================================================
+   PDF TO IMAGE — MOBILE START SCREEN
+   CLOUD BUTTONS BELOW SELECT PDF BUTTON
+========================================================= */
+
+@media screen and (max-width: 768px){
+
+  body .pdf-image-page
+  .pdf-image-start-screen
+  .pdf-image-select-row{
+
+    width:100% !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:16px !important;
+  }
+
+
+  body .pdf-image-page
+  .pdf-image-start-screen
+  .pdf-image-select-row
+  .pdf-image-upload-box{
+
+    width:100% !important;
+    max-width:330px !important;
+    min-width:0 !important;
+
+    height:78px !important;
+
+    position:static !important;
+  }
+
+
+  body .pdf-image-page
+  .pdf-image-start-screen
+  .pdf-image-select-row
+  .cloud-buttons{
+
+    position:static !important;
+
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+
+    transform:none !important;
+
+    width:auto !important;
+    height:auto !important;
+
+    display:flex !important;
+    flex-direction:row !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    gap:18px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+
+  body .pdf-image-page
+  .pdf-image-start-screen
+  .pdf-image-select-row
+  .cloud-buttons button{
+
+    width:56px !important;
+    height:56px !important;
+
+    min-width:56px !important;
+    min-height:56px !important;
+
+    margin:0 !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    position:static !important;
+
+    border-radius:50% !important;
+  }
+
+
+  body .pdf-image-page
+  .pdf-image-start-screen
+  .master-tool-drop-text{
+
+    margin-top:2px !important;
+  }
+
+}
