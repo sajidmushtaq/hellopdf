@@ -130,14 +130,56 @@ function addPdfFiles(files, replaceExisting = false) {
 
 
   if (!validFiles.length) {
-    return;
-  }
+  return;
+}
 
 
-  /* -----------------------------------------
-     Replace existing files
-     Used by first Select PDF action
-  ----------------------------------------- */
+/* -----------------------------------------
+   FREE/PREMIUM PDF LIMIT
+   FRONTEND SAFETY CHECK
+----------------------------------------- */
+
+const FREE_PDF_LIMIT = 10;
+const PREMIUM_PDF_LIMIT = 50;
+
+
+/*
+   Premium status frontend par
+   assume nahi karna.
+   Server final verification karega.
+
+   Filhaal normal selection ko
+   50 PDFs se upar jane se rok rahe hain.
+*/
+
+const maximumAllowedPdfs = PREMIUM_PDF_LIMIT;
+
+
+/* -----------------------------------------
+   CHECK TOTAL PDF COUNT
+----------------------------------------- */
+
+const totalPdfs = replaceExisting
+  ? validFiles.length
+  : selectedFiles.length + validFiles.length;
+
+
+if (totalPdfs > maximumAllowedPdfs) {
+
+  alert(
+    `You can add a maximum of ${maximumAllowedPdfs} PDF files at a time.`
+  );
+
+  fileInput.value = "";
+
+  return;
+}
+
+
+/* -----------------------------------------
+   Replace existing files
+   Used by first Select PDF action
+----------------------------------------- */
 
   if (replaceExisting) {
 
@@ -480,13 +522,18 @@ dropZone.addEventListener(
   }
 
   /* =========================
-     USE FIRST SELECTED PDF
-  ========================= */
+   SEND ALL SELECTED PDFs
+========================= */
 
-  const formData = new FormData();
+const formData = new FormData();
 
-  formData.append("pdf", selectedFiles[0]);
-  formData.append("user_id", data.user.id);
+
+selectedFiles.forEach((file) => {
+  formData.append("pdf", file);
+});
+
+
+formData.append("user_id", data.user.id);
 
   /* =========================
      BUTTON + PROGRESS

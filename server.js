@@ -807,6 +807,12 @@ const upload = multer({
     fileSize: 25 * 1024 * 1024 // 25MB
   }
 });
+const pdfToImageUpload = multer({
+  dest: uploadDir,
+  limits: {
+    fileSize: 500 * 1024 * 1024
+  }
+});
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -1537,188 +1543,679 @@ if (
 }
 });
 
-app.post("/pdf-to-image", upload.single("pdf"), async (req, res) => {
+app.post("/pdf-to-image", pdfToImageUpload.array("pdf", 50), async (req, res) => {
+
   try {
+
+    /* =========================
+       GET USER
+    ========================= */
+
     const userId = req.body.user_id;
-const splitMode =
-  req.body.split_mode || "range";
 
-const rangeType =
-  req.body.range_type || "custom";
-
-let ranges = [];
-
-try {
-
-  ranges =
-    JSON.parse(
-      req.body.ranges || "[]"
+    console.log(
+      "PDF TO IMAGE USER ID =",
+      userId
     );
 
-} catch (error) {
 
-  ranges = [];
+    /* =========================
+       CHECK USER
+    ========================= */
 
-}
+    if (!userId) {
 
-const fixedPages =
-  Number(req.body.fixed_pages) || 0;
+      if (req.files) {
 
-const pageMode =
-  req.body.page_mode || "";
+        req.files.forEach((file) => {
 
-const maxSize =
-  Number(req.body.max_size) || 0;
+          if (fs.existsSync(file.path)) {
+            fs.unlinkSync(file.path);
+          }
 
-console.log(
-  "SPLIT MODE =",
-  splitMode
-);
+        });
 
-console.log(
-  "SPLIT RANGE TYPE =",
-  rangeType
-);
+      }
 
-console.log(
-  "SPLIT RANGES =",
-  ranges
-);
-
-console.log(
-  "SPLIT FIXED PAGES =",
-  fixedPages
-);
-
-console.log(
-  "SPLIT PAGE MODE =",
-  pageMode
-);
-
-console.log(
-  "SPLIT MAX SIZE =",
-  maxSize
-);
-console.log("PDF TO IMAGE USER ID =", userId);
-
-if (!userId) {
-  return res.status(401).send("Please login first");
-}
-
-const { data: profileData, error: profileError } = await supabase
-  .from("profiles")
-  .select("is_premium")
-  .eq("id", userId)
-  .single();
-
-console.log("PDF TO IMAGE PROFILE DATA =", profileData);
-console.log("PDF TO IMAGE PROFILE ERROR =", profileError);
-
-if (profileError) {
-  return res.status(500).send("Unable to verify account");
-}
-
-const today = new Date().toISOString().split("T")[0];
-
-const { data: usageData, error: usageError } = await supabase
-  .from("usage_logs")
-  .select("*")
-  .eq("user_id", userId)
-  .eq("tool_name", "pdf_to_image")
-  .eq("usage_date", today)
-  .maybeSingle();
-
-console.log("PDF TO IMAGE USAGE DATA =", usageData);
-console.log("PDF TO IMAGE USAGE ERROR =", usageError);
-if (!profileData.is_premium) {
-
-  const currentUsage = usageData
-    ? usageData.usage_count
-    : 0;
-
-  if (currentUsage >= 8) {
-
-    return res.status(403).send(
-      "Daily free limit reached. Upgrade to Premium for unlimited PDF to Image conversions."
-    );
-
-  }
-
-}
-    const bytes = fs.readFileSync(req.file.path);
-    const pdfDoc = await PDFDocument.load(bytes);
-
-    const outputDir = path.join(outputsDir, `images_${Date.now()}`);
-    fs.mkdirSync(outputDir);
-
-    for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-      const newPdf = await PDFDocument.create();
-      const [page] = await newPdf.copyPages(pdfDoc, [i]);
-      newPdf.addPage(page);
-
-      const pdfBytes = await newPdf.save();
-      fs.writeFileSync(path.join(outputDir, `page_${i + 1}.pdf`), pdfBytes);
+      return res
+        .status(401)
+        .send("Please login first");
     }
 
-    const zipPath = `${outputDir}.zip`;
-    const output = fs.createWriteStream(zipPath);
-    const archive = archiver("zip");
 
-    archive.pipe(output);
-    archive.directory(outputDir, false);
+    /* =========================
+       VERIFY PROFILE
+    ========================= */
+
+    const {
+      data: profileData,
+      error: profileError
+    } = await supabase
+
+      .from("profiles")
+
+      .select("is_premium")
+
+      .eq("id", userId)
+
+      .single();
+
+
+    console.log(
+      "PDF TO IMAGE PROFILE DATA =",
+      profileData
+    );
+
+    console.log(
+      "PDF TO IMAGE PROFILE ERROR =",
+      profileError
+    );
+
+
+    if (profileError) {
+
+      if (req.files) {
+
+        req.files.forEach((file) => {
+
+          if (fs.existsSync(file.path)) {
+            fs.unlinkSync(file.path);
+          }
+
+        });
+
+      }
+
+      return res
+        .status(500)
+        .send("Unable to verify account");
+    }
+
+
+    /* =========================
+       TODAY
+    ========================= */
+
+    const today =
+      new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+    /* =========================
+       GET DAILY USAGE
+    ========================= */
+
+    const {
+      data: usageData,
+      error: usageError
+    } = await supabase
+
+      .from("usage_logs")
+
+      .select("*")
+
+      .eq("user_id", userId)
+
+      .eq(
+        "tool_name",
+        "pdf_to_image"
+      )
+
+      .eq(
+        "usage_date",
+        today
+      )
+
+      .maybeSingle();
+
+
+    console.log(
+      "PDF TO IMAGE USAGE DATA =",
+      usageData
+    );
+
+    console.log(
+      "PDF TO IMAGE USAGE ERROR =",
+      usageError
+    );
+
+
+    /* =========================
+       FREE USER DAILY LIMIT
+       8 CONVERSIONS / DAY
+    ========================= */
+
+    if (!profileData.is_premium) {
+
+      const currentUsage =
+        usageData
+          ? usageData.usage_count
+          : 0;
+
+
+      if (currentUsage >= 8) {
+
+        if (req.files) {
+
+          req.files.forEach((file) => {
+
+            if (fs.existsSync(file.path)) {
+              fs.unlinkSync(file.path);
+            }
+
+          });
+
+        }
+
+        return res
+          .status(403)
+          .send(
+            "Daily free limit reached. Upgrade to Premium for unlimited PDF to Image conversions."
+          );
+      }
+
+    }
+
+
+    /* =========================
+       CHECK PDF FILES
+    ========================= */
+
+    if (
+      !req.files ||
+      req.files.length === 0
+    ) {
+
+      return res
+        .status(400)
+        .send("No PDF files uploaded");
+    }
+
+
+    /* =========================
+       PDF COUNT LIMIT
+       FREE = 10
+       PREMIUM = 50
+    ========================= */
+
+    const FREE_PDF_LIMIT = 10;
+    const PREMIUM_PDF_LIMIT = 50;
+
+
+    const maximumPdfs =
+      profileData.is_premium
+        ? PREMIUM_PDF_LIMIT
+        : FREE_PDF_LIMIT;
+
+
+    console.log(
+      "PDF TO IMAGE TOTAL PDFS =",
+      req.files.length
+    );
+
+
+    console.log(
+      "PDF TO IMAGE MAX PDFS =",
+      maximumPdfs
+    );
+
+
+    if (
+      req.files.length >
+      maximumPdfs
+    ) {
+
+      req.files.forEach((file) => {
+
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+
+      });
+
+
+      if (profileData.is_premium) {
+
+        return res
+          .status(400)
+          .send(
+            "Premium users can convert a maximum of 50 PDF files at a time."
+          );
+
+      } else {
+
+        return res
+          .status(400)
+          .send(
+            "Free users can convert a maximum of 10 PDF files at a time. Upgrade to Premium for up to 50 PDFs."
+          );
+      }
+    }
+
+
+    /* =========================
+       TOTAL PDF SIZE LIMIT
+       FREE = 40 MB
+       PREMIUM = 500 MB
+    ========================= */
+
+    const FREE_SIZE_LIMIT =
+      40 * 1024 * 1024;
+
+    const PREMIUM_SIZE_LIMIT =
+      500 * 1024 * 1024;
+
+
+    const maximumTotalSize =
+      profileData.is_premium
+        ? PREMIUM_SIZE_LIMIT
+        : FREE_SIZE_LIMIT;
+
+
+    const totalUploadSize =
+      req.files.reduce(
+        (total, file) =>
+          total + file.size,
+        0
+      );
+
+
+    console.log(
+      "PDF TO IMAGE TOTAL SIZE =",
+      totalUploadSize
+    );
+
+
+    console.log(
+      "PDF TO IMAGE MAX SIZE =",
+      maximumTotalSize
+    );
+
+
+    if (
+      totalUploadSize >
+      maximumTotalSize
+    ) {
+
+      req.files.forEach((file) => {
+
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+
+      });
+
+
+      if (profileData.is_premium) {
+
+        return res
+          .status(400)
+          .send(
+            "The total PDF size cannot exceed 500 MB."
+          );
+
+      } else {
+
+        return res
+          .status(400)
+          .send(
+            "Free users can upload up to 40 MB of PDFs at a time. Upgrade to Premium for up to 500 MB."
+          );
+      }
+    }
+
+
+    /* =========================
+       CREATE OUTPUT DIRECTORY
+    ========================= */
+
+    const outputDir =
+      path.join(
+        outputsDir,
+        `images_${Date.now()}`
+      );
+
+
+    fs.mkdirSync(
+      outputDir,
+      {
+        recursive: true
+      }
+    );
+
+
+    /* =========================
+       PROCESS ALL PDF FILES
+    ========================= */
+
+    for (
+      let fileIndex = 0;
+      fileIndex < req.files.length;
+      fileIndex++
+    ) {
+
+      const file =
+        req.files[fileIndex];
+
+
+      console.log(
+        "PROCESSING PDF =",
+        file.originalname
+      );
+
+
+      /* =========================
+         READ PDF
+      ========================= */
+
+      const bytes =
+        fs.readFileSync(
+          file.path
+        );
+
+
+      const pdfDoc =
+        await PDFDocument.load(
+          bytes
+        );
+
+
+      const safeBaseName =
+        path
+          .basename(
+            file.originalname,
+            path.extname(
+              file.originalname
+            )
+          )
+          .replace(
+            /[^a-zA-Z0-9_-]/g,
+            "_"
+          );
+
+
+      /* =========================
+         CREATE FOLDER PER PDF
+      ========================= */
+
+      const pdfOutputDir =
+        path.join(
+          outputDir,
+          `${fileIndex + 1}_${safeBaseName}`
+        );
+
+
+      fs.mkdirSync(
+        pdfOutputDir,
+        {
+          recursive: true
+        }
+      );
+
+
+      /* =========================
+         CREATE ONE PDF PER PAGE
+      ========================= */
+
+      for (
+        let pageIndex = 0;
+        pageIndex < pdfDoc.getPageCount();
+        pageIndex++
+      ) {
+
+        const newPdf =
+          await PDFDocument.create();
+
+
+        const [page] =
+          await newPdf.copyPages(
+            pdfDoc,
+            [pageIndex]
+          );
+
+
+        newPdf.addPage(
+          page
+        );
+
+
+        const pdfBytes =
+          await newPdf.save();
+
+
+        fs.writeFileSync(
+          path.join(
+            pdfOutputDir,
+            `page_${pageIndex + 1}.pdf`
+          ),
+          pdfBytes
+        );
+
+      }
+
+
+      /* =========================
+         DELETE INPUT PDF
+      ========================= */
+
+      if (
+        fs.existsSync(
+          file.path
+        )
+      ) {
+
+        fs.unlinkSync(
+          file.path
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       CREATE ZIP
+    ========================= */
+
+    const zipPath =
+      `${outputDir}.zip`;
+
+
+    const output =
+      fs.createWriteStream(
+        zipPath
+      );
+
+
+    const archive =
+      archiver(
+        "zip",
+        {
+          zlib: {
+            level: 9
+          }
+        }
+      );
+
+
+    archive.pipe(
+      output
+    );
+
+
+    archive.directory(
+      outputDir,
+      false
+    );
+
+
     await archive.finalize();
 
-    output.on("close", async () => {
 
-  if (!usageData) {
+    /* =========================
+       WAIT FOR ZIP COMPLETE
+    ========================= */
 
-    const { error: insertError } =
-      await supabase
+    await new Promise(
+      (resolve, reject) => {
+
+        output.on(
+          "close",
+          resolve
+        );
+
+        output.on(
+          "error",
+          reject
+        );
+
+      }
+    );
+
+
+    /* =========================
+       DELETE OUTPUT DIRECTORY
+       AFTER ZIP COMPLETE
+    ========================= */
+
+    if (
+      fs.existsSync(
+        outputDir
+      )
+    ) {
+
+      fs.rmSync(
+        outputDir,
+        {
+          recursive: true,
+          force: true
+        }
+      );
+
+    }
+
+
+    /* =========================
+       UPDATE DAILY USAGE
+       ONLY AFTER SUCCESS
+    ========================= */
+
+    if (!usageData) {
+
+      const {
+        error: insertError
+      } = await supabase
+
         .from("usage_logs")
+
         .insert([
           {
             user_id: userId,
-            tool_name: "pdf_to_image",
+            tool_name:
+              "pdf_to_image",
             usage_date: today,
             usage_count: 1
           }
         ]);
 
-    console.log(
-      "PDF TO IMAGE INSERT ERROR =",
-      insertError
-    );
 
-  } else {
+      console.log(
+        "PDF TO IMAGE INSERT ERROR =",
+        insertError
+      );
 
-    const { error: updateError } =
-      await supabase
+    } else {
+
+      const {
+        error: updateError
+      } = await supabase
+
         .from("usage_logs")
+
         .update({
           usage_count:
             usageData.usage_count + 1
         })
-        .eq("id", usageData.id);
 
-    console.log(
-      "PDF TO IMAGE UPDATE ERROR =",
-      updateError
+        .eq(
+          "id",
+          usageData.id
+        );
+
+
+      console.log(
+        "PDF TO IMAGE UPDATE ERROR =",
+        updateError
+      );
+
+    }
+
+
+    /* =========================
+       SEND ZIP
+    ========================= */
+
+    return res.download(
+      zipPath,
+      "pdf-images.zip",
+      (downloadError) => {
+
+        if (downloadError) {
+
+          console.error(
+            "PDF TO IMAGE DOWNLOAD ERROR:",
+            downloadError
+          );
+
+        }
+
+      }
     );
 
-  }
 
-  return res.download(
-    zipPath,
-    "pdf-images.zip"
-  );
-
-});
   } catch (err) {
-    console.error("PDF TO IMAGE ERROR:", err);
-    res.status(500).send("Conversion failed");
-  }
-});
 
+    console.error(
+      "PDF TO IMAGE ERROR:",
+      err
+    );
+
+
+    /* =========================
+       CLEANUP INPUT FILES
+    ========================= */
+
+    if (req.files) {
+
+      req.files.forEach((file) => {
+
+        if (
+          fs.existsSync(
+            file.path
+          )
+        ) {
+
+          fs.unlinkSync(
+            file.path
+          );
+
+        }
+
+      });
+
+    }
+
+
+    return res
+      .status(500)
+      .send(
+        "Conversion failed"
+      );
+
+  }
+
+});
 app.post("/remove-pages", upload.array("pdf", 10), async (req, res) => {
   try {
     const userId = req.body.user_id;
