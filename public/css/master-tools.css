@@ -7911,3 +7911,70 @@ button.master-tool-download-button{
   }
 
 }
+
+/* =========================================================
+   MOBILE MAIN MENU — LOGIN / SIGN UP
+   Match main menu item size
+========================================================= */
+
+@media screen and (max-width:768px){
+
+  body .pdf-image-page .main-drawer .drawer-bottom{
+    width:100% !important;
+    margin:18px 0 0 !important;
+    padding:18px 0 0 !important;
+
+    border-top:1px solid #e5e7eb !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    gap:10px !important;
+
+    box-sizing:border-box !important;
+  }
+
+  body .pdf-image-page .main-drawer .drawer-bottom a{
+    width:100% !important;
+    min-width:0 !important;
+    height:78px !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+
+    margin:0 !important;
+    padding:0 18px !important;
+
+    box-sizing:border-box !important;
+
+    border-radius:12px !important;
+
+    font-family:Arial, Helvetica, sans-serif !important;
+    font-size:28px !important;
+    line-height:1 !important;
+    font-weight:800 !important;
+
+    text-decoration:none !important;
+
+    white-space:nowrap !important;
+  }
+
+  body .pdf-image-page .main-drawer .drawer-bottom .login-btn{
+    background:#ffffff !important;
+    background-color:#ffffff !important;
+
+    color:#111827 !important;
+
+    border:1px solid #e5e7eb !important;
+  }
+
+  body .pdf-image-page .main-drawer .drawer-bottom .signup-btn{
+    background:#ff3131 !important;
+    background-color:#ff3131 !important;
+
+    color:#ffffff !important;
+
+    border:none !important;
+  }
+
+}
