@@ -17,12 +17,11 @@
   <title>PDF to Excel - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1009" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    .hidden-screen { display: none !important; }
-    #previewScreen:not(.hidden-screen) { display: grid !important; }
-    #successScreen:not(.hidden-screen) { display: flex !important; }
+  .hidden-screen { display: none !important; }
 
 .hp-profile-wrap{display:none;position:relative;align-items:center}
 .hp-profile-btn{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;background:#fff;color:#111827;padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer}
@@ -169,16 +168,16 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="pdf-excel-page">
+<main class="pdf-excel-page master-tool-page">
 
-  <section class="pdf-excel-start-screen" id="startScreen">
-    <h1>PDF to Excel</h1>
-    <p>Convert your PDF into an editable Excel spreadsheet.</p>
+  <section class="pdf-excel-start-screen master-tool-start" id="startScreen">
+    <h1 class="master-tool-title">PDF to Excel</h1>
+    <p class="master-tool-description">Convert your PDF into an editable Excel spreadsheet.</p>
 
     <div class="pdf-excel-select-row">
-      <div class="pdf-excel-upload-box" id="dropZone">
+      <div class="pdf-excel-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -187,46 +186,60 @@
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">or drop PDF here</div>
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="pdf-excel-preview-screen hidden-screen" id="previewScreen">
-    <div class="pdf-excel-preview-left">
+  <section class="pdf-excel-preview-screen master-tool-preview hidden-screen" id="previewScreen">
+    <div class="pdf-excel-preview-left master-tool-preview-left">
       <div class="pdf-excel-topbar">
-        <div>
-          <h1>PDF to Excel</h1>
-          <p id="fileCounter">0 file selected</p>
-        </div>
+  <span id="fileCounter" class="pdf-excel-file-counter" aria-hidden="true">
+    0 file selected
+  </span>
 
-        <button class="pdf-excel-add-btn" id="addMoreBtn" type="button">
-          <i class="fa-solid fa-plus"></i>
-          Add more files
-        </button>
-      </div>
-
+  <button
+    class="pdf-excel-add-btn"
+    id="addMoreBtn"
+    type="button"
+    aria-label="Add more files"
+  >
+    <i class="fa-solid fa-plus"></i>
+  </button>
+</div>
       <div class="pdf-excel-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="pdf-excel-action-panel">
-      <h2>PDF to Excel</h2>
-      <p>Convert your PDF text into an Excel XLSX file.</p>
+    <aside class="pdf-excel-action-panel master-tool-action-panel">
+      <h2 class="master-tool-title">PDF to Excel</h2>
+      <p class="master-tool-panel-description">
+  Convert your PDF text into an Excel XLSX file.
+</p>
 
-      <button class="pdf-excel-main-btn" id="convertBtn" type="button">
+      <button
+  class="pdf-excel-main-btn master-tool-action-button"
+  id="convertBtn"
+  type="button"
+>
         Convert to Excel
       </button>
 
-      <div class="progress-container pdf-excel-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container pdf-excel-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="pdf-excel-success-screen hidden-screen" id="successScreen">
-    <h1>PDF has been converted!</h1>
-    <p>Your Excel file is ready to download.</p>
+  <section class="pdf-excel-success-screen master-tool-success hidden-screen" id="successScreen">
+    <h1 class="master-tool-title">PDF has been converted!</h1>
+    <p class="master-tool-description">
+  Your Excel file is ready to download.
+</p>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
+    <button
+  class="download-result-btn master-tool-download-button"
+  id="downloadBtn"
+  type="button"
+>
       Download Excel file
     </button>
   </section>

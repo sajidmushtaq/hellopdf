@@ -17,21 +17,16 @@ gtag('config', 'G-J9032N5DLL');
 <title>PowerPoint to PDF - HelloPDF</title>
 
 <link rel="stylesheet" href="/css/style.css?v=1013">
+<link rel="stylesheet" href="/css/master-tools.css?v=9999">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
-.hidden-screen{
-display:none!important;
-}
+.hidden-screen{display:none!important;}
 
-#previewScreen:not(.hidden-screen){
-display:grid!important;
-}
+#previewScreen:not(.hidden-screen){display:grid!important;}
 
-#successScreen:not(.hidden-screen){
-display:flex!important;
-}
+#successScreen:not(.hidden-screen){display:flex!important;}
 
 .hp-profile-wrap{
 display:none;
@@ -426,25 +421,19 @@ class="drawer-overlay"
 id="drawerOverlay">
 </div>
 
-<main class="excel-pdf-page">
+<main class="powerpoint-pdf-page master-tool-page">
 
 <section
-class="excel-pdf-start-screen"
-id="startScreen">
+  class="powerpoint-pdf-start-screen master-tool-start"
+  id="startScreen">
 
-<h1>
-PowerPoint to PDF
-</h1>
+<h1 class="master-tool-title">PowerPoint to PDF</h1>
 
-<p>
-Convert your PowerPoint presentation into a high-quality PDF document.
-</p>
+<p class="master-tool-description">Convert your PowerPoint presentation into a high-quality PDF document.</p>
 
-<div class="excel-pdf-select-row">
+<div class="powerpoint-pdf-select-row">
 
-<div
-class="excel-pdf-upload-box"
-id="dropZone">
+<div class="powerpoint-pdf-upload-box master-tool-upload-box" id="dropZone">
 
 <input
 type="file"
@@ -452,9 +441,7 @@ id="fileInput"
 accept=".ppt,.pptx,.pps,.ppsx"
 hidden>
 
-<h2>
-Select POWERPOINT file
-</h2>
+<h2 class="master-tool-button">Select POWERPOINT file</h2>
 
 </div>
 
@@ -472,21 +459,17 @@ Select POWERPOINT file
 
 </div>
 
-<div class="drop-text">
-or drop POWERPOINT here
-</div>
+<div class="drop-text master-tool-drop-text">or drop POWERPOINT here</div>
 
 <div class="ad-placeholder"></div>
 
 </section>
 
-<section
-class="excel-pdf-preview-screen hidden-screen"
-id="previewScreen">
+<section class="powerpoint-pdf-preview-screen master-tool-preview hidden-screen" id="previewScreen">
 
-<div class="excel-pdf-preview-left">
+<div class="powerpoint-pdf-preview-left master-tool-preview-left">
 
-<div class="excel-pdf-topbar">
+<div class="powerpoint-pdf-topbar master-tool-topbar">
 
 <div>
 
@@ -500,11 +483,7 @@ PowerPoint to PDF
 
 </div>
 
-<button
-class="excel-pdf-add-btn"
-id="addMoreBtn"
-type="button">
-
+<button class="powerpoint-pdf-add-btn" id="addMoreBtn" type="button">
 <i class="fa-solid fa-plus"></i>
 
 Add more files
@@ -513,70 +492,33 @@ Add more files
 
 </div>
 
-<div
-class="excel-pdf-file-grid"
-id="fileList">
+<div class="powerpoint-pdf-file-grid master-tool-file-grid" id="fileList"></div>
 </div>
 
-</div>
+<aside class="powerpoint-pdf-action-panel master-tool-action-panel">
 
-<aside
-class="excel-pdf-action-panel">
+<h2 class="master-tool-action-title">PowerPoint to PDF</h2>
 
-<h2>
-PowerPoint to PDF
-</h2>
+<p class="master-tool-action-description">Convert your PowerPoint presentation into a PDF document.</p>
 
-<p>
-Convert your PowerPoint presentation into a PDF document.
-</p>
+<button class="powerpoint-pdf-main-btn master-tool-action-button" id="convertBtn" type="button">Convert to PDF</button>
 
-<button
-class="excel-pdf-main-btn"
-id="convertBtn"
-type="button">
 
-Convert to PDF
 
-</button>
 
-<div
-class="progress-container excel-pdf-progress">
 
-<div
-class="progress-bar"
-id="progressBar">
-
-0%
-
-</div>
-
-</div>
+<div class="progress-container powerpoint-pdf-progress master-tool-progress"><div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div></div>
 
 </aside>
 
 </section>
 
-<section
-class="excel-pdf-success-screen hidden-screen"
-id="successScreen">
+<section class="powerpoint-pdf-success-screen master-tool-success hidden-screen" id="successScreen">
 
-<h1>
-PDF has been created!
-</h1>
+<h1 class="master-tool-title">PDF has been created!</h1><p class="master-tool-description">Your PDF file is ready to download.</p>
 
-<p>
-Your PDF file is ready to download.
-</p>
+<button class="download-result-btn master-tool-download-button" id="downloadBtn" type="button">Download PDF file
 
-<button
-class="download-result-btn"
-id="downloadBtn"
-type="button">
-
-Download PDF file
-
-</button>
 
 </section>
 

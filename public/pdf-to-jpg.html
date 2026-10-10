@@ -17,6 +17,7 @@
   <title>PDF to JPG - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=6001"/>
+<link rel="stylesheet" href="/css/master-tools.css?v=1"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
 
@@ -425,21 +426,20 @@ class="drawer-overlay"
 id="drawerOverlay">
 </div>
 
-<main class="pdf-jpg-page">
+<main class="pdf-jpg-page master-tool-page">
 
   <!-- START -->
 
-  <section class="pdf-start-screen" id="pdfStartScreen">
+  <section class="pdf-start-screen master-tool-start" id="pdfStartScreen">
 
-    <h1>PDF to JPG</h1>
+    <h1 class="master-tool-title">PDF to JPG</h1>
+<p class="master-tool-description">
+  Convert PDF pages into high quality JPG images easily.
+</p>
 
-    <p>
-      Convert PDF pages into high quality JPG images easily.
-    </p>
+    <div class="pdf-select-row master-tool-select-row">
 
-    <div class="pdf-select-row">
-
-      <div class="pdf-upload-box" id="dropZone">
+      <div class="pdf-upload-box master-tool-upload-box" id="dropZone">
 
         <input
           type="file"
@@ -455,7 +455,7 @@ id="drawerOverlay">
           hidden
         />
 
-        <h2>Select PDF file</h2>
+        <h2 class="master-tool-button">Select PDF file</h2>
 
       </div>
 
@@ -473,7 +473,7 @@ id="drawerOverlay">
 
     </div>
 
-    <div class="drop-text">
+    <div class="drop-text master-tool-drop-text">
       or drop PDF here
     </div>
 
@@ -481,54 +481,56 @@ id="drawerOverlay">
 
   <!-- PREVIEW -->
 
-  <section class="pdf-preview-screen hidden-screen" id="pdfPreviewScreen">
+  <section class="pdf-preview-screen master-tool-preview hidden-screen" id="pdfPreviewScreen">
 
-    <div class="pdf-preview-left">
+    <div class="pdf-preview-left master-tool-preview-left">
 
-      <div class="pdf-file-grid" id="fileList"></div>
+      <div class="pdf-file-grid master-tool-file-grid" id="fileList"></div>
 
-      <button class="pdf-floating-add-btn" id="addMoreBtn" type="button">
+      <button class="pdf-floating-add-btn master-tool-add-btn" id="addMoreBtn" type="button" aria-label="Add more PDF files">
         <i class="fa-solid fa-plus"></i>
       </button>
 
     </div>
 
-    <aside class="pdf-action-panel">
+    <aside class="pdf-action-panel master-tool-action-panel">
 
-      <h2>PDF to JPG</h2>
+  <h2 class="master-tool-action-title">PDF to JPG</h2>
 
-      <p>
-        Convert PDF pages into JPG images instantly.
-      </p>
+  <p class="master-tool-action-description">
+    Convert PDF pages into JPG images instantly.
+  </p>
 
-      <button class="pdf-main-btn" id="convertBtn" type="button">
-        Convert to JPG
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
+  <button
+    class="pdf-main-btn master-tool-action-button"
+    id="convertBtn"
+    type="button">
+    Convert to JPG
+    <i class="fa-solid fa-arrow-right"></i>
+  </button>
 
-      <div class="progress-container pdf-progress">
+  <div class="progress-container pdf-progress master-tool-progress">
+    <div
+      class="progress-bar master-tool-progress-bar"
+      id="progressBar">
+      0%
+    </div>
+  </div>
 
-        <div class="progress-bar" id="progressBar">
-          0%
-        </div>
-
-      </div>
-
-    </aside>
+</aside>
 
   </section>
 
   <!-- SUCCESS -->
 
-  <section class="pdf-success-screen hidden-screen" id="pdfSuccessScreen">
+  <section class="pdf-success-screen master-tool-success hidden-screen" id="pdfSuccessScreen">
 
-    <h1>JPG images created!</h1>
+    <h1 class="master-tool-title">JPG images created!</h1>
+<p class="master-tool-description">
+  Your PDF has been converted successfully.
+</p>
 
-    <p>
-      Your PDF has been converted successfully.
-    </p>
-
-    <button id="downloadBtn">
+    <button class="master-tool-download-button" id="downloadBtn" type="button">
       Download JPG ZIP
     </button>
 

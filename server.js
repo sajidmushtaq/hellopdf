@@ -1885,134 +1885,229 @@ app.post("/pdf-to-image", pdfToImageUpload.array("pdf", 50), async (req, res) =>
     );
 
 
-    /* =========================
-       PROCESS ALL PDF FILES
-    ========================= */
+   /* =========================
+   PROCESS ALL PDF FILES
+   PDF → JPG IMAGES
+   GHOSTSCRIPT
+========================= */
 
-    for (
-      let fileIndex = 0;
-      fileIndex < req.files.length;
-      fileIndex++
-    ) {
+for (
+  let fileIndex = 0;
+  fileIndex < req.files.length;
+  fileIndex++
+) {
 
-      const file =
-        req.files[fileIndex];
+  const file =
+    req.files[fileIndex];
 
 
-      console.log(
-        "PROCESSING PDF =",
-        file.originalname
+  console.log(
+    "PROCESSING PDF =",
+    file.originalname
+  );
+
+
+  /* =========================
+     SAFE FILE NAME
+  ========================= */
+
+  const safeBaseName =
+    path
+      .basename(
+        file.originalname,
+        path.extname(
+          file.originalname
+        )
+      )
+      .replace(
+        /[^a-zA-Z0-9_-]/g,
+        "_"
       );
 
 
-      /* =========================
-         READ PDF
-      ========================= */
+  /* =========================
+     CREATE OUTPUT FOLDER
+  ========================= */
 
-      const bytes =
-        fs.readFileSync(
-          file.path
-        );
-
-
-      const pdfDoc =
-        await PDFDocument.load(
-          bytes
-        );
+  const pdfOutputDir =
+    path.join(
+      outputDir,
+      `${fileIndex + 1}_${safeBaseName}`
+    );
 
 
-      const safeBaseName =
-        path
-          .basename(
-            file.originalname,
-            path.extname(
-              file.originalname
-            )
-          )
-          .replace(
-            /[^a-zA-Z0-9_-]/g,
-            "_"
+  fs.mkdirSync(
+    pdfOutputDir,
+    {
+      recursive: true
+    }
+  );
+
+
+  /* =========================
+     JPG OUTPUT PATTERN
+  ========================= */
+
+  const outputPattern =
+    path.join(
+      pdfOutputDir,
+      `${safeBaseName}_page-%03d.jpg`
+    );
+
+
+  /* =========================
+     GHOSTSCRIPT COMMANDS
+     WINDOWS + RENDER
+  ========================= */
+
+  const gsCommands = [
+
+    `gswin64c -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${file.path}"`,
+
+    `gswin32c -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${file.path}"`,
+
+    `gs -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${file.path}"`
+
+  ];
+
+
+  /* =========================
+     RUN GHOSTSCRIPT FALLBACKS
+  ========================= */
+
+  const runGhostscript =
+    (index = 0) => {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          if (
+            index >=
+            gsCommands.length
+          ) {
+
+            return reject(
+              new Error(
+                "Ghostscript not found"
+              )
+            );
+
+          }
+
+
+          exec(
+            gsCommands[index],
+            (error) => {
+
+              if (error) {
+
+                console.log(
+                  "GHOSTSCRIPT COMMAND FAILED:",
+                  index
+                );
+
+
+                runGhostscript(
+                  index + 1
+                )
+                  .then(resolve)
+                  .catch(reject);
+
+              } else {
+
+                resolve();
+
+              }
+
+            }
           );
 
-
-      /* =========================
-         CREATE FOLDER PER PDF
-      ========================= */
-
-      const pdfOutputDir =
-        path.join(
-          outputDir,
-          `${fileIndex + 1}_${safeBaseName}`
-        );
-
-
-      fs.mkdirSync(
-        pdfOutputDir,
-        {
-          recursive: true
         }
       );
 
-
-      /* =========================
-         CREATE ONE PDF PER PAGE
-      ========================= */
-
-      for (
-        let pageIndex = 0;
-        pageIndex < pdfDoc.getPageCount();
-        pageIndex++
-      ) {
-
-        const newPdf =
-          await PDFDocument.create();
+    };
 
 
-        const [page] =
-          await newPdf.copyPages(
-            pdfDoc,
-            [pageIndex]
-          );
+  /* =========================
+     CONVERT PDF → JPG
+  ========================= */
+
+  try {
+
+    await runGhostscript();
 
 
-        newPdf.addPage(
-          page
-        );
+    console.log(
+      "PDF TO JPG CONVERSION SUCCESS =",
+      file.originalname
+    );
+
+  } catch (conversionError) {
+
+    console.error(
+      "PDF TO JPG CONVERSION ERROR:",
+      conversionError
+    );
 
 
-        const pdfBytes =
-          await newPdf.save();
+    throw new Error(
+      `Failed to convert ${file.originalname} to JPG`
+    );
+
+  }
 
 
-        fs.writeFileSync(
-          path.join(
-            pdfOutputDir,
-            `page_${pageIndex + 1}.pdf`
-          ),
-          pdfBytes
-        );
+  /* =========================
+     VERIFY JPG OUTPUT
+  ========================= */
 
-      }
+  const generatedImages =
+    fs
+      .readdirSync(
+        pdfOutputDir
+      )
+      .filter(
+        (filename) =>
+          filename
+            .toLowerCase()
+            .endsWith(".jpg")
+      );
 
 
-      /* =========================
-         DELETE INPUT PDF
-      ========================= */
+  console.log(
+    "GENERATED JPG COUNT =",
+    generatedImages.length
+  );
 
-      if (
-        fs.existsSync(
-          file.path
-        )
-      ) {
 
-        fs.unlinkSync(
-          file.path
-        );
+  if (
+    generatedImages.length === 0
+  ) {
 
-      }
+    throw new Error(
+      `No JPG images were created for ${file.originalname}`
+    );
 
-    }
+  }
 
+
+  /* =========================
+     DELETE INPUT PDF
+  ========================= */
+
+  if (
+    fs.existsSync(
+      file.path
+    )
+  ) {
+
+    fs.unlinkSync(
+      file.path
+    );
+
+  }
+
+}
 
     /* =========================
        CREATE ZIP
@@ -3209,7 +3304,7 @@ const hindiFont = path.join(
     });
 
     doc.moveDown();
-    doc.registerFont("urdu", urduFont);
+    doc.registerFont("urdu", urduFontPath);
 doc.registerFont("arabic", arabicFont);
 doc.registerFont("hindi", hindiFont);
 
@@ -4837,13 +4932,11 @@ app.post("/powerpoint-to-pdf", upload.single("powerpointFile"), async (req, res)
       return res.status(400).send("No PowerPoint file uploaded");
     }
 
-    inputPath = req.file.path;
+    const originalExt = path.extname(req.file.originalname).toLowerCase(); const tempInputPath = `${req.file.path}${originalExt}`; fs.renameSync(req.file.path, tempInputPath); inputPath = tempInputPath;
 
         
 
-    const { stdout, stderr } = await execPromise(
-  `libreoffice --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`
-);
+    const officeCommand = process.platform === "win32" ? (fs.existsSync("C:\\Program Files\\LibreOffice\\program\\soffice.exe") ? "\"C:\\Program Files\\LibreOffice\\program\\soffice.exe\"" : (fs.existsSync("C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe") ? "\"C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe\"" : "soffice")) : "libreoffice"; const { stdout, stderr } = await execAsync(`${officeCommand} --headless --convert-to pdf --outdir "${outputsDir}" "${inputPath}"`);
 
 const convertedPdf = path.join(
   outputsDir,
@@ -4915,7 +5008,7 @@ res.download(outputPath, "converted.pdf", (err) => {
 
 } catch (err) {
 
-  console.error("========== POWERPOINT FULL ERROR ==========");
+  console.error("========== POWERPOINT FULL ERROR =========="); console.error("POWERPOINT ERROR MESSAGE =", err?.message); console.error("POWERPOINT ERROR STDOUT =", err?.stdout); console.error("POWERPOINT ERROR STDERR =", err?.stderr);
   console.error(err);
 
   if (inputPath && fs.existsSync(inputPath))
@@ -4990,8 +5083,9 @@ if (!profileData.is_premium) {
     const outputPattern = path.join(outputDir, "page-%03d.jpg");
     zipPath = path.join(outputsDir, `jpg-images-${Date.now()}.zip`);
 
-    const commands = [
-  `gs -dNOPAUSE -dBATCH -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${inputPath}"`
+   
+const commands = [
+  `"C:\\Program Files\\gs\\gs10.07.0\\bin\\gswin64c.exe" -dNOPAUSE -dBATCH -sDEVICE=jpeg -r200 -sOutputFile="${outputPattern}" "${inputPath}"`
 ];
 
     const runGS = (index = 0) => {

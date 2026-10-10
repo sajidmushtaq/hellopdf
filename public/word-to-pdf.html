@@ -17,6 +17,7 @@
   <title>Word to PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1007" />
+<link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
@@ -262,16 +263,18 @@ Log out
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="word-pdf-page">
+<main class="word-pdf-page master-tool-page">
 
-  <section class="word-pdf-start-screen" id="startScreen">
-    <h1>Word to PDF</h1>
-    <p>Convert your Word document into a clean PDF file.</p>
+  <section class="word-pdf-start-screen master-tool-start" id="startScreen">
+    <h1 class="master-tool-title">Word to PDF</h1>
+    <p class="master-tool-description">
+  Convert your Word document into a clean PDF file.
+</p>
 
     <div class="word-pdf-select-row">
-      <div class="word-pdf-upload-box" id="dropZone">
+      <div class="word-pdf-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="fileInput" accept=".doc,.docx" hidden />
-        <h2>Select Word file</h2>
+        <h2 class="master-tool-button">Select Word file</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -284,46 +287,71 @@ Log out
       </div>
     </div>
 
-    <div class="drop-text">or drop Word file here</div>
+    <div class="drop-text master-tool-drop-text">
+  or drop Word file here
+</div>
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="word-pdf-preview-screen hidden-screen" id="previewScreen">
-    <div class="word-pdf-preview-left">
-      <div class="word-pdf-topbar">
-        <div>
-          <h1>Word to PDF</h1>
-          <p id="fileCounter">0 file selected</p>
-        </div>
+  <section
+  class="word-pdf-preview-screen master-tool-preview hidden-screen"
+  id="previewScreen"
+>
+    <div class="word-pdf-preview-left master-tool-preview-left">
+      <div class="word-pdf-preview-tools">
+  <p id="fileCounter" class="word-pdf-hidden-counter">0 file selected</p>
 
-        <button class="word-pdf-add-btn" id="addMoreBtn" type="button">
-          <i class="fa-solid fa-plus"></i>
-          Add more files
-        </button>
-      </div>
+  <button
+    class="word-pdf-add-btn"
+    id="addMoreBtn"
+    type="button"
+    aria-label="Add more files"
+  >
+    <i class="fa-solid fa-plus"></i>
+  </button>
+</div>
 
       <div class="word-pdf-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="word-pdf-action-panel">
+    <aside class="word-pdf-action-panel master-tool-action-panel">
       <h2>Word to PDF</h2>
-      <p>Convert your DOC or DOCX document into PDF.</p>
+      <p class="master-tool-panel-description">
+  Convert your DOC or DOCX document into PDF.
+</p>
 
-      <button class="word-pdf-main-btn" id="convertBtn" type="button">
+      <button
+  class="word-pdf-main-btn master-tool-action-button"
+  id="convertBtn"
+  type="button"
+>
         Convert to PDF
       </button>
 
-      <div class="progress-container word-pdf-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container word-pdf-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">
+  0%
+</div>
       </div>
     </aside>
   </section>
 
-  <section class="word-pdf-success-screen hidden-screen" id="successScreen">
-    <h1>Word has been converted!</h1>
-    <p>Your PDF file is ready to download.</p>
+  <section
+  class="word-pdf-success-screen master-tool-success hidden-screen"
+  id="successScreen"
+>
+    <h1 class="master-tool-title">
+  Word has been converted!
+</h1>
+    <p class="master-tool-description">
+  Your PDF file is ready to download.
+</p>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
+    <button
+  class="download-result-btn master-tool-download-button"
+  id="downloadBtn"
+  type="button"
+>
       Download PDF file
     </button>
   </section>

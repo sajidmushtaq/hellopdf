@@ -17,6 +17,7 @@
   <title>JPG to PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=5002"/>
+    <link rel="stylesheet" href="/css/master-tools.css?v=1"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
@@ -430,15 +431,15 @@ id="drawerOverlay">
 </div>
 
 <main class="jpg-page">
-  <section class="jpg-start-screen" id="jpgStartScreen">
+  <section class="jpg-start-screen master-tool-start" id="jpgStartScreen">
     <h1>JPG to PDF</h1>
     <p>Convert JPG images into a single PDF document easily.</p>
 
-    <div class="jpg-select-row">
-      <div class="jpg-upload-box" id="dropZone">
+    <div class="jpg-select-row master-tool-select-row">
+      <div class="jpg-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="jpgFiles" accept=".jpg,.jpeg,image/jpeg" multiple hidden />
         <input type="file" id="addMoreInput" accept=".jpg,.jpeg,image/jpeg" multiple hidden />
-        <h2>Select JPG images</h2>
+        <h2 class="master-tool-button">Select JPG images</h2>
       </div>
 
       <div class="cloud-buttons">
@@ -447,37 +448,37 @@ id="drawerOverlay">
       </div>
     </div>
 
-    <div class="drop-text">or drop JPG images here</div>
+    <div class="drop-text master-tool-drop-text">or drop JPG images here</div>
   </section>
 
-  <section class="jpg-preview-screen hidden-screen" id="jpgPreviewScreen">
-    <div class="jpg-preview-left">
-      <div class="jpg-file-grid" id="fileList"></div>
+  <section class="jpg-preview-screen master-tool-preview hidden-screen" id="jpgPreviewScreen">
+    <div class="jpg-preview-left master-tool-preview-left">
+      <div class="jpg-file-grid master-tool-file-grid" id="fileList"></div>
 
-      <button class="jpg-floating-add-btn" id="addMoreBtn" type="button">
+      <button class="jpg-floating-add-btn master-tool-add-btn" id="addMoreBtn" type="button">
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>
 
-    <aside class="jpg-action-panel">
-      <h2>JPG to PDF</h2>
-      <p>Convert selected JPG images into one PDF file.</p>
+    <aside class="jpg-action-panel master-tool-action-panel">
+      <h2 class="master-tool-action-title">JPG to PDF</h2>
+      <p class="master-tool-action-description">Convert selected JPG images into one PDF file.</p>
 
-      <button class="jpg-main-btn" id="convertBtn" type="button">
+      <button class="jpg-main-btn master-tool-action-button" id="convertBtn" type="button">
         Convert to PDF
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container jpg-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container jpg-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="jpg-success-screen hidden-screen" id="jpgSuccessScreen">
-    <h1>PDF created successfully!</h1>
-    <p>Your JPG images have been converted into PDF.</p>
-    <button id="downloadBtn">Download PDF</button>
+  <section class="jpg-success-screen master-tool-success hidden-screen" id="jpgSuccessScreen">
+    <h1 class="master-tool-title">PDF created successfully!</h1>
+    <p class="master-tool-description">Your JPG images have been converted into PDF.</p>
+    <button class="master-tool-download-button" id="downloadBtn" type="button">Download PDF</button>
   </section>
 
 </main>

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const startScreen = document.getElementById("startScreen");
+    const startScreen = document.getElementById("startScreen");
   const previewScreen = document.getElementById("previewScreen");
   const successScreen = document.getElementById("successScreen");
 
@@ -12,15 +12,72 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressBar = document.getElementById("progressBar");
   const downloadBtn = document.getElementById("downloadBtn");
 
+  /* =========================================================
+     UPGRADE MODAL — INITIAL STATE
+  ========================================================= */
+
+  const upgradeModal = document.getElementById("upgradeModal");
+
+  if (upgradeModal) {
+    upgradeModal.style.display = "none";
+  }
+
   let selectedFile = null;
   let convertedDocxUrl = null;
   let progressInterval = null;
 
-  startScreen.style.display = "flex";
+  /* =========================================================
+   PDF TO WORD — JS STEP 1
+   MASTER SCREEN STATE
+========================================================= */
+
+function showStart() {
+
+  startScreen.classList.remove("hidden-screen");
   previewScreen.classList.add("hidden-screen");
   successScreen.classList.add("hidden-screen");
-  previewScreen.style.display = "none";
-  successScreen.style.display = "none";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function showPreview() {
+
+  startScreen.classList.add("hidden-screen");
+  previewScreen.classList.remove("hidden-screen");
+  successScreen.classList.add("hidden-screen");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function showSuccess() {
+
+  startScreen.classList.add("hidden-screen");
+  previewScreen.classList.add("hidden-screen");
+  successScreen.classList.remove("hidden-screen");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+showStart();
+
+if (upgradeModal) {
+  upgradeModal.style.display = "none";
+}
 
   function resetProgress() {
     if (progressInterval) {
@@ -82,56 +139,79 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderFile() {
     fileList.innerHTML = "";
 
-    if (!selectedFile) {
-      startScreen.style.display = "flex";
+        if (!selectedFile) {
 
-      previewScreen.classList.add("hidden-screen");
-      successScreen.classList.add("hidden-screen");
-
-      previewScreen.style.display = "none";
-      successScreen.style.display = "none";
+      showStart();
 
       resetProgress();
+
       return;
     }
 
-    startScreen.style.display = "none";
-
-    previewScreen.classList.remove("hidden-screen");
-    previewScreen.style.display = "grid";
-
-    successScreen.classList.add("hidden-screen");
-    successScreen.style.display = "none";
+    showPreview();
 
     fileCounter.textContent = "1 file selected";
 
+        /* =========================================================
+       PDF TO WORD — PREVIEW CARD
+    ========================================================= */
+
     const card = document.createElement("div");
-    card.className = "pdf-word-file-card";
+
+    card.className =
+      "pdf-word-file-card";
+
 
     card.innerHTML = `
-      <button class="remove-file-btn" type="button">×</button>
 
-      <div class="pdf-thumb-wrap">
+      <button
+        class="remove-file-btn"
+        type="button"
+        aria-label="Remove PDF"
+      >
+        ×
+      </button>
+
+
+      <div class="pdf-word-pdf-preview">
+
         <embed
           src="${selectedFile.previewUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1&view=FitH"
           type="application/pdf"
-          class="pdf-thumb"
+          class="pdf-word-pdf-embed"
         />
+
       </div>
 
-      <h3>${selectedFile.name}</h3>
 
-      <span class="file-order-badge">1</span>
+      <h3 class="pdf-word-file-name">
+        ${selectedFile.name}
+      </h3>
+
+
+      <span class="file-order-badge">
+        1
+      </span>
+
     `;
 
-    card.querySelector(".remove-file-btn").addEventListener("click", () => {
-      if (selectedFile.previewUrl) {
-        URL.revokeObjectURL(selectedFile.previewUrl);
-      }
 
-      selectedFile = null;
-      renderFile();
-    });
+    card
+      .querySelector(".remove-file-btn")
+      .addEventListener("click", () => {
+
+        if (selectedFile.previewUrl) {
+          URL.revokeObjectURL(
+            selectedFile.previewUrl
+          );
+        }
+
+        selectedFile = null;
+
+        renderFile();
+
+      });
+
 
     fileList.appendChild(card);
   }
@@ -225,22 +305,33 @@ formData.append("user_id", data.user.id);
         return;
       }
 
+            /* =========================================================
+         PDF TO WORD — SUCCESS FLOW
+      ========================================================= */
+
       completeProgress();
+
 
       if (convertedDocxUrl) {
         URL.revokeObjectURL(convertedDocxUrl);
+        convertedDocxUrl = null;
       }
 
-      convertedDocxUrl = URL.createObjectURL(blob);
+
+      convertedDocxUrl =
+        URL.createObjectURL(blob);
+
 
       setTimeout(() => {
-        previewScreen.classList.add("hidden-screen");
-        previewScreen.style.display = "none";
 
-        successScreen.classList.remove("hidden-screen");
-        successScreen.style.display = "flex";
+        showSuccess();
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
       }, 400);
-
     } catch (error) {
       console.error("PDF TO WORD ERROR:", error);
       alert("Conversion failed. Please try again.");
@@ -258,18 +349,33 @@ formData.append("user_id", data.user.id);
     }
   });
 
+    /* =========================================================
+     PDF TO WORD — DOWNLOAD
+  ========================================================= */
+
   downloadBtn?.addEventListener("click", () => {
+
     if (!convertedDocxUrl) {
       alert("Word file is not ready yet");
       return;
     }
 
+
     const a = document.createElement("a");
+
     a.href = convertedDocxUrl;
+
     a.download = "converted.docx";
+
+    a.style.display = "none";
+
+
     document.body.appendChild(a);
+
     a.click();
+
     a.remove();
+
   });
   const closeUpgradeModal =
   document.getElementById("closeUpgradeModal");

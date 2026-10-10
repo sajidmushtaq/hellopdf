@@ -16,9 +16,9 @@
 
   <title>PDF to Word - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=1005" />
+    <link rel="stylesheet" href="/css/style.css?v=1005" />
+  <link rel="stylesheet" href="/css/master-tools.css?v=9999" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
   <style>
     .hidden-screen {
       display: none !important;
@@ -174,74 +174,153 @@
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
-<main class="pdf-word-page">
+<main class="pdf-word-page master-tool-page">
 
-  <section class="pdf-word-start-screen" id="startScreen">
-    <h1>PDF to Word</h1>
+  <section class="pdf-word-start-screen master-tool-start" id="startScreen">
 
-    <p>
+    <h1 class="master-tool-title">PDF to Word</h1>
+
+    <p class="master-tool-description">
       Convert your PDF into an editable Word document quickly and easily.
     </p>
 
     <div class="pdf-word-select-row">
-      <div class="pdf-word-upload-box" id="dropZone">
-        <input type="file" id="fileInput" accept="application/pdf" hidden />
-        <h2>Select PDF file</h2>
+
+      <div class="pdf-word-upload-box master-tool-upload-box" id="dropZone">
+
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf"
+          hidden
+        />
+
+        <h2 class="master-tool-button">
+          Select PDF file
+        </h2>
+
       </div>
 
       <div class="cloud-buttons">
-        <button type="button" aria-label="Upload from Google Drive">
+
+        <button
+          type="button"
+          aria-label="Upload from Google Drive"
+        >
           <i class="fa-brands fa-google-drive"></i>
         </button>
-        <button type="button" aria-label="Upload from Dropbox">
+
+        <button
+          type="button"
+          aria-label="Upload from Dropbox"
+        >
           <i class="fa-brands fa-dropbox"></i>
         </button>
+
       </div>
+
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-drop-text">
+      or drop PDF here
+    </div>
 
     <div class="ad-placeholder"></div>
+
   </section>
 
-  <section class="pdf-word-preview-screen hidden-screen" id="previewScreen">
-    <div class="pdf-word-preview-left">
+   <section
+    class="pdf-word-preview-screen master-tool-preview hidden-screen"
+    id="previewScreen"
+  >
+
+    <!-- LEFT PREVIEW WORKSPACE -->
+    <div class="pdf-word-preview-left master-tool-preview-left">
+
+      <!-- File counter is kept for JavaScript -->
       <div class="pdf-word-topbar">
+
         <div>
-          <h1>PDF to Word</h1>
-          <p id="fileCounter">0 file selected</p>
+          <p id="fileCounter" style="display:none;">
+            0 file selected
+          </p>
         </div>
 
-        <button class="pdf-word-add-btn" id="addMoreBtn" type="button">
+        <!-- Add More button -->
+        <button
+          class="pdf-word-add-btn"
+          id="addMoreBtn"
+          type="button"
+          aria-label="Add more PDF files"
+        >
           <i class="fa-solid fa-plus"></i>
-          Add more files
         </button>
+
       </div>
 
-      <div class="pdf-word-file-grid" id="fileList"></div>
+      <!-- PDF FILE CARDS -->
+      <div
+        class="pdf-word-file-grid"
+        id="fileList"
+      ></div>
+
     </div>
 
-    <aside class="pdf-word-action-panel">
-      <h2>PDF to Word</h2>
-      <p>Convert your PDF into an editable DOCX document.</p>
+    <!-- RIGHT ACTION PANEL -->
+    <aside class="pdf-word-action-panel master-tool-action-panel">
 
-      <button class="pdf-word-main-btn" id="convertBtn" type="button">
+      <h1 class="master-tool-title">
+        PDF to Word
+      </h1>
+
+      <p class="master-tool-panel-description">
+        Convert your PDF into an editable DOCX document.
+      </p>
+
+      <button
+        class="pdf-word-main-btn master-tool-action-button"
+        id="convertBtn"
+        type="button"
+      >
         Convert to Word
+        <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container pdf-word-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div
+        class="progress-container pdf-word-progress master-tool-progress"
+      >
+        <div
+          class="progress-bar master-tool-progress-bar"
+          id="progressBar"
+        >
+          0%
+        </div>
       </div>
+
     </aside>
+
   </section>
+  <section
+    class="pdf-word-success-screen master-tool-success hidden-screen"
+    id="successScreen"
+  >
 
-  <section class="pdf-word-success-screen hidden-screen" id="successScreen">
-    <h1>PDF has been converted!</h1>
-    <p>Your Word document is ready to download.</p>
+    <h1 class="master-tool-title">
+      PDF has been converted!
+    </h1>
 
-    <button class="download-result-btn" id="downloadBtn" type="button">
+    <p class="master-tool-description">
+      Your Word document is ready to download.
+    </p>
+
+    <button
+      class="download-result-btn master-tool-download-button"
+      id="downloadBtn"
+      type="button"
+    >
       Download Word file
     </button>
+
   </section>
 
 </main>
@@ -265,13 +344,14 @@ align-items:center;
   border-radius:20px;
   padding:30px;
   text-align:center;
+  box-sizing:border-box;
   ">
 
     <h2>Free Limit Reached</h2>
 
     <p>
       You have reached your daily free limit.
-      Upgrade to Premium for unlimited access to all PDF tools.
+      Upgrade to Premium for unlimited PDF to Word conversions.
     </p>
 
     <div style="margin-top:20px;">
@@ -290,6 +370,7 @@ align-items:center;
       </a>
 
       <button id="closeUpgradeModal"
+        type="button"
         style="
         margin-left:10px;
         padding:12px 24px;
@@ -304,6 +385,8 @@ align-items:center;
 
   </div>
 </div>
+
+    
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
