@@ -15973,3 +15973,1088 @@ body .pdf-png-page #pngPreviewScreen .png-floating-add-btn {
     top: auto !important;
   }
 }
+
+/* =========================================================
+   HTML TO PDF — MASTER UI
+========================================================= */
+
+body .html-pdf-page {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  background: #f3f4f8;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+/* START SCREEN */
+
+body .html-pdf-page .html-pdf-start-screen {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 55px 20px 40px;
+  box-sizing: border-box;
+}
+
+body .html-pdf-page .html-pdf-start-screen h1 {
+  margin: 0 0 14px;
+  font-size: 44px;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #111827;
+}
+
+body .html-pdf-page .html-pdf-start-screen > p {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 0 28px;
+  font-size: 22px;
+  line-height: 1.45;
+  color: #64748b;
+}
+
+body .html-pdf-page .html-pdf-code-box {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 0 24px;
+}
+
+body .html-pdf-page #htmlCode {
+  display: block;
+  width: 100%;
+  min-height: 320px;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #dbe1ea;
+  border-radius: 12px;
+  outline: none;
+  background: #ffffff;
+  color: #111827;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: left;
+  resize: vertical;
+  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+}
+
+body .html-pdf-page #htmlCode:focus {
+  border-color: #ff3131;
+  box-shadow: 0 0 0 3px rgba(255, 49, 49, 0.12);
+}
+
+/* PRIMARY BUTTONS */
+
+body .html-pdf-page .html-pdf-start-btn,
+body .html-pdf-page .html-pdf-main-btn {
+  min-height: 62px;
+  min-width: 280px;
+  padding: 18px 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: #ff3131;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 49, 49, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body .html-pdf-page .html-pdf-start-btn:hover,
+body .html-pdf-page .html-pdf-main-btn:hover {
+  background: #e92727;
+  transform: translateY(-1px);
+}
+
+/* PREVIEW SCREEN */
+
+body .html-pdf-page #previewScreen.master-tool-preview:not(.hidden-screen) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 76fr) minmax(300px, 24fr);
+  align-items: stretch;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #f3f4f8;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-preview-left {
+  min-width: 0;
+  min-height: calc(100vh - 72px);
+  padding: 28px 30px;
+  box-sizing: border-box;
+  background: #f3f4f8;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-topbar h1 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-topbar p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-add-btn {
+  min-height: 44px;
+  padding: 11px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #ff3131;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #ff3131;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-file-grid {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* RIGHT ACTION PANEL */
+
+body .html-pdf-page #previewScreen .html-pdf-action-panel {
+  align-self: stretch;
+  position: relative;
+  top: 0;
+  min-width: 0;
+  width: 100%;
+  height: calc(100vh - 72px);
+  min-height: calc(100vh - 72px);
+  max-height: none;
+  margin: 0;
+  padding: 36px 26px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-action-panel h2 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 27px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-action-panel > p {
+  margin: 0 0 26px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-main-btn {
+  width: 100%;
+  min-width: 0;
+  min-height: 60px;
+  padding: 16px 18px;
+  font-size: 18px;
+  white-space: normal;
+}
+
+body .html-pdf-page #previewScreen .html-pdf-progress {
+  width: 100%;
+  margin-top: 22px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* SUCCESS SCREEN */
+
+body .html-pdf-page #successScreen.master-tool-success-screen:not(.hidden-screen) {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  text-align: center;
+  background: #f3f4f8;
+}
+
+body .html-pdf-page #successScreen h1 {
+  margin: 0 0 14px;
+  color: #111827;
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+body .html-pdf-page #successScreen p {
+  margin: 0 0 28px;
+  color: #64748b;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+body .html-pdf-page #successScreen .download-result-btn {
+  min-height: 60px;
+  min-width: 280px;
+  padding: 16px 28px;
+  border: none;
+  border-radius: 10px;
+  background: #ff3131;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+  body .html-pdf-page .html-pdf-start-screen {
+    min-height: calc(100vh - 60px);
+    padding: 38px 18px 30px;
+  }
+
+  body .html-pdf-page .html-pdf-start-screen h1 {
+    font-size: 34px;
+  }
+
+  body .html-pdf-page .html-pdf-start-screen > p {
+    font-size: 17px;
+    margin-bottom: 24px;
+  }
+
+  body .html-pdf-page .html-pdf-code-box {
+    margin-bottom: 20px;
+  }
+
+  body .html-pdf-page #htmlCode {
+    min-height: 260px;
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  body .html-pdf-page .html-pdf-start-btn {
+    width: 100%;
+    max-width: 330px;
+    min-width: 0;
+    min-height: 58px;
+    font-size: 18px;
+  }
+
+  body .html-pdf-page #previewScreen.master-tool-preview:not(.hidden-screen) {
+    display: block !important;
+    min-height: calc(100vh - 60px);
+  }
+
+  body .html-pdf-page #previewScreen .html-pdf-preview-left {
+    min-height: 280px;
+    padding: 22px 18px 30px;
+  }
+
+  body .html-pdf-page #previewScreen .html-pdf-topbar {
+    align-items: flex-start;
+  }
+
+  body .html-pdf-page #previewScreen .html-pdf-topbar h1 {
+    font-size: 26px;
+  }
+
+  body .html-pdf-page #previewScreen .html-pdf-action-panel {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 28px 20px;
+    border-top: 1px solid #e5e7eb;
+    border-left: none;
+  }
+
+  body .html-pdf-page #previewScreen .html-pdf-action-panel h2 {
+    font-size: 25px;
+  }
+
+  body .html-pdf-page #previewScreen .html-pdf-main-btn {
+    width: 100%;
+    min-height: 58px;
+    font-size: 18px;
+  }
+
+  body .html-pdf-page #successScreen h1 {
+    font-size: 32px;
+  }
+
+  body .html-pdf-page #successScreen p {
+    font-size: 16px;
+  }
+
+  body .html-pdf-page #successScreen .download-result-btn {
+    width: 100%;
+    max-width: 330px;
+    min-width: 0;
+    min-height: 58px;
+  }
+}
+/* HTML TO PDF — HIDE LEFT PREVIEW HEADER */
+
+body .html-pdf-page #previewScreen .html-pdf-topbar {
+  display: none !important;
+}
+
+/* HTML TO PDF — SUCCESS SCREEN LAYOUT FIX */
+
+body .html-pdf-page #successScreen.master-tool-success-screen:not(.hidden-screen) {
+  min-height: calc(100vh - 72px);
+  width: 100%;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  text-align: center;
+  background: #f3f4f8;
+}
+
+body .html-pdf-page #successScreen h1 {
+  max-width: 760px;
+  margin: 0 0 16px;
+  font-size: clamp(30px, 3.2vw, 42px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #111827;
+}
+
+body .html-pdf-page #successScreen p {
+  margin: 0 0 30px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+body .html-pdf-page #successScreen .download-result-btn {
+  width: 280px;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 60px;
+  padding: 16px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 11px;
+  background: #ff3131;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 49, 49, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body .html-pdf-page #successScreen .download-result-btn:hover {
+  background: #e92727;
+  transform: translateY(-2px);
+}
+
+@media screen and (max-width: 768px) {
+  body .html-pdf-page #successScreen.master-tool-success-screen:not(.hidden-screen) {
+    min-height: calc(100vh - 60px);
+    padding: 32px 20px;
+  }
+
+  body .html-pdf-page #successScreen h1 {
+    font-size: 32px;
+    letter-spacing: -0.4px;
+  }
+
+  body .html-pdf-page #successScreen p {
+    margin-bottom: 24px;
+    font-size: 16px;
+  }
+
+  body .html-pdf-page #successScreen .download-result-btn {
+    width: 100%;
+    max-width: 330px;
+    min-height: 58px;
+  }
+}
+
+/* HTML TO PDF — SUCCESS CONTENT POSITION */
+
+body .html-pdf-page #successScreen.master-tool-success-screen:not(.hidden-screen) {
+  justify-content: flex-start !important;
+  padding-top: 58px !important;
+}
+
+@media screen and (max-width: 768px) {
+  body .html-pdf-page #successScreen.master-tool-success-screen:not(.hidden-screen) {
+    padding-top: 38px !important;
+  }
+}
+
+/* HTML TO PDF — SUCCESS DOWNLOAD BUTTON SIZE */
+
+body .html-pdf-page #successScreen .download-result-btn {
+  width: 330px !important;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 78px !important;
+  padding: 22px 28px !important;
+  font-size: 22px !important;
+  border-radius: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  body .html-pdf-page #successScreen .download-result-btn {
+    width: 100% !important;
+    max-width: 330px;
+    min-height: 62px !important;
+    font-size: 19px !important;
+  }
+}
+
+/* =========================================================
+   PDF TO TEXT — MASTER START SCREEN
+   Match approved Extract PDF layout
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+body .pdf-text-page .text-start-screen {
+  width: 100% !important;
+  min-height: calc(100vh - 72px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: center !important;
+  padding: 55px 20px 40px !important;
+  box-sizing: border-box !important;
+  background: #f3f4f8 !important;
+}
+
+body .pdf-text-page .text-start-screen .master-tool-title {
+  width: 100% !important;
+  max-width: 850px !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 44px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+  color: #111827 !important;
+  text-align: center !important;
+}
+
+body .pdf-text-page .text-start-screen .master-tool-description {
+  width: 100% !important;
+  max-width: 850px !important;
+  margin: 0 0 28px !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 24px !important;
+  line-height: 1.45 !important;
+  font-weight: 400 !important;
+  color: #64748b !important;
+  text-align: center !important;
+}
+
+/* Upload row */
+body .pdf-text-page .text-select-row {
+  position: relative !important;
+  width: 100% !important;
+  height: 78px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 24px !important;
+}
+
+/* Main upload button */
+body .pdf-text-page .text-upload-box {
+  width: 330px !important;
+  min-width: 330px !important;
+  height: 78px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: #ff3131 !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+body .pdf-text-page .text-upload-box h2 {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  color: #ffffff !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Drive and Dropbox buttons */
+body .pdf-text-page .text-select-row .cloud-buttons {
+  position: absolute !important;
+  left: calc(50% + 181px) !important;
+  top: 0 !important;
+  height: 78px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+
+body .pdf-text-page .text-select-row .cloud-buttons button {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: #ff3131 !important;
+  color: #ffffff !important;
+  font-size: 17px !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+/* Drop helper text */
+body .pdf-text-page .text-start-screen .master-tool-helper {
+  width: 100% !important;
+  margin: 14px 0 0 !important;
+  color: #64748b !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+}
+
+/* Mobile layout */
+@media screen and (max-width: 768px) {
+  body .pdf-text-page .text-start-screen {
+    padding: 38px 18px 30px !important;
+  }
+
+  body .pdf-text-page .text-start-screen .master-tool-title {
+    font-size: 34px !important;
+    line-height: 1.2 !important;
+  }
+
+  body .pdf-text-page .text-start-screen .master-tool-description {
+    font-size: 17px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 24px !important;
+  }
+
+  body .pdf-text-page .text-select-row {
+    height: auto !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+  }
+
+  body .pdf-text-page .text-upload-box {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 330px !important;
+  }
+
+  body .pdf-text-page .text-select-row .cloud-buttons {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    height: auto !important;
+    flex-direction: row !important;
+    gap: 18px !important;
+    transform: none !important;
+  }
+
+  body .pdf-text-page .text-select-row .cloud-buttons button {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+  }
+
+  body .pdf-text-page .text-start-screen .master-tool-helper {
+    margin-top: 14px !important;
+  }
+}
+
+/* =========================================================
+   PDF TO TEXT — MASTER PREVIEW SCREEN
+   Match approved Image-to-PDF layout
+   UI ONLY — NO FUNCTIONALITY CHANGE
+========================================================= */
+
+/* Main preview layout */
+body .pdf-text-page #textPreviewScreen.master-tool-preview:not(.hidden-screen) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 76fr) minmax(300px, 24fr) !important;
+  width: 100% !important;
+  min-height: calc(100vh - 72px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #f3f4f8 !important;
+  box-sizing: border-box !important;
+}
+
+/* Left preview workspace */
+body .pdf-text-page #textPreviewScreen .text-preview-left {
+  position: relative !important;
+  min-width: 0 !important;
+  min-height: calc(100vh - 72px) !important;
+  padding: 28px !important;
+  background: #f3f4f8 !important;
+  box-sizing: border-box !important;
+}
+
+/* File preview grid */
+body .pdf-text-page #textPreviewScreen .text-file-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 270px)) !important;
+  align-content: start !important;
+  gap: 20px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Floating Add More button */
+body .pdf-text-page #textPreviewScreen .text-floating-add-btn {
+  position: fixed !important;
+  top: 110px !important;
+  left: calc(76% - 45px) !important;
+  z-index: 20 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 62px !important;
+  height: 62px !important;
+  min-width: 62px !important;
+  min-height: 62px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: none !important;
+  border-radius: 50% !important;
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  font-size: 25px !important;
+  line-height: 1 !important;
+  box-shadow: 0 8px 20px rgba(255, 49, 49, .25) !important;
+  cursor: pointer !important;
+}
+
+/* Right action panel */
+body .pdf-text-page #textPreviewScreen .text-action-panel {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  height: calc(100vh - 72px) !important;
+  min-height: calc(100vh - 72px) !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+
+  margin: 0 !important;
+  padding: 32px 24px !important;
+
+  border-left: 1px solid #e5e7eb !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+/* Panel heading */
+body .pdf-text-page #textPreviewScreen .text-action-panel h2 {
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+
+  color: #111827 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 28px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+}
+
+/* Panel description */
+body .pdf-text-page #textPreviewScreen .text-action-panel p {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  color: #64748b !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+/* Extract Text button */
+body .pdf-text-page #textPreviewScreen button.text-main-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 56px !important;
+  margin: auto 0 16px !important;
+  padding: 16px 18px !important;
+
+  border: none !important;
+  border-radius: 10px !important;
+  background: #ff3131 !important;
+  color: #ffffff !important;
+
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+/* Progress bar */
+body .pdf-text-page #textPreviewScreen .text-progress {
+  width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+body .pdf-text-page #textPreviewScreen .text-progress .progress-bar {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile preview */
+@media screen and (max-width: 768px) {
+  body .pdf-text-page #textPreviewScreen.master-tool-preview:not(.hidden-screen) {
+    display: block !important;
+    min-height: calc(100vh - 72px) !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen .text-preview-left {
+    min-height: 0 !important;
+    padding: 20px 16px 90px !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen .text-file-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen .text-floating-add-btn {
+    position: fixed !important;
+    top: auto !important;
+    left: auto !important;
+    right: 18px !important;
+    bottom: 22px !important;
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen .text-action-panel {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 260px !important;
+    max-height: none !important;
+    padding: 24px 20px !important;
+    border-left: none !important;
+    border-top: 1px solid #e5e7eb !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen button.text-main-btn {
+    margin: 28px 0 14px !important;
+  }
+}
+
+/* PDF TO TEXT — FIX START/PREVIEW SCREEN OVERLAP */
+
+body .pdf-text-page #textStartScreen.hidden-screen {
+  display: none !important;
+}
+
+body .pdf-text-page #textPreviewScreen.master-tool-preview.hidden-screen {
+  display: none !important;
+}
+
+body .pdf-text-page #textPreviewScreen.master-tool-preview:not(.hidden-screen) {
+  display: grid !important;
+  position: relative !important;
+  top: auto !important;
+  margin-top: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+  body .pdf-text-page #textPreviewScreen.master-tool-preview:not(.hidden-screen) {
+    display: block !important;
+  }
+}
+/* PDF TO TEXT — FIX START SCREEN OVERLAY */
+
+body .pdf-text-page #textStartScreen[style*="display: none"] {
+  display: none !important;
+}
+
+/* PDF TO TEXT — ADD MORE POSITION + ACTION PANEL FIX */
+
+/* Keep preview and action panel aligned directly below header */
+body .pdf-text-page #textPreviewScreen.master-tool-preview:not(.hidden-screen) {
+  position: relative !important;
+  top: 0 !important;
+  margin-top: 0 !important;
+  align-items: stretch !important;
+  min-height: calc(100vh - 72px) !important;
+}
+
+body .pdf-text-page #textPreviewScreen .text-preview-left {
+  position: relative !important;
+  align-self: stretch !important;
+  min-height: calc(100vh - 72px) !important;
+}
+
+/* Add More button belongs to the preview workspace */
+body .pdf-text-page #textPreviewScreen .text-floating-add-btn {
+  position: absolute !important;
+  top: 32px !important;
+  right: 24px !important;
+  left: auto !important;
+  bottom: auto !important;
+  z-index: 10 !important;
+}
+
+/* Right panel starts at the top and fills available height */
+body .pdf-text-page #textPreviewScreen .text-action-panel {
+  position: relative !important;
+  top: 0 !important;
+  align-self: stretch !important;
+  height: calc(100vh - 72px) !important;
+  min-height: calc(100vh - 72px) !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 32px 24px !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep Extract Text button and progress bar visible inside panel */
+body .pdf-text-page #textPreviewScreen button.text-main-btn {
+  flex-shrink: 0 !important;
+  margin-top: auto !important;
+  margin-bottom: 16px !important;
+}
+
+body .pdf-text-page #textPreviewScreen .text-progress {
+  flex-shrink: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+  body .pdf-text-page #textPreviewScreen .text-floating-add-btn {
+    position: absolute !important;
+    top: auto !important;
+    right: 18px !important;
+    bottom: 14px !important;
+    left: auto !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen .text-action-panel {
+    height: auto !important;
+    min-height: 260px !important;
+    padding: 24px 20px !important;
+  }
+
+  body .pdf-text-page #textPreviewScreen button.text-main-btn {
+    margin-top: 28px !important;
+  }
+}
+
+/* PDF TO TEXT — ADD MORE BUTTON POSITION */
+
+body .pdf-text-page #textPreviewScreen .text-preview-left {
+  position: relative !important;
+}
+
+body .pdf-text-page #textPreviewScreen .text-floating-add-btn {
+  position: absolute !important;
+  top: 220px !important;
+  right: 28px !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  z-index: 20 !important;
+}
+
+@media screen and (max-width: 768px) {
+  body .pdf-text-page #textPreviewScreen .text-floating-add-btn {
+    position: fixed !important;
+    top: auto !important;
+    right: 18px !important;
+    bottom: 22px !important;
+    left: auto !important;
+  }
+}
+
+/* PDF TO TEXT — SUCCESS SCREEN MASTER LAYOUT */
+
+body .pdf-text-page #textSuccessScreen.master-tool-success:not(.hidden-screen) {
+  width: 100% !important;
+  min-height: calc(100vh - 72px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 58px 24px 40px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  background: #f3f4f8 !important;
+}
+
+body .pdf-text-page #textSuccessScreen h1 {
+  max-width: 800px !important;
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+  color: #111827 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 42px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+}
+
+body .pdf-text-page #textSuccessScreen p {
+  margin: 0 0 30px !important;
+  padding: 0 !important;
+  color: #64748b !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 17px !important;
+  line-height: 1.6 !important;
+  text-align: center !important;
+}
+
+body .pdf-text-page #textSuccessScreen #downloadBtn {
+  width: 280px !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 60px !important;
+  padding: 16px 24px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 11px !important;
+  background: #ff3131 !important;
+  color: #ffffff !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 20px rgba(255, 49, 49, 0.18) !important;
+}
+
+@media screen and (max-width: 768px) {
+  body .pdf-text-page #textSuccessScreen.master-tool-success:not(.hidden-screen) {
+    min-height: calc(100vh - 72px) !important;
+    padding: 38px 20px 30px !important;
+  }
+
+  body .pdf-text-page #textSuccessScreen h1 {
+    font-size: 32px !important;
+  }
+
+  body .pdf-text-page #textSuccessScreen p {
+    margin-bottom: 24px !important;
+    font-size: 16px !important;
+  }
+
+  body .pdf-text-page #textSuccessScreen #downloadBtn {
+    width: 280px !important;
+    min-height: 60px !important;
+    font-size: 18px !important;
+  }
+}
+
+/* PDF TO TEXT — SUCCESS DOWNLOAD BUTTON SIZE */
+
+body .pdf-text-page #textSuccessScreen #downloadBtn {
+  width: 330px !important;
+  max-width: 100% !important;
+  min-height: 78px !important;
+  padding: 22px 28px !important;
+  font-size: 22px !important;
+  border-radius: 12px !important;
+}
+
+@media screen and (max-width: 768px) {
+  body .pdf-text-page #textSuccessScreen #downloadBtn {
+    width: 100% !important;
+    max-width: 330px !important;
+    min-height: 62px !important;
+    padding: 18px 24px !important;
+    font-size: 19px !important;
+  }
+}

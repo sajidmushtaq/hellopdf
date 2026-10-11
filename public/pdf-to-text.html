@@ -16,7 +16,8 @@
 
   <title>PDF to Text - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=8001"/>
+    <link rel="stylesheet" href="/css/style.css?v=8001"/>
+  <link rel="stylesheet" href="/css/master-tools.css?v=1"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
@@ -430,30 +431,29 @@ class="drawer-overlay"
 id="drawerOverlay">
 </div>
 
-<main class="pdf-text-page">
+<main class="pdf-text-page master-tool-page">
 
-  <section class="text-start-screen" id="textStartScreen">
-    <h1>PDF to Text</h1>
-    <p>Extract text from your PDF file quickly and easily.</p>
 
-    <div class="text-select-row">
-      <div class="text-upload-box" id="dropZone">
+ <section class="text-start-screen master-tool-start" id="textStartScreen">
+     <h1 class="master-tool-title">PDF to Text</h1>
+    <p class="master-tool-description">Extract text from your PDF file quickly and easily.</p>
+    <div class="text-select-row master-tool-select-row">
+      <div class="text-upload-box master-tool-upload-box" id="dropZone">
         <input type="file" id="textFileInput" accept="application/pdf" hidden />
         <input type="file" id="addMoreInput" accept="application/pdf" hidden />
         <h2>Select PDF file</h2>
       </div>
-
-      <div class="cloud-buttons">
+      <div class="cloud-buttons master-tool-cloud-buttons">
         <button type="button"><i class="fa-brands fa-google-drive"></i></button>
         <button type="button"><i class="fa-brands fa-dropbox"></i></button>
       </div>
     </div>
 
-    <div class="drop-text">or drop PDF here</div>
+    <div class="drop-text master-tool-helper">or drop PDF here</div>
   </section>
 
-  <section class="text-preview-screen hidden-screen" id="textPreviewScreen">
-    <div class="text-preview-left">
+    <section class="text-preview-screen master-tool-preview hidden-screen" id="textPreviewScreen">
+    <div class="text-preview-left master-tool-preview-left">
       <div class="text-file-grid" id="fileList"></div>
 
       <button class="text-floating-add-btn" id="addMoreBtn" type="button">
@@ -461,25 +461,24 @@ id="drawerOverlay">
       </button>
     </div>
 
-    <aside class="text-action-panel">
-      <h2>PDF to Text</h2>
-      <p>Extract readable text from your selected PDF file.</p>
+    <aside class="text-action-panel master-tool-action-panel">
+      <h2 class="master-tool-title">PDF to Text</h2>
+      <p class="master-tool-panel-description">Extract readable text from your selected PDF file.</p>
 
-      <button class="text-main-btn" id="convertBtn" type="button">
+      <button class="text-main-btn master-tool-action-button" id="convertBtn" type="button">
         Extract Text
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
-      <div class="progress-container text-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container text-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
-
-  <section class="text-success-screen hidden-screen" id="textSuccessScreen">
-    <h1>Text extracted successfully!</h1>
-    <p>Your text file is ready to download.</p>
-    <button id="downloadBtn">Download TXT</button>
+  <section class="text-success-screen master-tool-success hidden-screen" id="textSuccessScreen">
+    <h1 class="master-tool-title">Text extracted successfully!</h1>
+    <p class="master-tool-description">Your text file is ready to download.</p>
+    <button class="master-tool-download-button" id="downloadBtn" type="button">Download TXT</button>
   </section>
 
 </main>

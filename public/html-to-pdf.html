@@ -17,6 +17,7 @@
   <title>HTML to PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=1013" />
+<link rel="stylesheet" href="/css/master-tools.css?v=1" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style>
   .hidden-screen{
@@ -440,11 +441,11 @@ id="drawerOverlay">
     <div class="ad-placeholder"></div>
   </section>
 
-  <section class="html-pdf-preview-screen hidden-screen" id="previewScreen">
-    <div class="html-pdf-preview-left">
+   <section class="html-pdf-preview-screen master-tool-preview hidden-screen" id="previewScreen">
+    <div class="html-pdf-preview-left master-tool-preview-left">
       <div class="html-pdf-topbar">
         <div>
-          <h1>HTML to PDF</h1>
+          <h1 class="master-tool-title">HTML to PDF</h1>
           <p id="fileCounter">HTML code added</p>
         </div>
 
@@ -457,21 +458,21 @@ id="drawerOverlay">
       <div class="html-pdf-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="html-pdf-action-panel">
-      <h2>HTML to PDF</h2>
-      <p>Convert your HTML code into a clean PDF file.</p>
+    <aside class="html-pdf-action-panel master-tool-action-panel">
+      <h2 class="master-tool-title">HTML to PDF</h2>
+      <p class="master-tool-panel-description">Convert your HTML code into a clean PDF file.</p>
 
-      <button class="html-pdf-main-btn" id="convertBtn" type="button">
+      <button class="html-pdf-main-btn master-tool-action-button" id="convertBtn" type="button">
         Convert to PDF
       </button>
 
-      <div class="progress-container html-pdf-progress">
-        <div class="progress-bar" id="progressBar">0%</div>
+      <div class="progress-container html-pdf-progress master-tool-progress">
+        <div class="progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
 
-  <section class="html-pdf-success-screen hidden-screen" id="successScreen">
+  <section class="html-pdf-success-screen master-tool-success-screen hidden-screen" id="successScreen">
     <h1>HTML has been converted!</h1>
     <p>Your PDF file is ready to download.</p>
 
