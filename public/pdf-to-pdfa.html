@@ -15,7 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PDF to PDF/A - HelloPDF</title>
 
-  <link rel="stylesheet" href="/css/style.css?v=5010"/>
+    <link rel="stylesheet" href="/css/style.css?v=5010"/>
+  <link rel="stylesheet" href="/css/master-tools.css?v=1"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
     .hidden-screen{
@@ -424,14 +425,14 @@ class="drawer-overlay"
 id="drawerOverlay">
 </div>
 
-<main class="pdfa-page">
+<main class="pdfa-page master-tool-page">
 
-  <section class="pdfa-start-screen" id="startScreen">
+  <section class="pdfa-start-screen master-tool-start" id="startScreen">
     <div class="pdfa-start-content">
-      <h1>PDF to PDF/A</h1>
-      <p>Convert your PDF into archive-ready PDF/A format for long-term preservation.</p>
+      <h1 class="master-tool-title">PDF to PDF/A</h1>
+      <p class="master-tool-description">Convert your PDF into archive-ready PDF/A format for long-term preservation.</p>
 
-     <div class="pdfa-upload-area" id="dropZone">
+     <div class="pdfa-upload-area master-tool-upload-area" id="dropZone">
 
     <input
         type="file"
@@ -441,32 +442,32 @@ id="drawerOverlay">
 
     <button
         type="button"
-        class="pdfa-select-btn"
+        class="pdfa-select-btn master-tool-button"
         id="selectFileBtn">
 
         Select PDF File
 
     </button>
 
-    <div class="cloud-buttons">
+    <div class="cloud-buttons master-tool-cloud-buttons">
         <button type="button"><i class="fa-brands fa-google-drive"></i></button>
         <button type="button"><i class="fa-brands fa-dropbox"></i></button>
       </div>
     </div>
 
-      <div class="drop-text">or drop PDF here</div>
+      <div class="drop-text master-tool-helper">or drop PDF here</div>
     </div>
   </section>
 
-  <section class="pdfa-preview-screen hidden-screen" id="previewScreen">
-    <div class="pdfa-preview-left">
+    <section class="pdfa-preview-screen master-tool-preview hidden-screen" id="previewScreen">
+    <div class="pdfa-preview-left master-tool-preview-left">
       <div class="pdfa-topbar">
         <div>
-          <h1>PDF to PDF/A</h1>
+          <h1 class="master-tool-title">PDF to PDF/A</h1>
           <p id="fileCounter">0 file selected</p>
         </div>
 
-        <button class="pdfa-add-btn" id="addMoreBtn" type="button">
+        <button class="pdfa-add-btn master-tool-add-btn" id="addMoreBtn" type="button">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
@@ -474,26 +475,25 @@ id="drawerOverlay">
       <div class="pdfa-file-grid" id="fileList"></div>
     </div>
 
-    <aside class="pdfa-action-panel">
-      <h2>PDF to PDF/A</h2>
-      <p>Convert your PDF into archive-ready PDF/A format.</p>
+    <aside class="pdfa-action-panel master-tool-action-panel">
+      <h2 class="master-tool-title">PDF to PDF/A</h2>
+      <p class="master-tool-panel-description">Convert your PDF into archive-ready PDF/A format.</p>
 
-      <button class="pdfa-main-btn" id="convertBtn" type="button">
+      <button class="pdfa-main-btn master-tool-action-button" id="convertBtn" type="button">
         Convert to PDF/A
       </button>
 
-      <div class="pdfa-progress">
-        <div class="pdfa-progress-bar" id="progressBar">0%</div>
+      <div class="pdfa-progress master-tool-progress">
+        <div class="pdfa-progress-bar master-tool-progress-bar" id="progressBar">0%</div>
       </div>
     </aside>
   </section>
-
-  <section class="pdfa-success-screen hidden-screen" id="successScreen">
+    <section class="pdfa-success-screen master-tool-success hidden-screen" id="successScreen">
     <div class="pdfa-success-box">
       <div class="pdfa-success-icon"><i class="fa-solid fa-check"></i></div>
-      <h1>PDF/A Ready</h1>
-      <p>Your PDF has been converted successfully.</p>
-      <button class="pdfa-download-btn" id="downloadBtn" type="button">Download PDF/A</button>
+      <h1 class="master-tool-title">PDF/A Ready</h1>
+      <p class="master-tool-description">Your PDF has been converted successfully.</p>
+      <button class="pdfa-download-btn master-tool-download-button" id="downloadBtn" type="button">Download PDF/A</button>
     </div>
   </section>
 
