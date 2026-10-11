@@ -18,8 +18,8 @@
   <title>Scan to PDF - HelloPDF</title>
 
   <link rel="stylesheet" href="/css/style.css?v=8001" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="/css/master-tools.css?v=1" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
     .hidden-screen {
@@ -397,17 +397,17 @@ class="drawer-overlay"
 id="drawerOverlay">
 </div>
 
-<main class="scan-page">
+<main class="scan-page master-tool-page">
 
 <section
-class="scan-start-screen"
+class="scan-start-screen master-tool-start"
 id="scanStartScreen">
 
 <div class="scan-start-content">
 
-<h1>Scan to PDF</h1>
+<h1 class="master-tool-title">Scan to PDF</h1>
 
-<p>
+<p class="master-tool-description">
 Scan documents using your smartphone or upload images from your gallery.
 </p>
 
@@ -415,7 +415,7 @@ Scan documents using your smartphone or upload images from your gallery.
 
     <!-- LEFT : SCAN -->
 
-    <div class="scan-upload-box scan-card">
+    <div class="scan-upload-box scan-card master-tool-card">
 
         <h2>
 <i class="fa-solid fa-qrcode"></i>
@@ -439,9 +439,7 @@ QR Code
 
     <!-- RIGHT : GALLERY -->
 
-    <div
-    class="scan-upload-box scan-card"
-    id="dropZone">
+   <div class="scan-upload-box scan-card master-tool-card" id="dropZone">
 
         <h2>
 <i class="fa-regular fa-images"></i>
@@ -469,14 +467,14 @@ Gallery
         hidden>
 
         <button
-        class="scan-select-btn"
+        class="scan-select-btn master-tool-button"
         type="button">
 
             Select Images
 
         </button>
 
-        <div class="cloud-buttons">
+        <div class="cloud-buttons master-tool-cloud-buttons">
 
             <button type="button">
                 <i class="fa-solid fa-camera"></i>
@@ -505,10 +503,10 @@ Gallery
 </section>
 
 <section
-class="scan-preview-screen hidden-screen"
+class="scan-preview-screen master-tool-preview hidden-screen"
 id="scanPreviewScreen">
 
-<div class="scan-preview-left">
+<div class="scan-preview-left master-tool-preview-left">
 
 <div
 class="scan-file-grid"
@@ -516,7 +514,7 @@ id="fileList">
 </div>
 
 <button
-class="scan-floating-add-btn"
+class="scan-floating-add-btn master-tool-add-btn"
 id="addMoreBtn"
 type="button">
 
@@ -526,11 +524,11 @@ type="button">
 
 </div>
 
-<aside class="scan-action-panel">
+<aside class="scan-action-panel master-tool-action-panel">
 
-<h2>Scan to PDF</h2>
+<h2 class="master-tool-title">Scan to PDF</h2>
 
-<p>
+<p class="master-tool-panel-description">
 Create one PDF from your selected images.
 </p>
 
@@ -543,7 +541,7 @@ id="fileCounter">
 </div>
 
 <button
-class="scan-main-btn"
+class="scan-main-btn master-tool-action-button"
 id="convertBtn"
 type="button">
 
@@ -553,10 +551,10 @@ Create PDF
 
 </button>
 
-<div class="scan-progress">
+<div class="scan-progress master-tool-progress">
 
 <div
-class="scan-progress-bar"
+class="scan-progress-bar master-tool-progress-bar"
 id="progressBar">
 
 0%
@@ -570,7 +568,7 @@ id="progressBar">
 </section>
 
 <section
-class="scan-success-screen hidden-screen"
+class="scan-success-screen master-tool-success hidden-screen"
 id="scanSuccessScreen">
 
   <div class="scan-success-box">
@@ -586,10 +584,9 @@ id="scanSuccessScreen">
     <p>
       Your PDF is ready to download.
     </p>
-
-    <button
-      id="downloadBtn"
-      class="scan-download-btn">
+<button
+  id="downloadBtn"
+  class="scan-download-btn master-tool-download-button">
 
       Download PDF
 

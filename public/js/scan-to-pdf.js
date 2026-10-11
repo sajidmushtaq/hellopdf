@@ -694,8 +694,8 @@ async function createScanSession() {
 
   scanSessionId = data.sessionId;
 
-  const mobileScanUrl =
-    `${window.location.origin}/scan-mobile.html?session=${scanSessionId}`;
+ const mobileScanUrl =
+  `https://hellopdf.pro/scan-mobile.html?session=${scanSessionId}`;
 
   QRCode.toCanvas(
     mobileScanUrl,

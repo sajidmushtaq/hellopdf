@@ -5559,15 +5559,13 @@ if (!profileData.is_premium) {
 console.log("PUPPETEER CACHE =", process.env.PUPPETEER_CACHE_DIR);
 console.log("EXECUTABLE =", puppeteer.executablePath());
 console.log("NODE_ENV =", process.env.NODE_ENV);
-    browser = await puppeteer.launch({
-      headless: "new",
+        browser = await puppeteer.launch({
+      headless: true,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--no-zygote",
-        "--single-process"
+        "--disable-gpu"
       ]
     });
 
