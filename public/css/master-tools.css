@@ -18427,3 +18427,406 @@ body .scan-page #scanSuccessScreen button#downloadBtn:hover {
     font-size: 19px !important;
   }
 }
+
+/* =========================================================
+   EDIT + PDF SECURITY TOOLS — ROTATE MASTER STANDARD
+   Scoped presentation only; existing markup and behavior retained.
+========================================================= */
+body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) {
+  box-sizing:border-box!important; min-height:calc(100vh - 72px)!important; padding:55px 20px 40px!important;
+  display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:flex-start!important;
+  text-align:center!important; background:#f3f4f8!important;
+}
+body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) h1 {
+  margin:0 0 14px!important; color:#111827!important; font:900 44px/1.2 Arial,Helvetica,sans-serif!important; text-align:center!important;
+}
+body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) p {
+  color:#64748b!important; font:18px/1.5 Arial,Helvetica,sans-serif!important; text-align:center!important;
+}
+body:has(.editpdf-start-screen) .editpdf-upload-row,
+body:has(.watermark-start-screen) .watermark-select-row,
+body:has(.compare-start-screen) .compare-upload-row,
+body:has(.redact-start-screen) .redact-select-row,
+body:has(.flatten-start-screen) .flatten-select-row,
+body:has(.sign-start-screen) .sign-upload-row,
+body:has(.fill-start-screen) .fill-upload-row,
+body:has(.forms-start-screen) .forms-upload-row,
+body:has(.summary-start-screen) .summary-upload-row,
+body:has(.translate-start-screen) .translate-upload-row,
+body:has(.protect-start-screen) .protect-select-row,
+body:has(.unlock-start-screen) .unlock-select-row,
+body:has(.repair-start-screen) .repair-upload-area {
+  position:relative!important; display:flex!important; align-items:center!important; justify-content:center!important;
+  width:min(100%,378px)!important; min-width:0!important; gap:24px!important;
+}
+body:has(.watermark-start-screen) .watermark-upload-box,
+body:has(.compare-start-screen) .compare-upload-box,
+body:has(.redact-start-screen) .redact-upload-box,
+body:has(.flatten-start-screen) .flatten-upload-box,
+body:has(.protect-start-screen) .protect-upload-box,
+body:has(.unlock-start-screen) .unlock-upload-box {
+  box-sizing:border-box!important; display:flex!important; align-items:center!important; justify-content:center!important;
+  width:330px!important; min-width:330px!important; max-width:100%!important; height:78px!important; margin:0!important;
+}
+body:has(.editpdf-start-screen) .editpdf-big-upload-btn,
+body:has(.watermark-start-screen) .watermark-upload-box h2,
+body:has(.compare-start-screen) .compare-upload-box h2,
+body:has(.redact-start-screen) .redact-upload-box h2,
+body:has(.flatten-start-screen) .flatten-upload-box h2,
+body:has(.sign-start-screen) .sign-big-upload-btn,
+body:has(.fill-start-screen) .fill-big-upload-btn,
+body:has(.forms-start-screen) .forms-big-upload-btn,
+body:has(.summary-start-screen) .summary-big-upload-btn,
+body:has(.translate-start-screen) .translate-upload-btn,
+body:has(.protect-start-screen) .protect-upload-box h2,
+body:has(.unlock-start-screen) .unlock-upload-box h2,
+body:has(.repair-start-screen) .repair-select-btn {
+  box-sizing:border-box!important; width:330px!important; min-width:0!important; max-width:100%!important; min-height:78px!important;
+  margin:0!important; padding:20px 24px!important; border:0!important; border-radius:11px!important;
+  background:#ff3131!important; color:#fff!important; font:800 26px/1.15 Arial,Helvetica,sans-serif!important;
+  text-align:center!important; box-shadow:0 10px 24px rgba(255,49,49,.20)!important;
+}
+body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.cloud-buttons,.translate-cloud-buttons) {
+  position:absolute!important; left:calc(50% + 181px)!important; top:50%!important; transform:translateY(-50%)!important;
+  display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important; gap:10px!important; margin:0!important;
+}
+body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.cloud-buttons,.translate-cloud-buttons) button {
+  box-sizing:border-box!important; flex:0 0 38px!important; width:38px!important; min-width:38px!important; height:38px!important; min-height:38px!important;
+  padding:0!important; border:0!important; border-radius:50%!important; background:#ff3131!important; color:#fff!important;
+}
+body:has(.editpdf-start-screen) .editpdf-drop-text,
+body:has(.watermark-start-screen) .drop-text,
+body:has(.compare-start-screen) .drop-text,
+body:has(.redact-start-screen) .drop-text,
+body:has(.flatten-start-screen) .drop-text,
+body:has(.sign-start-screen) .sign-drop-text,
+body:has(.fill-start-screen) .fill-drop-text,
+body:has(.forms-start-screen) .forms-drop-text,
+body:has(.summary-start-screen) .summary-drop-text,
+body:has(.translate-start-screen) .translate-drop-text,
+body:has(.protect-start-screen) .drop-text,
+body:has(.unlock-start-screen) .drop-text,
+body:has(.repair-start-screen) .repair-drop-text {
+  margin:14px 0 0!important; color:#64748b!important; font:15px/1.5 Arial,Helvetica,sans-serif!important; text-align:center!important;
+}
+
+/* Desktop action rails and independently scrollable preview workspaces. */
+@media (min-width:769px) {
+  body:has(.watermark-start-screen) #watermarkPreviewScreen,
+  body:has(.compare-start-screen) #previewScreen.compare-preview-screen,
+  body:has(.redact-start-screen) #previewScreen.redact-editor-screen,
+  body:has(.flatten-start-screen) #previewScreen.flatten-preview-screen,
+  body:has(.protect-start-screen) #protectPreviewScreen,
+  body:has(.unlock-start-screen) #unlockPreviewScreen,
+  body:has(.repair-start-screen) #previewScreen.repair-preview-screen,
+  body:has(.editpdf-start-screen) #editorScreen.editpdf-editor,
+  body:has(.sign-start-screen) #previewScreen.hp-sign-editor,
+  body:has(.fill-start-screen) #editorScreen.fill-editor,
+  body:has(.forms-start-screen) #editorScreen.forms-editor,
+  body:has(.summary-start-screen) #summaryEditor.summary-editor,
+  body:has(.translate-start-screen) #translateEditor.translate-editor {
+    height:calc(100vh - 72px)!important; min-height:0!important; overflow:hidden!important;
+  }
+  body:has(.redact-start-screen) #previewScreen.redact-editor-screen {overflow-y:auto!important;overflow-x:hidden!important}
+  body:has(.watermark-start-screen) .watermark-action-panel,
+  body:has(.compare-start-screen) .compare-action-panel,
+  body:has(.redact-start-screen) .redact-editor-panel,
+  body:has(.flatten-start-screen) .flatten-action-panel,
+  body:has(.protect-start-screen) .protect-action-panel,
+  body:has(.unlock-start-screen) .unlock-action-panel,
+  body:has(.repair-start-screen) .repair-right-panel,
+  body:has(.editpdf-start-screen) .editpdf-panel,
+  body:has(.sign-start-screen) .hp-sign-panel,
+  body:has(.fill-start-screen) .fill-panel,
+  body:has(.forms-start-screen) .forms-right-panel,
+  body:has(.summary-start-screen) .summary-right,
+  body:has(.translate-start-screen) .translate-right {
+    position:fixed!important; top:72px!important; right:0!important; bottom:0!important; width:320px!important; min-width:320px!important;
+    max-width:320px!important; height:auto!important; max-height:none!important; box-sizing:border-box!important; overflow-y:auto!important;
+    overflow-x:hidden!important; background:#fff!important; border-left:1px solid #e5e7eb!important; border-radius:0!important;
+    box-shadow:none!important; z-index:5!important;
+  }
+  body:has(.watermark-start-screen) .watermark-preview-left,
+  body:has(.compare-start-screen) .compare-preview-left,
+  body:has(.flatten-start-screen) .flatten-preview-left,
+  body:has(.protect-start-screen) .protect-preview-left,
+  body:has(.unlock-start-screen) .unlock-preview-left,
+  body:has(.repair-start-screen) .repair-preview-left,
+  body:has(.summary-start-screen) .summary-left,
+  body:has(.translate-start-screen) .translate-left,
+  body:has(.forms-start-screen) .forms-main-grid,
+  body:has(.editpdf-start-screen) #editorScreen.editpdf-editor,
+  body:has(.sign-start-screen) #previewScreen.hp-sign-editor,
+  body:has(.fill-start-screen) #editorScreen.fill-editor {
+    max-height:calc(100vh - 72px)!important; overflow-y:auto!important; overflow-x:hidden!important; overscroll-behavior:contain;
+  }
+  body:has(.forms-start-screen) #editorScreen.forms-editor {height:auto!important;max-height:none!important;overflow:visible!important}
+  body:has(.forms-start-screen) .forms-main-grid {height:calc(100vh - 150px)!important;max-height:calc(100vh - 150px)!important}
+  body:has(.forms-start-screen) .forms-right-panel {top:150px!important}
+  body:has(.watermark-start-screen) .watermark-action-panel,
+  body:has(.compare-start-screen) .compare-action-panel,
+  body:has(.redact-start-screen) .redact-editor-panel,
+  body:has(.flatten-start-screen) .flatten-action-panel,
+  body:has(.protect-start-screen) .protect-action-panel,
+  body:has(.unlock-start-screen) .unlock-action-panel,
+  body:has(.repair-start-screen) .repair-right-panel,
+  body:has(.editpdf-start-screen) .editpdf-panel,
+  body:has(.sign-start-screen) .hp-sign-panel,
+  body:has(.fill-start-screen) .fill-panel,
+  body:has(.forms-start-screen) .forms-right-panel {
+    display:flex!important; flex-direction:column!important; align-items:stretch!important; padding:36px 22px 24px!important;
+  }
+  body:has(.watermark-start-screen) .watermark-action-panel h2,
+  body:has(.compare-start-screen) :is(.compare-action-panel h1,.compare-action-panel h2),
+  body:has(.redact-start-screen) .redact-editor-panel h2,
+  body:has(.flatten-start-screen) :is(.flatten-action-panel h1,.flatten-action-panel h2),
+  body:has(.protect-start-screen) .protect-action-panel h2,
+  body:has(.unlock-start-screen) .unlock-action-panel h2,
+  body:has(.repair-start-screen) .repair-right-panel h2,
+  body:has(.editpdf-start-screen) .editpdf-panel h2,
+  body:has(.sign-start-screen) .hp-sign-panel h2,
+  body:has(.fill-start-screen) .fill-panel h2,
+  body:has(.forms-start-screen) .forms-right-panel h2,
+  body:has(.summary-start-screen) .summary-right h2,
+  body:has(.translate-start-screen) .translate-right h2 {
+    display:block!important; visibility:visible!important; margin:0 0 12px!important; color:#111827!important;
+    font:900 30px/1.2 Arial,Helvetica,sans-serif!important; text-align:left!important;
+  }
+  body:has(.watermark-start-screen) .watermark-action-panel > p,
+  body:has(.compare-start-screen) .compare-action-panel > p,
+  body:has(.redact-start-screen) .redact-editor-panel > p,
+  body:has(.flatten-start-screen) .flatten-action-panel > p,
+  body:has(.protect-start-screen) .protect-action-panel > p,
+  body:has(.unlock-start-screen) .unlock-action-panel > p,
+  body:has(.repair-start-screen) .repair-right-panel > p,
+  body:has(.summary-start-screen) .summary-right > p,
+  body:has(.translate-start-screen) .translate-right > p {
+    display:block!important; visibility:visible!important; color:#64748b!important; font:15px/1.5 Arial,Helvetica,sans-serif!important;
+  }
+  body:has(.watermark-start-screen) #watermarkBtn,
+  body:has(.compare-start-screen) #compareBtn,
+  body:has(.redact-start-screen) #redactBtn,
+  body:has(.flatten-start-screen) #flattenBtn,
+  body:has(.protect-start-screen) #protectBtn,
+  body:has(.unlock-start-screen) #unlockBtn,
+  body:has(.repair-start-screen) #repairBtn,
+  body:has(.editpdf-start-screen) #downloadPdfBtn.editpdf-final-btn,
+  body:has(.sign-start-screen) #applySignBtn,
+  body:has(.fill-start-screen) #downloadPdfBtn.fill-final-btn,
+  body:has(.forms-start-screen) #downloadPdfBtn.forms-download-btn {
+    order:1!important; width:100%!important; min-height:64px!important; margin-top:auto!important; box-sizing:border-box!important;
+    border:0!important; border-radius:11px!important; background:#ff3131!important; color:#fff!important;
+    font:800 22px/1.2 Arial,Helvetica,sans-serif!important; box-shadow:0 8px 18px rgba(255,49,49,.16)!important;
+  }
+  body:has(.watermark-start-screen) .watermark-progress,
+  body:has(.compare-start-screen) .compare-progress,
+  body:has(.redact-start-screen) .redact-progress,
+  body:has(.flatten-start-screen) .flatten-progress,
+  body:has(.protect-start-screen) .protect-progress,
+  body:has(.unlock-start-screen) .unlock-progress,
+  body:has(.repair-start-screen) .repair-progress-wrapper,
+  body:has(.editpdf-start-screen) #progressWrap,
+  body:has(.sign-start-screen) #progressWrap,
+  body:has(.fill-start-screen) #progressWrap,
+  body:has(.forms-start-screen) #progressWrap {
+    order:2!important; width:90%!important; min-height:10px!important; margin:10px auto 24px!important; flex:0 0 auto!important;
+  }
+  body:has(.watermark-start-screen) .watermark-progress .progress-bar,
+  body:has(.compare-start-screen) .compare-progress .progress-bar,
+  body:has(.redact-start-screen) .redact-progress .progress-bar,
+  body:has(.flatten-start-screen) .flatten-progress .progress-bar,
+  body:has(.protect-start-screen) .protect-progress .progress-bar,
+  body:has(.unlock-start-screen) .unlock-progress .progress-bar,
+  body:has(.repair-start-screen) .repair-progress-bar {width:100%!important;height:10px!important;min-height:10px!important;border-radius:999px!important}
+  body:has(.editpdf-start-screen) #newFileBtn,
+  body:has(.fill-start-screen) #newFileBtn {order:3!important}
+}
+
+/* Mobile stack: natural document flow, full-width upload, panel after preview. */
+@media (max-width:768px) {
+  body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) {min-height:calc(100vh - 64px)!important;padding:38px 18px 30px!important}
+  body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) h1 {font-size:34px!important;margin-bottom:14px!important}
+  body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) p {font-size:17px!important;margin-bottom:24px!important}
+  body:has(.editpdf-start-screen) .editpdf-upload-row,
+  body:has(.watermark-start-screen) .watermark-select-row,
+  body:has(.compare-start-screen) .compare-upload-row,
+  body:has(.redact-start-screen) .redact-select-row,
+  body:has(.flatten-start-screen) .flatten-select-row,
+  body:has(.sign-start-screen) .sign-upload-row,
+  body:has(.fill-start-screen) .fill-upload-row,
+  body:has(.forms-start-screen) .forms-upload-row,
+  body:has(.summary-start-screen) .summary-upload-row,
+  body:has(.translate-start-screen) .translate-upload-row,
+  body:has(.protect-start-screen) .protect-select-row,
+  body:has(.unlock-start-screen) .unlock-select-row,
+  body:has(.repair-start-screen) .repair-upload-area {width:100%!important;height:auto!important;flex-direction:column!important;gap:18px!important}
+  body:has(.watermark-start-screen) .watermark-upload-box,
+  body:has(.compare-start-screen) .compare-upload-box,
+  body:has(.redact-start-screen) .redact-upload-box,
+  body:has(.flatten-start-screen) .flatten-upload-box,
+  body:has(.protect-start-screen) .protect-upload-box,
+  body:has(.unlock-start-screen) .unlock-upload-box {width:min(100%,330px)!important;min-width:0!important;height:78px!important}
+  body:has(.editpdf-start-screen) .editpdf-big-upload-btn,
+  body:has(.watermark-start-screen) .watermark-upload-box h2,
+  body:has(.compare-start-screen) .compare-upload-box h2,
+  body:has(.redact-start-screen) .redact-upload-box h2,
+  body:has(.flatten-start-screen) .flatten-upload-box h2,
+  body:has(.sign-start-screen) .sign-big-upload-btn,
+  body:has(.fill-start-screen) .fill-big-upload-btn,
+  body:has(.forms-start-screen) .forms-big-upload-btn,
+  body:has(.summary-start-screen) .summary-big-upload-btn,
+  body:has(.translate-start-screen) .translate-upload-btn,
+  body:has(.protect-start-screen) .protect-upload-box h2,
+  body:has(.unlock-start-screen) .unlock-upload-box h2,
+  body:has(.repair-start-screen) .repair-select-btn {width:100%!important;max-width:330px!important;min-height:78px!important;font-size:23px!important}
+  body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.cloud-buttons,.translate-cloud-buttons) {
+    position:static!important; inset:auto!important; transform:none!important; width:100%!important; height:auto!important; flex-direction:row!important; justify-content:center!important; gap:18px!important; margin:0!important;
+  }
+  body:has(:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen)) :is(.cloud-buttons,.translate-cloud-buttons) button {flex:0 0 56px!important;width:56px!important;min-width:56px!important;max-width:56px!important;height:56px!important;min-height:56px!important;max-height:56px!important}
+  body:has(.watermark-start-screen) #watermarkPreviewScreen,
+  body:has(.compare-start-screen) #previewScreen.compare-preview-screen,
+  body:has(.redact-start-screen) #previewScreen.redact-editor-screen,
+  body:has(.flatten-start-screen) #previewScreen.flatten-preview-screen,
+  body:has(.protect-start-screen) #protectPreviewScreen,
+  body:has(.unlock-start-screen) #unlockPreviewScreen,
+  body:has(.repair-start-screen) #previewScreen.repair-preview-screen,
+  body:has(.editpdf-start-screen) #editorScreen.editpdf-editor,
+  body:has(.sign-start-screen) #previewScreen.hp-sign-editor,
+  body:has(.fill-start-screen) #editorScreen.fill-editor,
+  body:has(.forms-start-screen) #editorScreen.forms-editor,
+  body:has(.summary-start-screen) #summaryEditor.summary-editor,
+  body:has(.translate-start-screen) #translateEditor.translate-editor {position:relative!important;inset:auto!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;grid-template-columns:minmax(0,1fr)!important}
+  body:has(.watermark-start-screen) .watermark-action-panel,
+  body:has(.compare-start-screen) .compare-action-panel,
+  body:has(.redact-start-screen) .redact-editor-panel,
+  body:has(.flatten-start-screen) .flatten-action-panel,
+  body:has(.protect-start-screen) .protect-action-panel,
+  body:has(.unlock-start-screen) .unlock-action-panel,
+  body:has(.repair-start-screen) .repair-right-panel,
+  body:has(.editpdf-start-screen) .editpdf-panel,
+  body:has(.sign-start-screen) .hp-sign-panel,
+  body:has(.fill-start-screen) .fill-panel,
+  body:has(.forms-start-screen) .forms-right-panel,
+  body:has(.summary-start-screen) .summary-right,
+  body:has(.translate-start-screen) .translate-right {position:relative!important;inset:auto!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;padding:28px 18px 24px!important;border-radius:0!important}
+  body:has(.editpdf-start-screen) > header.mobile-header:first-of-type {display:none!important}
+}
+
+@media (max-width:768px) {
+  body:has(.watermark-start-screen) .watermark-action-panel > h2,
+  body:has(.compare-start-screen) .compare-action-panel > h1,
+  body:has(.compare-start-screen) .compare-action-panel > h2,
+  body:has(.redact-start-screen) .redact-editor-panel > h2,
+  body:has(.flatten-start-screen) .flatten-action-panel > h1,
+  body:has(.flatten-start-screen) .flatten-action-panel > h2,
+  body:has(.protect-start-screen) .protect-action-panel > h2,
+  body:has(.unlock-start-screen) .unlock-action-panel > h2,
+  body:has(.repair-start-screen) .repair-right-panel > h2,
+  body:has(.editpdf-start-screen) .editpdf-panel > h2,
+  body:has(.sign-start-screen) .hp-sign-panel > h2,
+  body:has(.fill-start-screen) .fill-panel > h2,
+  body:has(.forms-start-screen) .forms-right-panel h2,
+  body:has(.summary-start-screen) .summary-right h2,
+  body:has(.translate-start-screen) .translate-right h2 {
+    display:block!important; visibility:visible!important; margin:0 0 12px!important;
+    color:#111827!important; font:900 30px/1.2 Arial,Helvetica,sans-serif!important; text-align:left!important;
+  }
+  body:has(.watermark-start-screen) .watermark-action-panel > p,
+  body:has(.compare-start-screen) .compare-action-panel > p,
+  body:has(.redact-start-screen) .redact-editor-panel > p,
+  body:has(.flatten-start-screen) .flatten-action-panel > p,
+  body:has(.protect-start-screen) .protect-action-panel > p,
+  body:has(.unlock-start-screen) .unlock-action-panel > p,
+  body:has(.repair-start-screen) .repair-right-panel > p {
+    display:block!important; visibility:visible!important; color:#64748b!important;
+    font:15px/1.5 Arial,Helvetica,sans-serif!important;
+  }
+}
+/* Match existing success states; leave secondary "another file" buttons untouched. */
+body:has(.watermark-start-screen) #watermarkSuccessScreen,
+body:has(.compare-start-screen) #successScreen.compare-success-screen,
+body:has(.redact-start-screen) #successScreen.redact-success-screen,
+body:has(.flatten-start-screen) #successScreen.flatten-success-screen,
+body:has(.protect-start-screen) #protectSuccessScreen,
+body:has(.unlock-start-screen) #unlockSuccessScreen,
+body:has(.repair-start-screen) #successScreen.repair-success-screen,
+body:has(.editpdf-start-screen) .editpdf-success-screen,
+body:has(.sign-start-screen) .sign-success-screen,
+body:has(.fill-start-screen) .fill-success-screen,
+body:has(.forms-start-screen) .forms-success-screen {box-sizing:border-box!important;min-height:calc(100vh - 72px)!important;padding:58px 20px 40px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;background:#f3f4f8!important;text-align:center!important}
+body:has(.watermark-start-screen) #watermarkSuccessScreen h1,
+body:has(.compare-start-screen) #successScreen.compare-success-screen h1,
+body:has(.redact-start-screen) #successScreen.redact-success-screen h1,
+body:has(.flatten-start-screen) #successScreen.flatten-success-screen h1,
+body:has(.protect-start-screen) #protectSuccessScreen h1,
+body:has(.unlock-start-screen) #unlockSuccessScreen h1,
+body:has(.repair-start-screen) #successScreen.repair-success-screen h1,
+body:has(.editpdf-start-screen) .editpdf-success-screen h1,
+body:has(.sign-start-screen) .sign-success-screen h1,
+body:has(.fill-start-screen) .fill-success-screen h1,
+body:has(.forms-start-screen) .forms-success-screen h1 {margin:0 0 14px!important;color:#111827!important;font:900 44px/1.2 Arial,Helvetica,sans-serif!important;text-align:center!important}
+body:has(.watermark-start-screen) #watermarkSuccessScreen p,
+body:has(.compare-start-screen) #successScreen.compare-success-screen p,
+body:has(.redact-start-screen) #successScreen.redact-success-screen p,
+body:has(.flatten-start-screen) #successScreen.flatten-success-screen p,
+body:has(.protect-start-screen) #protectSuccessScreen p,
+body:has(.unlock-start-screen) #unlockSuccessScreen p,
+body:has(.repair-start-screen) #successScreen.repair-success-screen p,
+body:has(.editpdf-start-screen) .editpdf-success-screen p,
+body:has(.sign-start-screen) .sign-success-screen p,
+body:has(.fill-start-screen) .fill-success-screen p,
+body:has(.forms-start-screen) .forms-success-screen p {margin:0 0 32px!important;color:#64748b!important;font:18px/1.5 Arial,Helvetica,sans-serif!important;text-align:center!important}
+body:has(.watermark-start-screen) #watermarkSuccessScreen button,
+body:has(.compare-start-screen) #successScreen.compare-success-screen button.download-result-btn,
+body:has(.redact-start-screen) #successScreen.redact-success-screen button.download-result-btn,
+body:has(.flatten-start-screen) #successScreen.flatten-success-screen button.download-result-btn,
+body:has(.protect-start-screen) #protectSuccessScreen button#downloadBtn,
+body:has(.unlock-start-screen) #unlockSuccessScreen button#downloadBtn,
+body:has(.repair-start-screen) #successScreen.repair-success-screen button.repair-download-btn {box-sizing:border-box!important;width:330px!important;max-width:100%!important;min-height:78px!important;padding:20px 26px!important;border:0!important;border-radius:11px!important;background:#ff3131!important;color:#fff!important;font:800 24px/1.2 Arial,Helvetica,sans-serif!important;white-space:normal!important;box-shadow:0 8px 18px rgba(255,49,49,.16)!important}
+body:has(.editpdf-start-screen) .editpdf-success-screen .success-card,
+body:has(.sign-start-screen) .sign-success-screen .success-card,
+body:has(.fill-start-screen) .fill-success-screen .success-card,
+body:has(.forms-start-screen) .forms-success-screen .success-card {width:100%!important;max-width:1000px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+body:has(.editpdf-start-screen) .editpdf-success-screen .small-light-btn,
+body:has(.sign-start-screen) .sign-success-screen .small-light-btn,
+body:has(.fill-start-screen) .fill-success-screen .small-light-btn,
+body:has(.forms-start-screen) .forms-success-screen .small-light-btn {width:auto!important;min-height:42px!important;padding:0 18px!important;border:1px solid #e5e7eb!important;border-radius:12px!important;background:#fff!important;color:#374151!important;font-size:16px!important;font-weight:700!important;box-shadow:none!important}
+@media (max-width:768px) {
+  body:has(:is(.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen,.editpdf-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen)) :is(#watermarkSuccessScreen,#successScreen,.protect-success-screen,.unlock-success-screen,.repair-success-screen,.editpdf-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen) {min-height:calc(100vh - 64px)!important;padding:38px 18px 30px!important}
+  body:has(.watermark-start-screen) #watermarkSuccessScreen h1,
+  body:has(.compare-start-screen) #successScreen.compare-success-screen h1,
+  body:has(.redact-start-screen) #successScreen.redact-success-screen h1,
+  body:has(.flatten-start-screen) #successScreen.flatten-success-screen h1,
+  body:has(.protect-start-screen) #protectSuccessScreen h1,
+  body:has(.unlock-start-screen) #unlockSuccessScreen h1,
+  body:has(.repair-start-screen) #successScreen.repair-success-screen h1,
+  body:has(.editpdf-start-screen) .editpdf-success-screen h1,
+  body:has(.sign-start-screen) .sign-success-screen h1,
+  body:has(.fill-start-screen) .fill-success-screen h1,
+  body:has(.forms-start-screen) .forms-success-screen h1 {font-size:34px!important}
+  body:has(.watermark-start-screen) #watermarkSuccessScreen button,
+  body:has(.compare-start-screen) #successScreen.compare-success-screen button.download-result-btn,
+  body:has(.redact-start-screen) #successScreen.redact-success-screen button.download-result-btn,
+  body:has(.flatten-start-screen) #successScreen.flatten-success-screen button.download-result-btn,
+  body:has(.protect-start-screen) #protectSuccessScreen button#downloadBtn,
+  body:has(.unlock-start-screen) #unlockSuccessScreen button#downloadBtn,
+  body:has(.repair-start-screen) #successScreen.repair-success-screen button.repair-download-btn {width:100%!important;max-width:380px!important;min-height:62px!important;font-size:20px!important}
+}
+/* Existing editor success links are anchors rather than button elements. */
+body:has(.editpdf-start-screen) .editpdf-success-screen a#downloadBtn.main-red-btn,
+body:has(.sign-start-screen) .sign-success-screen a#downloadBtn.main-red-btn,
+body:has(.fill-start-screen) .fill-success-screen a#downloadBtn.main-red-btn,
+body:has(.forms-start-screen) .forms-success-screen a#downloadBtn.main-red-btn {
+  display:flex!important; align-items:center!important; justify-content:center!important; box-sizing:border-box!important;
+  width:330px!important; max-width:100%!important; min-height:78px!important; padding:20px 26px!important;
+  border:0!important; border-radius:11px!important; background:#ff3131!important; color:#fff!important;
+  font:800 24px/1.2 Arial,Helvetica,sans-serif!important; text-decoration:none!important; box-shadow:0 8px 18px rgba(255,49,49,.16)!important;
+}
+@media (max-width:768px) {
+  body:has(.editpdf-start-screen) .editpdf-success-screen a#downloadBtn.main-red-btn,
+  body:has(.sign-start-screen) .sign-success-screen a#downloadBtn.main-red-btn,
+  body:has(.fill-start-screen) .fill-success-screen a#downloadBtn.main-red-btn,
+  body:has(.forms-start-screen) .forms-success-screen a#downloadBtn.main-red-btn {
+    width:100%!important; max-width:380px!important; min-height:62px!important; font-size:20px!important;
+  }
+}
