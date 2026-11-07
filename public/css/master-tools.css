@@ -3686,6 +3686,24 @@ body .rotate-page #rotateSuccessScreen button.master-tool-download-button:hover{
   }
 
 
+  body .rotate-page .rotate-start-screen
+  .master-tool-title{
+    font-size:34px !important;
+    line-height:1.2 !important;
+    margin:0 0 14px !important;
+    text-align:center !important;
+  }
+
+
+  body .rotate-page .rotate-start-screen
+  .master-tool-description{
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin:0 0 24px !important;
+    text-align:center !important;
+  }
+
+
   body .rotate-page .rotate-upload-box{
 
     width:100% !important;
@@ -3708,9 +3726,47 @@ body .rotate-page #rotateSuccessScreen button.master-tool-download-button:hover{
   }
 
 
-  body .rotate-page .rotate-select-row .cloud-buttons{
+  body .rotate-page .rotate-select-row{
+    width:100% !important;
+    height:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:18px !important;
+  }
 
-    left:calc(50% + 181px) !important;
+
+  body .rotate-page .rotate-select-row .cloud-buttons{
+    position:static !important;
+    inset:auto !important;
+    transform:none !important;
+    width:100% !important;
+    height:auto !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:18px !important;
+    margin:0 !important;
+  }
+
+
+  body .rotate-page .rotate-select-row .cloud-buttons button{
+    flex:0 0 56px !important;
+    width:56px !important;
+    min-width:56px !important;
+    max-width:56px !important;
+    height:56px !important;
+    min-height:56px !important;
+    max-height:56px !important;
+    font-size:20px !important;
+  }
+
+
+  body .rotate-page .rotate-start-screen .master-tool-drop-text{
+    width:100% !important;
+    margin-top:14px !important;
+    text-align:center !important;
   }
 
 
