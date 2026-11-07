@@ -18427,3 +18427,398 @@ body .scan-page #scanSuccessScreen button#downloadBtn:hover {
     font-size: 19px !important;
   }
 }
+
+/* =========================================================
+   EDIT + PDF SECURITY TOOLS — SHARED ROTATE-REFERENCE LAYER
+   Page-scoped presentation only; tool workflows stay in their existing markup/scripts.
+========================================================= */
+
+/* Shared start-screen framing and typography. */
+:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen){
+  box-sizing:border-box !important;
+  min-height:calc(100vh - 72px) !important;
+  padding:55px 20px 40px !important;
+  text-align:center !important;
+  color:#111827 !important;
+}
+:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) > h1,
+:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) h1:first-child{
+  color:#111827 !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:34px !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+  text-align:center !important;
+  margin:0 0 14px !important;
+}
+:is(.watermark-start-screen,.compare-start-screen,.redact-start-screen,.protect-start-screen,.unlock-start-screen) > p,
+:is(.repair-start-content,.editpdf-start-screen,.fill-start-screen,.sign-start-screen,.summary-start-screen,.translate-start-screen,.forms-start-screen) > p{
+  color:#64748b !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:17px !important;
+  line-height:1.5 !important;
+  text-align:center !important;
+}
+
+/* Consistent HelloPDF red for existing upload, process and download controls. */
+:is(.editpdf-big-upload-btn,.watermark-upload-box h2,.compare-upload-box h2,.redact-upload-box h2,.flatten-upload-box h2,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.protect-upload-box h2,.unlock-upload-box h2,.repair-select-btn,
+   .watermark-main-btn,.compare-main-btn,.redact-main-btn,.flatten-main-btn,.hp-sign-final-btn,.fill-final-btn,.forms-download-btn,.editpdf-final-btn,.main-red-btn,.translate-continue-btn,.continue-summary-btn,.protect-main-btn,.unlock-main-btn,.repair-process-btn,.repair-download-btn,.download-result-btn,.summary-download-btn){
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  border-color:#ff3131 !important;
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+}
+:is(.editpdf-big-upload-btn,.watermark-upload-box h2,.compare-upload-box h2,.redact-upload-box h2,.flatten-upload-box h2,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.protect-upload-box h2,.unlock-upload-box h2,.repair-select-btn){
+  min-height:78px !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:22px !important;
+  font-weight:800 !important;
+  border-radius:11px !important;
+}
+:is(.watermark-main-btn,.compare-main-btn,.redact-main-btn,.flatten-main-btn,.hp-sign-final-btn,.fill-final-btn,.forms-download-btn,.editpdf-final-btn,.translate-continue-btn,.continue-summary-btn,.protect-main-btn,.unlock-main-btn,.repair-process-btn){
+  min-height:60px !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-weight:800 !important;
+  border-radius:11px !important;
+}
+:is(.editpdf-big-upload-btn,.watermark-upload-box h2,.compare-upload-box h2,.redact-upload-box h2,.flatten-upload-box h2,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.protect-upload-box h2,.unlock-upload-box h2,.repair-select-btn,.watermark-main-btn,.compare-main-btn,.redact-main-btn,.flatten-main-btn,.hp-sign-final-btn,.fill-final-btn,.forms-download-btn,.editpdf-final-btn,.main-red-btn,.translate-continue-btn,.continue-summary-btn,.protect-main-btn,.unlock-main-btn,.repair-process-btn,.repair-download-btn,.download-result-btn,.summary-download-btn):hover{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  filter:brightness(.96);
+}
+:is(.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) .cloud-buttons button{
+  background:#ff3131 !important;
+  color:#ffffff !important;
+  border-radius:50% !important;
+}
+
+/* Processor-style tools use Rotate's fixed desktop action rail while preview content remains on the left. */
+@media(min-width:769px){
+  :is(.watermark-preview-screen,.compare-preview-screen,.flatten-preview-screen,.protect-preview-screen,.unlock-preview-screen,.repair-preview-screen){
+    padding-right:320px !important;
+  }
+  :is(.watermark-action-panel,.compare-action-panel,.flatten-action-panel,.protect-action-panel,.unlock-action-panel,.repair-right-panel){
+    position:fixed !important;
+    top:72px !important;
+    right:0 !important;
+    bottom:0 !important;
+    width:320px !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:40px 22px 24px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    background:#ffffff !important;
+    border-left:1px solid #e5e7eb !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    box-sizing:border-box !important;
+    z-index:2 !important;
+  }
+  :is(.watermark-action-panel,.compare-action-panel,.flatten-action-panel,.protect-action-panel,.unlock-action-panel,.repair-right-panel) h1{
+    color:#111827 !important;
+    font-family:Arial,Helvetica,sans-serif !important;
+    font-size:34px !important;
+    font-weight:900 !important;
+    line-height:1.2 !important;
+    margin:0 0 14px !important;
+  }
+  :is(.watermark-action-panel,.compare-action-panel,.flatten-action-panel,.protect-action-panel,.unlock-action-panel,.repair-right-panel) > p{
+    font-family:Arial,Helvetica,sans-serif !important;
+    font-size:17px !important;
+    line-height:1.5 !important;
+    margin:0 0 28px !important;
+  }
+  :is(.watermark-action-panel,.compare-action-panel,.flatten-action-panel,.protect-action-panel,.unlock-action-panel,.repair-right-panel) :is(.watermark-main-btn,.compare-main-btn,.flatten-main-btn,.protect-main-btn,.unlock-main-btn,.repair-process-btn){
+    margin:auto 0 0 !important;
+  }
+  :is(.watermark-action-panel,.compare-action-panel,.flatten-action-panel,.protect-action-panel,.unlock-action-panel,.repair-right-panel) :is(.progress-bar,.repair-progress-bar){
+    margin:10px 0 0 !important;
+  }
+}
+
+/* Success states share a calm neutral canvas and a centered, consistent download affordance. */
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen){
+  box-sizing:border-box !important;
+  background:#f3f4f8 !important;
+  text-align:center !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) h1{
+  color:#111827 !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:44px !important;
+  font-weight:900 !important;
+  line-height:1.2 !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) :is(.download-result-btn,.main-red-btn,.repair-download-btn,#downloadBtn){
+  min-height:72px !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:22px !important;
+  font-weight:800 !important;
+  border:0 !important;
+  border-radius:11px !important;
+}
+
+@media(max-width:768px){
+  :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen){
+    min-height:calc(100vh - 64px) !important;
+    padding:38px 18px 30px !important;
+  }
+  :is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) h1:first-child{
+    font-size:34px !important;
+    line-height:1.2 !important;
+    margin-bottom:14px !important;
+  }
+  :is(.watermark-start-screen,.compare-start-screen,.redact-start-screen,.protect-start-screen,.unlock-start-screen) > p,
+  :is(.repair-start-content,.editpdf-start-screen,.fill-start-screen,.sign-start-screen,.summary-start-screen,.translate-start-screen,.forms-start-screen) > p{
+    font-size:17px !important;
+    line-height:1.5 !important;
+  }
+  :is(.editpdf-big-upload-btn,.watermark-upload-box h2,.compare-upload-box h2,.redact-upload-box h2,.flatten-upload-box h2,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.protect-upload-box h2,.unlock-upload-box h2,.repair-select-btn){
+    width:min(100%,330px) !important;
+    min-width:0 !important;
+    max-width:330px !important;
+    min-height:64px !important;
+    font-size:20px !important;
+  }
+  :is(.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen,.editpdf-success-screen){
+    padding:38px 18px 30px !important;
+  }
+  :is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) h1{
+    font-size:34px !important;
+  }
+  :is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) :is(.download-result-btn,.main-red-btn,.repair-download-btn,#downloadBtn){
+    width:min(100%,330px) !important;
+    min-width:0 !important;
+    max-width:330px !important;
+    min-height:64px !important;
+    font-size:19px !important;
+  }
+}
+/* Match Rotate's 330 × 78 px upload affordance; grouped drop zones remain clickable. */
+:is(.editpdf-big-upload-btn,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.repair-select-btn,.watermark-upload-box h2,.protect-upload-box h2,.unlock-upload-box h2){
+  width:330px !important;
+  min-width:0 !important;
+  max-width:calc(100vw - 36px) !important;
+  height:78px !important;
+  min-height:78px !important;
+  box-sizing:border-box !important;
+  padding:20px 24px !important;
+  font-size:28px !important;
+  line-height:1 !important;
+}
+:is(.watermark-upload-box,.protect-upload-box,.unlock-upload-box){
+  width:330px !important;
+  min-width:0 !important;
+  max-width:calc(100vw - 36px) !important;
+  height:78px !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+:is(.compare-upload-box,.redact-upload-box,.flatten-upload-box){
+  width:330px !important;
+  min-width:0 !important;
+  max-width:calc(100vw - 36px) !important;
+  height:78px !important;
+  min-height:78px !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  background:#ff3131 !important;
+  color:#ffffff !important;
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+}
+:is(.compare-upload-box,.redact-upload-box,.flatten-upload-box) h2{
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  color:#ffffff !important;
+  box-shadow:none !important;
+  font-size:28px !important;
+  line-height:1 !important;
+}
+:is(.editpdf-big-upload-btn,.watermark-upload-box h2,.compare-upload-box,.compare-upload-box h2,.redact-upload-box,.redact-upload-box h2,.flatten-upload-box,.flatten-upload-box h2,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.protect-upload-box h2,.unlock-upload-box h2,.repair-select-btn){
+  border-radius:11px !important;
+  cursor:pointer !important;
+}
+@media(max-width:768px){
+  :is(.editpdf-big-upload-btn,.sign-big-upload-btn,.fill-big-upload-btn,.forms-big-upload-btn,.summary-big-upload-btn,.translate-upload-btn,.repair-select-btn,.watermark-upload-box h2,.protect-upload-box h2,.unlock-upload-box h2){
+    width:min(100%,330px) !important;
+    height:78px !important;
+    min-height:78px !important;
+    max-width:calc(100vw - 36px) !important;
+    font-size:22px !important;
+  }
+  :is(.watermark-upload-box,.protect-upload-box,.unlock-upload-box,.compare-upload-box,.redact-upload-box,.flatten-upload-box){
+    width:min(100%,330px) !important;
+    max-width:calc(100vw - 36px) !important;
+    height:78px !important;
+    min-height:78px !important;
+  }
+  :is(.compare-upload-box,.redact-upload-box,.flatten-upload-box) h2{font-size:22px !important}
+}
+/* Keep the three legacy success download controls on the shared brand red. */
+main.watermark-page .watermark-success-screen button#downloadBtn,
+main.protect-page .protect-success-screen button#downloadBtn,
+main.unlock-page .unlock-success-screen button#downloadBtn{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+  color:#ffffff !important;
+  border-color:#ff3131 !important;
+  box-shadow:0 10px 24px rgba(239,68,68,.20) !important;
+}
+main.watermark-page .watermark-success-screen button#downloadBtn:hover,
+main.protect-page .protect-success-screen button#downloadBtn:hover,
+main.unlock-page .unlock-success-screen button#downloadBtn:hover{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+}
+
+/* On mobile, preview rails follow their document preview in normal flow. */
+@media(max-width:768px){
+  main.watermark-page .watermark-preview-screen:not(.hidden-screen),
+  main.compare-page .compare-preview-screen:not(.hidden-screen),
+  main.flatten-page .flatten-preview-screen:not(.hidden-screen),
+  main.protect-page .protect-preview-screen:not(.hidden-screen),
+  main.unlock-page .unlock-preview-screen:not(.hidden-screen),
+  main.repair-main-page .repair-preview-screen:not(.hidden-screen){
+    display:flex !important;
+    flex-direction:column !important;
+    grid-template-columns:minmax(0,1fr) !important;
+    width:100% !important;
+    padding:0 !important;
+    overflow:visible !important;
+    box-sizing:border-box !important;
+  }
+  :is(.watermark-preview-left,.compare-preview-left,.flatten-preview-left,.protect-preview-left,.unlock-preview-left,.repair-preview-left){
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+  :is(.watermark-action-panel,.compare-action-panel,.flatten-action-panel,.protect-action-panel,.unlock-action-panel,.repair-right-panel){
+    position:static !important;
+    inset:auto !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:28px 20px 24px !important;
+    border:0 !important;
+    border-top:1px solid #e5e7eb !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    overflow:visible !important;
+    box-sizing:border-box !important;
+  }
+}
+/* Restore the existing hidden-screen state contract for generic-ID editors. */
+main.redact-page #previewScreen:not(.hidden-screen),
+main.flatten-page #previewScreen:not(.hidden-screen),
+.tool-page.sign-pdf-page #previewScreen:not(.hidden-screen){
+  display:grid !important;
+}
+main.redact-page #successScreen:not(.hidden-screen),
+main.flatten-page #successScreen:not(.hidden-screen),
+.tool-page.sign-pdf-page #successScreen:not(.hidden-screen){
+  display:flex !important;
+}
+/* Match Rotate's primary processing-button and success/download dimensions. */
+:is(.watermark-main-btn,.compare-main-btn,.redact-main-btn,.flatten-main-btn,.hp-sign-final-btn,.fill-final-btn,.forms-download-btn,.editpdf-final-btn,.translate-continue-btn,.continue-summary-btn,.protect-main-btn,.unlock-main-btn,.repair-process-btn){
+  height:70px !important;
+  min-height:70px !important;
+  font-size:24px !important;
+  line-height:1 !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen){
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  padding:58px 20px 40px !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) :is(.success-card,.repair-success-box){
+  width:auto !important;
+  max-width:100% !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) h1{
+  margin:0 0 14px !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) p{
+  color:#64748b !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:20px !important;
+  line-height:1.5 !important;
+  margin:0 0 36px !important;
+}
+:is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) :is(.download-result-btn,.main-red-btn,.repair-download-btn,#downloadBtn){
+  width:330px !important;
+  min-width:330px !important;
+  max-width:330px !important;
+  height:78px !important;
+  min-height:78px !important;
+  padding:25px 38px !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:28px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+  border:0 !important;
+  border-radius:11px !important;
+}
+@media(max-width:768px){
+  :is(.watermark-main-btn,.compare-main-btn,.redact-main-btn,.flatten-main-btn,.hp-sign-final-btn,.fill-final-btn,.forms-download-btn,.editpdf-final-btn,.translate-continue-btn,.continue-summary-btn,.protect-main-btn,.unlock-main-btn,.repair-process-btn){
+    height:64px !important;
+    min-height:64px !important;
+    font-size:19px !important;
+  }
+  :is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen){
+    padding:38px 18px 30px !important;
+  }
+  :is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) p{
+    font-size:17px !important;
+    margin-bottom:24px !important;
+  }
+  :is(.editpdf-success-screen,.watermark-success-screen,.compare-success-screen,.redact-success-screen,.flatten-success-screen,.sign-success-screen,.fill-success-screen,.forms-success-screen,.protect-success-screen,.unlock-success-screen,.repair-success-screen) :is(.download-result-btn,.main-red-btn,.repair-download-btn,#downloadBtn){
+    width:min(100%,330px) !important;
+    min-width:0 !important;
+    max-width:330px !important;
+    height:auto !important;
+    min-height:64px !important;
+    padding:18px 24px !important;
+    font-size:19px !important;
+  }
+}
+/* Harmonize the first explanatory line and drop hint across nested hero variants. */
+:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) p:first-of-type{
+  color:#64748b !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:17px !important;
+  font-weight:400 !important;
+  line-height:1.5 !important;
+  text-align:center !important;
+  margin:0 0 24px !important;
+}
+:is(.editpdf-start-screen,.watermark-start-screen,.compare-start-screen,.redact-start-screen,.flatten-start-screen,.sign-start-screen,.fill-start-screen,.forms-start-screen,.summary-start-screen,.translate-start-screen,.protect-start-screen,.unlock-start-screen,.repair-start-screen) :is(.drop-text,.drop-hint,.editpdf-drop-text,.fill-drop-text,.sign-drop-text,.forms-drop-text,.summary-drop-text,.translate-drop-text,.repair-drop-text){
+  margin-top:14px !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:15px !important;
+  line-height:1.5 !important;
+  color:#64748b !important;
+  text-align:center !important;
+}
