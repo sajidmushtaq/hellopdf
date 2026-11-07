@@ -3603,6 +3603,77 @@ button.master-tool-download-button{
 }
 
 
+/* Keep the Compress reference red across all Rotate primary button states. */
+body .rotate-page .rotate-upload-box h2.master-tool-button:hover,
+body .rotate-page .rotate-action-panel .rotate-main-btn:hover,
+body .rotate-page #rotateSuccessScreen button.master-tool-download-button:hover{
+  background:#ff3131 !important;
+  background-color:#ff3131 !important;
+}
+
+
+/* Keep the Rotate action and progress group at the bottom of the desktop panel. */
+@media(min-width:769px){
+  body .rotate-page #rotatePreviewScreen.master-tool-preview:not(.hidden-screen)
+  .rotate-action-panel.master-tool-action-panel{
+    position:fixed !important;
+    top:72px !important;
+    right:0 !important;
+    bottom:0 !important;
+    left:auto !important;
+
+    width:320px !important;
+    height:auto !important;
+    max-height:none !important;
+
+    margin:0 !important;
+    padding:40px 22px 24px !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+
+    background:#ffffff !important;
+    border-left:1px solid #e5e7eb !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    box-sizing:border-box !important;
+    z-index:2 !important;
+  }
+
+  body .rotate-page #rotatePreviewScreen
+  .rotate-action-panel > h1.master-tool-title{
+    font-family:Arial, Helvetica, sans-serif !important;
+    font-size:34px !important;
+    line-height:1.2 !important;
+    font-weight:900 !important;
+    margin:0 0 14px !important;
+  }
+
+  body .rotate-page #rotatePreviewScreen
+  .rotate-action-panel > p.master-tool-panel-description{
+    font-family:Arial, Helvetica, sans-serif !important;
+    font-size:17px !important;
+    line-height:1.5 !important;
+    font-weight:400 !important;
+    margin:0 0 28px !important;
+  }
+
+  body .rotate-page #rotatePreviewScreen .rotate-action-panel
+  button.rotate-main-btn.master-tool-action-button{
+    margin:auto 0 0 !important;
+  }
+
+  body .rotate-page #rotatePreviewScreen
+  .rotate-action-panel > .rotate-progress.master-tool-progress{
+    margin:10px 0 0 !important;
+  }
+}
+
+
 /* =========================================================
    ROTATE PDF — MOBILE
 ========================================================= */
